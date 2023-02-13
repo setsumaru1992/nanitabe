@@ -1,0 +1,25 @@
+# 本番実行時は`ENV=production docker-compose up`
+version: '3'
+services:
+  frontend:
+    container_name: nanitabe_front
+    build: ./frontend
+    command: "/root/nanitabe_front/entrypoint.sh"
+    env_file: /etc/opt/app_setting_files/nanitabe/.env
+    ports:
+      - "18100:18100"
+    volumes:
+      - ./frontend:/root/nanitabe_front
+    environment:
+      NODE_ENV: ${ENV:-development}
+  backend:
+    container_name: nanitabe_back
+    build: ./backend
+    command: "/root/nanitabe_back/entrypoint.sh"
+    env_file: /etc/opt/app_setting_files/nanitabe/.env
+    ports:
+      - "18101:18101"
+    volumes:
+      - ./backend:/root/nanitabe_back
+    environment:
+      RAILS_ENV: ${ENV:-development}
