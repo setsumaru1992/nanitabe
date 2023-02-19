@@ -6,19 +6,19 @@ import PostList, {
   ALL_POSTS_QUERY,
   allPostsQueryVars,
 } from '../components/PostList'
-import { initializeApollo, addApolloState } from '../lib/apolloClient'
+import buildApolloClient, { addApolloState } from '../lib/graphql/buildApolloClient'
 
-const SSRPage = () => (
+const IndexPage = () => (
   <App>
     <Header />
-    <InfoBox>ℹ️ This page shows how to use SSR with Apollo.</InfoBox>
+    <InfoBox>ℹ️ This page shows how to use SSG with Apollo.</InfoBox>
     <Submit />
     <PostList />
   </App>
 )
 
-export async function getServerSideProps() {
-  const apolloClient = initializeApollo()
+export async function getStaticProps() {
+  const apolloClient = buildApolloClient()
 
   await apolloClient.query({
     query: ALL_POSTS_QUERY,
@@ -27,7 +27,8 @@ export async function getServerSideProps() {
 
   return addApolloState(apolloClient, {
     props: {},
+    revalidate: 1,
   })
 }
 
-export default SSRPage
+export default IndexPage

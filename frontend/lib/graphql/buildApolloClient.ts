@@ -20,7 +20,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 })
 
 const httpLink = new HttpLink({
-  uri: 'https://nextjs-graphql-with-prisma-simple.vercel.app/api', // Server URL (must be absolute)
+  uri: 'https://nextjs-graphql-with-prisma-simple-foo.vercel.app/api', // Server URL (must be absolute)
   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
 })
 
@@ -40,7 +40,7 @@ function createApolloClient() {
   })
 }
 
-export function initializeApollo(initialState = null) {
+function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient()
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
@@ -70,6 +70,7 @@ export function initializeApollo(initialState = null) {
 
   return _apolloClient
 }
+export default initializeApollo
 
 export function addApolloState(client, pageProps) {
   if (pageProps?.props) {
