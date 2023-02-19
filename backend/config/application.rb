@@ -18,5 +18,35 @@ module Backend
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.time_zone = 'Asia/Tokyo'
+    #config.active_record.default_timezone = 'Tokyo'
+    config.active_record.default_timezone = :local
+
+    config.encoding = "utf-8"
+
+    config.generators do |g|
+      g.stylesheets false
+      g.javascripts false
+      g.helper false
+      g.template_engine false
+      g.test_framework false
+    end
+
+    # https://qiita.com/guri3/items/268dc4f8be4bafe5029f
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins "*"
+
+        resource "*",
+                 headers: :any,
+                 methods: [:get, :post, :put, :patch, :delete, :options, :head],
+                 expose: ['Per-Page', 'Total', 'Link']
+      end
+    end
+
+    # TODO: マシンの情報のためenvに秘匿
+    config.hosts << "ec2-18-180-233-158.ap-northeast-1.compute.amazonaws.com"
+    config.hosts << "nanitabe.kibotsu.com"
+    config.hosts << "nanitabe_back"
   end
 end

@@ -1,21 +1,28 @@
 import buildApolloClient, { addApolloState } from '../lib/graphql/buildApolloClient'
+import { gql } from '@apollo/client';
 
-const IndexPage = () => (
-  <>index</>
-)
+const IndexPage = (props) => {
+  const { hogehoge } = props;
+  console.log(hogehoge)
+  return (
+    <>index</>
+  )
+}
 
-// export async function getStaticProps() {
-  // const apolloClient = buildApolloClient()
-  //
-  // await apolloClient.query({
-  //   query: ALL_POSTS_QUERY,
-  //   variables: allPostsQueryVars,
-  // })
-  //
-  // return addApolloState(apolloClient, {
-  //   props: {},
-  //   revalidate: 1,
-  // })
-// }
+export async function getStaticProps() {
+  const apolloClient = buildApolloClient()
+
+  // const query = gql`query hogehoge(){
+  //   testField
+  // }`
+  const query = gql`{testField}`
+  const hogehoge = await apolloClient.query({
+    query: query,
+  })
+
+  return addApolloState(apolloClient, {
+    props: {hogehoge},
+  })
+}
 
 export default IndexPage

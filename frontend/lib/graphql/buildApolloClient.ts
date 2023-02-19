@@ -1,9 +1,10 @@
 import { useMemo } from 'react'
-import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
-import { concatPagination } from '@apollo/client/utilities'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
+import fetch from 'isomorphic-unfetch';
+import judgeExecInClientOrServer, { ExecSituation } from '../judgeExecInClientOrServer';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
@@ -19,24 +20,33 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
+const generateURL: () => string = () => {
+  const apiOrigin: string = (() => {
+    switch (judgeExecInClientOrServer){
+      case ExecSituation.ExecInServerSide:
+        return process.env.SERVER_SIDE_ORIGIN
+      case ExecSituation.ExecInClientSide:
+        if(process.env.NODE_ENV === 'development'){
+          return process.env.NEXT_PUBLIC_CLIENT_SIDE_DEV_ORIGIN
+        } else {
+          return process.env.NEXT_PUBLIC_CLIENT_SIDE_PROD_ORIGIN
+        }
+    }
+  })();
+  return `${apiOrigin}/graphql`
+}
+
 const httpLink = new HttpLink({
-  uri: 'https://nextjs-graphql-with-prisma-simple-foo.vercel.app/api', // Server URL (must be absolute)
-  credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+  uri: generateURL(),
+  // credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+  fetch,
 })
 
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: from([errorLink, httpLink]),
-    cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            allPosts: concatPagination(),
-          },
-        },
-      },
-    }),
+    cache: new InMemoryCache(),
   })
 }
 
