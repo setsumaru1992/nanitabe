@@ -12,9 +12,6 @@ const IndexPage = (props) => {
 export async function getStaticProps() {
   const apolloClient = buildApolloClient()
 
-  // const query = gql`query hogehoge(){
-  //   testField
-  // }`
   const query = gql`{testField}`
   const hogehoge = await apolloClient.query({
     query: query,
