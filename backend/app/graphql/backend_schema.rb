@@ -1,4 +1,14 @@
 class BackendSchema < GraphQL::Schema
+  use GraphqlDevise::SchemaPlugin.new(
+    query:            Types::QueryType,
+    mutation:         Types::MutationType,
+    resource_loaders: [
+      GraphqlDevise::ResourceLoader.new(
+        LoginUser,
+        skip: [:resister]
+      )
+    ],
+  )
   mutation(Types::MutationType)
   query(Types::QueryType)
 
