@@ -1,0 +1,28 @@
+.week-calender-header {
+  padding: 10px 0px;
+  font-size: 16px;
+  text-align: center;
+  width: 100%;
+}
+
+$gray: #f4f4f4;
+
+.date {
+  height: calc(100% / 7); // 機能していない。%は親要素での実数指定が必要になるため。意図通り動かすにはおそらく動的計算必要
+  padding: 20px 10px;
+  font-size: 16px;
+  font-weight: normal;
+
+  border-right-color: $gray;
+  border-right-width: 1px;
+  border-right-style: solid;
+
+  &__day-of-week {
+    display: block;
+    font-size: 10px;
+  }
+}
+
+.dish-container {
+  display: flex;
+}
