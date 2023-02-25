@@ -5,7 +5,12 @@ class BackendSchema < GraphQL::Schema
     resource_loaders: [
       GraphqlDevise::ResourceLoader.new(
         LoginUser,
-        skip: [:resister]
+        # skip: [:resister]
+        # operations: {
+        #   # LoginUserだけでなく、Userも作るラッパー。以下のレスポンスをsuperで呼び出して生成
+        #   # https://github.com/graphql-devise/graphql_devise/blob/master/lib/graphql_devise/mutations/register.rb
+        #   login: Mutations::Login,
+        # }
       )
     ],
   )
