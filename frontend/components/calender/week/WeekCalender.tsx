@@ -1,5 +1,7 @@
 import React from 'react';
 import style from './WeekCalender.module.scss';
+import Icon from '../../dish/dish/Icon';
+import AddDishIcon from '../../dish/addDish/AddDishIcon';
 
 export default (props) => {
   return (
@@ -14,7 +16,9 @@ export default (props) => {
                 <span className={style['date__day-of-week']}>mon</span>
               </div>
             </th>
-            <td className={style['dish-container']}>ハンバーグ</td>
+            <td className={style['dish-container']}>
+              <Icon /> <AddDishIcon />
+            </td>
           </tr>
           {[21, 22, 23, 24, 25, 26].map((date) => (
             <tr key={date}>
@@ -24,7 +28,9 @@ export default (props) => {
                   <span className={style['date__day-of-week']}>mon</span>
                 </div>
               </th>
-              <td className={style['dish-container']} />
+              <td className={style['dish-container']}>
+                <AddDishIcon />
+              </td>
             </tr>
           ))}
         </tbody>
