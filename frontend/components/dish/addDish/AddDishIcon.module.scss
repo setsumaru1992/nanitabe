@@ -2,4 +2,9 @@
 
 .add-dish-icon {
   background-color: $gray;
+
+  &__content {
+    text-decoration: none;
+    color: black;
+  }
 }
