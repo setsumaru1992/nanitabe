@@ -1,21 +1,20 @@
 require 'rails_helper'
 
-def fetch_mutation(mutation_string)
-  result = BackendSchema.execute(mutation_string)
+def fetch_mutation(mutation_string, variables)
+  result = BackendSchema.execute(mutation_string, variables: variables)
   result.to_h["data"]
 end
 
 def build_signup_mutation
   <<-GRAPHQL
 mutation signup(
-    $email: String = "hogehoge@gmail.com",
-    $password: String = "hogehogepassword",
-    $passwordConfirmation: String = "hogehogepassword",
+    $email: String = "",
+    $password: String = "",
   ) {
   loginUserRegister(
     email: $email,
     password: $password, 
-    passwordConfirmation: $passwordConfirmation
+    passwordConfirmation: $password
   ) {
     credentials {
       accessToken
@@ -28,8 +27,9 @@ end
 RSpec.describe Mutations::SignUp do
   context "signup" do
     it "signup succeed" do
-      fetch_mutation(build_signup_mutation)
-      expect(1).to eq 1
+      variables = {email: "hogehoge@gmail.com", password: "hogehogepassword"}
+      fetch_mutation(build_signup_mutation, variables)
+      expect(LoginUser.where(uid: variables[:email]).size).to eq 1
     end
   end
 end
