@@ -24,12 +24,14 @@ module Backend
 
     config.encoding = "utf-8"
 
+    config.autoload_paths += %W(#{config.root}/app/domain)
+
     config.generators do |g|
       g.stylesheets false
       g.javascripts false
       g.helper false
       g.template_engine false
-      g.test_framework false
+      g.test_framework :rspec
     end
 
     # https://qiita.com/guri3/items/268dc4f8be4bafe5029f
