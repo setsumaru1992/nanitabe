@@ -8,6 +8,11 @@ module Bussiness::User
         user.id = new_user_record.id
         user
       end
+
+      def unique_id_param?(id_param)
+        existing_records = ::User.where(id_param: id_param)
+        existing_records.size == 0
+      end
     end
   end
 end
