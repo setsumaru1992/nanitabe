@@ -7,5 +7,5 @@ class LoginUser < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include GraphqlDevise::Authenticatable
 
-  has_one :user
+  belongs_to :user, required: false
 end
