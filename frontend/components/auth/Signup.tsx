@@ -2,15 +2,13 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useAuthCommand, {
-  SignupSchema,
-} from '../../features/auth/useAuthCommand';
+import useAuthCommand from '../../features/auth/useAuthCommand';
 import type { Signup } from '../../features/auth/useAuthCommand';
-import style from './TempLoginOrRegisterNerUser.module.scss';
+import style from './Signup.module.scss';
 import FormFieldWrapperWithLabel from '../common/form/FormFieldWrapperWithLabel';
 
-const Signup = () => {
-  const { signup, signupLoading } = useAuthCommand();
+export default () => {
+  const { signup, signupLoading, SignupSchema } = useAuthCommand();
   const {
     register,
     handleSubmit,
@@ -56,26 +54,5 @@ const Signup = () => {
         </Button>
       </Form>
     </div>
-  );
-};
-
-export default (props) => {
-  return (
-    <>
-      <div className={style['login']}>
-        <Form action="">
-          <div className={style['login__title']}>ログイン</div>
-          <FormFieldWrapperWithLabel label="メールアドレス">
-            <Form.Control type="email" />
-          </FormFieldWrapperWithLabel>
-          <FormFieldWrapperWithLabel label="パスワード">
-            <Form.Control type="password" />
-          </FormFieldWrapperWithLabel>
-          <Button type="submit">ログイン</Button>
-        </Form>
-      </div>
-
-      <Signup />
-    </>
   );
 };

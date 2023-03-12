@@ -1,6 +1,6 @@
 import React from 'react';
-import TempLoginOrRegisterNerUser from '../components/auth/TempLoginOrRegisterNerUser';
+import Login from '../components/auth/Login';
 
 export default (props) => {
-  return <TempLoginOrRegisterNerUser />;
+  return <Login />;
 };
