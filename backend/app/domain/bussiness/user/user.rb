@@ -6,7 +6,7 @@ module Bussiness::User
 
     class << self
       def generate_id_param
-        "jfahrreoifjraeof;ehih"
+        SecureRandom.alphanumeric(16)
       end
     end
   end
