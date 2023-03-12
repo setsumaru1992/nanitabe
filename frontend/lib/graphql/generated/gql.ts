@@ -13,8 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel-plugin for production.
  */
 const documents = {
-    "\n  query hoge{\n    testField\n  }\n": types.HogeDocument,
-    "\n  mutation login($email: String!, $password: String!) {\n    loginUserLogin(email: $email, password: $password){\n      credentials {\n        accessToken\n      }\n    }\n  }\n": types.LoginDocument,
+    "\n  mutation signupa(\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n  ) {\n    loginUserRegister(\n      email: $email\n      password: $password\n      passwordConfirmation: $passwordConfirmation\n    ) {\n      credentials {\n        accessToken\n      }\n    }\n  }\n": types.SignupaDocument,
 };
 
 /**
@@ -34,11 +33,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query hoge{\n    testField\n  }\n"): (typeof documents)["\n  query hoge{\n    testField\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation login($email: String!, $password: String!) {\n    loginUserLogin(email: $email, password: $password){\n      credentials {\n        accessToken\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation login($email: String!, $password: String!) {\n    loginUserLogin(email: $email, password: $password){\n      credentials {\n        accessToken\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  mutation signupa(\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n  ) {\n    loginUserRegister(\n      email: $email\n      password: $password\n      passwordConfirmation: $passwordConfirmation\n    ) {\n      credentials {\n        accessToken\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation signupa(\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n  ) {\n    loginUserRegister(\n      email: $email\n      password: $password\n      passwordConfirmation: $passwordConfirmation\n    ) {\n      credentials {\n        accessToken\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

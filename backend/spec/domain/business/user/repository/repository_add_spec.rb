@@ -21,5 +21,3 @@ module Bussiness::User
     end
   end
 end
-
-

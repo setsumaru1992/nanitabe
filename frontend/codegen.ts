@@ -1,22 +1,21 @@
-
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "http://nanitabe_back:18101/graphql",
+  schema: 'http://nanitabe_back:18101/graphql',
   generates: {
-    "lib/graphql/generated/": {
-      documents: "components/**/*.ts",
-      preset: "client",
+    'lib/graphql/generated/graphql.ts': {
+      documents: 'features/**/*.ts',
+      // preset: 'client',
       plugins: [
-        "typescript",
-        "typescript-operations",
-        "typescript-react-apollo",
+        'typescript',
+        'typescript-operations',
+        'typescript-react-apollo',
       ],
     },
-    "./graphql.schema.json": {
-      plugins: ["introspection"]
-    }
+    // './graphql.schema.json': {
+    //   plugins: ['introspection'],
+    // },
   },
 };
 

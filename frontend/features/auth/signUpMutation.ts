@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client';
+import { useSignupMutation } from '../../lib/graphql/generated/graphql';
 
-// TODO: 今は技術検証中で適当なディレクトリに入れているけど、ゆくゆくはちゃんとモデリングしてそこに入れる
 export const SIGN_UP = gql`
   mutation signup(
     $email: String!
     $password: String!
     $passwordConfirmation: String!
   ) {
-    loginUserLogin(
+    loginUserRegister(
       email: $email
       password: $password
       passwordConfirmation: $passwordConfirmation
@@ -18,3 +18,5 @@ export const SIGN_UP = gql`
     }
   }
 `;
+
+export { useSignupMutation };
