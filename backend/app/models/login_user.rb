@@ -6,4 +6,6 @@ class LoginUser < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include GraphqlDevise::Authenticatable
+
+  has_one :user
 end

@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 def fetch_mutation(mutation_string, variables)
-  result = BackendSchema.execute(mutation_string, variables: variables)
-  result.to_h["data"]
+  post "/graphql", params: {query: mutation_string, variables: variables}
+  response_body = JSON.parse(response.body)
+  response_body['data']
 end
 
 def build_signup_mutation
@@ -24,12 +25,15 @@ mutation signup(
   GRAPHQL
 end
 
-RSpec.describe Mutations::SignUp do
+RSpec.describe Mutations::SignUp, type: :request do
   context "signup" do
     it "signup succeed" do
       variables = {email: "hogehoge@gmail.com", password: "hogehogepassword"}
       fetch_mutation(build_signup_mutation, variables)
-      expect(LoginUser.where(uid: variables[:email]).size).to eq 1
+      
+      login_user = LoginUser.where(uid: variables[:email])
+      expect(login_user.size).to eq 1
+      # expect(login_user.user.size).to eq 1
     end
   end
 end

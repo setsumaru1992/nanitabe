@@ -50,5 +50,7 @@ module Backend
     config.hosts << "ec2-18-180-233-158.ap-northeast-1.compute.amazonaws.com"
     config.hosts << "nanitabe.kibotsu.com"
     config.hosts << "nanitabe_back"
+
+    config.hosts << "www.example.com"
   end
 end
