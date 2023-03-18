@@ -140,7 +140,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', loginUserLogin?: { __typename?: 'LoginUserLoginPayload', credentials: { __typename?: 'Credential', accessToken: string } } | null };
+export type LoginMutation = { __typename?: 'Mutation', loginUserLogin?: { __typename?: 'LoginUserLoginPayload', credentials: { __typename?: 'Credential', accessToken: string, client: string, uid: string } } | null };
 
 export type SignupMutationVariables = Exact<{
   email: Scalars['String'];
@@ -157,6 +157,8 @@ export const LoginDocument = gql`
   loginUserLogin(email: $email, password: $password) {
     credentials {
       accessToken
+      client
+      uid
     }
   }
 }
