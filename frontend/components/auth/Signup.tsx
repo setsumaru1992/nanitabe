@@ -2,13 +2,13 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useAuthCommand from '../../features/auth/useAuthCommand';
-import type { Signup } from '../../features/auth/useAuthCommand';
+import useAuth from '../../features/auth/useAuth';
+import type { Signup } from '../../features/auth/useAuth';
 import style from './Signup.module.scss';
 import FormFieldWrapperWithLabel from '../common/form/FormFieldWrapperWithLabel';
 
 export default () => {
-  const { signup, signupLoading, SignupSchema } = useAuthCommand();
+  const { signup, signupLoading, SignupSchema } = useAuth();
   const {
     register,
     handleSubmit,

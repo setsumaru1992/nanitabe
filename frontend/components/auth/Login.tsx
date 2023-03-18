@@ -4,11 +4,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import style from './Login.module.scss';
 import FormFieldWrapperWithLabel from '../common/form/FormFieldWrapperWithLabel';
-import useAuthCommand from '../../features/auth/useAuthCommand';
-import type { Login } from '../../features/auth/useAuthCommand';
+import useAuth from '../../features/auth/useAuth';
+import type { Login } from '../../features/auth/useAuth';
 
 export default (props) => {
-  const { login, loginLoading, LoginSchema } = useAuthCommand();
+  const { login, loginLoading, LoginSchema } = useAuth();
   const {
     register,
     handleSubmit,
