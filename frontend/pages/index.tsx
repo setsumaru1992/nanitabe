@@ -1,27 +1,29 @@
 import { gql } from '@apollo/client';
-import { GetServerSideProps } from 'next';
+import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import buildApolloClient, {
   addApolloState,
 } from '../lib/graphql/buildApolloClient';
 
 const IndexPage = (props) => {
-  const apolloClient = buildApolloClient();
   const { hogehoge } = props;
   console.log(hogehoge);
-  const query = gql`
-    {
-      testField
-    }
-  `;
-  apolloClient
-    .query({
-      query,
-    })
-    .then((result) => console.log(result));
+  // const apolloClient = buildApolloClient();
+  // const query = gql`
+  //   {
+  //     testField
+  //   }
+  // `;
+  // apolloClient
+  //   .query({
+  //     query,
+  //   })
+  //   .then((result) => console.log(result));
   return <>index</>;
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
   const apolloClient = buildApolloClient(context);
 
   const query = gql`

@@ -10,13 +10,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
 
-    # context = { # graphql_devise導入前のデフォルト記述
-    #   # Query context goes here, for example:
-    #   # current_user: current_user,
-    # }
-    context = gql_devise_context(LoginUser)
-
-    result = BackendSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = BackendSchema.execute(query, variables: variables, context: build_context(), operation_name: operation_name)
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
@@ -43,6 +37,17 @@ class GraphqlController < ApplicationController
     else
       raise ArgumentError, "Unexpected parameter: #{variables_param}"
     end
+  end
+
+  def build_context
+    context_for_devise = gql_devise_context(LoginUser)
+    login_user = context_for_devise[:current_resource]
+    return context_for_devise if login_user.blank?
+
+    context_for_devise.merge(
+      {
+        current_user_id: login_user.user.id
+      })
   end
 
   def handle_error_in_development(e)

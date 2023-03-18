@@ -55,6 +55,7 @@ const httpLink = new HttpLink({
 
 const buildAuthLink = (nextJsContext = null) => {
   const accessToken = getAccessToken(nextJsContext);
+
   return new ApolloLink((operation, forward) => {
     operation.setContext(({ headers = {} }) => ({
       headers: {
