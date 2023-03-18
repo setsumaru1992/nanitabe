@@ -7,10 +7,7 @@ import fetch from 'isomorphic-unfetch';
 import judgeExecInClientOrServer, {
   ExecSituation,
 } from '../judgeExecInClientOrServer';
-import {
-  getAccessToken,
-  getAuth,
-} from '../../features/auth/accessTokenAccesser';
+import { getAuth } from '../../features/auth/accessTokenAccesser';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -43,20 +40,12 @@ const generateURL: () => string = () => {
 };
 
 const buildHttpLink = (nextJsContext = null) => {
-  console.log(`★nextJsContext: ${nextJsContext}`);
-  // console.log(`★nextJsContext?.req: ${nextJsContext?.req}`);
-  // console.log(`★nextJsContext?.req?.headers: ${nextJsContext?.req?.headers}`);
-  // console.log(
-  //   `★nextJsContext?.req?.headers?.cookie: ${nextJsContext?.req?.headers?.cookie}`,
-  // );
-  console.log(`★accessKey: ${getAccessToken(nextJsContext)}`);
-
   const { accessToken, client, uid } = getAuth(nextJsContext);
+
   return new HttpLink({
     uri: generateURL(),
     // credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
     fetch,
-    // headers: { Authorization: getAccessToken(nextJsContext) || '' },
     headers: {
       'access-token': accessToken || '',
       client: client || '',
