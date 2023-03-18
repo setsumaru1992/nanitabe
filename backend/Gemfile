@@ -39,6 +39,7 @@ gem 'rack-cors'
 gem 'graphql'
 gem 'graphiql-rails', group: :development
 gem 'graphql_devise'
+gem 'devise-jwt'
 
 gem 'composite_primary_keys', '~> 14'
 
