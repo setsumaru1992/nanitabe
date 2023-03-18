@@ -17,6 +17,7 @@ import {
   getAccessToken,
   setAccessToken,
 } from '../../features/auth/accessTokenAccesser';
+import { apiErrors } from './globalVars';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -29,6 +30,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
       ),
     );
+    apiErrors(graphQLErrors.map((error) => error));
   }
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
