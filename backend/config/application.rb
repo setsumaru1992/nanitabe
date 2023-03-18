@@ -31,7 +31,7 @@ module Backend
       g.javascripts false
       g.helper false
       g.template_engine false
-      g.test_framework :rspec
+      g.test_framework false
     end
 
     # https://qiita.com/guri3/items/268dc4f8be4bafe5029f
