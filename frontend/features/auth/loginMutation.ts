@@ -4,14 +4,11 @@ import {
   useLoginMutation,
   LoginMutation,
 } from '../../lib/graphql/generated/graphql';
-import { useAccessToken } from './accessTokenAccesser';
 
 export const LOGIN = gql`
   mutation login($email: String!, $password: String!) {
     loginUserLogin(email: $email, password: $password) {
       credentials {
-        accessToken
-        client
         uid
       }
     }
@@ -27,16 +24,11 @@ export type Login = z.infer<typeof LoginSchema>;
 export const useLogin = () => {
   const [loginMutation, { loading: loginLoading, error: loginError }] =
     useLoginMutation();
-  const { setAccessToken } = useAccessToken();
   const login = async (input: Login, { onCompleted, onError }) => {
     return loginMutation({
       variables: input,
-      onCompleted: async ({
-        loginUserLogin: {
-          credentials: { accessToken: fetchedAccessToken, client, uid },
-        },
-      }: LoginMutation) => {
-        setAccessToken(fetchedAccessToken, client, uid);
+      onCompleted: async (data: LoginMutation) => {
+        // 認証情報はApolloClientでレスポンスヘッダからCookieに詰めている
         onCompleted();
       },
       onError: async (error) => {

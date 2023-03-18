@@ -18,15 +18,11 @@ export const getAuth = (nextJsContext = null) => {
   };
 };
 
-const setAccessToken = (
+export const setAccessToken = (
   accessToken: string,
-  client,
-  uid,
   nextJsContext = null,
 ): void => {
   nookies.set(nextJsContext, COOKIE_ACCESS_TOKEN_KEY_NAME, accessToken);
-  nookies.set(nextJsContext, COOKIE_AUTH_CLIENT_KEY_NAME, client);
-  nookies.set(nextJsContext, COOKIE_AUTH_UID_KEY_NAME, uid);
 };
 
 export const useAccessToken = (nextJsContext = null) => {

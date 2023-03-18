@@ -1,5 +1,11 @@
 import { useMemo } from 'react';
-import { ApolloClient, from, HttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  from,
+  HttpLink,
+  InMemoryCache,
+  ApolloLink,
+} from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
@@ -7,7 +13,10 @@ import fetch from 'isomorphic-unfetch';
 import judgeExecInClientOrServer, {
   ExecSituation,
 } from '../judgeExecInClientOrServer';
-import { getAuth } from '../../features/auth/accessTokenAccesser';
+import {
+  getAccessToken,
+  setAccessToken,
+} from '../../features/auth/accessTokenAccesser';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -39,25 +48,48 @@ const generateURL: () => string = () => {
   return `${apiOrigin}/graphql`;
 };
 
-const buildHttpLink = (nextJsContext = null) => {
-  const { accessToken, client, uid } = getAuth(nextJsContext);
+const httpLink = new HttpLink({
+  uri: generateURL(),
+  fetch,
+});
 
-  return new HttpLink({
-    uri: generateURL(),
-    // credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
-    fetch,
-    headers: {
-      'access-token': accessToken || '',
-      client: client || '',
-      uid: uid || '',
-    },
+const buildAuthLink = (nextJsContext = null) => {
+  const accessToken = getAccessToken(nextJsContext);
+  return new ApolloLink((operation, forward) => {
+    operation.setContext(({ headers = {} }) => ({
+      headers: {
+        ...headers,
+        Authorization: accessToken || '',
+      },
+    }));
+
+    return forward(operation);
   });
 };
+
+const afterwareLink = new ApolloLink((operation, forward) => {
+  return forward(operation).map((response) => {
+    const context = operation.getContext();
+    const { headers } = context.response;
+    const accessToken = headers?.get('authorization');
+
+    if (accessToken) {
+      setAccessToken(accessToken);
+    }
+
+    return response;
+  });
+});
 
 function buildApolloClient(nextJsContext = null) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: from([errorLink, buildHttpLink(nextJsContext)]),
+    link: from([
+      buildAuthLink(nextJsContext),
+      afterwareLink,
+      errorLink,
+      httpLink,
+    ]),
     cache: new InMemoryCache(),
   });
 }

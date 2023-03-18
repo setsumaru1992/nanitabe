@@ -42,7 +42,7 @@ module Backend
         resource "*",
                  headers: :any,
                  methods: [:get, :post, :put, :patch, :delete, :options, :head],
-                 expose: ['Per-Page', 'Total', 'Link']
+                 expose: ['Per-Page', 'Total', 'Link', 'Authorization']
       end
     end
 
@@ -50,7 +50,5 @@ module Backend
     config.hosts << "ec2-18-180-233-158.ap-northeast-1.compute.amazonaws.com"
     config.hosts << "nanitabe.kibotsu.com"
     config.hosts << "nanitabe_back"
-
-    config.hosts << "www.example.com"
   end
 end
