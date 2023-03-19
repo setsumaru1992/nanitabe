@@ -18,8 +18,7 @@ module Bussiness::Dish
         meal_position: meal_position,
         comment: comment,
       )
-      created_dish = Repository.add(dish)
-      created_dish
+      Repository.add(dish)
     end
   end
 end

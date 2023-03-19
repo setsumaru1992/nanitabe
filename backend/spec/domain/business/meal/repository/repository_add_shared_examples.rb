@@ -16,7 +16,11 @@ comparer.define_expectation do |expected_values, prepared_records|
   expect(added_meal_record.date).to eq expected_values[:date]
   expect(added_meal_record.meal_type).to eq expected_values[:meal_type]
   expect(added_meal_record.user_id).to eq prepared_records[:user_record].id
-  expect(added_meal_record.dish_id).to eq prepared_records[:dish_record].id
+  if expected_values.has_key? :dish_id
+    expect(added_meal_record.dish_id).to eq expected_values[:dish_id]
+  else
+    expect(added_meal_record.dish_id).to eq prepared_records[:dish_record].id
+  end
 end
 
 COMPARERS[comparer.key] = comparer
@@ -41,7 +45,11 @@ comparer.define_expectation do |expected_values, prepared_records|
   expect(added_meal_record.meal_type).to eq expected_values[:meal_type]
   expect(added_meal_record.comment).to eq expected_values[:comment]
   expect(added_meal_record.user_id).to eq prepared_records[:user_record].id
-  expect(added_meal_record.dish_id).to eq prepared_records[:dish_record].id
+  if expected_values.has_key? :dish_id
+    expect(added_meal_record.dish_id).to eq expected_values[:dish_id]
+  else
+    expect(added_meal_record.dish_id).to eq prepared_records[:dish_record].id
+  end
 end
 
 COMPARERS[comparer.key] = comparer

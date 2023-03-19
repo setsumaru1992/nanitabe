@@ -1,5 +1,5 @@
 module Bussiness::Meal
-  class Command::CreateCommand < ::Bussiness::Base::Command
+  class Command::CreateMealWithExistingDishCommand < ::Bussiness::Base::Command
     attribute :user_id, :integer
     validates :user_id, presence: true
 
@@ -22,8 +22,7 @@ module Bussiness::Meal
         meal_type: meal_type,
         comment: comment,
       )
-      created_meal = Repository.add(meal)
-      created_meal
+      Repository.add(meal)
     end
   end
 end
