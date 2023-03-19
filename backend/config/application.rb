@@ -31,7 +31,8 @@ module Backend
       g.javascripts false
       g.helper false
       g.template_engine false
-      g.test_framework false
+      g.test_framework :rspec, fixtures: true, model_specs: false
+      g.factory_bot dir: "spec/support/factories"
     end
 
     # https://qiita.com/guri3/items/268dc4f8be4bafe5029f
