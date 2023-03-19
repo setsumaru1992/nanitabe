@@ -8,9 +8,6 @@ module Bussiness::Dish
     attribute :name, :string
     validates :name, :string, presence: true
 
-    attribute :kana, :string
-    validates :kana, :string, presence: true
-
     attribute :meal_position, :integer
     validates :meal_position, :integer, presence: true
 
