@@ -12,3 +12,13 @@ def user_should_be_created(**arg_values)
   added_user_record = ::User.where(id_param: values[:id_param])
   expect(added_user_record.size).to eq 1
 end
+
+KEY_OF_TEST_USER_SHOULD_BE_CREATED = "USER_SHOULD_BE_CREATED"
+comparer = ExpectationComparer.new(KEY_OF_TEST_USER_SHOULD_BE_CREATED, default_values_for_the_test_user_should_be_created)
+
+comparer.define_expectation do |values|
+  added_user_record = ::User.where(id_param: values[:id_param])
+  expect(added_user_record.size).to eq 1
+end
+
+COMPARERS[KEY_OF_TEST_USER_SHOULD_BE_CREATED] = comparer

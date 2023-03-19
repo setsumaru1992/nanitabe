@@ -7,15 +7,15 @@ module Bussiness::User
   RSpec.describe Repository do
     describe ".add" do
       before do
-        @values = default_values_for_the_test_user_should_be_created
-        @user = User.new(id_param: @values[:id_param])
+        @comparerer = COMPARERS[KEY_OF_TEST_USER_SHOULD_BE_CREATED]
+        @user = User.new(id_param: @comparerer.values[:id_param])
       end
 
       context "when add user," do
         it "adding succeeds" do
           described_class.add(@user)
 
-          user_should_be_created
+          @comparerer.compare_to_expectation(self)
         end
       end
     end
