@@ -6,5 +6,7 @@ module Types
     def test_field
       "Hello World"
     end
+
+    field :create_meal, mutation: Mutations::Meal::CreateMeal
   end
 end
