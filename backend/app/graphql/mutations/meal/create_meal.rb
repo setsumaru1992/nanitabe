@@ -1,5 +1,5 @@
 module Mutations::Meal
-  class CreateMeal < ::Mutation::BaseMutation
+  class CreateMeal < ::Mutations::BaseMutation
     argument :dish_name, String, required: true
     argument :dish_meal_position, Int, required: true
     argument :dish_comment, String, required: false
