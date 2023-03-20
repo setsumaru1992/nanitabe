@@ -11,8 +11,8 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_03_19_084526) do
-  create_table "dishes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
+  create_table "dishes", force: :cascade do |t|
+    t.integer "user_id", null: false
     t.string "name", null: false
     t.integer "meal_position", null: false
     t.string "comment"
@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_19_084526) do
     t.index ["user_id"], name: "index_dishes_on_user_id"
   end
 
-  create_table "login_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "login_users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_19_084526) do
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id"
+    t.integer "user_id"
     t.string "jti"
     t.index ["confirmation_token"], name: "index_login_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_login_users_on_email", unique: true
@@ -50,11 +50,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_19_084526) do
     t.index ["user_id"], name: "index_login_users_on_user_id"
   end
 
-  create_table "meals", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
+  create_table "meals", force: :cascade do |t|
+    t.integer "user_id", null: false
     t.date "date", null: false
     t.integer "meal_type", null: false
-    t.bigint "dish_id", null: false
+    t.integer "dish_id", null: false
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -62,7 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_19_084526) do
     t.index ["user_id"], name: "index_meals_on_user_id"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "id_param", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
