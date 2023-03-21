@@ -52,7 +52,7 @@ const generateURL: () => string = () => {
 
 const httpLink = new HttpLink({
   uri: generateURL(),
-  fetch,
+  fetch, // 4系を使うとテスト時にエラーになる都合で、3系に落としている(20230321時点)
 });
 
 const buildAuthLink = (nextJsContext = null) => {

@@ -14,7 +14,7 @@
     "classnames": "^2.3.2",
     "deepmerge": "^4.2.2",
     "graphql": "^15.3.0",
-    "isomorphic-unfetch": "^4.0.2",
+    "isomorphic-unfetch": "3.1.0",
     "lodash": "^4.17.21",
     "next": "latest",
     "nookies": "^2.5.2",
