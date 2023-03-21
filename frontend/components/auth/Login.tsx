@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,6 +9,7 @@ import type { Login } from '../../features/auth/useAuth';
 
 export default (props) => {
   const { login, loginLoading, LoginSchema } = useAuth();
+  const [loginResultMessage, setLoginResultMessage] = useState(null);
   const {
     register,
     handleSubmit,
@@ -20,11 +21,11 @@ export default (props) => {
   const onSubmit: SubmitHandler<Login> = async (input) => {
     await login(input, {
       onCompleted: async () => {
-        window.alert('ログインが成功しました');
+        setLoginResultMessage('ログインが成功しました');
         reset();
       },
       onError: async () => {
-        window.alert('ログインに失敗しました');
+        setLoginResultMessage('ログインに失敗しました');
       },
     });
   };
@@ -32,17 +33,28 @@ export default (props) => {
     <div className={style['login']}>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <div className={style['login__title']}>ログイン</div>
+        {loginResultMessage && (
+          <div data-testid="loginResultMessage">{loginResultMessage}</div>
+        )}
         <FormFieldWrapperWithLabel label="メールアドレス">
-          <Form.Control type="email" {...register('email')} />
+          <Form.Control
+            type="email"
+            {...register('email')}
+            data-testid="email"
+          />
           {errors.email?.message && <p>{errors.email.message.toString()}</p>}
         </FormFieldWrapperWithLabel>
         <FormFieldWrapperWithLabel label="パスワード">
-          <Form.Control type="password" {...register('password')} />
+          <Form.Control
+            type="password"
+            {...register('password')}
+            data-testid="password"
+          />
           {errors.password?.message && (
             <p>{errors.password.message.toString()}</p>
           )}
         </FormFieldWrapperWithLabel>
-        <Button type="submit" disabled={loginLoading}>
+        <Button type="submit" disabled={loginLoading} data-testid="loginButton">
           ログイン
         </Button>
       </Form>
