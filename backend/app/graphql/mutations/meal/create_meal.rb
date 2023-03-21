@@ -1,34 +1,24 @@
 module Mutations::Meal
-  class CreateMeal < ::Mutations::BaseMutation
-    argument :dish_name, String, required: true
-    argument :dish_meal_position, Int, required: true
-    argument :dish_comment, String, required: false
-    argument :meal_date, GraphQL::Types::ISO8601Date, required: true
-    argument :meal_type, Int, required: true
-    argument :meal_comment, String, required: false
+  class CreateMeal < ::Mutations::BaseMutation # TODO: 本当はmealだけを作るものではないので命名変更
+    argument :dish, ::Types::Dish::DishForCreate, required: true
+    argument :meal, ::Types::Meal::MealForCreate, required: true
 
     field :meal_id, Int, null: false
 
-    def resolve(
-      dish_name: ,
-      dish_meal_position: ,
-      dish_comment: nil,
-      meal_date: ,
-      meal_type: ,
-      meal_comment: nil
-    )
-      created_meal = ::Bussiness::Meal::Command::CreateMealWithNewDishCommand.call(
-        user_id: context[:current_user_id],
-        dish_name: dish_name,
-        dish_meal_position: dish_meal_position,
-        dish_comment: dish_comment,
-        meal_date: meal_date,
-        meal_type: meal_type,
-        meal_comment: meal_comment,
-      )
-      {
-        meal_id: created_meal.id
-      }
+    def resolve(dish:, meal:nil)
+      # created_meal = ::Bussiness::Meal::Command::CreateMealWithNewDishCommand.call(
+      #   user_id: context[:current_user_id],
+      #   dish_name: dish_name,
+      #   dish_meal_position: dish_meal_position,
+      #   dish_comment: dish_comment,
+      #   meal_date: meal_date,
+      #   meal_type: meal_type,
+      #   meal_comment: meal_comment,
+      # )
+      # {
+      #   meal_id: created_meal.id
+      # }
+      { meal_id: dish.meal_position }
     end
 
   end

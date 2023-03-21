@@ -7,6 +7,6 @@ module Types
       "Hello World"
     end
 
-    field :create_meal, mutation: Mutations::Meal::CreateMeal
+    field :create_meal, mutation: ::Mutations::Meal::CreateMeal
   end
 end
