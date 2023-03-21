@@ -1,54 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { graphql } from 'msw';
-import type { GraphQLHandler, GraphQLRequest } from 'msw';
-import { setupServer } from 'msw/node';
-import { MockedProvider } from '@apollo/client/testing';
-import {
-  ApolloProvider,
-  ApolloClient,
-  createHttpLink,
-  InMemoryCache,
-} from '@apollo/client';
-import fetch from 'isomorphic-unfetch';
+import {fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {MockedProvider} from '@apollo/client/testing';
 import Login from './Login';
-import { LoginDocument } from '../../lib/graphql/generated/graphql';
-
-const server = setupServer();
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
-
-const client = new ApolloClient({
-  ssrMode: false,
-  link: createHttpLink({
-    uri: 'http://localhost',
-    credentials: 'same-origin',
-    /*
-    https://github.com/facebook/jest/issues/10662#issuecomment-1417615125
-    記載の通り、isomorphic-unfetchが4系だとjest実行時にSegmentation faultエラーが出るので、3系に下げた
-     */
-    fetch,
-  }),
-  cache: new InMemoryCache(),
-});
-
-const generateRenderFunction =
-  (component: React.ReactNode) =>
-  (overrideResponse?: GraphQLHandler<GraphQLRequest<never>>) => {
-    if (overrideResponse) {
-      server.use(overrideResponse);
-    }
-    render(<ApolloProvider client={client}>{component}</ApolloProvider>);
-  };
-
-const enterTextBox = (screen, testId, value) => {
-  fireEvent.change(screen.getByTestId(testId), {
-    target: { value },
-  });
-};
+import {LoginDocument} from '../../lib/graphql/generated/graphql';
+import renderWithApollo from '../specHelper/renderWithApollo';
+import {enterTextBox} from '../specHelper/eventFirers';
+import { registerMutationHandler } from "../../lib/graphql/specHelper/mockServer";
 
 const getLoginMessage = (screen) => screen.getByTestId('loginResultMessage');
 
@@ -94,17 +52,10 @@ describe('<Login>', () => {
   });
 
   describe('with msw graqhql, ', () => {
-    describe('when login with valid params, ', () => {
-      const renderComponent = generateRenderFunction(<Login />);
-
-      it('scceeds with expected graphql params', async () => {
-        const mutationInterceptor = jest.fn();
-        renderComponent(
-          graphql.mutation(LoginDocument, (req, res, ctx) => {
-            mutationInterceptor(req.variables);
-            return res(ctx.data(loginSucceededResult));
-          }),
-        );
+    describe('when login with valid params, ', () => {;
+      it('succeeds with expected graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(LoginDocument, loginSucceededResult)
+        renderWithApollo(<Login />);
 
         const email = 'hogehoge@gmail.com';
         enterTextBox(screen, 'email', email);
@@ -114,7 +65,7 @@ describe('<Login>', () => {
 
         await waitFor(() => getLoginMessage(screen));
 
-        expect(mutationInterceptor).toHaveBeenCalledWith({
+        expect(getLatestMutationVariables()).toEqual({
           email,
           password,
         });
