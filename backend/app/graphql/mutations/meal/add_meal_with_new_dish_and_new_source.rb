@@ -1,11 +1,11 @@
 module Mutations::Meal
-  class CreateMeal < ::Mutations::BaseMutation # TODO: 本当はmealだけを作るものではないので命名変更
+  class AddMealWithNewDishAndNewSource < ::Mutations::BaseMutation
     argument :dish, ::Types::Dish::DishForCreate, required: true
     argument :meal, ::Types::Meal::MealForCreate, required: true
 
     field :meal_id, Int, null: false
 
-    def resolve(dish:, meal:nil)
+    def resolve(dish:, meal:)
       # created_meal = ::Bussiness::Meal::Command::CreateMealWithNewDishCommand.call(
       #   user_id: context[:current_user_id],
       #   dish_name: dish_name,
