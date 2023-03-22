@@ -13,6 +13,30 @@ export const ADD_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
   }
 `;
 
+const AddMealWithNewDishAndNewSourceSchema = z.object({
+  dish: z.object({
+    name: z.string().min(1, { message: '必須項目です。' }),
+    mealPosition: z.number({
+      required_error: '必須項目です。',
+    }),
+    comment: z.string().optional(),
+  }),
+
+  // 多分既存Dish使うときにはこのあとの値はNewMealSchemaとか再利用可能な変数にする
+  meal: z.object({
+    date: z.date({
+      required_error: '必須項目です。',
+    }),
+    mealType: z.number({
+      required_error: '必須項目です。',
+    }),
+    comment: z.string().optional(),
+  }),
+});
+export type AddMealWithNewDishAndNewSource = z.infer<
+  typeof AddMealWithNewDishAndNewSourceSchema
+>;
+
 const useAddMealWithNewDishAndNewSource = () => {
   const [
     addMealWithNewDishAndNewSourceMutation,
@@ -53,5 +77,6 @@ export const useAddMeal = () => {
     addMealWithNewDishAndNewSource,
     addMealloading: addMealWithNewDishAndNewSourceLoading,
     addMealerror: addMealWithNewDishAndNewSourceError,
+    AddMealWithNewDishAndNewSourceSchema,
   };
 };

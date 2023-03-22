@@ -1,43 +1,60 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import style from './AddMeal.module.scss';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 import useMeal from '../../../features/meal/useMeal';
+import type { AddMealWithNewDishAndNewSource } from '../../../features/meal/useMeal';
 
-enum ADD_MEAL_TYPE {
-  ADD_MEAL_WITH_NEW_DISH,
-  ADD_MEAL_WITH_EXIST_DISH,
+enum CHOOSING_DISH_TYPE {
+  CHOOSING_REGISTER_NEW_DISH,
+  CHOOSING_USE_EXISTING_DISH,
 }
 
 export default (props) => {
-  const [addMealType, setAddMealType] = React.useState(
-    ADD_MEAL_TYPE.ADD_MEAL_WITH_NEW_DISH,
+  const [choosingDishType, setChoosingDishType] = React.useState(
+    CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH,
   );
-  const { addMealWithNewDishAndNewSource } = useMeal();
+  const {
+    addMealWithNewDishAndNewSource,
+    AddMealWithNewDishAndNewSourceSchema,
+  } = useMeal();
+
+  const choosingRegisterNewDish =
+    choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH;
+  const choosingUseExistingDish =
+    choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH;
+
+  const [addMealFunc, AddMealSchema] = (() => {
+    if (choosingRegisterNewDish) {
+      return [
+        addMealWithNewDishAndNewSource,
+        AddMealWithNewDishAndNewSourceSchema,
+      ];
+    }
+    return [null, null];
+  })();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({});
+  } = useForm({
+    resolver: zodResolver(AddMealSchema),
+  });
 
-  const addMealWithNewMeal =
-    addMealType === ADD_MEAL_TYPE.ADD_MEAL_WITH_NEW_DISH;
-  const addMealWithExistMeal =
-    addMealType === ADD_MEAL_TYPE.ADD_MEAL_WITH_EXIST_DISH;
-
-  const onSubmit: SubmitHandler<any> = async (input) => {
-    const addMealFunc = (() => {
-      return addMealWithNewDishAndNewSource;
-    })();
-    await addMealFunc(input, {
-      onComplated: (data) => {
-        reset();
-      },
-      onError: (error) => {},
-    });
+  const onSubmit: SubmitHandler<AddMealWithNewDishAndNewSource | any> = async (
+    input,
+  ) => {
+    console.log(input);
+    // await addMealFunc(input, {
+    //   onComplated: (data) => {
+    //     reset();
+    //   },
+    //   onError: (error) => {},
+    // });
   };
 
   return (
@@ -49,11 +66,15 @@ export default (props) => {
         </FormFieldWrapperWithLabel>
 
         <FormFieldWrapperWithLabel label="時間帯" required>
-          <Form.Select>
-            <option value="">朝食</option>
-            <option value="">昼食</option>
-            <option value="">夕食</option>
+          <Form.Select {...register('meal.mealType', { valueAsNumber: true })}>
+            {/* 要定数化 */}
+            <option value={1}>朝食</option>
+            <option value={2}>昼食</option>
+            <option value={3}>夕食</option>
           </Form.Select>
+          {errors.meal?.mealType?.message && (
+            <p>{errors.meal?.mealType?.message.toString()}</p>
+          )}
         </FormFieldWrapperWithLabel>
 
         <div className={style['meal-form']}>
@@ -62,27 +83,31 @@ export default (props) => {
               type="radio"
               inline
               name="add_meal_type"
-              value={addMealType}
+              value={choosingDishType}
               onChange={() =>
-                setAddMealType(ADD_MEAL_TYPE.ADD_MEAL_WITH_NEW_DISH)
+                setChoosingDishType(
+                  CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH,
+                )
               }
-              checked={addMealWithNewMeal}
+              checked={choosingRegisterNewDish}
               label="新しく料理を登録"
             />
             <Form.Check
               type="radio"
               inline
               name="add_meal_type"
-              value={addMealType}
+              value={choosingDishType}
               onChange={() =>
-                setAddMealType(ADD_MEAL_TYPE.ADD_MEAL_WITH_EXIST_DISH)
+                setChoosingDishType(
+                  CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH,
+                )
               }
-              checked={addMealWithExistMeal}
+              checked={choosingUseExistingDish}
               label="登録済みの料理を選択"
             />
           </Form.Group>
 
-          {addMealWithNewMeal && (
+          {choosingRegisterNewDish && (
             <>
               <FormFieldWrapperWithLabel label="料理名" required>
                 <Form.Control type="text" />
@@ -128,7 +153,7 @@ export default (props) => {
             </>
           )}
 
-          {addMealWithExistMeal && <>addDishWithExistMeal</>}
+          {choosingUseExistingDish && <>addDishWithExistMeal</>}
         </div>
 
         <Form.Group>
