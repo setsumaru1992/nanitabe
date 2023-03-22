@@ -1,4 +1,4 @@
-import { useAddMeal } from './createMealMutation';
+import { useAddMeal } from './addMealMutation';
 
 export default () => {
   const { addMealWithNewDishAndNewSource, addMealloading, addMealerror } =

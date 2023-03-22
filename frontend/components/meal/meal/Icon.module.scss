@@ -1,6 +1,6 @@
-@import "../../base/_mixin.module";
+@import "../../base/mixin.module";
 
-.dish-icon {
+.meal-icon {
   &--breakfast {
     background-color: $breakfast-blue;
     color: white;

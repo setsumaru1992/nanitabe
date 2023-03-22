@@ -5,14 +5,14 @@ import style from './AddMeal.module.scss';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 import useMeal from '../../../features/meal/useMeal';
 
-enum ADD_DISH_TYPE {
-  ADD_DISH_WITH_NEW_MEAL,
-  ADD_DISH_WITH_EXIST_MEAL,
+enum ADD_MEAL_TYPE {
+  ADD_MEAL_WITH_NEW_DISH,
+  ADD_MEAL_WITH_EXIST_DISH,
 }
 
 export default (props) => {
-  const [addDishType, setAddDishType] = React.useState(
-    ADD_DISH_TYPE.ADD_DISH_WITH_NEW_MEAL,
+  const [addMealType, setAddMealType] = React.useState(
+    ADD_MEAL_TYPE.ADD_MEAL_WITH_NEW_DISH,
   );
   const { addMealWithNewDishAndNewSource } = useMeal();
 
@@ -23,10 +23,10 @@ export default (props) => {
     reset,
   } = useForm({});
 
-  const addDishWithNewMeal =
-    addDishType === ADD_DISH_TYPE.ADD_DISH_WITH_NEW_MEAL;
-  const addDishWithExistMeal =
-    addDishType === ADD_DISH_TYPE.ADD_DISH_WITH_EXIST_MEAL;
+  const addMealWithNewMeal =
+    addMealType === ADD_MEAL_TYPE.ADD_MEAL_WITH_NEW_DISH;
+  const addMealWithExistMeal =
+    addMealType === ADD_MEAL_TYPE.ADD_MEAL_WITH_EXIST_DISH;
 
   const onSubmit: SubmitHandler<any> = async (input) => {
     const addMealFunc = (() => {
@@ -56,33 +56,33 @@ export default (props) => {
           </Form.Select>
         </FormFieldWrapperWithLabel>
 
-        <div className={style['dish-form']}>
+        <div className={style['meal-form']}>
           <Form.Group>
             <Form.Check
               type="radio"
               inline
-              name="add_dish_type"
-              value={addDishType}
+              name="add_meal_type"
+              value={addMealType}
               onChange={() =>
-                setAddDishType(ADD_DISH_TYPE.ADD_DISH_WITH_NEW_MEAL)
+                setAddMealType(ADD_MEAL_TYPE.ADD_MEAL_WITH_NEW_DISH)
               }
-              checked={addDishWithNewMeal}
+              checked={addMealWithNewMeal}
               label="新しく料理を登録"
             />
             <Form.Check
               type="radio"
               inline
-              name="add_dish_type"
-              value={addDishType}
+              name="add_meal_type"
+              value={addMealType}
               onChange={() =>
-                setAddDishType(ADD_DISH_TYPE.ADD_DISH_WITH_EXIST_MEAL)
+                setAddMealType(ADD_MEAL_TYPE.ADD_MEAL_WITH_EXIST_DISH)
               }
-              checked={addDishWithExistMeal}
+              checked={addMealWithExistMeal}
               label="登録済みの料理を選択"
             />
           </Form.Group>
 
-          {addDishWithNewMeal && (
+          {addMealWithNewMeal && (
             <>
               <FormFieldWrapperWithLabel label="料理名" required>
                 <Form.Control type="text" />
@@ -128,7 +128,7 @@ export default (props) => {
             </>
           )}
 
-          {addDishWithExistMeal && <>addDishWithExistMeal</>}
+          {addMealWithExistMeal && <>addDishWithExistMeal</>}
         </div>
 
         <Form.Group>

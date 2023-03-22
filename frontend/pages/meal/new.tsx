@@ -1,5 +1,5 @@
 import React from 'react';
-import AddDish from '../../components/dish/addDish/AddDish';
+import AddDish from '../../components/meal/addMeal/AddMeal';
 
 export default (props) => {
   return <AddDish />;

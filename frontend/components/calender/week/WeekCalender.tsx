@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './WeekCalender.module.scss';
-import Icon from '../../dish/dish/Icon';
-import AddDishIcon from '../../dish/addDish/AddDishIcon';
+import Icon from '../../meal/meal/Icon';
+import AddDishIcon from '../../meal/addMeal/AddMealIcon';
 
 export default (props) => {
   return (
