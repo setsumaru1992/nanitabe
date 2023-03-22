@@ -1,28 +1,48 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
-import style from './AddDish.module.scss';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import style from './AddMeal.module.scss';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
+import useMeal from '../../../features/meal/useMeal';
 
 enum ADD_DISH_TYPE {
   ADD_DISH_WITH_NEW_MEAL,
   ADD_DISH_WITH_EXIST_MEAL,
 }
-const formUrlPerAddDishType = {
-  [ADD_DISH_TYPE.ADD_DISH_WITH_NEW_MEAL]: '',
-  [ADD_DISH_TYPE.ADD_DISH_WITH_EXIST_MEAL]: '',
-};
 
 export default (props) => {
   const [addDishType, setAddDishType] = React.useState(
     ADD_DISH_TYPE.ADD_DISH_WITH_NEW_MEAL,
   );
+  const { addMealWithNewDishAndNewSource } = useMeal();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({});
+
   const addDishWithNewMeal =
     addDishType === ADD_DISH_TYPE.ADD_DISH_WITH_NEW_MEAL;
   const addDishWithExistMeal =
     addDishType === ADD_DISH_TYPE.ADD_DISH_WITH_EXIST_MEAL;
+
+  const onSubmit: SubmitHandler<any> = async (input) => {
+    const addMealFunc = (() => {
+      return addMealWithNewDishAndNewSource;
+    })();
+    await addMealFunc(input, {
+      onComplated: (data) => {
+        reset();
+      },
+      onError: (error) => {},
+    });
+  };
+
   return (
     <div className={style['form']}>
-      <Form action={formUrlPerAddDishType[addDishType]}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <h1 className={style['form__title']}>食事登録</h1>
         <FormFieldWrapperWithLabel label="日付" required>
           <Form.Control type="date" value="2023-02-20" onChange={(e) => {}} />
