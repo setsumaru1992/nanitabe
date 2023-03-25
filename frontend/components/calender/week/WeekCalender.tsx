@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './WeekCalender.module.scss';
 import Icon from '../../meal/meal/Icon';
-import AddDishIcon from '../../meal/addMeal/AddMealIcon';
+import AddMealIcon from '../../meal/addMeal/AddMealIcon';
 
 export default (props) => {
   return (
@@ -17,7 +17,7 @@ export default (props) => {
               </div>
             </th>
             <td className={style['dish-container']}>
-              <Icon /> <AddDishIcon />
+              <Icon /> <AddMealIcon />
             </td>
           </tr>
           {[21, 22, 23, 24, 25, 26].map((date) => (
@@ -29,7 +29,7 @@ export default (props) => {
                 </div>
               </th>
               <td className={style['dish-container']}>
-                <AddDishIcon />
+                <AddMealIcon />
               </td>
             </tr>
           ))}
