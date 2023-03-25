@@ -1,4 +1,4 @@
-module Bussiness::Dish
+module Bussiness::Dish::Dish
   class Repository < ::Bussiness::Base::Repository
     class << self
       def add(dish)

@@ -1,4 +1,4 @@
-module Bussiness::Meal
+module Bussiness::Dish::Meal
   class Command::Params::MealForCreate < ::Bussiness::Base::CommandParams
 
     attribute :date, :date

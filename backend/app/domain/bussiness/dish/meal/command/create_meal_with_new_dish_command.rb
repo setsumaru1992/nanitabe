@@ -1,4 +1,4 @@
-module Bussiness::Meal
+module Bussiness::Dish::Meal
   class Command::CreateMealWithNewDishCommand < ::Bussiness::Base::Command
     attribute :user_id, :integer
     validates :user_id, presence: true
@@ -10,7 +10,7 @@ module Bussiness::Meal
     validates :meal_for_create, presence: true
 
     def call
-      created_dish = ::Bussiness::Dish::Command::CreateCommand.call(
+      created_dish = ::Bussiness::Dish::Dish::Command::CreateCommand.call(
         user_id: user_id,
         dish_for_create: dish_for_create,
       )

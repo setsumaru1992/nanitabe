@@ -4,7 +4,7 @@ require "rails_helper"
 require_relative "../repository/repository_add_shared_examples"
 require_relative "../../dish/repository/repository_add_shared_examples"
 
-module Bussiness::Meal
+module Bussiness::Dish::Meal
   RSpec.describe Command::CreateMealWithNewDishCommand do
     describe ".call" do
       before do
@@ -19,7 +19,7 @@ module Bussiness::Meal
         it "adding succeeds" do
           created_meal = described_class.call(
             user_id: dish_comparer.prepared_records[:user_record].id,
-            dish_for_create: ::Bussiness::Dish::Command::Params::DishForCreate.new(
+            dish_for_create: ::Bussiness::Dish::Dish::Command::Params::DishForCreate.new(
               name: dish_comparer.values[:name],
               meal_position: dish_comparer.values[:meal_position],
             ),
@@ -41,7 +41,7 @@ module Bussiness::Meal
         it "adding succeeds" do
           created_meal = described_class.call(
             user_id: dish_comparer.prepared_records[:user_record].id,
-            dish_for_create: ::Bussiness::Dish::Command::Params::DishForCreate.new(
+            dish_for_create: ::Bussiness::Dish::Dish::Command::Params::DishForCreate.new(
               name: dish_comparer.values[:name],
               meal_position: dish_comparer.values[:meal_position],
               comment: dish_comparer.values[:comment],

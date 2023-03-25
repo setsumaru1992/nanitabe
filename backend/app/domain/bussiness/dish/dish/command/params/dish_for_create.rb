@@ -1,4 +1,4 @@
-module Bussiness::Dish
+module Bussiness::Dish::Dish
   class Command::Params::DishForCreate < ::Bussiness::Base::CommandParams
     attribute :name, :string
     validates :name, presence: true

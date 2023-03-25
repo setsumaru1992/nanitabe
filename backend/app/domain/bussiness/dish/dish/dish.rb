@@ -1,4 +1,4 @@
-module Bussiness::Dish
+module Bussiness::Dish::Dish
   class Dish < ::Bussiness::Base::Entity
     attribute :id, :integer
 
