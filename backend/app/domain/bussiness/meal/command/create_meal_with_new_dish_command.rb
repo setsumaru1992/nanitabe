@@ -1,5 +1,6 @@
 module Bussiness::Meal
   class Command::CreateMealWithNewDishCommand < ::Bussiness::Base::Command
+    # TODO: dishとmealを何かしらのオブジェクトで受け入れられるようにしたい
     attribute :user_id, :integer
     validates :user_id, presence: true
 

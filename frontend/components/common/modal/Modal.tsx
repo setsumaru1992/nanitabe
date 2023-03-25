@@ -19,10 +19,7 @@ export default (props: Props) => {
     <div className={classNames(style['modal__background'])}>
       <div className={classNames(style['modal__wrap'])}>
         <div className={classNames(style['modal__header'])}>
-          <p className={classNames(style['modal__title'])}>
-            <i className="fa fa-check-circle" />
-            {title}
-          </p>
+          <p className={classNames(style['modal__title'])}>{title}</p>
           <a
             className={classNames(style['modal__icon'])}
             onClick={(e) => {

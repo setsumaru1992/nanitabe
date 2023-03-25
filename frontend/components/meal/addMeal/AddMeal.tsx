@@ -19,10 +19,11 @@ enum CHOOSING_DISH_TYPE {
 type Props = {
   defaultDate?: Date;
   onAddSucceeded?: () => void;
+  displayInModal?: boolean;
 };
 
 export default (props: Props) => {
-  const { defaultDate: defaultDateArg, onAddSucceeded } = props;
+  const { defaultDate: defaultDateArg, onAddSucceeded, displayInModal } = props;
   const defaultDate: Date = defaultDateArg || new Date(Date());
 
   const [choosingDishType, setChoosingDishType] = React.useState(
@@ -72,7 +73,7 @@ export default (props: Props) => {
   return (
     <div className={style['form']}>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <h1 className={style['form__title']}>食事登録</h1>
+        {!displayInModal && <h1 className={style['form__title']}>食事登録</h1>}
         <FormFieldWrapperWithLabel label="日付" required>
           <Form.Control
             type="date"

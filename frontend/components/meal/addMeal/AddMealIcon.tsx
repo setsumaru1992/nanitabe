@@ -29,13 +29,14 @@ export default (props: Props) => {
         +
       </div>
       {modalVisible && (
-        <Modal closeModal={closeModal}>
+        <Modal closeModal={closeModal} title="食事登録">
           <AddMeal
             defaultDate={dateForAdd}
             onAddSucceeded={() => {
               closeModal();
               onAddSucceeded();
             }}
+            displayInModal
           />
         </Modal>
       )}

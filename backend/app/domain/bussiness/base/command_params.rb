@@ -1,4 +1,4 @@
 module Bussiness::Base
-  class Entity < Values
+  class CommandParams < Values
   end
 end
