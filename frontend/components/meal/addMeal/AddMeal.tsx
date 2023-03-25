@@ -6,13 +6,24 @@ import style from './AddMeal.module.scss';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 import useMeal from '../../../features/meal/useMeal';
 import type { AddMealWithNewDishAndNewSource } from '../../../features/meal/useMeal';
+import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
+import { MEAL_TYPE } from '../../../features/meal/const';
+import { buildISODateString } from '../../../features/utils/dateUtils';
+import { MEAL_POSITION } from '../../../features/dish/const';
 
 enum CHOOSING_DISH_TYPE {
   CHOOSING_REGISTER_NEW_DISH,
   CHOOSING_USE_EXISTING_DISH,
 }
 
-export default (props) => {
+type Props = {
+  defaultDate?: Date;
+};
+
+export default (props: Props) => {
+  const { defaultDate: defaultDateArg } = props;
+  const defaultDate: Date = defaultDateArg || new Date(Date());
+
   const [choosingDishType, setChoosingDishType] = React.useState(
     CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH,
   );
@@ -45,9 +56,9 @@ export default (props) => {
     resolver: zodResolver(AddMealSchema),
   });
 
-  const onSubmit: SubmitHandler<AddMealWithNewDishAndNewSource | any> = async (
-    input,
-  ) => {
+  const onSubmit: SubmitHandler<
+    AddMealWithNewDishAndNewSource | AddMealWithNewDishAndNewSource
+  > = async (input) => {
     console.log(input);
     // await addMealFunc(input, {
     //   onComplated: (data) => {
@@ -62,19 +73,24 @@ export default (props) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <h1 className={style['form__title']}>食事登録</h1>
         <FormFieldWrapperWithLabel label="日付" required>
-          <Form.Control type="date" value="2023-02-20" onChange={(e) => {}} />
+          <Form.Control
+            type="date"
+            defaultValue={buildISODateString(defaultDate)}
+            {...register('meal.date', { valueAsDate: true })}
+          />
+          <ErrorMessageIfExist errorMessage={errors.meal?.date?.message} />
         </FormFieldWrapperWithLabel>
 
         <FormFieldWrapperWithLabel label="時間帯" required>
-          <Form.Select {...register('meal.mealType', { valueAsNumber: true })}>
-            {/* 要定数化 */}
-            <option value={1}>朝食</option>
-            <option value={2}>昼食</option>
-            <option value={3}>夕食</option>
+          <Form.Select
+            defaultValue={MEAL_TYPE.DINNER}
+            {...register('meal.mealType', { valueAsNumber: true })}
+          >
+            <option value={MEAL_TYPE.BREAKFAST}>朝食</option>
+            <option value={MEAL_TYPE.LUNCH}>昼食</option>
+            <option value={MEAL_TYPE.DINNER}>夕食</option>
           </Form.Select>
-          {errors.meal?.mealType?.message && (
-            <p>{errors.meal?.mealType?.message.toString()}</p>
-          )}
+          <ErrorMessageIfExist errorMessage={errors.meal?.mealType?.message} />
         </FormFieldWrapperWithLabel>
 
         <div className={style['meal-form']}>
@@ -110,46 +126,56 @@ export default (props) => {
           {choosingRegisterNewDish && (
             <>
               <FormFieldWrapperWithLabel label="料理名" required>
-                <Form.Control type="text" />
-              </FormFieldWrapperWithLabel>
-              <FormFieldWrapperWithLabel label="かな">
-                <Form.Control type="text" />
+                <Form.Control type="text" {...register('dish.name')} />
+                <ErrorMessageIfExist
+                  errorMessage={errors.dish?.name?.message}
+                />
               </FormFieldWrapperWithLabel>
               <FormFieldWrapperWithLabel label="位置づけ">
-                <Form.Select>
-                  <option value="">主食（炭水化物）</option>
-                  <option value="">主菜（メインディッシュおかず）</option>
-                  <option value="">副菜・前菜</option>
-                  <option value="">汁物</option>
-                  <option value="">デザート</option>
+                <Form.Select
+                  defaultValue={MEAL_POSITION.MAIN_DISH}
+                  {...register('dish.mealPosition', { valueAsNumber: true })}
+                >
+                  <option value={MEAL_POSITION.STAPLE_FOOD}>
+                    主食（炭水化物）
+                  </option>
+                  <option value={MEAL_POSITION.MAIN_DISH}>
+                    主菜（メインディッシュおかず）
+                  </option>
+                  <option value={MEAL_POSITION.SIDE_DISH}>副菜・前菜</option>
+                  <option value={MEAL_POSITION.SOUP}>汁物</option>
+                  <option value={MEAL_POSITION.DESSERT}>デザート</option>
                 </Form.Select>
+                <ErrorMessageIfExist
+                  errorMessage={errors.dish?.mealPosition?.message}
+                />
               </FormFieldWrapperWithLabel>
 
-              <div className={style['reference-recipe']}>
-                <span className={style['reference-recipe__title']}>
-                  参考レシピ
-                </span>
-                <FormFieldWrapperWithLabel label="名前">
-                  <Form.Control type="text" />
-                </FormFieldWrapperWithLabel>
-                <FormFieldWrapperWithLabel label="タイプ">
-                  <Form.Select>
-                    <option value="">本</option>
-                    <option value="">webサイト</option>
-                    <option value="">テレビ</option>
-                  </Form.Select>
-                </FormFieldWrapperWithLabel>
-                {true && (
-                  <FormFieldWrapperWithLabel label="ページ数">
-                    <Form.Control type="number" />
-                  </FormFieldWrapperWithLabel>
-                )}
-                {true && (
-                  <FormFieldWrapperWithLabel label="レシピURL">
-                    <Form.Control type="text" />
-                  </FormFieldWrapperWithLabel>
-                )}
-              </div>
+              {/* <div className={style['reference-recipe']}> */}
+              {/*  <span className={style['reference-recipe__title']}> */}
+              {/*    参考レシピ */}
+              {/*  </span> */}
+              {/*  <FormFieldWrapperWithLabel label="名前"> */}
+              {/*    <Form.Control type="text" /> */}
+              {/*  </FormFieldWrapperWithLabel> */}
+              {/*  <FormFieldWrapperWithLabel label="タイプ"> */}
+              {/*    <Form.Select> */}
+              {/*      <option value="">本</option> */}
+              {/*      <option value="">webサイト</option> */}
+              {/*      <option value="">テレビ</option> */}
+              {/*    </Form.Select> */}
+              {/*  </FormFieldWrapperWithLabel> */}
+              {/*  {true && ( */}
+              {/*    <FormFieldWrapperWithLabel label="ページ数"> */}
+              {/*      <Form.Control type="number" /> */}
+              {/*    </FormFieldWrapperWithLabel> */}
+              {/*  )} */}
+              {/*  {true && ( */}
+              {/*    <FormFieldWrapperWithLabel label="レシピURL"> */}
+              {/*      <Form.Control type="text" /> */}
+              {/*    </FormFieldWrapperWithLabel> */}
+              {/*  )} */}
+              {/* </div> */}
             </>
           )}
 
