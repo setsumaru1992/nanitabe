@@ -17,7 +17,11 @@ module Bussiness::Meal
           described_class.call(
             user_id: comparer.prepared_records[:user_record].id,
             dish_id: comparer.prepared_records[:dish_record].id,
-            **comparer.values
+            meal_for_create: Command::Params::MealForCreate.new(
+              date: comparer.values[:date],
+              meal_type: comparer.values[:meal_type],
+              comment: comparer.values[:comment],
+            )
           )
 
           comparer.compare_to_expectation(self)
@@ -31,7 +35,11 @@ module Bussiness::Meal
           described_class.call(
             user_id: comparer.prepared_records[:user_record].id,
             dish_id: comparer.prepared_records[:dish_record].id,
-            **comparer.values
+            meal_for_create: Command::Params::MealForCreate.new(
+              date: comparer.values[:date],
+              meal_type: comparer.values[:meal_type],
+              comment: comparer.values[:comment],
+            )
           )
 
           comparer.compare_to_expectation(self)

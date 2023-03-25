@@ -19,7 +19,7 @@ export default (props) => {
             <td className={style['dish-container']}>
               <Icon />{' '}
               <AddMealIcon
-                dateForAdd={new Date(2023, 2, 20)}
+                dateForAdd={new Date(2023, 2 - 1, 20)}
                 onAddSucceeded={() => {
                   // TODO: カレンダーリフレッシュ
                 }}
@@ -36,7 +36,7 @@ export default (props) => {
               </th>
               <td className={style['dish-container']}>
                 <AddMealIcon
-                  dateForAdd={new Date(2023, 2, date)}
+                  dateForAdd={new Date(2023, 2 - 1, date)}
                   onAddSucceeded={() => {
                     // TODO: カレンダーリフレッシュ
                   }}

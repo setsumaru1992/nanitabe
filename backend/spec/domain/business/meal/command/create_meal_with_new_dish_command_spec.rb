@@ -19,10 +19,14 @@ module Bussiness::Meal
         it "adding succeeds" do
           created_meal = described_class.call(
             user_id: dish_comparer.prepared_records[:user_record].id,
-            dish_name: dish_comparer.values[:name],
-            dish_meal_position: dish_comparer.values[:meal_position],
-            meal_date: meal_comparer.values[:date],
-            meal_type: meal_comparer.values[:meal_type],
+            dish_for_create: ::Bussiness::Dish::Command::Params::DishForCreate.new(
+              name: dish_comparer.values[:name],
+              meal_position: dish_comparer.values[:meal_position],
+            ),
+            meal_for_create: Command::Params::MealForCreate.new(
+              date: meal_comparer.values[:date],
+              meal_type: meal_comparer.values[:meal_type],
+            )
           )
 
           dish_comparer.compare_to_expectation(self)
@@ -37,12 +41,16 @@ module Bussiness::Meal
         it "adding succeeds" do
           created_meal = described_class.call(
             user_id: dish_comparer.prepared_records[:user_record].id,
-            dish_name: dish_comparer.values[:name],
-            dish_meal_position: dish_comparer.values[:meal_position],
-            dish_comment: dish_comparer.values[:comment],
-            meal_date: meal_comparer.values[:date],
-            meal_type: meal_comparer.values[:meal_type],
-            meal_comment: meal_comparer.values[:comment],
+            dish_for_create: ::Bussiness::Dish::Command::Params::DishForCreate.new(
+              name: dish_comparer.values[:name],
+              meal_position: dish_comparer.values[:meal_position],
+              comment: dish_comparer.values[:comment],
+            ),
+            meal_for_create: Command::Params::MealForCreate.new(
+              date: meal_comparer.values[:date],
+              meal_type: meal_comparer.values[:meal_type],
+              comment: meal_comparer.values[:comment],
+            )
           )
 
           dish_comparer.compare_to_expectation(self)

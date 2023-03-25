@@ -6,21 +6,17 @@ module Bussiness::Meal
     attribute :dish_id, :integer
     validates :dish_id, presence: true
 
-    attribute :date, :date
-    validates :date, presence: true
+    attribute :meal_for_create, :command_params
+    validates :meal_for_create, presence: true
 
-    attribute :meal_type, :integer
-    validates :meal_type, presence: true
-
-    attribute :comment, :string
 
     def call
       meal = Meal.new(
         user_id: user_id,
         dish_id: dish_id,
-        date: date,
-        meal_type: meal_type,
-        comment: comment,
+        date: meal_for_create.date,
+        meal_type: meal_for_create.meal_type,
+        comment: meal_for_create.comment,
       )
       Repository.add(meal)
     end

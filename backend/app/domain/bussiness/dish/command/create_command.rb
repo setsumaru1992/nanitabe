@@ -3,20 +3,15 @@ module Bussiness::Dish
     attribute :user_id, :integer
     validates :user_id, presence: true
 
-    attribute :name, :string
-    validates :name, presence: true
-
-    attribute :meal_position, :integer
-    validates :meal_position, presence: true
-
-    attribute :comment, :string
+    attribute :dish_for_create, :command_params
+    validates :dish_for_create, presence: true
 
     def call
       dish = Dish.new(
         user_id: user_id,
-        name: name,
-        meal_position: meal_position,
-        comment: comment,
+        name: dish_for_create.name,
+        meal_position: dish_for_create.meal_position,
+        comment: dish_for_create.comment,
       )
       Repository.add(dish)
     end

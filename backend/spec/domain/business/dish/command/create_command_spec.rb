@@ -16,7 +16,11 @@ module Bussiness::Dish
         it "adding succeeds" do
           described_class.call(
             user_id: comparer.prepared_records[:user_record].id,
-            **comparer.values
+            dish_for_create: Command::Params::DishForCreate.new(
+              name: comparer.values[:name],
+              meal_position: comparer.values[:meal_position],
+              comment: comparer.values[:comment],
+            )
           )
 
           comparer.compare_to_expectation(self)
@@ -29,7 +33,11 @@ module Bussiness::Dish
         it "adding succeeds" do
           described_class.call(
             user_id: comparer.prepared_records[:user_record].id,
-            **comparer.values
+            dish_for_create: Command::Params::DishForCreate.new(
+              name: comparer.values[:name],
+              meal_position: comparer.values[:meal_position],
+              comment: comparer.values[:comment],
+            )
           )
 
           comparer.compare_to_expectation(self)

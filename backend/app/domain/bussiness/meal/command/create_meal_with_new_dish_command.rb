@@ -1,39 +1,24 @@
 module Bussiness::Meal
   class Command::CreateMealWithNewDishCommand < ::Bussiness::Base::Command
-    # TODO: dishとmealを何かしらのオブジェクトで受け入れられるようにしたい
     attribute :user_id, :integer
     validates :user_id, presence: true
 
-    attribute :dish_name, :string
-    validates :dish_name, presence: true
+    attribute :dish_for_create, :command_params
+    validates :dish_for_create, presence: true
 
-    attribute :dish_meal_position, :integer
-    validates :dish_meal_position, presence: true
-
-    attribute :dish_comment, :string
-
-    attribute :meal_date, :date
-    validates :meal_date, presence: true
-
-    attribute :meal_type, :integer
-    validates :meal_type, presence: true
-
-    attribute :meal_comment, :string
+    attribute :meal_for_create, :command_params
+    validates :meal_for_create, presence: true
 
     def call
       created_dish = ::Bussiness::Dish::Command::CreateCommand.call(
         user_id: user_id,
-        name: dish_name,
-        meal_position: dish_meal_position,
-        comment: dish_comment,
+        dish_for_create: dish_for_create,
       )
 
       Command::CreateMealWithExistingDishCommand.call(
         user_id: user_id,
         dish_id: created_dish.id,
-        date: meal_date,
-        meal_type: meal_type,
-        comment: meal_comment,
+        meal_for_create: meal_for_create
       )
     end
   end
