@@ -17,7 +17,13 @@ export default (props) => {
               </div>
             </th>
             <td className={style['dish-container']}>
-              <Icon /> <AddMealIcon />
+              <Icon />{' '}
+              <AddMealIcon
+                dateForAdd={new Date(2023, 2, 20)}
+                onAddSucceeded={() => {
+                  // TODO: カレンダーリフレッシュ
+                }}
+              />
             </td>
           </tr>
           {[21, 22, 23, 24, 25, 26].map((date) => (
@@ -29,7 +35,12 @@ export default (props) => {
                 </div>
               </th>
               <td className={style['dish-container']}>
-                <AddMealIcon />
+                <AddMealIcon
+                  dateForAdd={new Date(2023, 2, date)}
+                  onAddSucceeded={() => {
+                    // TODO: カレンダーリフレッシュ
+                  }}
+                />
               </td>
             </tr>
           ))}

@@ -18,10 +18,11 @@ enum CHOOSING_DISH_TYPE {
 
 type Props = {
   defaultDate?: Date;
+  onAddSucceeded?: () => void;
 };
 
 export default (props: Props) => {
-  const { defaultDate: defaultDateArg } = props;
+  const { defaultDate: defaultDateArg, onAddSucceeded } = props;
   const defaultDate: Date = defaultDateArg || new Date(Date());
 
   const [choosingDishType, setChoosingDishType] = React.useState(
@@ -61,6 +62,7 @@ export default (props: Props) => {
   > = async (input) => {
     await addMealFunc(input, {
       onComplated: (data) => {
+        if (onAddSucceeded) onAddSucceeded();
         reset();
       },
       onError: (error) => {},

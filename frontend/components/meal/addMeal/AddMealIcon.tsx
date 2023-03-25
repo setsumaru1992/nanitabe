@@ -1,29 +1,42 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import Link from 'next/link';
 import style from './AddMealIcon.module.scss';
 import Modal from '../../common/modal/Modal';
+import AddMeal from './AddMeal';
 
-export default (props) => {
+type Props = {
+  dateForAdd: Date;
+  onAddSucceeded: () => void;
+};
+
+export default (props: Props) => {
+  const { dateForAdd, onAddSucceeded } = props;
   const [modalVisible, setModalVisible] = useState(false);
+  const openModal = () => {
+    setModalVisible(true);
+  };
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   return (
     <>
       <div
         className={classNames(style['icon'], style['add-meal-icon'])}
         onClick={() => {
-          setModalVisible(true);
+          openModal();
         }}
       >
-        {/* <Link href="/meal/new" className={style['add-meal-icon__content']}> */}
-        +{/* </Link> */}
+        +
       </div>
       {modalVisible && (
-        <Modal
-          closeModal={() => {
-            setModalVisible(false);
-          }}
-        >
-          aa
+        <Modal closeModal={closeModal}>
+          <AddMeal
+            defaultDate={dateForAdd}
+            onAddSucceeded={() => {
+              closeModal();
+              onAddSucceeded();
+            }}
+          />
         </Modal>
       )}
     </>
