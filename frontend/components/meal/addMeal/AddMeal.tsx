@@ -59,13 +59,12 @@ export default (props: Props) => {
   const onSubmit: SubmitHandler<
     AddMealWithNewDishAndNewSource | AddMealWithNewDishAndNewSource
   > = async (input) => {
-    console.log(input);
-    // await addMealFunc(input, {
-    //   onComplated: (data) => {
-    //     reset();
-    //   },
-    //   onError: (error) => {},
-    // });
+    await addMealFunc(input, {
+      onComplated: (data) => {
+        reset();
+      },
+      onError: (error) => {},
+    });
   };
 
   return (
@@ -126,7 +125,11 @@ export default (props: Props) => {
           {choosingRegisterNewDish && (
             <>
               <FormFieldWrapperWithLabel label="料理名" required>
-                <Form.Control type="text" {...register('dish.name')} />
+                <Form.Control
+                  type="text"
+                  {...register('dish.name')}
+                  data-testid="dishname"
+                />
                 <ErrorMessageIfExist
                   errorMessage={errors.dish?.name?.message}
                 />
@@ -183,7 +186,9 @@ export default (props: Props) => {
         </div>
 
         <Form.Group>
-          <Button type="submit">登録</Button>
+          <Button type="submit" data-testid="addMealButton">
+            登録
+          </Button>
         </Form.Group>
       </Form>
     </div>
