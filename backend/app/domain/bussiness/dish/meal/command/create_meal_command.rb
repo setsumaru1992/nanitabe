@@ -1,5 +1,5 @@
 module Bussiness::Dish::Meal
-  class Command::CreateMealWithExistingDishCommand < ::Bussiness::Base::Command
+  class Command::CreateMealCommand < ::Bussiness::Base::Command
     attribute :user_id, :integer
     validates :user_id, presence: true
 

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require_relative "../repository/repository_add_shared_examples"
+require_relative "../../meal/repository/repository_add_shared_examples"
 require_relative "../../dish/repository/repository_add_shared_examples"
 
-module Bussiness::Dish::Meal
-  RSpec.describe Command::CreateMealWithNewDishCommand do
+module Bussiness::Dish
+  RSpec.describe Command::CreateMeal::CreateMealWithNewDishCommand do
     describe ".call" do
       before do
         dish_comparer.build_records_for_test()
@@ -23,7 +23,7 @@ module Bussiness::Dish::Meal
               name: dish_comparer.values[:name],
               meal_position: dish_comparer.values[:meal_position],
             ),
-            meal_for_create: Command::Params::MealForCreate.new(
+            meal_for_create: ::Bussiness::Dish::Meal::Command::Params::MealForCreate.new(
               date: meal_comparer.values[:date],
               meal_type: meal_comparer.values[:meal_type],
             )
@@ -46,7 +46,7 @@ module Bussiness::Dish::Meal
               meal_position: dish_comparer.values[:meal_position],
               comment: dish_comparer.values[:comment],
             ),
-            meal_for_create: Command::Params::MealForCreate.new(
+            meal_for_create: ::Bussiness::Dish::Meal::Command::Params::MealForCreate.new(
               date: meal_comparer.values[:date],
               meal_type: meal_comparer.values[:meal_type],
               comment: meal_comparer.values[:comment],
