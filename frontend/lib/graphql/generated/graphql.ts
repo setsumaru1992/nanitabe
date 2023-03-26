@@ -62,6 +62,14 @@ export type Credential = {
   uid: Scalars['String'];
 };
 
+export type Dish = {
+  __typename?: 'Dish';
+  comment?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  mealPosition: Scalars['Int'];
+  name: Scalars['String'];
+};
+
 export type DishForCreate = {
   comment?: InputMaybe<Scalars['String']>;
   mealPosition: Scalars['Int'];
@@ -133,8 +141,6 @@ export type Mutation = {
   loginUserResendConfirmationWithToken?: Maybe<LoginUserResendConfirmationWithTokenPayload>;
   loginUserSendPasswordResetWithToken?: Maybe<LoginUserSendPasswordResetWithTokenPayload>;
   loginUserUpdatePasswordWithToken?: Maybe<LoginUserUpdatePasswordWithTokenPayload>;
-  /** An example field added by the generator */
-  testField: Scalars['String'];
 };
 
 
@@ -187,8 +193,14 @@ export type MutationLoginUserUpdatePasswordWithTokenArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  dishes: Array<Dish>;
   /** An example field added by the generator */
   testField: Scalars['String'];
+};
+
+
+export type QueryDishesArgs = {
+  searchString?: InputMaybe<Scalars['String']>;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -208,6 +220,15 @@ export type SignupMutationVariables = Exact<{
 
 export type SignupMutation = { __typename?: 'Mutation', loginUserRegister?: { __typename?: 'LoginUserRegisterPayload', credentials?: { __typename?: 'Credential', accessToken: string } | null } | null };
 
+export type DishFragment = { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null };
+
+export type DishesQueryVariables = Exact<{
+  searchString?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type DishesQuery = { __typename?: 'Query', dishes: Array<{ __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null }> };
+
 export type AddMealWithNewDishAndNewSourceMutationVariables = Exact<{
   dish: DishForCreate;
   meal: MealForCreate;
@@ -224,7 +245,14 @@ export type AddMealWithExistingDishAndExistingSourceMutationVariables = Exact<{
 
 export type AddMealWithExistingDishAndExistingSourceMutation = { __typename?: 'Mutation', addMealWithExistingDishAndExistingSource?: { __typename?: 'AddMealWithExistingDishAndExistingSourcePayload', mealId: number } | null };
 
-
+export const DishFragmentDoc = gql`
+    fragment Dish on Dish {
+  id
+  name
+  mealPosition
+  comment
+}
+    `;
 export const LoginDocument = gql`
     mutation login($email: String!, $password: String!) {
   loginUserLogin(email: $email, password: $password) {
@@ -302,6 +330,41 @@ export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<Signu
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export const DishesDocument = gql`
+    query dishes($searchString: String) {
+  dishes(searchString: $searchString) {
+    ...Dish
+  }
+}
+    ${DishFragmentDoc}`;
+
+/**
+ * __useDishesQuery__
+ *
+ * To run a query within a React component, call `useDishesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDishesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDishesQuery({
+ *   variables: {
+ *      searchString: // value for 'searchString'
+ *   },
+ * });
+ */
+export function useDishesQuery(baseOptions?: Apollo.QueryHookOptions<DishesQuery, DishesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DishesQuery, DishesQueryVariables>(DishesDocument, options);
+      }
+export function useDishesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DishesQuery, DishesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DishesQuery, DishesQueryVariables>(DishesDocument, options);
+        }
+export type DishesQueryHookResult = ReturnType<typeof useDishesQuery>;
+export type DishesLazyQueryHookResult = ReturnType<typeof useDishesLazyQuery>;
+export type DishesQueryResult = Apollo.QueryResult<DishesQuery, DishesQueryVariables>;
 export const AddMealWithNewDishAndNewSourceDocument = gql`
     mutation addMealWithNewDishAndNewSource($dish: DishForCreate!, $meal: MealForCreate!) {
   addMealWithNewDishAndNewSource(input: {dish: $dish, meal: $meal}) {

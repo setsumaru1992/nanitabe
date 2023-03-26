@@ -5,6 +5,7 @@ import AddMeal from './AddMeal';
 import {
   AddMealWithNewDishAndNewSourceDocument,
   AddMealWithExistingDishAndExistingSourceDocument,
+  DishesDocument,
 } from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import {
@@ -12,7 +13,10 @@ import {
   userChooseSelectBox,
   userClick,
 } from '../../specHelper/userEvents';
-import { registerMutationHandler } from '../../../lib/graphql/specHelper/mockServer';
+import {
+  registerMutationHandler,
+  registerQueryHandler,
+} from '../../../lib/graphql/specHelper/mockServer';
 
 const buildNewMealGraphQLParams = (newMeal) => {
   return {
@@ -30,8 +34,20 @@ describe('<AddMeal>', () => {
     date: new Date(2022, 1, 1),
     mealType: 3,
   };
+  const existingDishId = 55;
 
   beforeEach(() => {
+    registerQueryHandler(DishesDocument, {
+      dishes: [
+        {
+          __typename: 'Dish',
+          id: existingDishId,
+          name: '生姜焼き',
+          mealPosition: 2,
+          comment: null,
+        },
+      ],
+    });
     renderWithApollo(<AddMeal defaultDate={newMealWithRequiredParams.date} />);
   });
 
@@ -68,11 +84,13 @@ describe('<AddMeal>', () => {
       );
 
       await userClick(screen, 'optionOfUsingExistingDish');
-      await userChooseSelectBox(screen, 'existingDishes', ['existingDish-1']);
+      await userChooseSelectBox(screen, 'existingDishes', [
+        `existingDish-${existingDishId}`,
+      ]);
       await userClick(screen, 'addMealButton');
 
       expect(getLatestMutationVariables()).toEqual({
-        dishId: 1, // TODO: Queryモックの返り値の変数を使用
+        dishId: existingDishId,
         meal: buildNewMealGraphQLParams(newMealWithRequiredParams),
       });
     });

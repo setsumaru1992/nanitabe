@@ -1,5 +1,6 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import useEvent from '@testing-library/user-event';
+// NOTE: クリックでコンポーネント内で非同期イベントがあったらその終了を待つ
 import { act } from 'react-dom/test-utils';
 
 export const user = useEvent.setup();

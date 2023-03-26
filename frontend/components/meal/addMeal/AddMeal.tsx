@@ -9,6 +9,7 @@ import type {
   AddMealWithNewDishAndNewSource,
   AddMealWithExistingDishAndExistingSource,
 } from '../../../features/meal/useMeal';
+import useDish from '../../../features/dish/useDish';
 import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
 import { MEAL_TYPE } from '../../../features/meal/const';
 import { buildISODateString } from '../../../features/utils/dateUtils';
@@ -39,6 +40,8 @@ export default (props: Props) => {
     addMealWithExistingDishAndExistingSource,
     AddMealWithExistingDishAndExistingSourceSchema,
   } = useMeal();
+
+  const { dishes } = useDish();
 
   const choosingRegisterNewDish =
     choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH;
@@ -206,10 +209,15 @@ export default (props: Props) => {
                 {...register('dishId', { valueAsNumber: true })}
                 data-testid="existingDishes"
               >
-                <option value={null}>--（デバッグ用）</option>
-                <option value={1} data-testid={`existingDish-${1}`}>
-                  生姜焼き
-                </option>
+                {dishes.map((dish) => (
+                  <option
+                    key={dish.id}
+                    value={dish.id}
+                    data-testid={`existingDish-${dish.id}`}
+                  >
+                    {dish.name}
+                  </option>
+                ))}
               </Form.Select>
               <ErrorMessageIfExist errorMessage={errors.dishId?.message} />
             </FormFieldWrapperWithLabel>

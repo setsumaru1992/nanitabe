@@ -13,5 +13,7 @@ module Types
     def test_field
       "Hello World!"
     end
+
+    field :dishes, resolver: Queries::Dish::Dishes
   end
 end
