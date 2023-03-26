@@ -1,19 +1,15 @@
 module Mutations::Meal
-  class AddMealWithNewDishAndNewSource < ::Mutations::BaseMutation
-    argument :dish, ::Types::Dish::DishForCreate, required: true
+  class AddMealWithExistingDishAndExistingSource < ::Mutations::BaseMutation
+    argument :dish_id, Int, required: true
     argument :meal, ::Types::Meal::MealForCreate, required: true
 
     field :meal_id, Int, null: false
 
-    def resolve(dish:, meal:)
+    def resolve(dish_id:, meal:)
       ActiveRecord::Base.transaction do
-        created_meal = ::Bussiness::Dish::Command::CreateMeal::CreateMealWithNewDishCommand.call(
+        created_meal = ::Bussiness::Dish::Meal::Command::CreateMealCommand.call(
           user_id: context[:current_user_id],
-          dish_for_create: ::Bussiness::Dish::Dish::Command::Params::DishForCreate.new(
-            name: dish.name,
-            meal_position: dish.meal_position,
-            comment: dish.comment,
-          ),
+          dish_id: dish_id,
           meal_for_create: ::Bussiness::Dish::Meal::Command::Params::MealForCreate.new(
             date: meal.date,
             meal_type: meal.meal_type,

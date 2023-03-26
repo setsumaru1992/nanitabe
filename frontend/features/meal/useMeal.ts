@@ -5,15 +5,19 @@ export type { AddMealWithNewDishAndNewSource } from './addMealMutation';
 export default () => {
   const {
     addMealWithNewDishAndNewSource,
-    addMealloading,
-    addMealerror,
     AddMealWithNewDishAndNewSourceSchema,
+    addMealWithExistingDishAndExistingSource,
+    AddMealWithExistingDishAndExistingSourceSchema,
+    addMealLoading,
+    addMealError,
   } = useAddMeal();
 
   return {
     addMealWithNewDishAndNewSource,
-    addMealloading,
-    addMealerror,
     AddMealWithNewDishAndNewSourceSchema,
+    addMealWithExistingDishAndExistingSource,
+    AddMealWithExistingDishAndExistingSourceSchema,
+    addMealLoading,
+    addMealError,
   };
 };

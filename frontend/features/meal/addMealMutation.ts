@@ -1,6 +1,9 @@
 import { gql } from '@apollo/client';
 import * as z from 'zod';
-import { useAddMealWithNewDishAndNewSourceMutation } from '../../lib/graphql/generated/graphql';
+import {
+  useAddMealWithNewDishAndNewSourceMutation,
+  useAddMealWithExistingDishAndExistingSourceMutation,
+} from '../../lib/graphql/generated/graphql';
 import { MEAL_TYPE } from './const';
 import { MEAL_POSITION } from '../dish/const';
 import { buildMutationExecutor } from '../utils/mutationUtils';
@@ -43,6 +46,27 @@ export type AddMealWithNewDishAndNewSource = z.infer<
   typeof AddMealWithNewDishAndNewSourceSchema
 >;
 
+export const ADD_MEAL_WITH_EXISTING_DISH_AND_EXISTING_SOURCE = gql`
+  mutation addMealWithExistingDishAndExistingSource(
+    $dishId: Int!
+    $meal: MealForCreate!
+  ) {
+    addMealWithExistingDishAndExistingSource(
+      input: { dishId: $dishId, meal: $meal }
+    ) {
+      mealId
+    }
+  }
+`;
+
+const AddMealWithExistingDishAndExistingSourceSchema = z.object({
+  dishId: z.number(),
+  meal: newMealSchema,
+});
+export type AddMealWithExistingDishAndExistingSource = z.infer<
+  typeof AddMealWithExistingDishAndExistingSourceSchema
+>;
+
 export const useAddMeal = () => {
   const [
     addMealWithNewDishAndNewSource,
@@ -51,10 +75,27 @@ export const useAddMeal = () => {
   ] = buildMutationExecutor<AddMealWithNewDishAndNewSource>(
     useAddMealWithNewDishAndNewSourceMutation,
   );
+
+  const [
+    addMealWithExistingDishAndExistingSource,
+    addMealWithExistingDishAndExistingSourceLoading,
+    addMealWithExistingDishAndExistingSourceError,
+  ] = buildMutationExecutor<AddMealWithNewDishAndNewSource>(
+    useAddMealWithExistingDishAndExistingSourceMutation,
+  );
+
   return {
     addMealWithNewDishAndNewSource,
-    addMealloading: addMealWithNewDishAndNewSourceLoading,
-    addMealerror: addMealWithNewDishAndNewSourceError,
+    addMealWithExistingDishAndExistingSource,
+
+    addMealLoading:
+      addMealWithNewDishAndNewSourceLoading ||
+      addMealWithExistingDishAndExistingSourceLoading,
+    addMealError:
+      addMealWithNewDishAndNewSourceError ||
+      addMealWithExistingDishAndExistingSourceError,
+
     AddMealWithNewDishAndNewSourceSchema,
+    AddMealWithExistingDishAndExistingSourceSchema,
   };
 };
