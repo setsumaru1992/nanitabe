@@ -5,7 +5,7 @@ import { MockedProvider } from '@apollo/client/testing';
 import Login from './Login';
 import { LoginDocument } from '../../lib/graphql/generated/graphql';
 import renderWithApollo from '../specHelper/renderWithApollo';
-import { enterTextBox } from '../specHelper/eventFirers';
+import { enterTextBox } from '../specHelper/userEvents';
 import { registerMutationHandler } from '../../lib/graphql/specHelper/mockServer';
 
 const getLoginMessage = (screen) => screen.getByTestId('loginResultMessage');

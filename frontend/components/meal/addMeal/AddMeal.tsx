@@ -5,7 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import style from './AddMeal.module.scss';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 import useMeal from '../../../features/meal/useMeal';
-import type { AddMealWithNewDishAndNewSource } from '../../../features/meal/useMeal';
+import type {
+  AddMealWithNewDishAndNewSource,
+  AddMealWithExistingDishAndExistingSource,
+} from '../../../features/meal/useMeal';
 import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
 import { MEAL_TYPE } from '../../../features/meal/const';
 import { buildISODateString } from '../../../features/utils/dateUtils';
@@ -32,6 +35,9 @@ export default (props: Props) => {
   const {
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
+
+    addMealWithExistingDishAndExistingSource,
+    AddMealWithExistingDishAndExistingSourceSchema,
   } = useMeal();
 
   const choosingRegisterNewDish =
@@ -44,6 +50,12 @@ export default (props: Props) => {
       return [
         addMealWithNewDishAndNewSource,
         AddMealWithNewDishAndNewSourceSchema,
+      ];
+    }
+    if (choosingUseExistingDish) {
+      return [
+        addMealWithExistingDishAndExistingSource,
+        AddMealWithExistingDishAndExistingSourceSchema,
       ];
     }
     return [null, null];
@@ -59,7 +71,7 @@ export default (props: Props) => {
   });
 
   const onSubmit: SubmitHandler<
-    AddMealWithNewDishAndNewSource | AddMealWithNewDishAndNewSource
+    AddMealWithNewDishAndNewSource | AddMealWithExistingDishAndExistingSource
   > = async (input) => {
     await addMealFunc(input, {
       onComplated: (data) => {
@@ -101,7 +113,7 @@ export default (props: Props) => {
               type="radio"
               inline
               name="add_meal_type"
-              value={choosingDishType}
+              value={CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH}
               onChange={() =>
                 setChoosingDishType(
                   CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH,
@@ -109,12 +121,13 @@ export default (props: Props) => {
               }
               checked={choosingRegisterNewDish}
               label="新しく料理を登録"
+              data-testid="optionOfRegisteringNewDish"
             />
             <Form.Check
               type="radio"
               inline
               name="add_meal_type"
-              value={choosingDishType}
+              value={CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH}
               onChange={() =>
                 setChoosingDishType(
                   CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH,
@@ -122,6 +135,7 @@ export default (props: Props) => {
               }
               checked={choosingUseExistingDish}
               label="登録済みの料理を選択"
+              data-testid="optionOfUsingExistingDish"
             />
           </Form.Group>
 
@@ -185,7 +199,21 @@ export default (props: Props) => {
             </>
           )}
 
-          {choosingUseExistingDish && <>addDishWithExistMeal</>}
+          {choosingUseExistingDish && (
+            <FormFieldWrapperWithLabel label="料理">
+              <Form.Select
+                defaultValue={null}
+                {...register('dishId', { valueAsNumber: true })}
+                data-testid="existingDishes"
+              >
+                <option value={null}>--（デバッグ用）</option>
+                <option value={1} data-testid={`existingDish-${1}`}>
+                  生姜焼き
+                </option>
+              </Form.Select>
+              <ErrorMessageIfExist errorMessage={errors.dishId?.message} />
+            </FormFieldWrapperWithLabel>
+          )}
         </div>
 
         <Form.Group>

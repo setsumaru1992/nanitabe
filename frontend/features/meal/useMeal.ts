@@ -1,6 +1,7 @@
 import { useAddMeal } from './addMealMutation';
 
 export type { AddMealWithNewDishAndNewSource } from './addMealMutation';
+export type { AddMealWithExistingDishAndExistingSource } from './addMealMutation';
 
 export default () => {
   const {
