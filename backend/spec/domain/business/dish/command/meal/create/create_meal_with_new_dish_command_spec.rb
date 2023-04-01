@@ -23,11 +23,11 @@ module Bussiness::Dish
               dish_for_create: ::Bussiness::Dish::Dish::Command::Params::DishForCreate.new(
                 name: dish_comparer.values[:name],
                 meal_position: dish_comparer.values[:meal_position],
-                ),
+              ),
               meal_for_create: ::Bussiness::Dish::Meal::Command::Params::MealForCreate.new(
                 date: meal_comparer.values[:date],
                 meal_type: meal_comparer.values[:meal_type],
-                )
+              )
             )
 
             dish_comparer.compare_to_expectation(self)
@@ -46,12 +46,12 @@ module Bussiness::Dish
                 name: dish_comparer.values[:name],
                 meal_position: dish_comparer.values[:meal_position],
                 comment: dish_comparer.values[:comment],
-                ),
+              ),
               meal_for_create: ::Bussiness::Dish::Meal::Command::Params::MealForCreate.new(
                 date: meal_comparer.values[:date],
                 meal_type: meal_comparer.values[:meal_type],
                 comment: meal_comparer.values[:comment],
-                )
+              )
             )
 
             dish_comparer.compare_to_expectation(self)
