@@ -1,9 +1,107 @@
 inherit_from:
   - config/rubocop/rules_due_to_warning.yml
 
-Documentation:
+AllCops:
+  Exclude:
+    - "bin/**/*"
+    - "spec/spec_helper.rb"
+    - "db/schema.rb"
+    - "db/migrate/*"
+    - "app/graphql/backend_schema.rb"
+    - "app/controllers/graphql_controller.rb"
+
+Metrics/BlockLength:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/StringLiterals:
+  Enabled: false # 後で一括適用
+#  EnforcedStyle: double_quotes
+Style/AccessorGrouping:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
-ClassAndModuleChildren:
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+Style/WordArray:
+  Enabled: false
+Style/SymbolArray:
+  Enabled: false
+Style/TrailingCommaInArguments:
+  Enabled: false # 後で一括適用
+  #  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false # 後で一括適用
+  #  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  Enabled: false # 後で一括適用
+  #  EnforcedStyleForMultiline: comma
+Style/NumericPredicate:
+  Enabled: false
+Style/ZeroLengthPredicate:
+  Enabled: false
+Style/RedundantAssignment:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+
+# 後でまとめて修正するルール
+Layout/TrailingEmptyLines:
+  Enabled: false
+Layout/HeredocIndentation:
+  Enabled: false
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+Layout/SpaceInsidePercentLiteralDelimiters:
+  Enabled: false
+Layout/SpaceAfterComma:
+  Enabled: false
+Layout/LeadingCommentSpace:
+  Enabled: false
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+Layout/HashAlignment:
+  Enabled: false
+Layout/EmptyLines:
+  Enabled: false
+Style/RedundantConstantBase:
+  Enabled: false
+Style/MutableConstant:
+  Enabled: false
+Style/PreferredHashMethods:
+  Enabled: false
+Style/NumericLiteralPrefix:
+  Enabled: false
+Style/RedundantFetchBlock:
+  Enabled: false
+Style/GlobalStdStream:
+  Enabled: false
+Style/RedundantSelf:
+  Enabled: false
+
+# 後でまとめて修正するルールだが、挙動が予想できなかったり1個ずつ適用して挙動みたいやつ
+Lint/EmptyBlock:
+  Enabled: false
+Layout/FirstHashElementIndentation:
+  Enabled: false
+Layout/TrailingWhitespace:
+  Enabled: false
+Layout/ClosingParenthesisIndentation:
+  Enabled: false
+Style/HashSyntax:
+  Enabled: false
+Style/IfUnlessModifier:
   Enabled: false
