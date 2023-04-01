@@ -124,10 +124,25 @@ export type LoginUserUpdatePasswordWithTokenPayload = {
   credentials?: Maybe<Credential>;
 };
 
+export type MealForCalender = {
+  __typename?: 'MealForCalender';
+  comment: Scalars['String'];
+  date: Scalars['ISO8601Date'];
+  dish: Dish;
+  id: Scalars['Int'];
+  mealType: Scalars['Int'];
+};
+
 export type MealForCreate = {
   comment?: InputMaybe<Scalars['String']>;
   date: Scalars['ISO8601Date'];
   mealType: Scalars['Int'];
+};
+
+export type MealsOfDate = {
+  __typename?: 'MealsOfDate';
+  date: Scalars['ISO8601Date'];
+  meals: Array<MealForCalender>;
 };
 
 export type Mutation = {
@@ -194,6 +209,7 @@ export type MutationLoginUserUpdatePasswordWithTokenArgs = {
 export type Query = {
   __typename?: 'Query';
   dishes: Array<Dish>;
+  mealsForCalender: Array<MealsOfDate>;
   /** An example field added by the generator */
   testField: Scalars['String'];
 };
@@ -201,6 +217,11 @@ export type Query = {
 
 export type QueryDishesArgs = {
   searchString?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryMealsForCalenderArgs = {
+  startDate: Scalars['ISO8601Date'];
 };
 
 export type LoginMutationVariables = Exact<{
