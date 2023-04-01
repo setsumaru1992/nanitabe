@@ -1,0 +1,9 @@
+inherit_from:
+  - config/rubocop/rules_due_to_warning.yml
+
+Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+ClassAndModuleChildren:
+  Enabled: false
