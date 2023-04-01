@@ -7,21 +7,21 @@ def fetch_mutation(mutation_string, variables)
 end
 
 def build_signup_mutation
-  <<-GRAPHQL
-mutation signup(
-    $email: String = "",
-    $password: String = "",
-  ) {
-  loginUserRegister(
-    email: $email,
-    password: $password, 
-    passwordConfirmation: $password
-  ) {
-    credentials {
-      accessToken
+  <<~GRAPHQL
+    mutation signup(
+        $email: String = "",
+        $password: String = "",
+      ) {
+      loginUserRegister(
+        email: $email,
+        password: $password, 
+        passwordConfirmation: $password
+      ) {
+        credentials {
+          accessToken
+        }
+      }
     }
-  }
-}
   GRAPHQL
 end
 
