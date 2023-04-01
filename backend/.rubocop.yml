@@ -57,8 +57,6 @@ Layout/EmptyLinesAroundClassBody:
 
 
 # 後でまとめて修正するルール
-Layout/LeadingCommentSpace:
-  Enabled: false
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 Layout/HashAlignment:
