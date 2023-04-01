@@ -14,7 +14,7 @@ def build_signup_mutation
       ) {
       loginUserRegister(
         email: $email,
-        password: $password, 
+        password: $password,
         passwordConfirmation: $password
       ) {
         credentials {

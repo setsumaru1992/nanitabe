@@ -66,8 +66,6 @@ Layout/FirstHashElementIndentation:
 # 後でまとめて修正するルールだが、挙動が予想できなかったり1個ずつ適用して挙動みたいやつ
 Lint/EmptyBlock:
   Enabled: false
-Layout/TrailingWhitespace:
-  Enabled: false
 Layout/ClosingParenthesisIndentation:
   Enabled: false
 Style/HashSyntax:
