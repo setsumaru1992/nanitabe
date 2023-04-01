@@ -1,9 +1,18 @@
 import { useAddMeal } from './addMealMutation';
+import { useFetchMealsForCalender } from './fetchMealQuery';
 
 export type { AddMealWithNewDishAndNewSource } from './addMealMutation';
 export type { AddMealWithExistingDishAndExistingSource } from './addMealMutation';
 
-export default () => {
+type UseMealArg = {
+  startDateForFetchingMealsForCalender: Date | null;
+};
+
+export default (
+  arg: UseMealArg = { startDateForFetchingMealsForCalender: null },
+) => {
+  const { startDateForFetchingMealsForCalender } = arg;
+
   const {
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
@@ -13,7 +22,22 @@ export default () => {
     addMealError,
   } = useAddMeal();
 
+  const {
+    mealsForCalender,
+    fetchMealsForCalenderLoading,
+    fetchMealsForCalenderError,
+    refetchMealsForCalender,
+  } = useFetchMealsForCalender(
+    startDateForFetchingMealsForCalender,
+    startDateForFetchingMealsForCalender !== null,
+  );
+
   return {
+    mealsForCalender,
+    fetchMealsForCalenderLoading,
+    fetchMealsForCalenderError,
+    refetchMealsForCalender,
+
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
     addMealWithExistingDishAndExistingSource,

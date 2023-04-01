@@ -9,11 +9,11 @@ module Queries::Meal
       # meals = ::Meal.where(date: start_date..last_date)
       [
         {
-          date: Date.today,
+          date: Date.new(2023, 2, 22),
           meals: [
             id: 3,
-            date: Date.today,
-            meal_type: 5,
+            date: Date.new(2023, 2, 22),
+            meal_type: 2,
             dish: {
               id: 6,
               name: "鯖味噌",

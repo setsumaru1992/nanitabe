@@ -3,6 +3,7 @@ import {
   useDishesLazyQuery,
   useDishesQuery,
 } from '../../lib/graphql/generated/graphql';
+import { useCodegenQuery } from '../utils/queryUtils';
 
 export const DISH_FRAGMENT = gql`
   fragment Dish on Dish {
@@ -25,18 +26,16 @@ export const useFetchDishes = (
   searchString: string | null = null,
   requireFetchedData: boolean = true,
 ) => {
-  const dishesQuery = (() => {
-    const variables = { searchString };
-    if (requireFetchedData) {
-      return useDishesQuery({ variables });
-    }
-    return useDishesLazyQuery({ variables })[1];
-  })();
-
+  const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
+    useDishesQuery,
+    useDishesLazyQuery,
+    requireFetchedData,
+    { searchString },
+  );
   return {
-    dishes: dishesQuery.data?.dishes,
-    fetchLoading: dishesQuery.loading,
-    fetchError: dishesQuery.error,
-    refetch: dishesQuery.refetch,
+    dishes: data?.dishes,
+    fetchLoading,
+    fetchError,
+    refetch,
   };
 };
