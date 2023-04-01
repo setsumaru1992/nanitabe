@@ -266,6 +266,15 @@ export type AddMealWithExistingDishAndExistingSourceMutationVariables = Exact<{
 
 export type AddMealWithExistingDishAndExistingSourceMutation = { __typename?: 'Mutation', addMealWithExistingDishAndExistingSource?: { __typename?: 'AddMealWithExistingDishAndExistingSourcePayload', mealId: number } | null };
 
+export type MealFragment = { __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment: string, dish: { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null } };
+
+export type MealsForCalenderQueryVariables = Exact<{
+  startDate: Scalars['ISO8601Date'];
+}>;
+
+
+export type MealsForCalenderQuery = { __typename?: 'Query', mealsForCalender: Array<{ __typename?: 'MealsOfDate', date: any, meals: Array<{ __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment: string, dish: { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null } }> }> };
+
 export const DishFragmentDoc = gql`
     fragment Dish on Dish {
   id
@@ -274,6 +283,17 @@ export const DishFragmentDoc = gql`
   comment
 }
     `;
+export const MealFragmentDoc = gql`
+    fragment Meal on MealForCalender {
+  id
+  date
+  mealType
+  comment
+  dish {
+    ...Dish
+  }
+}
+    ${DishFragmentDoc}`;
 export const LoginDocument = gql`
     mutation login($email: String!, $password: String!) {
   loginUserLogin(email: $email, password: $password) {
@@ -454,3 +474,41 @@ export function useAddMealWithExistingDishAndExistingSourceMutation(baseOptions?
 export type AddMealWithExistingDishAndExistingSourceMutationHookResult = ReturnType<typeof useAddMealWithExistingDishAndExistingSourceMutation>;
 export type AddMealWithExistingDishAndExistingSourceMutationResult = Apollo.MutationResult<AddMealWithExistingDishAndExistingSourceMutation>;
 export type AddMealWithExistingDishAndExistingSourceMutationOptions = Apollo.BaseMutationOptions<AddMealWithExistingDishAndExistingSourceMutation, AddMealWithExistingDishAndExistingSourceMutationVariables>;
+export const MealsForCalenderDocument = gql`
+    query mealsForCalender($startDate: ISO8601Date!) {
+  mealsForCalender(startDate: $startDate) {
+    date
+    meals {
+      ...Meal
+    }
+  }
+}
+    ${MealFragmentDoc}`;
+
+/**
+ * __useMealsForCalenderQuery__
+ *
+ * To run a query within a React component, call `useMealsForCalenderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMealsForCalenderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMealsForCalenderQuery({
+ *   variables: {
+ *      startDate: // value for 'startDate'
+ *   },
+ * });
+ */
+export function useMealsForCalenderQuery(baseOptions: Apollo.QueryHookOptions<MealsForCalenderQuery, MealsForCalenderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MealsForCalenderQuery, MealsForCalenderQueryVariables>(MealsForCalenderDocument, options);
+      }
+export function useMealsForCalenderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MealsForCalenderQuery, MealsForCalenderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MealsForCalenderQuery, MealsForCalenderQueryVariables>(MealsForCalenderDocument, options);
+        }
+export type MealsForCalenderQueryHookResult = ReturnType<typeof useMealsForCalenderQuery>;
+export type MealsForCalenderLazyQueryHookResult = ReturnType<typeof useMealsForCalenderLazyQuery>;
+export type MealsForCalenderQueryResult = Apollo.QueryResult<MealsForCalenderQuery, MealsForCalenderQueryVariables>;
