@@ -57,8 +57,6 @@ Layout/EmptyLinesAroundClassBody:
 
 
 # 後でまとめて修正するルール
-Layout/SpaceInsidePercentLiteralDelimiters:
-  Enabled: false
 Layout/SpaceAfterComma:
   Enabled: false
 Layout/LeadingCommentSpace:
