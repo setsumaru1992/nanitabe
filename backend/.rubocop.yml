@@ -60,11 +60,11 @@ Layout/LineLength:
   Enabled: false
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
 
 # 後でまとめて修正するルールだが、挙動が予想できなかったり1個ずつ適用して挙動みたいやつ
 Lint/EmptyBlock:
-  Enabled: false
-Layout/FirstHashElementIndentation:
   Enabled: false
 Layout/TrailingWhitespace:
   Enabled: false
