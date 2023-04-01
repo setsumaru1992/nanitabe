@@ -1,4 +1,4 @@
-module Types::Dish
+module Types::Output::Dish
   class Dish < Types::BaseObject
     field :id, Int, null: false
     field :name, String, null: false

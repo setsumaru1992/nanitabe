@@ -2,7 +2,7 @@ module Queries::Dish
   class Dishes < ::Queries::BaseQuery
     argument :search_string, String, required: false
 
-    type [::Types::Dish::Dish], null: false
+    type [::Types::Output::Dish::Dish], null: false
 
     def resolve(search_string: nil)
       dishes = ::Dish.where(user_id: context[:current_user_id])

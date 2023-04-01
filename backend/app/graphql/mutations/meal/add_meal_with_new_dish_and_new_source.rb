@@ -1,7 +1,7 @@
 module Mutations::Meal
   class AddMealWithNewDishAndNewSource < ::Mutations::BaseMutation
-    argument :dish, ::Types::Dish::DishForCreate, required: true
-    argument :meal, ::Types::Meal::MealForCreate, required: true
+    argument :dish, ::Types::Input::Dish::DishForCreate, required: true
+    argument :meal, ::Types::Input::Meal::MealForCreate, required: true
 
     field :meal_id, Int, null: false
 

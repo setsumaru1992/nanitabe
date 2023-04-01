@@ -1,4 +1,4 @@
-module Types::Dish
+module Types::Input::Dish
   class DishForCreate < ::Types::BaseInputObject
     argument :name, String, required: true
     argument :meal_position, Int, required: true

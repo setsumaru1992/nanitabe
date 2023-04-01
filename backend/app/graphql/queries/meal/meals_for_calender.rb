@@ -2,7 +2,7 @@ module Queries::Meal
   class MealsForCalender < ::Queries::BaseQuery
     argument :start_date, GraphQL::Types::ISO8601Date, required: true
 
-    type [::Types::Meal::MealsOfDate], null: false
+    type [::Types::Output::Meal::MealsOfDate], null: false
 
     def resolve(start_date:)
       # last_date = start_date + 6.day
