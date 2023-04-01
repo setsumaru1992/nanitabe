@@ -57,8 +57,6 @@ Layout/EmptyLinesAroundClassBody:
 
 
 # 後でまとめて修正するルール
-Layout/TrailingEmptyLines:
-  Enabled: false
 Layout/HeredocIndentation:
   Enabled: false
 Layout/SpaceInsideHashLiteralBraces:
