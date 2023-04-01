@@ -9,11 +9,11 @@ module Bussiness::Base
     end
 
     def [](attr)
-      self.send(attr)
+      send(attr)
     end
 
     def []=(attr, value)
-      self.send("#{attr}=", value)
+      send("#{attr}=", value)
     end
 
     private

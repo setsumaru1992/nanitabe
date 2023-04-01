@@ -61,11 +61,6 @@ Layout/LineLength:
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
 
-
-# 後でまとめて修正するルール
-Style/RedundantSelf:
-  Enabled: false
-
 # 後でまとめて修正するルールだが、挙動が予想できなかったり1個ずつ適用して挙動みたいやつ
 Lint/EmptyBlock:
   Enabled: false
