@@ -49,6 +49,8 @@ Style/ZeroLengthPredicate:
   Enabled: false
 Style/RedundantAssignment:
   Enabled: false
+Style/RedundantConstantBase:
+  Enabled: false
 
 Layout/LineLength:
   Enabled: false
@@ -57,10 +59,6 @@ Layout/EmptyLinesAroundClassBody:
 
 
 # 後でまとめて修正するルール
-Style/RedundantConstantBase:
-  Enabled: false
-Style/MutableConstant:
-  Enabled: false
 Style/PreferredHashMethods:
   Enabled: false
 Style/NumericLiteralPrefix:
