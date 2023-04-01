@@ -11,8 +11,8 @@ module Bussiness::Dish::Meal
 
     def call
       meal = Meal.new(
-        user_id: user_id,
-        dish_id: dish_id,
+        user_id:,
+        dish_id:,
         date: meal_for_create.date,
         meal_type: meal_for_create.meal_type,
         comment: meal_for_create.comment,

@@ -12,14 +12,14 @@ module Bussiness::Dish
 
       def call
         created_dish = ::Bussiness::Dish::Dish::Command::CreateCommand.call(
-          user_id: user_id,
-          dish_for_create: dish_for_create,
+          user_id:,
+          dish_for_create:,
         )
 
         ::Bussiness::Dish::Meal::Command::CreateMealCommand.call(
-          user_id: user_id,
+          user_id:,
           dish_id: created_dish.id,
-          meal_for_create: meal_for_create
+          meal_for_create:
         )
       end
     end

@@ -24,6 +24,8 @@ Style/ClassAndModuleChildren:
 Style/StringLiterals:
   Enabled: false # 後で一括適用
 #  EnforcedStyle: double_quotes
+Style/HashSyntax:
+  Enabled: true
 Style/AccessorGrouping:
   Enabled: false
 Style/FrozenStringLiteralComment:
@@ -65,8 +67,6 @@ Layout/FirstHashElementIndentation:
 
 # 後でまとめて修正するルールだが、挙動が予想できなかったり1個ずつ適用して挙動みたいやつ
 Lint/EmptyBlock:
-  Enabled: false
-Style/HashSyntax:
   Enabled: false
 Style/IfUnlessModifier:
   Enabled: false

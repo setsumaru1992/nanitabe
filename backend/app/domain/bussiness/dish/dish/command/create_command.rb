@@ -8,7 +8,7 @@ module Bussiness::Dish::Dish
 
     def call
       dish = Dish.new(
-        user_id: user_id,
+        user_id:,
         name: dish_for_create.name,
         meal_position: dish_for_create.meal_position,
         comment: dish_for_create.comment,

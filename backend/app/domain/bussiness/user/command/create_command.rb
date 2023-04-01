@@ -6,7 +6,7 @@ module Bussiness::User
         break if Repository.unique_id_param?(id_param)
       end
 
-      user = User.new(id_param: id_param)
+      user = User.new(id_param:)
       created_user = Repository.add(user)
       created_user
     end
