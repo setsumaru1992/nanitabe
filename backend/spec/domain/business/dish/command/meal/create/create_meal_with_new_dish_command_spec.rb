@@ -27,7 +27,7 @@ module Bussiness::Dish
               meal_for_create: ::Bussiness::Dish::Meal::Command::Params::MealForCreate.new(
                 date: meal_comparer.values[:date],
                 meal_type: meal_comparer.values[:meal_type],
-              )
+              ),
             )
 
             dish_comparer.compare_to_expectation(self)
@@ -51,7 +51,7 @@ module Bussiness::Dish
                 date: meal_comparer.values[:date],
                 meal_type: meal_comparer.values[:meal_type],
                 comment: meal_comparer.values[:comment],
-              )
+              ),
             )
 
             dish_comparer.compare_to_expectation(self)

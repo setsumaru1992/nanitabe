@@ -21,7 +21,7 @@ module Bussiness::Dish::Meal
               date: comparer.values[:date],
               meal_type: comparer.values[:meal_type],
               comment: comparer.values[:comment],
-            )
+            ),
           )
 
           comparer.compare_to_expectation(self)
@@ -39,7 +39,7 @@ module Bussiness::Dish::Meal
               date: comparer.values[:date],
               meal_type: comparer.values[:meal_type],
               comment: comparer.values[:comment],
-            )
+            ),
           )
 
           comparer.compare_to_expectation(self)

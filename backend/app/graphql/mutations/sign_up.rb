@@ -4,7 +4,7 @@ module Mutations
       graphql_devise_result = super(confirm_url:, **attrs)
 
       ::Application::Command::CreateUserWithExistingLoginUserCommand.call(
-        email_for_login: attrs[:email]
+        email_for_login: attrs[:email],
       )
 
       graphql_devise_result

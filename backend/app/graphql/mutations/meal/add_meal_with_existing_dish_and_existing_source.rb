@@ -14,7 +14,7 @@ module Mutations::Meal
             date: meal.date,
             meal_type: meal.meal_type,
             comment: meal.comment,
-          )
+          ),
         )
         { meal_id: created_meal.id }
       end

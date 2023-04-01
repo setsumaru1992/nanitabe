@@ -40,8 +40,7 @@ Style/WordArray:
 Style/SymbolArray:
   Enabled: false
 Style/TrailingCommaInArguments:
-  Enabled: false # 後で一括適用
-  #  EnforcedStyleForMultiline: comma
+  EnforcedStyleForMultiline: comma
 Style/TrailingCommaInArrayLiteral:
   Enabled: false # 後で一括適用
   #  EnforcedStyleForMultiline: comma

@@ -20,7 +20,7 @@ module Bussiness::Dish::Dish
               name: comparer.values[:name],
               meal_position: comparer.values[:meal_position],
               comment: comparer.values[:comment],
-            )
+            ),
           )
 
           comparer.compare_to_expectation(self)
@@ -37,7 +37,7 @@ module Bussiness::Dish::Dish
               name: comparer.values[:name],
               meal_position: comparer.values[:meal_position],
               comment: comparer.values[:comment],
-            )
+            ),
           )
 
           comparer.compare_to_expectation(self)

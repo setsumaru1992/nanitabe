@@ -12,7 +12,7 @@ module Bussiness::Dish::Meal
         @meal = Meal.new(
           user_id: comparer.prepared_records[:user_record].id,
           dish_id: comparer.prepared_records[:dish_record].id,
-          **comparer.values
+          **comparer.values,
         )
       end
 

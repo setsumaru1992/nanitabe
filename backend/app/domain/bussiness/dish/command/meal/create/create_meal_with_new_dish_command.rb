@@ -19,7 +19,7 @@ module Bussiness::Dish
         ::Bussiness::Dish::Meal::Command::CreateMealCommand.call(
           user_id:,
           dish_id: created_dish.id,
-          meal_for_create:
+          meal_for_create:,
         )
       end
     end
