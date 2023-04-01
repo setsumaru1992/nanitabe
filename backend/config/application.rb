@@ -18,7 +18,7 @@ module Backend
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.time_zone = 'Asia/Tokyo'
+    config.time_zone = "Asia/Tokyo"
     # config.active_record.default_timezone = 'Tokyo'
     config.active_record.default_timezone = :local
 
@@ -43,7 +43,7 @@ module Backend
         resource "*",
                  headers: :any,
                  methods: [:get, :post, :put, :patch, :delete, :options, :head],
-                 expose: ['Per-Page', 'Total', 'Link', 'Authorization']
+                 expose: ["Per-Page", "Total", "Link", "Authorization"]
       end
     end
 

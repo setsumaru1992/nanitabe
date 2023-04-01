@@ -15,15 +15,18 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Enabled: false
 
+Lint/EmptyBlock:
+  Enabled: false
+
 Bundler/OrderedGems:
   Enabled: false
+
 Style/Documentation:
   Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: false
 Style/StringLiterals:
-  Enabled: false # 後で一括適用
-#  EnforcedStyle: double_quotes
+  EnforcedStyle: double_quotes
 Style/HashSyntax:
   Enabled: true
 Style/AccessorGrouping:
@@ -58,8 +61,6 @@ Style/MutableConstant:
 Style/NumericLiteralPrefix:
   Enabled: false
 Style/IfUnlessModifier:
-  Enabled: false
-Lint/EmptyBlock:
   Enabled: false
 
 Layout/LineLength:

@@ -1,9 +1,9 @@
-require 'rails_helper'
+require "rails_helper"
 
 def fetch_mutation(mutation_string, variables)
   post "/graphql", params: { query: mutation_string, variables: }
   response_body = JSON.parse(response.body)
-  response_body['data']
+  response_body["data"]
 end
 
 def build_signup_mutation
