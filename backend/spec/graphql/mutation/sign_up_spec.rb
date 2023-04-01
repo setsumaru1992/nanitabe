@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 def fetch_mutation(mutation_string, variables)
-  post "/graphql", params: {query: mutation_string, variables: variables}
+  post "/graphql", params: { query: mutation_string, variables: variables }
   response_body = JSON.parse(response.body)
   response_body['data']
 end
@@ -28,7 +28,7 @@ end
 RSpec.describe Mutations::SignUp, type: :request do
   context "when signup with invalid parameters" do
     it "signup failed" do
-      variables = {email: "", password: ""}
+      variables = { email: "", password: "" }
       fetch_mutation(build_signup_mutation, variables)
 
       expect(::LoginUser.where(uid: variables[:email]).present?).to eq false
@@ -38,7 +38,7 @@ RSpec.describe Mutations::SignUp, type: :request do
 
   context "when signup with valid parameters" do
     it "signup succeed" do
-      variables = {email: "hogehoge@gmail.com", password: "hogehogepassword"}
+      variables = { email: "hogehoge@gmail.com", password: "hogehogepassword" }
       fetch_mutation(build_signup_mutation, variables)
 
       login_user = LoginUser.where(uid: variables[:email])
