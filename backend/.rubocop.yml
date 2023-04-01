@@ -63,8 +63,6 @@ Layout/EmptyLinesAroundClassBody:
 
 
 # 後でまとめて修正するルール
-Style/GlobalStdStream:
-  Enabled: false
 Style/RedundantSelf:
   Enabled: false
 
