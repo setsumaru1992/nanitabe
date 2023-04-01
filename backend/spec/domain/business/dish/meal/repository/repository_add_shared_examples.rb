@@ -1,6 +1,6 @@
 KEY_OF_TEST_MEAL_SHOULD_BE_CREATED = "MEAL_SHOULD_BE_CREATED"
 comparer = ExpectationComparer.new(KEY_OF_TEST_MEAL_SHOULD_BE_CREATED, {
-  date: Date.new(2023,03,19),
+  date: Date.new(2023, 03, 19),
   meal_type: 1,
 })
 
@@ -27,7 +27,7 @@ COMPARERS[comparer.key] = comparer
 
 KEY_OF_TEST_MEAL_SHOULD_BE_CREATED_WITH_FULL_FIELD = "MEAL_SHOULD_BE_CREATED_WITH_FULL_FIELD"
 comparer = ExpectationComparer.new(KEY_OF_TEST_MEAL_SHOULD_BE_CREATED_WITH_FULL_FIELD, {
-  date: Date.new(2023,03,19),
+  date: Date.new(2023, 03, 19),
   meal_type: 1,
   comment: "夕飯ぬ"
 })
