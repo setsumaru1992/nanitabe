@@ -9,7 +9,6 @@ module Bussiness::Dish::Meal
     attribute :meal_for_create, :command_params
     validates :meal_for_create, presence: true
 
-
     def call
       meal = Meal.new(
         user_id: user_id,

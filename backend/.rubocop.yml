@@ -57,8 +57,6 @@ Layout/EmptyLinesAroundClassBody:
 
 
 # 後でまとめて修正するルール
-Layout/EmptyLines:
-  Enabled: false
 Style/RedundantConstantBase:
   Enabled: false
 Style/MutableConstant:
