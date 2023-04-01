@@ -57,6 +57,8 @@ Style/MutableConstant:
   Enabled: false
 Style/NumericLiteralPrefix:
   Enabled: false
+Style/IfUnlessModifier:
+  Enabled: false
 
 Layout/LineLength:
   Enabled: false
@@ -67,6 +69,4 @@ Layout/FirstHashElementIndentation:
 
 # 後でまとめて修正するルールだが、挙動が予想できなかったり1個ずつ適用して挙動みたいやつ
 Lint/EmptyBlock:
-  Enabled: false
-Style/IfUnlessModifier:
   Enabled: false
