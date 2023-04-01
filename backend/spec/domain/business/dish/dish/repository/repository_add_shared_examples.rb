@@ -6,7 +6,7 @@ comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SHOULD_BE_CREATED, {
 
 comparer.define_required_records_for_test do
   {
-    user_record: FactoryBot.create(:user)
+    user_record: FactoryBot.create(:user),
   }
 end
 
@@ -28,7 +28,7 @@ comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SHOULD_BE_CREATED_WITH_FULL_
 
 comparer.define_required_records_for_test do
   {
-    user_record: FactoryBot.create(:user)
+    user_record: FactoryBot.create(:user),
   }
 end
 

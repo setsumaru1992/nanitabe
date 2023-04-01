@@ -42,11 +42,9 @@ Style/SymbolArray:
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
 Style/TrailingCommaInArrayLiteral:
-  Enabled: false # 後で一括適用
-  #  EnforcedStyleForMultiline: comma
+  EnforcedStyleForMultiline: comma
 Style/TrailingCommaInHashLiteral:
-  Enabled: false # 後で一括適用
-  #  EnforcedStyleForMultiline: comma
+  EnforcedStyleForMultiline: comma
 Style/NumericPredicate:
   Enabled: false
 Style/ZeroLengthPredicate:

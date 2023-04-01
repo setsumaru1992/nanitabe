@@ -29,7 +29,7 @@ KEY_OF_TEST_MEAL_SHOULD_BE_CREATED_WITH_FULL_FIELD = "MEAL_SHOULD_BE_CREATED_WIT
 comparer = ExpectationComparer.new(KEY_OF_TEST_MEAL_SHOULD_BE_CREATED_WITH_FULL_FIELD, {
   date: Date.new(2023, 03, 19),
   meal_type: 1,
-  comment: "夕飯ぬ"
+  comment: "夕飯ぬ",
 })
 
 comparer.define_required_records_for_test do

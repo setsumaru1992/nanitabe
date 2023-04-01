@@ -3,7 +3,7 @@
 # rails_helperで格納場所を用意して、そこにshareするテストを示す文字列をキーにして以下のものをスッキリ入れるとかかな。
 def default_values_for_the_test_user_should_be_created
   {
-    id_param: "aaaaaaaaaa"
+    id_param: "aaaaaaaaaa",
   }
 end
 
