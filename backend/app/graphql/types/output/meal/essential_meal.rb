@@ -1,5 +1,7 @@
 module Types::Output::Meal
-  class MealForCalender < ::Types::BaseObject
+  module EssentialMeal
+    include Types::BaseInterface
+
     field :id, Int, null: false
     field :date, GraphQL::Types::ISO8601Date, null: false
     field :meal_type, Int, null: false

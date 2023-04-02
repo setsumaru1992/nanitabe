@@ -63,7 +63,6 @@ export type Credential = {
 };
 
 export type Dish = {
-  __typename?: 'Dish';
   comment?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
@@ -72,6 +71,14 @@ export type Dish = {
 
 export type DishForCreate = {
   comment?: InputMaybe<Scalars['String']>;
+  mealPosition: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+export type DishRegisteredWithMeal = Dish & {
+  __typename?: 'DishRegisteredWithMeal';
+  comment?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   name: Scalars['String'];
 };
@@ -124,9 +131,17 @@ export type LoginUserUpdatePasswordWithTokenPayload = {
   credentials?: Maybe<Credential>;
 };
 
-export type MealForCalender = {
+export type Meal = {
+  comment?: Maybe<Scalars['String']>;
+  date: Scalars['ISO8601Date'];
+  dish: Dish;
+  id: Scalars['Int'];
+  mealType: Scalars['Int'];
+};
+
+export type MealForCalender = Meal & {
   __typename?: 'MealForCalender';
-  comment: Scalars['String'];
+  comment?: Maybe<Scalars['String']>;
   date: Scalars['ISO8601Date'];
   dish: Dish;
   id: Scalars['Int'];
@@ -208,7 +223,7 @@ export type MutationLoginUserUpdatePasswordWithTokenArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  dishes: Array<Dish>;
+  dishes: Array<DishRegisteredWithMeal>;
   mealsForCalender: Array<MealsOfDate>;
   /** An example field added by the generator */
   testField: Scalars['String'];
@@ -241,14 +256,14 @@ export type SignupMutationVariables = Exact<{
 
 export type SignupMutation = { __typename?: 'Mutation', loginUserRegister?: { __typename?: 'LoginUserRegisterPayload', credentials?: { __typename?: 'Credential', accessToken: string } | null } | null };
 
-export type DishFragment = { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null };
+export type DishFragment = { __typename?: 'DishRegisteredWithMeal', id: number, name: string, mealPosition: number, comment?: string | null };
 
 export type DishesQueryVariables = Exact<{
   searchString?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type DishesQuery = { __typename?: 'Query', dishes: Array<{ __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null }> };
+export type DishesQuery = { __typename?: 'Query', dishes: Array<{ __typename?: 'DishRegisteredWithMeal', id: number, name: string, mealPosition: number, comment?: string | null }> };
 
 export type AddMealWithNewDishAndNewSourceMutationVariables = Exact<{
   dish: DishForCreate;
@@ -266,14 +281,14 @@ export type AddMealWithExistingDishAndExistingSourceMutationVariables = Exact<{
 
 export type AddMealWithExistingDishAndExistingSourceMutation = { __typename?: 'Mutation', addMealWithExistingDishAndExistingSource?: { __typename?: 'AddMealWithExistingDishAndExistingSourcePayload', mealId: number } | null };
 
-export type MealFragment = { __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment: string, dish: { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null } };
+export type MealFragment = { __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment?: string | null, dish: { __typename?: 'DishRegisteredWithMeal', id: number, name: string, mealPosition: number, comment?: string | null } };
 
 export type MealsForCalenderQueryVariables = Exact<{
   startDate: Scalars['ISO8601Date'];
 }>;
 
 
-export type MealsForCalenderQuery = { __typename?: 'Query', mealsForCalender: Array<{ __typename?: 'MealsOfDate', date: any, meals: Array<{ __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment: string, dish: { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null } }> }> };
+export type MealsForCalenderQuery = { __typename?: 'Query', mealsForCalender: Array<{ __typename?: 'MealsOfDate', date: any, meals: Array<{ __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment?: string | null, dish: { __typename?: 'DishRegisteredWithMeal', id: number, name: string, mealPosition: number, comment?: string | null } }> }> };
 
 export const DishFragmentDoc = gql`
     fragment Dish on Dish {

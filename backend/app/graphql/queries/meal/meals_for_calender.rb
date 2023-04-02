@@ -1,8 +1,17 @@
 module Queries::Meal
+  class MealForCalender < ::Types::BaseObject
+    implements ::Types::Output::Meal::Meal
+  end
+
+  class MealsOfDate < ::Types::BaseObject
+    field :date, GraphQL::Types::ISO8601Date, null: false
+    field :meals, [MealForCalender, { null: false }], null: false
+  end
+
   class MealsForCalender < ::Queries::BaseQuery
     argument :start_date, GraphQL::Types::ISO8601Date, required: true
 
-    type [::Types::Output::Meal::MealsOfDate], null: false
+    type [MealsOfDate, { null: false }], null: false
 
     def resolve(start_date:)
       # last_date = start_date + 6.day

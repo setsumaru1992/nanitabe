@@ -1,8 +1,12 @@
 module Queries::Dish
+  class DishRegisteredWithMeal < ::Types::BaseObject
+    implements ::Types::Output::Dish::Dish
+  end
+
   class Dishes < ::Queries::BaseQuery
     argument :search_string, String, required: false
 
-    type [::Types::Output::Dish::Dish], null: false
+    type [DishRegisteredWithMeal, { null: false }], null: false
 
     def resolve(search_string: nil)
       dishes = ::Dish.where(user_id: context[:current_user_id])
