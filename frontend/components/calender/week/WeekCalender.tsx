@@ -1,4 +1,5 @@
 import React from 'react';
+import { addDays, getDate } from 'date-fns';
 import style from './WeekCalender.module.scss';
 import Icon from '../../meal/meal/Icon';
 import AddMealIcon from '../../meal/addMeal/AddMealIcon';
@@ -44,21 +45,28 @@ export default (props) => {
               />
             </td>
           </tr>
-          {[21, 22, 23, 24, 25, 26].map((date) => {
-            // {Object.keys(DAYS_OF_WEEK).map((dayNum) => {
-            //   const date = new Date().getDate();
-            console.log('hoge');
+          {/* {[21, 22, 23, 24, 25, 26].map((date) => { */}
+          {Object.keys(DAYS_OF_WEEK).map((dayNumStr) => {
+            const date = addDays(firstDate, Number(dayNumStr));
+            const dateNumber = getDate(date);
+            const meals = [];
+
             return (
-              <tr key={date}>
+              <tr key={dateNumber}>
                 <th>
                   <div className={style['date']}>
-                    {date}
+                    {dateNumber}
                     <span className={style['date__day-of-week']}>mon</span>
                   </div>
                 </th>
                 <td className={style['dish-container']}>
+                  {meals.map((meal) => (
+                    <>
+                      <Icon />{' '}
+                    </>
+                  ))}
                   <AddMealIcon
-                    dateForAdd={new Date(2023, 2 - 1, date)}
+                    dateForAdd={date}
                     onAddSucceeded={() => {
                       // TODO: カレンダーリフレッシュ
                     }}

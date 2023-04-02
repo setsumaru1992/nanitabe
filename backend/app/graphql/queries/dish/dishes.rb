@@ -1,6 +1,6 @@
 module Queries::Dish
   class DishRegisteredWithMeal < ::Types::BaseObject
-    implements ::Types::Output::Dish::Dish
+    implements ::Types::Output::Dish::DishInterface
   end
 
   class Dishes < ::Queries::BaseQuery

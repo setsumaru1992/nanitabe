@@ -5,7 +5,7 @@
 # EssentialMealを利用しているように、至極一般的なフィールドしか返却しない。
 # 軽量版Mealや特定のユースケースのためのMealを使いたいときはEssentialMealを拡張せず、別のMealを作成する
 module Types::Output::Meal
-  class Meal < ::Types::BaseObject
-    implements MealInterface
+  module MealInterface
+    include EssentialMeal
   end
 end

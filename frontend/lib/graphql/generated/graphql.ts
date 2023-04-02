@@ -62,7 +62,8 @@ export type Credential = {
   uid: Scalars['String'];
 };
 
-export type Dish = {
+export type Dish = DishInterface & {
+  __typename?: 'Dish';
   comment?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
@@ -75,7 +76,14 @@ export type DishForCreate = {
   name: Scalars['String'];
 };
 
-export type DishRegisteredWithMeal = Dish & {
+export type DishInterface = {
+  comment?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  mealPosition: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+export type DishRegisteredWithMeal = DishInterface & {
   __typename?: 'DishRegisteredWithMeal';
   comment?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -131,15 +139,7 @@ export type LoginUserUpdatePasswordWithTokenPayload = {
   credentials?: Maybe<Credential>;
 };
 
-export type Meal = {
-  comment?: Maybe<Scalars['String']>;
-  date: Scalars['ISO8601Date'];
-  dish: Dish;
-  id: Scalars['Int'];
-  mealType: Scalars['Int'];
-};
-
-export type MealForCalender = Meal & {
+export type MealForCalender = MealInterface & {
   __typename?: 'MealForCalender';
   comment?: Maybe<Scalars['String']>;
   date: Scalars['ISO8601Date'];
@@ -151,6 +151,14 @@ export type MealForCalender = Meal & {
 export type MealForCreate = {
   comment?: InputMaybe<Scalars['String']>;
   date: Scalars['ISO8601Date'];
+  mealType: Scalars['Int'];
+};
+
+export type MealInterface = {
+  comment?: Maybe<Scalars['String']>;
+  date: Scalars['ISO8601Date'];
+  dish: Dish;
+  id: Scalars['Int'];
   mealType: Scalars['Int'];
 };
 
@@ -256,8 +264,6 @@ export type SignupMutationVariables = Exact<{
 
 export type SignupMutation = { __typename?: 'Mutation', loginUserRegister?: { __typename?: 'LoginUserRegisterPayload', credentials?: { __typename?: 'Credential', accessToken: string } | null } | null };
 
-export type DishFragment = { __typename?: 'DishRegisteredWithMeal', id: number, name: string, mealPosition: number, comment?: string | null };
-
 export type DishesQueryVariables = Exact<{
   searchString?: InputMaybe<Scalars['String']>;
 }>;
@@ -281,34 +287,14 @@ export type AddMealWithExistingDishAndExistingSourceMutationVariables = Exact<{
 
 export type AddMealWithExistingDishAndExistingSourceMutation = { __typename?: 'Mutation', addMealWithExistingDishAndExistingSource?: { __typename?: 'AddMealWithExistingDishAndExistingSourcePayload', mealId: number } | null };
 
-export type MealFragment = { __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment?: string | null, dish: { __typename?: 'DishRegisteredWithMeal', id: number, name: string, mealPosition: number, comment?: string | null } };
-
 export type MealsForCalenderQueryVariables = Exact<{
   startDate: Scalars['ISO8601Date'];
 }>;
 
 
-export type MealsForCalenderQuery = { __typename?: 'Query', mealsForCalender: Array<{ __typename?: 'MealsOfDate', date: any, meals: Array<{ __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment?: string | null, dish: { __typename?: 'DishRegisteredWithMeal', id: number, name: string, mealPosition: number, comment?: string | null } }> }> };
+export type MealsForCalenderQuery = { __typename?: 'Query', mealsForCalender: Array<{ __typename?: 'MealsOfDate', date: any, meals: Array<{ __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment?: string | null, dish: { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null } }> }> };
 
-export const DishFragmentDoc = gql`
-    fragment Dish on Dish {
-  id
-  name
-  mealPosition
-  comment
-}
-    `;
-export const MealFragmentDoc = gql`
-    fragment Meal on MealForCalender {
-  id
-  date
-  mealType
-  comment
-  dish {
-    ...Dish
-  }
-}
-    ${DishFragmentDoc}`;
+
 export const LoginDocument = gql`
     mutation login($email: String!, $password: String!) {
   loginUserLogin(email: $email, password: $password) {
@@ -389,10 +375,13 @@ export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, S
 export const DishesDocument = gql`
     query dishes($searchString: String) {
   dishes(searchString: $searchString) {
-    ...Dish
+    id
+    name
+    mealPosition
+    comment
   }
 }
-    ${DishFragmentDoc}`;
+    `;
 
 /**
  * __useDishesQuery__
@@ -494,11 +483,20 @@ export const MealsForCalenderDocument = gql`
   mealsForCalender(startDate: $startDate) {
     date
     meals {
-      ...Meal
+      id
+      date
+      mealType
+      comment
+      dish {
+        id
+        name
+        mealPosition
+        comment
+      }
     }
   }
 }
-    ${MealFragmentDoc}`;
+    `;
 
 /**
  * __useMealsForCalenderQuery__

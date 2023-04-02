@@ -1,6 +1,6 @@
 module Queries::Meal
   class MealForCalender < ::Types::BaseObject
-    implements ::Types::Output::Meal::Meal
+    implements ::Types::Output::Meal::MealInterface
   end
 
   class MealsOfDate < ::Types::BaseObject
@@ -20,13 +20,17 @@ module Queries::Meal
         {
           date: Date.new(2023, 2, 22),
           meals: [
-            id: 3,
-            date: Date.new(2023, 2, 22),
-            meal_type: 2,
-            dish: {
-              id: 6,
-              name: "鯖味噌",
-              meal_position: 2,
+            {
+              id: 3,
+              date: Date.new(2023, 2, 22),
+              meal_type: 2,
+              comment: nil,
+              dish: {
+                id: 6,
+                name: "鯖味噌",
+                meal_position: 2,
+                comment: nil,
+              },
             },
           ],
         },
