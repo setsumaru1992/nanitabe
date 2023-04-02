@@ -6,13 +6,13 @@ import {
 } from '../../lib/graphql/generated/graphql';
 
 // export const MEAL_FRAGMENT = gql`
-//   fragment Meal on MealForCalender {
+//   fragment MealFields on MealFields {
 //     id
 //     date
 //     mealType
 //     comment
 //     dish {
-//       ...Dish
+//       ...DishFields
 //     }
 //   }
 // `;
@@ -22,7 +22,7 @@ import {
 //     mealsForCalender(startDate: $startDate) {
 //       date
 //       meals {
-//         ...Meal
+//         ...MealFields
 //       }
 //     }
 //   }

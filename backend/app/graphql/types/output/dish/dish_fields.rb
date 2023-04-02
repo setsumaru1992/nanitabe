@@ -5,7 +5,7 @@
 # EssentialDishを利用しているように、至極一般的なフィールドしか返却しない。
 # 軽量版Dishや特定のユースケースのためのDishを使いたいときはEssentialDishを拡張せず、別のDishを作成する
 module Types::Output::Dish
-  module DishInterface
+  module DishFields
     include EssentialDish
   end
 end

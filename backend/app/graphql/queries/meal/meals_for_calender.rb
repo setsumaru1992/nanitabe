@@ -1,6 +1,6 @@
 module Queries::Meal
   class MealForCalender < ::Types::BaseObject
-    implements ::Types::Output::Meal::MealInterface
+    implements ::Types::Output::Meal::MealFields
   end
 
   class MealsOfDate < ::Types::BaseObject

@@ -6,7 +6,7 @@ import {
 import { useCodegenQuery } from '../utils/queryUtils';
 
 // export const DISH_FRAGMENT = gql`
-//   fragment Dish on DishInterface {
+//   fragment DishFields on DishFields {
 //     id
 //     name
 //     mealPosition
@@ -20,7 +20,7 @@ import { useCodegenQuery } from '../utils/queryUtils';
 // export const DISHES = gql`
 //   query dishes($searchString: String) {
 //     dishes(searchString: $searchString) {
-//       ...Dish
+//       ...DishFields
 //     }
 //   }
 // `;

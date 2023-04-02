@@ -6,6 +6,6 @@
 # 軽量版Mealや特定のユースケースのためのMealを使いたいときはEssentialMealを拡張せず、別のMealを作成する
 module Types::Output::Meal
   class Meal < ::Types::BaseObject
-    implements MealInterface
+    implements MealFields
   end
 end
