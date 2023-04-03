@@ -62,8 +62,15 @@ export type Credential = {
   uid: Scalars['String'];
 };
 
-export type Dish = DishInterface & {
+export type Dish = DishFields & {
   __typename?: 'Dish';
+  comment?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  mealPosition: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+export type DishFields = {
   comment?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
@@ -76,14 +83,7 @@ export type DishForCreate = {
   name: Scalars['String'];
 };
 
-export type DishInterface = {
-  comment?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
-  mealPosition: Scalars['Int'];
-  name: Scalars['String'];
-};
-
-export type DishRegisteredWithMeal = DishInterface & {
+export type DishRegisteredWithMeal = DishFields & {
   __typename?: 'DishRegisteredWithMeal';
   comment?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -139,7 +139,15 @@ export type LoginUserUpdatePasswordWithTokenPayload = {
   credentials?: Maybe<Credential>;
 };
 
-export type MealForCalender = MealInterface & {
+export type MealFields = {
+  comment?: Maybe<Scalars['String']>;
+  date: Scalars['ISO8601Date'];
+  dish: Dish;
+  id: Scalars['Int'];
+  mealType: Scalars['Int'];
+};
+
+export type MealForCalender = MealFields & {
   __typename?: 'MealForCalender';
   comment?: Maybe<Scalars['String']>;
   date: Scalars['ISO8601Date'];
@@ -151,14 +159,6 @@ export type MealForCalender = MealInterface & {
 export type MealForCreate = {
   comment?: InputMaybe<Scalars['String']>;
   date: Scalars['ISO8601Date'];
-  mealType: Scalars['Int'];
-};
-
-export type MealInterface = {
-  comment?: Maybe<Scalars['String']>;
-  date: Scalars['ISO8601Date'];
-  dish: Dish;
-  id: Scalars['Int'];
   mealType: Scalars['Int'];
 };
 

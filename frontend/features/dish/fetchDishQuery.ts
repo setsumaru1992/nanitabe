@@ -5,23 +5,13 @@ import {
 } from '../../lib/graphql/generated/graphql';
 import { useCodegenQuery } from '../utils/queryUtils';
 
+// Dishを使うフラグメントが出てきたらコメントアウトを外して使用
 // export const DISH_FRAGMENT = gql`
-//   fragment DishFields on DishFields {
+//   fragment Dish on Dish {
 //     id
 //     name
 //     mealPosition
 //     comment
-//   }
-// `;
-
-// (共通項としてのフラグメントとして機能させたいのに、
-// Dishインタフェースの具象型であるDishRegisteredWithMeal型として返ってきたときにはDishとして扱ってもらえない)
-//
-// export const DISHES = gql`
-//   query dishes($searchString: String) {
-//     dishes(searchString: $searchString) {
-//       ...DishFields
-//     }
 //   }
 // `;
 
