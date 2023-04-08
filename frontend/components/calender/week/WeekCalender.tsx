@@ -1,5 +1,5 @@
 import React from 'react';
-import { addDays, getDate } from 'date-fns';
+import { addDays, isSameDay, getDate } from 'date-fns';
 import style from './WeekCalender.module.scss';
 import Icon from '../../meal/meal/Icon';
 import AddMealIcon from '../../meal/addMeal/AddMealIcon';
@@ -16,7 +16,7 @@ const DAYS_OF_WEEK = {
 };
 
 export default (props) => {
-  const firstDate = new Date(2023, 2, 20);
+  const firstDate = new Date(2023, 2 - 1, 20);
   const {
     mealsForCalender,
     fetchMealsForCalenderLoading,
@@ -28,47 +28,34 @@ export default (props) => {
       <div className={style['week-calender-header']}>2023年2月 ▼</div>
       <table>
         <tbody>
-          <tr>
-            <th>
-              <div className={style['date']}>
-                20
-                <span className={style['date__day-of-week']}>mon</span>
-              </div>
-            </th>
-            <td className={style['dish-container']}>
-              <Icon />{' '}
-              <AddMealIcon
-                dateForAdd={new Date(2023, 2 - 1, 20)}
-                onAddSucceeded={() => {
-                  // TODO: カレンダーリフレッシュ
-                }}
-              />
-            </td>
-          </tr>
-          {/* {[21, 22, 23, 24, 25, 26].map((date) => { */}
           {Object.keys(DAYS_OF_WEEK).map((dayNumStr) => {
             const date = addDays(firstDate, Number(dayNumStr));
             const dateNumber = getDate(date);
-            const meals = [];
+            const meals =
+              mealsForCalender?.find((mealForCalender) => {
+                return isSameDay(new Date(mealForCalender.date), date);
+              })?.meals || [];
 
             return (
               <tr key={dateNumber}>
                 <th>
                   <div className={style['date']}>
                     {dateNumber}
-                    <span className={style['date__day-of-week']}>mon</span>
+                    <span className={style['date__day-of-week']}>
+                      {DAYS_OF_WEEK[dayNumStr]['label']}
+                    </span>
                   </div>
                 </th>
                 <td className={style['dish-container']}>
-                  {meals.map((meal) => (
-                    <>
-                      <Icon />{' '}
-                    </>
+                  {meals?.map((meal) => (
+                    <React.Fragment key={meal.id}>
+                      <Icon meal={meal} />{' '}
+                    </React.Fragment>
                   ))}
                   <AddMealIcon
                     dateForAdd={date}
                     onAddSucceeded={() => {
-                      // TODO: カレンダーリフレッシュ
+                      refetchMealsForCalender();
                     }}
                   />
                 </td>

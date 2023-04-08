@@ -14,27 +14,17 @@ module Queries::Meal
     type [MealsOfDate, { null: false }], null: false
 
     def resolve(start_date:)
-      # last_date = start_date + 6.day
-      # meals = ::Meal.where(date: start_date..last_date)
-      [
+      last_date = start_date + 6.day
+      meals = ::Meal.where(user_id: context[:current_user_id])
+                    .where(date: start_date..last_date)
+                    .eager_load(:dish)
+      meals.group_by { |meal| meal.date }
+           .map do |(date, meals)|
         {
-          date: Date.new(2023, 2, 22),
-          meals: [
-            {
-              id: 3,
-              date: Date.new(2023, 2, 22),
-              meal_type: 2,
-              comment: nil,
-              dish: {
-                id: 6,
-                name: "鯖味噌",
-                meal_position: 2,
-                comment: nil,
-              },
-            },
-          ],
-        },
-      ]
+          date:,
+          meals:,
+        }
+      end
     end
   end
 end
