@@ -1,28 +1,43 @@
 import React from 'react';
-import { addDays, isSameDay, getDate } from 'date-fns';
+import { addDays, isSameDay, getDate, previousSunday } from 'date-fns';
 import style from './WeekCalender.module.scss';
 import Icon from '../../meal/meal/Icon';
 import AddMealIcon from '../../meal/addMeal/AddMealIcon';
 import useMeal from '../../../features/meal/useMeal';
 
+// TODO: ユーザ設定で土曜始まり・日曜始まり・月曜始まりを選べるようにして、それに合わせた体系を使用。とりあえず月曜始まりベースで作成
 const DAYS_OF_WEEK = {
-  0: { label: '月' },
-  1: { label: '火' },
-  2: { label: '水' },
-  3: { label: '木' },
-  4: { label: '金' },
-  5: { label: '土' },
-  6: { label: '日' },
+  0: { label: '日' },
+  1: { label: '月' },
+  2: { label: '火' },
+  3: { label: '水' },
+  4: { label: '木' },
+  5: { label: '金' },
+  6: { label: '土' },
 };
 
-export default (props) => {
-  const firstDate = new Date(2023, 2 - 1, 20);
+type Props = {
+  date?: Date;
+};
+
+const getWeekStartDateFrom = (date: Date) => {
+  const dayOfWeekNum = date.getDay();
+  if (dayOfWeekNum === 0) return date;
+  return previousSunday(date);
+};
+
+export default (props: Props) => {
+  const { date: dateArg } = props;
+  const specifiedDate = dateArg || new Date();
+  const firstDate = getWeekStartDateFrom(specifiedDate);
+
   const {
     mealsForCalender,
     fetchMealsForCalenderLoading,
     refetchMealsForCalender,
   } = useMeal({ startDateForFetchingMealsForCalender: firstDate });
 
+  if (fetchMealsForCalenderLoading) return <>Loading...</>;
   return (
     <>
       <div className={style['week-calender-header']}>2023年2月 ▼</div>
@@ -42,7 +57,7 @@ export default (props) => {
                   <div className={style['date']}>
                     {dateNumber}
                     <span className={style['date__day-of-week']}>
-                      {DAYS_OF_WEEK[dayNumStr]['label']}
+                      {DAYS_OF_WEEK[String(date.getDay())]['label']}
                     </span>
                   </div>
                 </th>

@@ -6,6 +6,7 @@ import {
   InMemoryCache,
   ApolloLink,
 } from '@apollo/client';
+import { ApolloServerErrorCode } from '@apollo/server/errors';
 import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
@@ -25,11 +26,23 @@ let apolloClient;
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) =>
+    graphQLErrors.forEach((error) => {
+      const { message, locations, path, extensions } = error;
+
+      // TODO: インプット不正のときに無限リクエストが発生してしまう件を対処したかったが諦める。そもそもcodeはundefinedだし、無理やりnullを返しても何も変わらない
+      // if (
+      //   extensions?.code === ApolloServerErrorCode.BAD_USER_INPUT ||
+      //   extensions === undefined
+      // ) {
+      //   console.log(error);
+      //   // throw error;
+      //   return null;
+      // }
+
       console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
-    );
+      );
+    });
     apiErrors(graphQLErrors.map((error) => error));
   }
   if (networkError) console.log(`[Network error]: ${networkError}`);

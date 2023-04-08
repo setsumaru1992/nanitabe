@@ -18,13 +18,14 @@ module Queries::Meal
       meals = ::Meal.where(user_id: context[:current_user_id])
                     .where(date: start_date..last_date)
                     .eager_load(:dish)
+                    .order("meals.meal_type, dishes.meal_position")
       meals.group_by { |meal| meal.date }
            .map do |(date, meals)|
         {
           date:,
           meals:,
         }
-      end
+      end || []
     end
   end
 end
