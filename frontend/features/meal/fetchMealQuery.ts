@@ -38,11 +38,16 @@ export const MEALS_FOR_CALENDER = gql`
   }
 `;
 
+const truncateTimeFrom = (date: Date) => {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+};
+
 export const useFetchMealsForCalender = (
   startDateArg = null,
   requireFetchedData: boolean = true,
 ) => {
-  const startDate = startDateArg || new Date();
+  // ISO8601Dateに時間を渡すと型不正と扱われて、無限リクエストが発生するため、時間を切り捨てる
+  const startDate = truncateTimeFrom(startDateArg || new Date());
   const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
     useMealsForCalenderQuery,
     useMealsForCalenderLazyQuery,

@@ -8,6 +8,10 @@ export async function getServerSideProps(context) {
 
 export default (props) => {
   const router = useRouter();
-  const { date: dateFormatString } = router.query;
-  return <WeekCalender date={new Date(dateFormatString as string)} />;
+  const dateFormatString = router.query.date as string;
+
+  if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(dateFormatString)) {
+    return <WeekCalender />;
+  }
+  return <WeekCalender date={new Date(dateFormatString)} />;
 };

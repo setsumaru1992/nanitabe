@@ -1,5 +1,5 @@
 import React from 'react';
-import { addDays, isSameDay, getDate, previousSunday } from 'date-fns';
+import { addDays, isSameDay, getDate, previousSunday, format } from 'date-fns';
 import style from './WeekCalender.module.scss';
 import Icon from '../../meal/meal/Icon';
 import AddMealIcon from '../../meal/addMeal/AddMealIcon';
@@ -40,7 +40,9 @@ export default (props: Props) => {
   if (fetchMealsForCalenderLoading) return <>Loading...</>;
   return (
     <>
-      <div className={style['week-calender-header']}>2023年2月 ▼</div>
+      <div className={style['week-calender-header']}>
+        {format(firstDate, 'yyyy年M月')} ▼
+      </div>
       <table>
         <tbody>
           {Object.keys(DAYS_OF_WEEK).map((dayNumStr) => {
@@ -55,7 +57,9 @@ export default (props: Props) => {
               <tr key={dateNumber}>
                 <th>
                   <div className={style['date']}>
-                    {dateNumber}
+                    <span className={style['date__date-number']}>
+                      {dateNumber}
+                    </span>
                     <span className={style['date__day-of-week']}>
                       {DAYS_OF_WEEK[String(date.getDay())]['label']}
                     </span>

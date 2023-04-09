@@ -17,6 +17,11 @@
   border-right-width: 1px;
   border-right-style: solid;
 
+  &__date-number {
+    display: block;
+    text-align: center;
+  }
+
   &__day-of-week {
     display: block;
     font-size: 10px;
