@@ -16,10 +16,10 @@ module Bussiness::Dish::Meal
         it "updating succeeds" do
           described_class.call(
             user_id: comparer.prepared_records[:user_record].id,
-            dish_id: comparer.prepared_records[:dish_record].id,
             meal_for_update: Command::Params::MealForUpdate.new(
               id: comparer.prepared_records[:meal_record].id,
               meal_type: comparer.values[:meal_type],
+              dish_id: comparer.prepared_records[:dish_record].id,
             ),
           )
 
@@ -36,12 +36,12 @@ module Bussiness::Dish::Meal
         it "updating succeeds" do
           described_class.call(
             user_id: comparer.prepared_records[:user_record].id,
-            dish_id: comparer.values[:dish_id],
             meal_for_update: Command::Params::MealForUpdate.new(
               id: comparer.prepared_records[:meal_record].id,
               date: comparer.values[:date],
               meal_type: comparer.values[:meal_type],
               comment: comparer.values[:comment],
+              dish_id: comparer.values[:dish_id],
             ),
           )
 

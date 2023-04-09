@@ -5,6 +5,8 @@ module Bussiness::Dish::Meal
 
     attribute :date, :date
 
+    attribute :dish_id, :integer
+
     attribute :meal_type, :integer
 
     attribute :comment, :string
