@@ -26,10 +26,27 @@ module Bussiness::Dish::Meal
         end
       end
 
-      xcontext "when update meal with different dish," do
+      context "when update meal with different dish," do
+        let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_UPDATED_WITH_DIFFERENT_DISH] }
+
+        it "updating succeeds" do
+          described_class.update(@updated_meal)
+
+          comparer.compare_to_expectation(
+            self,
+            **specified_field_values_of_object(comparer.prepared_records[:meal_record], [:meal_type, :date, :comment]),
+          )
+        end
       end
 
-      xcontext "when update meal with full fields," do
+      context "when update meal with full fields," do
+        let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_UPDATED_WITH_FULL_FIELD] }
+
+        it "updating succeeds" do
+          described_class.update(@updated_meal)
+
+          comparer.compare_to_expectation(self)
+        end
       end
     end
   end
