@@ -66,3 +66,9 @@ end
 COMPARERS = {
   # "hoge" => ExpectationComparer.new("hoge", {id: 3})
 }
+
+def specified_field_values_of_object(object, field_names)
+  field_names.map do |field_name|
+    [field_name, object[field_name]]
+  end.to_h
+end

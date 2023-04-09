@@ -7,6 +7,14 @@ module Bussiness::Base
         end
         destination_obj
       end
+
+      def build_values_object_with_existing_object(source_obj, values_object_class, field_names)
+        field_values = field_names.map do |field_name|
+          [field_name, source_obj[field_name]]
+        end.to_h
+
+        values_object_class.new(**field_values)
+      end
     end
   end
 end
