@@ -2,7 +2,7 @@ import React from 'react';
 import { addDays, isSameDay, getDate, previousSunday, format } from 'date-fns';
 import style from './WeekCalender.module.scss';
 import Icon from '../../meal/CalenderMealIcon';
-import AddMealIcon from '../../meal/addMeal/AddMealIcon';
+import AddMealIcon from '../../meal/AddMeal/AddMealIcon';
 import useMeal from '../../../features/meal/useMeal';
 
 // TODO: ユーザ設定で土曜始まり・日曜始まり・月曜始まりを選べるようにして、それに合わせた体系を使用。とりあえず月曜始まりベースで作成

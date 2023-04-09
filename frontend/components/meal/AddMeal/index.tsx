@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import style from './AddMeal.module.scss';
+import style from './index.module.scss';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 import useMeal from '../../../features/meal/useMeal';
 import type {

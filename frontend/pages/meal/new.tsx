@@ -1,5 +1,5 @@
 import React from 'react';
-import AddMeal from '../../components/meal/addMeal/AddMeal';
+import AddMeal from '../../components/meal/AddMeal';
 
 export default (props) => {
   return <AddMeal />;

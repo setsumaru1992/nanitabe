@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import style from './AddMealIcon.module.scss';
 import Modal from '../../common/modal/Modal';
-import AddMeal from './AddMeal';
+import AddMeal from './index';
 
 type Props = {
   dateForAdd: Date;
