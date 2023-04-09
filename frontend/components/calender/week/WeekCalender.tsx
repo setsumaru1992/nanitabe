@@ -1,7 +1,7 @@
 import React from 'react';
 import { addDays, isSameDay, getDate, previousSunday, format } from 'date-fns';
 import style from './WeekCalender.module.scss';
-import Icon from '../../meal/meal/Icon';
+import Icon from '../../meal/CalenderMealIcon';
 import AddMealIcon from '../../meal/addMeal/AddMealIcon';
 import useMeal from '../../../features/meal/useMeal';
 

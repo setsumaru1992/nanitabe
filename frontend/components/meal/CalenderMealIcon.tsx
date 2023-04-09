@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import style from './Icon.module.scss';
-import { MealForCalender } from '../../../lib/graphql/generated/graphql';
-import { MEAL_TYPE } from '../../../features/meal/const';
+import style from './CalenderMealIcon.module.scss';
+import { MealForCalender } from '../../lib/graphql/generated/graphql';
+import { MEAL_TYPE } from '../../features/meal/const';
 
 type Props = {
   meal: MealForCalender;
