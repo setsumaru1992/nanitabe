@@ -9,7 +9,9 @@ module Bussiness::Dish::Meal
       before do
         comparer.build_records_for_test()
 
-        @updated_meal = Repository.find(comparer.prepared_records[:meal_record].id)
+        @updated_meal = Repository.find(
+          comparer.prepared_records[:meal_record].id,
+        )
         @updated_meal.assign_attributes(**comparer.values)
       end
 
@@ -17,7 +19,7 @@ module Bussiness::Dish::Meal
         let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_UPDATED] }
 
         it "updating succeeds" do
-          described_class.update(@updated_meal)
+          described_class.update(@updated_meal, comparer.prepared_records[:user_record].id)
 
           comparer.compare_to_expectation(
             self,
@@ -26,11 +28,19 @@ module Bussiness::Dish::Meal
         end
       end
 
+      context "when update meal by different user," do
+        let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_UPDATED] }
+
+        it "updating succeeds" do
+          expect { described_class.update(@updated_meal, 99) }.to raise_error "このユーザはこのレコードを更新できません。"
+        end
+      end
+
       context "when update meal with different dish," do
         let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_UPDATED_WITH_DIFFERENT_DISH] }
 
         it "updating succeeds" do
-          described_class.update(@updated_meal)
+          described_class.update(@updated_meal, comparer.prepared_records[:user_record].id)
 
           comparer.compare_to_expectation(
             self,
@@ -43,7 +53,7 @@ module Bussiness::Dish::Meal
         let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_UPDATED_WITH_FULL_FIELD] }
 
         it "updating succeeds" do
-          described_class.update(@updated_meal)
+          described_class.update(@updated_meal, comparer.prepared_records[:user_record].id)
 
           comparer.compare_to_expectation(self)
         end

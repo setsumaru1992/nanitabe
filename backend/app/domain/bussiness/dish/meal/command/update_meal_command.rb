@@ -1,0 +1,23 @@
+module Bussiness::Dish::Meal
+  class Command::UpdateMealCommand < ::Bussiness::Base::Command
+    attribute :user_id, :integer
+    validates :user_id, presence: true
+
+    attribute :dish_id, :integer
+    validates :dish_id, presence: true
+
+    attribute :meal_for_update, :command_params
+    validates :meal_for_update, presence: true
+
+    def call
+      meal = Repository.find(meal_for_update.id)
+
+      update_fields = extract_present_fields(
+        meal_for_update.attributes, ignore_fields: [:id]
+      ).merge(dish_id:)
+      meal.assign_attributes(update_fields)
+
+      Repository.update(meal, user_id)
+    end
+  end
+end

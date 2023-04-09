@@ -16,9 +16,13 @@ module Bussiness::Dish::Meal
         meal
       end
 
-      def update(updated_meal)
+      def update(updated_meal, update_user_id, force_update: false)
         existing_meal_record = ::Meal.find(updated_meal.id)
-        meal_record_for_update = set_same_name_fields(updated_meal, existing_meal_record, [:user_id, :dish_id, :date, :meal_type, :comment])
+
+        can_update = existing_meal_record.user_id == update_user_id || force_update
+        raise "このユーザはこのレコードを更新できません。" unless can_update
+
+        meal_record_for_update = set_same_name_fields(updated_meal, existing_meal_record, [:dish_id, :date, :meal_type, :comment])
         meal_record_for_update.save!
       end
     end
