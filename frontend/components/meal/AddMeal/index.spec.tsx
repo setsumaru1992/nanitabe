@@ -48,7 +48,15 @@ describe('<AddMeal>', () => {
         },
       ],
     });
-    renderWithApollo(<AddMeal defaultDate={newMealWithRequiredParams.date} />);
+    renderWithApollo(
+      <AddMeal
+        defaultDate={newMealWithRequiredParams.date}
+        onSubmitErrorOfSchema={(schemaErrors) => {
+          // スキーマエラーがあったときテストで把握しやすいようにログに出す
+          console.log(schemaErrors);
+        }}
+      />,
+    );
   });
 
   describe('when add meal with new dish', () => {
@@ -74,14 +82,15 @@ describe('<AddMeal>', () => {
 
   describe('when add meal with existing dish', () => {
     it('succeeds with expected required graphql params', async () => {
-      const { getLatestMutationVariables } = registerMutationHandler(
-        AddMealWithExistingDishAndExistingSourceDocument,
-        {
-          addMealWithExistingDishAndExistingSource: {
-            mealId: 1,
+      const { getLatestMutationVariables, mutationInterceptor } =
+        registerMutationHandler(
+          AddMealWithExistingDishAndExistingSourceDocument,
+          {
+            addMealWithExistingDishAndExistingSource: {
+              mealId: 1,
+            },
           },
-        },
-      );
+        );
 
       await userClick(screen, 'optionOfUsingExistingDish');
       await userChooseSelectBox(screen, 'existingDishes', [
@@ -89,6 +98,7 @@ describe('<AddMeal>', () => {
       ]);
       await userClick(screen, 'addMealButton');
 
+      expect(mutationInterceptor).toHaveBeenCalledTimes(1);
       expect(getLatestMutationVariables()).toEqual({
         dishId: existingDishId,
         meal: buildNewMealGraphQLParams(newMealWithRequiredParams),
