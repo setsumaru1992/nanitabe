@@ -1,6 +1,7 @@
 module Mutations::Meal
-  class UpdateMeal < ::Mutations::BaseMutation
+  class UpdateMealWithExistingDishAndExistingSource < ::Mutations::BaseMutation
     argument :meal, ::Types::Input::Meal::MealForUpdate, required: true
+    argument :dish_id, Int, required: false
 
     field :meal_id, Int, null: false
 

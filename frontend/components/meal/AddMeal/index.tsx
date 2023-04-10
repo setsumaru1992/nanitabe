@@ -5,13 +5,13 @@ import type {
   AddMealWithNewDishAndNewSource,
   AddMealWithExistingDishAndExistingSource,
 } from '../../../features/meal/useMeal';
-import MealForm, { CHOOSING_DISH_TYPE } from '../MealForm';
+import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from '../MealForm';
 
 type Props = {
   defaultDate?: Date;
   onAddSucceeded?: () => void;
   displayInModal?: boolean;
-  onSubmitErrorOfSchema?: any;
+  onSchemaError?: any;
 };
 
 export default (props: Props) => {
@@ -19,13 +19,10 @@ export default (props: Props) => {
     defaultDate: defaultDateArg,
     onAddSucceeded,
     displayInModal,
-    onSubmitErrorOfSchema,
+    onSchemaError,
   } = props;
   const defaultDate: Date = defaultDateArg || new Date();
 
-  const [choosingDishType, setChoosingDishType] = React.useState(
-    CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH,
-  );
   const {
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
@@ -34,10 +31,12 @@ export default (props: Props) => {
     AddMealWithExistingDishAndExistingSourceSchema,
   } = useMeal();
 
-  const choosingRegisterNewDish =
-    choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH;
-  const choosingUseExistingDish =
-    choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH;
+  const {
+    choosingDishType,
+    setChoosingDishType,
+    choosingRegisterNewDish,
+    choosingUseExistingDish,
+  } = useChoosingDishType(CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH);
 
   const [addMealFunc, AddMealSchema] = (() => {
     if (choosingRegisterNewDish) {
@@ -76,7 +75,7 @@ export default (props: Props) => {
       choosingDishType={choosingDishType}
       setChoosingDishType={setChoosingDishType}
       displayInModal={displayInModal}
-      onSubmitErrorOfSchema={onSubmitErrorOfSchema}
+      onSchemaError={onSchemaError}
     />
   );
 };

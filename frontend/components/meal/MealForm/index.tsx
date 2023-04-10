@@ -15,6 +15,12 @@ export enum CHOOSING_DISH_TYPE {
   CHOOSING_USE_EXISTING_DISH,
 }
 
+const choosingRegisterNewDish = (choosingDishType: CHOOSING_DISH_TYPE) =>
+  choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH;
+
+const choosingUseExistingDish = (choosingDishType: CHOOSING_DISH_TYPE) =>
+  choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH;
+
 type Props = {
   formSchema: any;
   onSubmit: any;
@@ -27,7 +33,21 @@ type Props = {
   setChoosingDishType: any;
 
   displayInModal?: boolean;
-  onSubmitErrorOfSchema?: any;
+  onSchemaError?: any;
+};
+
+export const useChoosingDishType = (
+  defaultChoosingDishType: CHOOSING_DISH_TYPE,
+) => {
+  const [choosingDishType, setChoosingDishType] = React.useState(
+    defaultChoosingDishType,
+  );
+  return {
+    choosingDishType,
+    setChoosingDishType,
+    choosingRegisterNewDish: choosingRegisterNewDish(choosingDishType),
+    choosingUseExistingDish: choosingUseExistingDish(choosingDishType),
+  };
 };
 
 export default (props: Props) => {
@@ -40,15 +60,10 @@ export default (props: Props) => {
     displayInModal,
     choosingDishType,
     setChoosingDishType,
-    onSubmitErrorOfSchema,
+    onSchemaError,
   } = props;
 
   const { dishes } = useDish();
-
-  const choosingRegisterNewDish =
-    choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH;
-  const choosingUseExistingDish =
-    choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH;
 
   const {
     register,
@@ -60,7 +75,7 @@ export default (props: Props) => {
   });
 
   const onError = (schemaErrors, _) => {
-    if (onSubmitErrorOfSchema) onSubmitErrorOfSchema(schemaErrors);
+    if (onSchemaError) onSchemaError(schemaErrors);
   };
 
   return (
@@ -100,7 +115,7 @@ export default (props: Props) => {
                   CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH,
                 )
               }
-              checked={choosingRegisterNewDish}
+              checked={choosingRegisterNewDish(choosingDishType)}
               label="新しく料理を登録"
               data-testid="optionOfRegisteringNewDish"
             />
@@ -114,13 +129,13 @@ export default (props: Props) => {
                   CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH,
                 )
               }
-              checked={choosingUseExistingDish}
+              checked={choosingUseExistingDish(choosingDishType)}
               label="登録済みの料理を選択"
               data-testid="optionOfUsingExistingDish"
             />
           </Form.Group>
 
-          {choosingRegisterNewDish && (
+          {choosingRegisterNewDish(choosingDishType) && (
             <>
               <FormFieldWrapperWithLabel label="料理名" required>
                 <Form.Control
@@ -180,7 +195,7 @@ export default (props: Props) => {
             </>
           )}
 
-          {choosingUseExistingDish && (
+          {choosingUseExistingDish(choosingDishType) && (
             <FormFieldWrapperWithLabel label="料理">
               <Form.Select
                 defaultValue={registeredDishId || null}

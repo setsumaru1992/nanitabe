@@ -51,7 +51,7 @@ describe('<AddMeal>', () => {
     renderWithApollo(
       <AddMeal
         defaultDate={newMealWithRequiredParams.date}
-        onSubmitErrorOfSchema={(schemaErrors) => {
+        onSchemaError={(schemaErrors) => {
           // スキーマエラーがあったときテストで把握しやすいようにログに出す
           console.log(schemaErrors);
         }}
