@@ -72,8 +72,12 @@ export default (props: Props) => {
       formSchema={AddMealSchema}
       onSubmit={onSubmit}
       defaultDate={defaultDate}
-      choosingDishType={choosingDishType}
-      setChoosingDishType={setChoosingDishType}
+      useChoosingDishTypeResult={{
+        choosingDishType,
+        setChoosingDishType,
+        choosingRegisterNewDish,
+        choosingUseExistingDish,
+      }}
       displayInModal={displayInModal}
       onSchemaError={onSchemaError}
     />
