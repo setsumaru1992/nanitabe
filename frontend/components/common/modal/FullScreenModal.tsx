@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import style from './Modal.module.scss';
+import style from './FullScreenModal.module.scss';
 
 type Props = {
   title?: string;
