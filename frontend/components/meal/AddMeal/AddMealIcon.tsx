@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import style from './AddMealIcon.module.scss';
-import Modal from '../../common/modal/Modal';
+import FullScreenModal from '../../common/modal/FullScreenModal';
 import AddMeal from './index';
 
 type Props = {
@@ -29,7 +29,7 @@ export default (props: Props) => {
         +
       </div>
       {modalVisible && (
-        <Modal closeModal={closeModal} title="食事登録">
+        <FullScreenModal closeModal={closeModal} title="食事登録">
           <AddMeal
             defaultDate={dateForAdd}
             onAddSucceeded={() => {
@@ -38,7 +38,7 @@ export default (props: Props) => {
             }}
             displayInModal
           />
-        </Modal>
+        </FullScreenModal>
       )}
     </>
   );
