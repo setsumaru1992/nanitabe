@@ -10,7 +10,7 @@ module Bussiness::Dish::Meal
         comparer.build_records_for_test()
       end
 
-      context "when create dish with one params, " do
+      context "when update meal with one params, " do
         let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_UPDATED] }
 
         it "updating succeeds" do
@@ -30,7 +30,7 @@ module Bussiness::Dish::Meal
         end
       end
 
-      context "when create dish with full params, " do
+      context "when update meal with full params, " do
         let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_UPDATED_WITH_FULL_FIELD] }
 
         it "updating succeeds" do

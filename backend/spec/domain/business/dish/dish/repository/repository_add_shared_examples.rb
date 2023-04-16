@@ -1,3 +1,5 @@
+require_relative "../../../../../support/factories/user_repository"
+
 KEY_OF_TEST_DISH_SHOULD_BE_CREATED = "DISH_SHOULD_BE_CREATED"
 comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SHOULD_BE_CREATED, {
   name: "カツ丼",
@@ -6,7 +8,7 @@ comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SHOULD_BE_CREATED, {
 
 comparer.define_required_records_for_test do
   {
-    user_record: FactoryBot.create(:user),
+    user_record: find_or_create_user(),
   }
 end
 
@@ -28,7 +30,7 @@ comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SHOULD_BE_CREATED_WITH_FULL_
 
 comparer.define_required_records_for_test do
   {
-    user_record: FactoryBot.create(:user),
+    user_record: find_or_create_user(),
   }
 end
 

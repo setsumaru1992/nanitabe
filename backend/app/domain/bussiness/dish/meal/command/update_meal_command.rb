@@ -15,6 +15,7 @@ module Bussiness::Dish::Meal
       meal.assign_attributes(update_fields)
 
       Repository.update(meal, user_id)
+      meal
     end
   end
 end
