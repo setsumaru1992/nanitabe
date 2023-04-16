@@ -4,7 +4,7 @@ require "rails_helper"
 require_relative "../../../meal/repository/repository_add_shared_examples"
 require_relative "../../../dish/repository/repository_add_shared_examples"
 
-module Bussiness::Dish
+module Business::Dish
   module Command::Meal::Create
     RSpec.describe CreateMealWithNewDishCommand do
       describe ".call" do
@@ -20,11 +20,11 @@ module Bussiness::Dish
           it "adding succeeds" do
             created_meal = described_class.call(
               user_id: dish_comparer.prepared_records[:user_record].id,
-              dish_for_create: ::Bussiness::Dish::Dish::Command::Params::DishForCreate.new(
+              dish_for_create: ::Business::Dish::Dish::Command::Params::DishForCreate.new(
                 name: dish_comparer.values[:name],
                 meal_position: dish_comparer.values[:meal_position],
               ),
-              meal_for_create: ::Bussiness::Dish::Meal::Command::Params::MealForCreate.new(
+              meal_for_create: ::Business::Dish::Meal::Command::Params::MealForCreate.new(
                 date: meal_comparer.values[:date],
                 meal_type: meal_comparer.values[:meal_type],
               ),
@@ -42,12 +42,12 @@ module Bussiness::Dish
           it "adding succeeds" do
             created_meal = described_class.call(
               user_id: dish_comparer.prepared_records[:user_record].id,
-              dish_for_create: ::Bussiness::Dish::Dish::Command::Params::DishForCreate.new(
+              dish_for_create: ::Business::Dish::Dish::Command::Params::DishForCreate.new(
                 name: dish_comparer.values[:name],
                 meal_position: dish_comparer.values[:meal_position],
                 comment: dish_comparer.values[:comment],
               ),
-              meal_for_create: ::Bussiness::Dish::Meal::Command::Params::MealForCreate.new(
+              meal_for_create: ::Business::Dish::Meal::Command::Params::MealForCreate.new(
                 date: meal_comparer.values[:date],
                 meal_type: meal_comparer.values[:meal_type],
                 comment: meal_comparer.values[:comment],

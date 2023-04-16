@@ -3,7 +3,7 @@
 require "rails_helper"
 require_relative "./repository_add_shared_examples"
 
-module Bussiness::Dish::Dish
+module Business::Dish::Dish
   RSpec.describe Repository do
     describe ".add" do
       before do

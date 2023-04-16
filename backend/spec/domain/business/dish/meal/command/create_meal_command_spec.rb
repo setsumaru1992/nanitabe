@@ -3,7 +3,7 @@
 require "rails_helper"
 require_relative "../repository/repository_add_shared_examples"
 
-module Bussiness::Dish::Meal
+module Business::Dish::Meal
   RSpec.describe Command::CreateMealCommand do
     describe ".call" do
       before do
