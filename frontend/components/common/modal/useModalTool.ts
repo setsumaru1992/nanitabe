@@ -1,13 +1,16 @@
 import * as React from 'react';
 
-const useModalVisiblity = (initialVisibility = false) => {
-  const [modalVisible, setModalVisible] = React.useState(initialVisibility);
+const useModalVisiblity = (initialVisibility, onClose) => {
+  const [modalVisible, setModalVisible] = React.useState(
+    initialVisibility || false,
+  );
 
   const openModal = () => {
     setModalVisible(true);
   };
   const closeModal = () => {
     setModalVisible(false);
+    if (onClose) onClose();
   };
   const toggleModal = () => {
     setModalVisible((prevState) => !prevState);
@@ -73,7 +76,16 @@ const useModalRef = <
   };
 };
 
-export default (initialVisibility = false) => {
+export type UseModalToolArgs = {
+  onClose?: () => void;
+};
+
+type Args = UseModalToolArgs & {
+  initialVisibility?: boolean;
+};
+
+export default (args: Args = { initialVisibility: false }) => {
+  const { initialVisibility, onClose } = args;
   const {
     modalVisible,
     openModal,
@@ -82,7 +94,7 @@ export default (initialVisibility = false) => {
     closeModalOnClick,
     toggleModalOnClick,
     toggleModal,
-  } = useModalVisiblity(initialVisibility);
+  } = useModalVisiblity(initialVisibility, onClose);
 
   return {
     modalVisible,

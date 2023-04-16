@@ -211,7 +211,7 @@ export default (props: Props) => {
                 {...register('dishId', { valueAsNumber: true })}
                 data-testid="existingDishes"
               >
-                {dishes.map((dish) => (
+                {(dishes || []).map((dish) => (
                   <option
                     key={dish.id}
                     value={dish.id}

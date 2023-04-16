@@ -12,7 +12,7 @@ type Props = {
 export default (props: Props) => {
   const { meal } = props;
   const { dish } = meal;
-  const { FloatModal, FloatModalOpener } = useFloatModal();
+  const { FloatModal, FloatModalOpener, closeModal } = useFloatModal();
 
   const iconCssClassOfMealType = (() => {
     const suffix = (() => {
@@ -42,7 +42,7 @@ export default (props: Props) => {
         />
       </FloatModalOpener>
       <FloatModal>
-        <Menu />
+        <Menu meal={meal} closeSelf={closeModal} />
       </FloatModal>
     </div>
   );

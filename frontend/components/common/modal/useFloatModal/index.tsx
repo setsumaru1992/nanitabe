@@ -1,9 +1,12 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import style from './FloatModal.module.scss';
-import useModalTool from '../useModalTool';
+import useModalTool, { UseModalToolArgs } from '../useModalTool';
 
-export default (initialVisibility = false) => {
+type Args = UseModalToolArgs & {};
+
+export default (args: Args = {}) => {
+  const { onClose } = args;
   const {
     modalVisible,
     useModalRef,
@@ -13,7 +16,7 @@ export default (initialVisibility = false) => {
     closeModalOnClick,
     toggleModalOnClick,
     toggleModal,
-  } = useModalTool(initialVisibility);
+  } = useModalTool();
   const { modalRef, modalOpenerRef } = useModalRef<
     HTMLDivElement,
     HTMLDivElement

@@ -1,9 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import style from './FullScreenModal.module.scss';
-import useModalTool from '../useModalTool';
+import useModalTool, { UseModalToolArgs } from '../useModalTool';
 
-export default () => {
+type Args = UseModalToolArgs & {};
+
+export default (args: Args = {}) => {
+  const { onClose } = args;
   const {
     modalVisible,
     useModalRef,
@@ -13,7 +16,7 @@ export default () => {
     closeModalOnClick,
     toggleModalOnClick,
     toggleModal,
-  } = useModalTool(false);
+  } = useModalTool({ onClose });
   const { modalRef, modalOpenerRef } = useModalRef<
     HTMLDivElement,
     HTMLDivElement

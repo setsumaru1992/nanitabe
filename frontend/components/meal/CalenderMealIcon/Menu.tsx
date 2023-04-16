@@ -1,12 +1,39 @@
 import React from 'react';
 import classnames from 'classnames';
 import style from './Menu.module.scss';
+import useFullScreenModal from '../../common/modal/useFullScreenModal';
+import { MealForCalender } from '../../../lib/graphql/generated/graphql';
+import EditMeal from '../EditMeal';
 
-export default () => {
+type Props = {
+  meal: MealForCalender;
+  closeSelf: () => void;
+  onUpdateSucceeded?: () => void;
+};
+
+export default (props: Props) => {
+  const { meal, onUpdateSucceeded, closeSelf } = props;
+  const { FullScreenModal, FullScreenModalOpener, closeModal } =
+    useFullScreenModal({
+      onClose: () => {
+        closeSelf();
+      },
+    });
   return (
     <ul className={classnames(style['menu'])}>
       <li className={classnames(style['menu__row'])}>
-        <a className={classnames(style['menu__content'])}>修正</a>
+        <FullScreenModalOpener>
+          <a className={classnames(style['menu__content'])}>修正</a>
+        </FullScreenModalOpener>
+        <FullScreenModal title="食事修正">
+          <EditMeal
+            meal={meal}
+            onEditSucceeded={() => {
+              closeModal();
+              onUpdateSucceeded();
+            }}
+          />
+        </FullScreenModal>
       </li>
       <li className={classnames(style['menu__row'])}>
         <a className={classnames(style['menu__content'])}>削除</a>
