@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import style from './FloatModal.module.scss';
-import useModalTool from './useModalTool';
+import useModalTool from '../useModalTool';
 
 export default (initialVisibility = false) => {
   const {

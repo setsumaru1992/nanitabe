@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import style from './AddMealIcon.module.scss';
-import FullScreenModal from '../../common/modal/FullScreenModal';
+import useFullScreenModal from '../../common/modal/useFullScreenModal';
 import AddMeal from './index';
 
 type Props = {
@@ -11,35 +11,25 @@ type Props = {
 
 export default (props: Props) => {
   const { dateForAdd, onAddSucceeded } = props;
-  const [modalVisible, setModalVisible] = useState(false);
-  const openModal = () => {
-    setModalVisible(true);
-  };
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+  const { FullScreenModal, FullScreenModalOpener, closeModal } =
+    useFullScreenModal();
   return (
     <>
-      <div
-        className={classNames(style['icon'], style['add-meal-icon'])}
-        onClick={() => {
-          openModal();
-        }}
-      >
-        +
-      </div>
-      {modalVisible && (
-        <FullScreenModal closeModal={closeModal} title="食事登録">
-          <AddMeal
-            defaultDate={dateForAdd}
-            onAddSucceeded={() => {
-              closeModal();
-              onAddSucceeded();
-            }}
-            displayInModal
-          />
-        </FullScreenModal>
-      )}
+      <FullScreenModalOpener>
+        <div className={classNames(style['icon'], style['add-meal-icon'])}>
+          +
+        </div>
+      </FullScreenModalOpener>
+      <FullScreenModal title="食事登録">
+        <AddMeal
+          defaultDate={dateForAdd}
+          onAddSucceeded={() => {
+            closeModal();
+            onAddSucceeded();
+          }}
+          displayInModal
+        />
+      </FullScreenModal>
     </>
   );
 };
