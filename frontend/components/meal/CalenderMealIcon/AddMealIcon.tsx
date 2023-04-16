@@ -27,7 +27,6 @@ export default (props: Props) => {
             closeModal();
             onAddSucceeded();
           }}
-          displayInModal
         />
       </FullScreenModal>
     </>

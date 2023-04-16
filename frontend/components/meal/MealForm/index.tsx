@@ -52,7 +52,6 @@ type Props = {
 
   useChoosingDishTypeResult: UseChoosingDishTypeResult;
 
-  displayInModal?: boolean;
   onSchemaError?: any;
 };
 
@@ -63,7 +62,6 @@ export default (props: Props) => {
     defaultDate,
     registeredMealType,
     registeredDishId,
-    displayInModal,
     useChoosingDishTypeResult: {
       setChoosingDishType,
       choosingRegisterNewDish,
@@ -90,7 +88,6 @@ export default (props: Props) => {
   return (
     <div className={style['form']}>
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        {!displayInModal && <h1 className={style['form__title']}>食事登録</h1>}
         <FormFieldWrapperWithLabel label="日付" required>
           <Form.Control
             type="date"

@@ -7,12 +7,11 @@ import { MealForCalender } from '../../../lib/graphql/generated/graphql';
 type Props = {
   meal: MealForCalender;
   onEditSucceeded?: () => void;
-  displayInModal?: boolean;
   onSchemaError?: any;
 };
 
 export default (props: Props) => {
-  const { meal, onEditSucceeded, displayInModal, onSchemaError } = props;
+  const { meal, onEditSucceeded, onSchemaError } = props;
 
   const {
     choosingDishType,
@@ -36,7 +35,6 @@ export default (props: Props) => {
         choosingRegisterNewDish,
         choosingUseExistingDish,
       }}
-      displayInModal={displayInModal}
       onSchemaError={onSchemaError}
     />
   );

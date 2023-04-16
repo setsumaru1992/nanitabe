@@ -10,17 +10,11 @@ import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from '../MealForm';
 type Props = {
   defaultDate?: Date;
   onAddSucceeded?: () => void;
-  displayInModal?: boolean;
   onSchemaError?: any;
 };
 
 export default (props: Props) => {
-  const {
-    defaultDate: defaultDateArg,
-    onAddSucceeded,
-    displayInModal,
-    onSchemaError,
-  } = props;
+  const { defaultDate: defaultDateArg, onAddSucceeded, onSchemaError } = props;
   const defaultDate: Date = defaultDateArg || new Date();
 
   const {
@@ -78,7 +72,6 @@ export default (props: Props) => {
         choosingRegisterNewDish,
         choosingUseExistingDish,
       }}
-      displayInModal={displayInModal}
       onSchemaError={onSchemaError}
     />
   );
