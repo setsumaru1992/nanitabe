@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import * as z from 'zod';
 import {
   useAddMealWithNewDishAndNewSourceMutation,
-  useAddMealWithExistingDishAndExistingSourceMutation,
+  useAddMealWithExistingDishMutation,
 } from '../../lib/graphql/generated/graphql';
 import { MEAL_TYPE } from './const';
 import { MEAL_POSITION } from '../dish/const';
@@ -46,25 +46,20 @@ export type AddMealWithNewDishAndNewSource = z.infer<
   typeof AddMealWithNewDishAndNewSourceSchema
 >;
 
-export const ADD_MEAL_WITH_EXISTING_DISH_AND_EXISTING_SOURCE = gql`
-  mutation addMealWithExistingDishAndExistingSource(
-    $dishId: Int!
-    $meal: MealForCreate!
-  ) {
-    addMealWithExistingDishAndExistingSource(
-      input: { dishId: $dishId, meal: $meal }
-    ) {
+export const ADD_MEAL_WITH_EXISTING_DISH = gql`
+  mutation addMealWithExistingDish($dishId: Int!, $meal: MealForCreate!) {
+    addMealWithExistingDish(input: { dishId: $dishId, meal: $meal }) {
       mealId
     }
   }
 `;
 
-const AddMealWithExistingDishAndExistingSourceSchema = z.object({
+const AddMealWithExistingDishSchema = z.object({
   dishId: z.number(),
   meal: newMealSchema,
 });
-export type AddMealWithExistingDishAndExistingSource = z.infer<
-  typeof AddMealWithExistingDishAndExistingSourceSchema
+export type AddMealWithExistingDish = z.infer<
+  typeof AddMealWithExistingDishSchema
 >;
 
 export const useAddMeal = () => {
@@ -77,25 +72,23 @@ export const useAddMeal = () => {
   );
 
   const [
-    addMealWithExistingDishAndExistingSource,
-    addMealWithExistingDishAndExistingSourceLoading,
-    addMealWithExistingDishAndExistingSourceError,
-  ] = buildMutationExecutor<AddMealWithNewDishAndNewSource>(
-    useAddMealWithExistingDishAndExistingSourceMutation,
+    addMealWithExistingDish,
+    addMealWithExistingDishLoading,
+    addMealWithExistingDishError,
+  ] = buildMutationExecutor<AddMealWithExistingDish>(
+    useAddMealWithExistingDishMutation,
   );
 
   return {
     addMealWithNewDishAndNewSource,
-    addMealWithExistingDishAndExistingSource,
+    addMealWithExistingDish,
 
     addMealLoading:
-      addMealWithNewDishAndNewSourceLoading ||
-      addMealWithExistingDishAndExistingSourceLoading,
+      addMealWithNewDishAndNewSourceLoading || addMealWithExistingDishLoading,
     addMealError:
-      addMealWithNewDishAndNewSourceError ||
-      addMealWithExistingDishAndExistingSourceError,
+      addMealWithNewDishAndNewSourceError || addMealWithExistingDishError,
 
     AddMealWithNewDishAndNewSourceSchema,
-    AddMealWithExistingDishAndExistingSourceSchema,
+    AddMealWithExistingDishSchema,
   };
 };

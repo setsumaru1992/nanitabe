@@ -3,7 +3,7 @@ import { SubmitHandler } from 'react-hook-form';
 import useMeal from '../../../features/meal/useMeal';
 import type {
   AddMealWithNewDishAndNewSource,
-  AddMealWithExistingDishAndExistingSource,
+  AddMealWithExistingDish,
 } from '../../../features/meal/useMeal';
 import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from '../MealForm';
 
@@ -21,8 +21,8 @@ export default (props: Props) => {
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
 
-    addMealWithExistingDishAndExistingSource,
-    AddMealWithExistingDishAndExistingSourceSchema,
+    addMealWithExistingDish,
+    AddMealWithExistingDishSchema,
   } = useMeal();
 
   const {
@@ -40,16 +40,13 @@ export default (props: Props) => {
       ];
     }
     if (choosingUseExistingDish) {
-      return [
-        addMealWithExistingDishAndExistingSource,
-        AddMealWithExistingDishAndExistingSourceSchema,
-      ];
+      return [addMealWithExistingDish, AddMealWithExistingDishSchema];
     }
     return [null, null];
   })();
 
   const onSubmit: SubmitHandler<
-    AddMealWithNewDishAndNewSource | AddMealWithExistingDishAndExistingSource
+    AddMealWithNewDishAndNewSource | AddMealWithExistingDish
   > = async (input) => {
     await addMealFunc(input, {
       onComplated: (data) => {
