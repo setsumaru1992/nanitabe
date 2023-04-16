@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import style from './FullScreenModal.module.scss';
-import FullScreenModalTemplate from './FullScreenModal';
 import useModalTool from '../useModalTool';
 
 export default () => {
