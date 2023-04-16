@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import type { AppProps } from 'next/app';
 import { useApollo } from '../lib/graphql/buildApolloClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../components/base/base.css';
 import { useAuthErrorHandle } from '../lib/graphql/authError';
 import { LOGIN_PAGE_URL } from './login';
 

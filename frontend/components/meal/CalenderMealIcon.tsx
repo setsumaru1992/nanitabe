@@ -4,6 +4,7 @@ import style from './CalenderMealIcon.module.scss';
 import { MealForCalender } from '../../lib/graphql/generated/graphql';
 import { MEAL_TYPE } from '../../features/meal/const';
 import useFloatModal from '../common/modal/useFloatModal';
+import Menu from './CalenderMealIcon/Menu';
 
 type Props = {
   meal: MealForCalender;
@@ -32,9 +33,17 @@ export default (props: Props) => {
     <div className={classNames(style['icon'], style[iconCssClassOfMealType])}>
       {dish.name} &nbsp;
       <FloatModalOpener>
-        <i className="fa-solid fa-ellipsis-vertical" />
+        <i
+          className={classNames(
+            'fa-solid',
+            'fa-ellipsis-vertical',
+            style['meal-icon__menu-button'],
+          )}
+        />
       </FloatModalOpener>
-      <FloatModal>menu</FloatModal>
+      <FloatModal>
+        <Menu />
+      </FloatModal>
     </div>
   );
 };
