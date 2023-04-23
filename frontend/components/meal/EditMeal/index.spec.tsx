@@ -17,6 +17,7 @@ import {
   UpdateMealWithExistingDishDocument,
   DishesDocument,
 } from '../../../lib/graphql/generated/graphql';
+import { buildISODateString } from '../../../features/utils/dateUtils';
 
 const clickSubmitButton = async () => {
   // TODO: 登録・編集に合うテストIDに変更
@@ -130,9 +131,31 @@ describe('<EditMeal>', () => {
     });
   });
 
-  // describe('when update meal with different all fields', () => {
-  //     it('succeeds with expected required graphql params', async () => {});});
-  //
+  describe('when update meal with different all meal fields', () => {
+    it('succeeds with expected required graphql params', async () => {
+      const { getLatestMutationVariables, mutationInterceptor } =
+        registerMutationHandler(UpdateMealWithExistingDishDocument, {
+          updateMealWithExistingDish: {
+            mealId: registeredMeal.id,
+          },
+        });
+
+      enterTextBox(screen, 'mealDate', buildISODateString(updatedMeal.date));
+      await userChooseSelectBox(screen, 'mealTypeOptions', [
+        `mealTypeOption-${updatedMeal.mealType}`,
+      ]);
+      await userChooseSelectBox(screen, 'existingDishes', [
+        `existingDish-${updatedDish.id}`,
+      ]);
+      await clickSubmitButton();
+
+      expect(getLatestMutationVariables()).toEqual({
+        dishId: updatedDish.id,
+        meal: buildGraphQLMeal(updatedMeal),
+      });
+    });
+  });
+
   // describe('when update meal with new dish', () => {
   //     it('succeeds with expected required graphql params', async () => {});});
 });
