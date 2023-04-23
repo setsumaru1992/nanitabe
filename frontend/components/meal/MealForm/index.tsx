@@ -185,15 +185,36 @@ export default (props: Props) => {
                   {...register('dish.mealPosition', { valueAsNumber: true })}
                   data-testid="mealPositionOptions"
                 >
-                  <option value={MEAL_POSITION.STAPLE_FOOD}>
+                  <option
+                    value={MEAL_POSITION.STAPLE_FOOD}
+                    data-testid={`mealPositionOption-${MEAL_POSITION.STAPLE_FOOD}`}
+                  >
                     主食（炭水化物）
                   </option>
-                  <option value={MEAL_POSITION.MAIN_DISH}>
+                  <option
+                    value={MEAL_POSITION.MAIN_DISH}
+                    data-testid={`mealPositionOption-${MEAL_POSITION.MAIN_DISH}`}
+                  >
                     主菜（メインディッシュおかず）
                   </option>
-                  <option value={MEAL_POSITION.SIDE_DISH}>副菜・前菜</option>
-                  <option value={MEAL_POSITION.SOUP}>汁物</option>
-                  <option value={MEAL_POSITION.DESSERT}>デザート</option>
+                  <option
+                    value={MEAL_POSITION.SIDE_DISH}
+                    data-testid={`mealPositionOption-${MEAL_POSITION.SIDE_DISH}`}
+                  >
+                    副菜・前菜
+                  </option>
+                  <option
+                    value={MEAL_POSITION.SOUP}
+                    data-testid={`mealPositionOption-${MEAL_POSITION.SOUP}`}
+                  >
+                    汁物
+                  </option>
+                  <option
+                    value={MEAL_POSITION.DESSERT}
+                    data-testid={`mealPositionOption-${MEAL_POSITION.DESSERT}`}
+                  >
+                    デザート
+                  </option>
                 </Form.Select>
                 <ErrorMessageIfExist
                   errorMessage={errors.dish?.mealPosition?.message}
@@ -252,7 +273,7 @@ export default (props: Props) => {
         </div>
 
         <Form.Group>
-          <Button type="submit" data-testid="addMealButton">
+          <Button type="submit" data-testid="submitMealButton">
             登録
           </Button>
         </Form.Group>

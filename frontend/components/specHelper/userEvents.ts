@@ -11,6 +11,12 @@ export const enterTextBox = (screen, testId, value) => {
   });
 };
 
+export const userType = async (screen, elementTestId, value) => {
+  await act(async () => {
+    await user.type(screen.getByTestId(elementTestId), value);
+  });
+};
+
 export const userClick = async (screen, elementTestId) => {
   await act(async () => {
     await user.click(screen.getByTestId(elementTestId));

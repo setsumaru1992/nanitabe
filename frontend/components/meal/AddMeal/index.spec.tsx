@@ -69,7 +69,7 @@ describe('<AddMeal>', () => {
         });
 
       enterTextBox(screen, 'dishname', newDishWithRequiredParams.name);
-      fireEvent.click(screen.getByTestId('addMealButton'));
+      fireEvent.click(screen.getByTestId('submitMealButton'));
 
       // fireEvent.clickなどで非同期イベントが起きたときに、非同期イベント終了を待つのに、クリックなどをactでくくるか結果をwaitForで待つ必要がある
       await waitFor(() => expect(mutationInterceptor).toHaveBeenCalledTimes(1));
@@ -93,7 +93,7 @@ describe('<AddMeal>', () => {
       await userChooseSelectBox(screen, 'existingDishes', [
         `existingDish-${existingDishId}`,
       ]);
-      await userClick(screen, 'addMealButton');
+      await userClick(screen, 'submitMealButton');
 
       expect(mutationInterceptor).toHaveBeenCalledTimes(1);
       expect(getLatestMutationVariables()).toEqual({

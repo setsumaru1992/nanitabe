@@ -7,6 +7,7 @@ import {
   enterTextBox,
   userChooseSelectBox,
   userClick,
+  userType,
 } from '../../specHelper/userEvents';
 import {
   registerMutationHandler,
@@ -20,8 +21,7 @@ import {
 import { buildISODateString } from '../../../features/utils/dateUtils';
 
 const clickSubmitButton = async () => {
-  // TODO: 登録・編集に合うテストIDに変更
-  await userClick(screen, 'addMealButton');
+  await userClick(screen, 'submitMealButton');
 };
 
 const buildGraphQLMeal = (meal) => {
@@ -60,6 +60,11 @@ describe('<EditMeal>', () => {
     mealType: 2,
   };
 
+  const newDishWithRequiredParams = {
+    name: 'カレー',
+    mealPosition: 3,
+  };
+
   beforeEach(() => {
     registerQueryHandler(DishesDocument, {
       dishes: [
@@ -88,12 +93,14 @@ describe('<EditMeal>', () => {
 
   describe('when update meal with different one field', () => {
     it('succeeds with expected required graphql params', async () => {
-      const { getLatestMutationVariables, mutationInterceptor } =
-        registerMutationHandler(UpdateMealWithExistingDishDocument, {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        UpdateMealWithExistingDishDocument,
+        {
           updateMealWithExistingDish: {
             mealId: registeredMeal.id,
           },
-        });
+        },
+      );
 
       await userChooseSelectBox(screen, 'mealTypeOptions', [
         `mealTypeOption-${updatedMeal.mealType}`,
@@ -112,12 +119,14 @@ describe('<EditMeal>', () => {
 
   describe('when update meal with different existing dish', () => {
     it('succeeds with expected required graphql params', async () => {
-      const { getLatestMutationVariables, mutationInterceptor } =
-        registerMutationHandler(UpdateMealWithExistingDishDocument, {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        UpdateMealWithExistingDishDocument,
+        {
           updateMealWithExistingDish: {
             mealId: registeredMeal.id,
           },
-        });
+        },
+      );
 
       await userChooseSelectBox(screen, 'existingDishes', [
         `existingDish-${updatedDish.id}`,
@@ -133,12 +142,14 @@ describe('<EditMeal>', () => {
 
   describe('when update meal with different all meal fields', () => {
     it('succeeds with expected required graphql params', async () => {
-      const { getLatestMutationVariables, mutationInterceptor } =
-        registerMutationHandler(UpdateMealWithExistingDishDocument, {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        UpdateMealWithExistingDishDocument,
+        {
           updateMealWithExistingDish: {
             mealId: registeredMeal.id,
           },
-        });
+        },
+      );
 
       enterTextBox(screen, 'mealDate', buildISODateString(updatedMeal.date));
       await userChooseSelectBox(screen, 'mealTypeOptions', [
@@ -156,6 +167,28 @@ describe('<EditMeal>', () => {
     });
   });
 
-  // describe('when update meal with new dish', () => {
-  //     it('succeeds with expected required graphql params', async () => {});});
+  describe('when update meal with new dish', () => {
+    it('succeeds with expected required graphql params', async () => {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        UpdateMealWithNewDishAndNewSourceDocument,
+        {
+          updateMealWithNewDishAndNewSource: {
+            mealId: registeredMeal.id,
+          },
+        },
+      );
+
+      await userClick(screen, 'optionOfRegisteringNewDish');
+      await userType(screen, 'dishname', newDishWithRequiredParams.name);
+      await userChooseSelectBox(screen, 'mealPositionOptions', [
+        `mealPositionOption-${newDishWithRequiredParams.mealPosition}`,
+      ]);
+      await clickSubmitButton();
+
+      expect(getLatestMutationVariables()).toEqual({
+        dish: newDishWithRequiredParams,
+        meal: buildGraphQLMeal(registeredMealWithoutDish),
+      });
+    });
+  });
 });
