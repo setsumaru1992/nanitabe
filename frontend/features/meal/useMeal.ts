@@ -4,6 +4,8 @@ import { useUpdateMeal } from './updateMealMutation';
 
 export type { AddMealWithNewDishAndNewSource } from './addMealMutation';
 export type { AddMealWithExistingDish } from './addMealMutation';
+export type { UpdateMealWithNewDishAndNewSource } from './updateMealMutation';
+export type { UpdateMealWithExistingDish } from './updateMealMutation';
 
 type UseMealArg = {
   startDateForFetchingMealsForCalender: Date | null;
@@ -25,9 +27,9 @@ export default (
 
   const {
     updateMealWithNewDishAndNewSource,
-    // UpdateMealWithNewDishAndNewSourceSchema,
+    UpdateMealWithNewDishAndNewSourceSchema,
     updateMealWithExistingDish,
-    // UpdateMealWithExistingDishSchema,
+    UpdateMealWithExistingDishSchema,
     updateMealLoading,
     updateMealError,
   } = useUpdateMeal();
@@ -56,9 +58,9 @@ export default (
     addMealError,
 
     updateMealWithNewDishAndNewSource,
-    // UpdateMealWithNewDishAndNewSourceSchema,
+    UpdateMealWithNewDishAndNewSourceSchema,
     updateMealWithExistingDish,
-    // UpdateMealWithExistingDishSchema,
+    UpdateMealWithExistingDishSchema,
     updateMealLoading,
     updateMealError,
   };

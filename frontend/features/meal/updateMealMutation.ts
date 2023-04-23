@@ -2,11 +2,11 @@ import { gql } from '@apollo/client';
 import * as z from 'zod';
 import { buildMutationExecutor } from '../utils/mutationUtils';
 import {
-  useAddMealWithExistingDishMutation,
   useUpdateMealWithExistingDishMutation,
   useUpdateMealWithNewDishAndNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
-import { AddMealWithExistingDish } from './addMealMutation';
+import { dishIdSchema, newDishSchema } from '../dish/schema';
+import { updateMealSchema } from './schema';
 
 export const UPDATE_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
   mutation updateMealWithNewDishAndNewSource(
@@ -19,7 +19,13 @@ export const UPDATE_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
   }
 `;
 
-export type UpdateMealWithNewDishAndNewSource = any;
+const UpdateMealWithNewDishAndNewSourceSchema = z.object({
+  dish: newDishSchema,
+  meal: updateMealSchema,
+});
+export type UpdateMealWithNewDishAndNewSource = z.infer<
+  typeof UpdateMealWithNewDishAndNewSourceSchema
+>;
 
 export const UPDATE_MEAL_WITH_EXISTING_DISH = gql`
   mutation updateMealWithExistingDish($dishId: Int!, $meal: MealForUpdate!) {
@@ -29,7 +35,13 @@ export const UPDATE_MEAL_WITH_EXISTING_DISH = gql`
   }
 `;
 
-export type UpdateMealWithExistingDish = any;
+const UpdateMealWithExistingDishSchema = z.object({
+  dishId: dishIdSchema,
+  meal: updateMealSchema,
+});
+export type UpdateMealWithExistingDish = z.infer<
+  typeof UpdateMealWithExistingDishSchema
+>;
 
 export const useUpdateMeal = () => {
   const [
@@ -58,7 +70,7 @@ export const useUpdateMeal = () => {
     updateMealError:
       updateMealWithNewDishAndNewSourceError || updateMealWithExistingDishError,
 
-    // UpdateMealWithNewDishAndNewSourceSchema,
-    // UpdateMealWithExistingDishSchema,
+    UpdateMealWithNewDishAndNewSourceSchema,
+    UpdateMealWithExistingDishSchema,
   };
 };

@@ -47,6 +47,7 @@ type Props = {
   onSubmit: any;
 
   defaultDate: Date;
+  registeredMealId?: number;
   registeredMealType?: number;
   registeredDishId?: number;
 
@@ -60,6 +61,7 @@ export default (props: Props) => {
     formSchema,
     onSubmit,
     defaultDate,
+    registeredMealId,
     registeredMealType,
     registeredDishId,
     useChoosingDishTypeResult: {
@@ -88,6 +90,13 @@ export default (props: Props) => {
   return (
     <div className={style['form']}>
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
+        {registeredMealId && (
+          <input
+            type="hidden"
+            value={registeredMealId}
+            {...register('meal.mealId', { valueAsNumber: true })}
+          />
+        )}
         <FormFieldWrapperWithLabel label="日付" required>
           <Form.Control
             type="date"

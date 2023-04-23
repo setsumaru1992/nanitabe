@@ -1,31 +1,12 @@
 import { gql } from '@apollo/client';
 import * as z from 'zod';
 import {
-  useAddMealWithNewDishAndNewSourceMutation,
   useAddMealWithExistingDishMutation,
+  useAddMealWithNewDishAndNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
-import { MEAL_TYPE } from './const';
-import { MEAL_POSITION } from '../dish/const';
 import { buildMutationExecutor } from '../utils/mutationUtils';
-
-// TODO: dish,mealなど横断的にスキーマを参照するようになったら、各モジュールでスキーマを定義して参照する形へ
-const newMealSchema = z.object({
-  date: z.date({
-    required_error: '必須項目です。',
-  }),
-  mealType: z.nativeEnum(MEAL_TYPE, {
-    required_error: '必須項目です。',
-  }),
-  comment: z.string().optional(),
-});
-
-const newDishSchema = z.object({
-  name: z.string().min(1, { message: '必須項目です。' }),
-  mealPosition: z.nativeEnum(MEAL_POSITION, {
-    required_error: '必須項目です。',
-  }),
-  comment: z.string().optional(),
-});
+import { newMealSchema } from './schema';
+import { dishIdSchema, newDishSchema } from '../dish/schema';
 
 export const ADD_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
   mutation addMealWithNewDishAndNewSource(
@@ -55,7 +36,7 @@ export const ADD_MEAL_WITH_EXISTING_DISH = gql`
 `;
 
 const AddMealWithExistingDishSchema = z.object({
-  dishId: z.number(),
+  dishId: dishIdSchema,
   meal: newMealSchema,
 });
 export type AddMealWithExistingDish = z.infer<

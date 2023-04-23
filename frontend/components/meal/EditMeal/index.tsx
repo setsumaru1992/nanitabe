@@ -3,7 +3,10 @@ import { SubmitHandler } from 'react-hook-form';
 import { parseISO } from 'date-fns';
 import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from '../MealForm';
 import { MealForCalender } from '../../../lib/graphql/generated/graphql';
-import useMeal from '../../../features/meal/useMeal';
+import useMeal, {
+  UpdateMealWithNewDishAndNewSource,
+  UpdateMealWithExistingDish,
+} from '../../../features/meal/useMeal';
 
 type Props = {
   meal: MealForCalender;
@@ -16,10 +19,10 @@ export default (props: Props) => {
 
   const {
     updateMealWithNewDishAndNewSource,
-    // AddMealWithNewDishAndNewSourceSchema,
+    UpdateMealWithNewDishAndNewSourceSchema,
 
     updateMealWithExistingDish,
-    // AddMealWithExistingDishSchema,
+    UpdateMealWithExistingDishSchema,
   } = useMeal();
 
   const {
@@ -33,16 +36,18 @@ export default (props: Props) => {
     if (choosingRegisterNewDish) {
       return [
         updateMealWithNewDishAndNewSource,
-        null, // UpdateMealWithNewDishAndNewSourceSchema,
+        UpdateMealWithNewDishAndNewSourceSchema,
       ];
     }
     if (choosingUseExistingDish) {
-      return [updateMealWithExistingDish, null]; // UpdateMealWithExistingDishSchema];
+      return [updateMealWithExistingDish, UpdateMealWithExistingDishSchema];
     }
     return [null, null];
   })();
 
-  const onSubmit: SubmitHandler<any> = async (input) => {
+  const onSubmit: SubmitHandler<
+    UpdateMealWithNewDishAndNewSource | UpdateMealWithExistingDish
+  > = async (input) => {
     await updateMealFunc(input, {
       onComplated: (data) => {
         if (onEditSucceeded) onEditSucceeded();
@@ -52,9 +57,10 @@ export default (props: Props) => {
 
   return (
     <MealForm
-      formSchema={null}
+      formSchema={UpdateMealSchema}
       onSubmit={onSubmit}
       defaultDate={parseISO(meal.date)}
+      registeredMealId={meal.id}
       registeredMealType={meal.mealType}
       registeredDishId={meal.dish.id}
       useChoosingDishTypeResult={{
