@@ -59,7 +59,7 @@ export default (props: Props) => {
     <MealForm
       formSchema={UpdateMealSchema}
       onSubmit={onSubmit}
-      defaultDate={parseISO(meal.date)}
+      defaultDate={meal.date}
       registeredMealId={meal.id}
       registeredMealType={meal.mealType}
       registeredDishId={meal.dish.id}

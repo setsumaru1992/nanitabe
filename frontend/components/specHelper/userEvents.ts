@@ -25,5 +25,7 @@ export const userChooseSelectBox = async (
   const options = optionTestIds.map((optionTestId) =>
     screen.getByTestId(optionTestId),
   );
-  await user.selectOptions(screen.getByTestId(selectBoxTestId), options);
+  await act(async () => {
+    await user.selectOptions(screen.getByTestId(selectBoxTestId), options);
+  });
 };

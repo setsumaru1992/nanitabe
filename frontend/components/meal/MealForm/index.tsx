@@ -94,7 +94,7 @@ export default (props: Props) => {
           <input
             type="hidden"
             value={registeredMealId}
-            {...register('meal.mealId', { valueAsNumber: true })}
+            {...register('meal.id', { valueAsNumber: true })}
           />
         )}
         <FormFieldWrapperWithLabel label="日付" required>
@@ -102,6 +102,7 @@ export default (props: Props) => {
             type="date"
             defaultValue={buildISODateString(defaultDate)}
             {...register('meal.date', { valueAsDate: true })}
+            data-testid="mealDate"
           />
           <ErrorMessageIfExist errorMessage={errors.meal?.date?.message} />
         </FormFieldWrapperWithLabel>
@@ -110,10 +111,26 @@ export default (props: Props) => {
           <Form.Select
             defaultValue={registeredMealType || MEAL_TYPE.DINNER}
             {...register('meal.mealType', { valueAsNumber: true })}
+            data-testid="mealTypeOptions"
           >
-            <option value={MEAL_TYPE.BREAKFAST}>朝食</option>
-            <option value={MEAL_TYPE.LUNCH}>昼食</option>
-            <option value={MEAL_TYPE.DINNER}>夕食</option>
+            <option
+              value={MEAL_TYPE.BREAKFAST}
+              data-testid={`mealTypeOption-${MEAL_TYPE.BREAKFAST}`}
+            >
+              朝食
+            </option>
+            <option
+              value={MEAL_TYPE.LUNCH}
+              data-testid={`mealTypeOption-${MEAL_TYPE.LUNCH}`}
+            >
+              昼食
+            </option>
+            <option
+              value={MEAL_TYPE.DINNER}
+              data-testid={`mealTypeOption-${MEAL_TYPE.DINNER}`}
+            >
+              夕食
+            </option>
           </Form.Select>
           <ErrorMessageIfExist errorMessage={errors.meal?.mealType?.message} />
         </FormFieldWrapperWithLabel>
@@ -166,6 +183,7 @@ export default (props: Props) => {
                 <Form.Select
                   defaultValue={MEAL_POSITION.MAIN_DISH}
                   {...register('dish.mealPosition', { valueAsNumber: true })}
+                  data-testid="mealPositionOptions"
                 >
                   <option value={MEAL_POSITION.STAPLE_FOOD}>
                     主食（炭水化物）
@@ -210,14 +228,15 @@ export default (props: Props) => {
             </>
           )}
 
-          {choosingUseExistingDish && (
+          {choosingUseExistingDish && dishes && (
             <FormFieldWrapperWithLabel label="料理">
               <Form.Select
                 defaultValue={registeredDishId || null}
                 {...register('dishId', { valueAsNumber: true })}
                 data-testid="existingDishes"
               >
-                {(dishes || []).map((dish) => (
+                <option value={null}>--</option>
+                {dishes.map((dish) => (
                   <option
                     key={dish.id}
                     value={dish.id}

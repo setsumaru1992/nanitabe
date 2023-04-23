@@ -20,7 +20,7 @@ export const newMealSchema = z.object({
 });
 
 export const updateMealSchema = z.object({
-  mealId: mealIdSchema,
+  id: mealIdSchema,
   date: dateSchema,
   mealType: mealTypeSchema,
   comment: commentSchema,
