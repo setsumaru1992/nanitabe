@@ -109,9 +109,30 @@ describe('<EditMeal>', () => {
     });
   });
 
-  // describe('when update meal with different existing dish', () => {});
+  describe('when update meal with different existing dish', () => {
+    it('succeeds with expected required graphql params', async () => {
+      const { getLatestMutationVariables, mutationInterceptor } =
+        registerMutationHandler(UpdateMealWithExistingDishDocument, {
+          updateMealWithExistingDish: {
+            mealId: registeredMeal.id,
+          },
+        });
+
+      await userChooseSelectBox(screen, 'existingDishes', [
+        `existingDish-${updatedDish.id}`,
+      ]);
+      await clickSubmitButton();
+
+      expect(getLatestMutationVariables()).toEqual({
+        dishId: updatedDish.id,
+        meal: buildGraphQLMeal(registeredMealWithoutDish),
+      });
+    });
+  });
+
+  // describe('when update meal with different all fields', () => {
+  //     it('succeeds with expected required graphql params', async () => {});});
   //
-  // describe('when update meal with different all fields', () => {});
-  //
-  // describe('when update meal with new dish', () => {});
+  // describe('when update meal with new dish', () => {
+  //     it('succeeds with expected required graphql params', async () => {});});
 });
