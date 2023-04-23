@@ -1,5 +1,6 @@
 import { useAddMeal } from './addMealMutation';
 import { useFetchMealsForCalender } from './fetchMealQuery';
+import { useUpdateMeal } from './updateMealMutation';
 
 export type { AddMealWithNewDishAndNewSource } from './addMealMutation';
 export type { AddMealWithExistingDish } from './addMealMutation';
@@ -23,6 +24,15 @@ export default (
   } = useAddMeal();
 
   const {
+    updateMealWithNewDishAndNewSource,
+    // UpdateMealWithNewDishAndNewSourceSchema,
+    updateMealWithExistingDish,
+    // UpdateMealWithExistingDishSchema,
+    updateMealLoading,
+    updateMealError,
+  } = useUpdateMeal();
+
+  const {
     mealsForCalender,
     fetchMealsForCalenderLoading,
     fetchMealsForCalenderError,
@@ -44,5 +54,12 @@ export default (
     AddMealWithExistingDishSchema,
     addMealLoading,
     addMealError,
+
+    updateMealWithNewDishAndNewSource,
+    // UpdateMealWithNewDishAndNewSourceSchema,
+    updateMealWithExistingDish,
+    // UpdateMealWithExistingDishSchema,
+    updateMealLoading,
+    updateMealError,
   };
 };
