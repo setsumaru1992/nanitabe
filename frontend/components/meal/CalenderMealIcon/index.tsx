@@ -8,9 +8,10 @@ import Menu from './Menu';
 
 type Props = {
   meal: MealForCalender;
+  onUpdateSucceeded?: () => void;
 };
 export default (props: Props) => {
-  const { meal } = props;
+  const { meal, onUpdateSucceeded } = props;
   const { dish } = meal;
   const { FloatModal, FloatModalOpener, closeModal } = useFloatModal();
 
@@ -42,7 +43,11 @@ export default (props: Props) => {
         />
       </FloatModalOpener>
       <FloatModal>
-        <Menu meal={meal} closeSelf={closeModal} />
+        <Menu
+          meal={meal}
+          closeSelf={closeModal}
+          onUpdateSucceeded={onUpdateSucceeded}
+        />
       </FloatModal>
     </div>
   );

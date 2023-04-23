@@ -5,7 +5,7 @@ module Mutations::Meal
 
     field :meal_id, Int, null: false
 
-    def resolve(meal:)
+    def resolve(meal:, dish_id:)
       ActiveRecord::Base.transaction do
         ::Business::Dish::Meal::Command::UpdateMealCommand.call(
           user_id: context[:current_user_id],
@@ -14,7 +14,7 @@ module Mutations::Meal
             date: meal.date,
             meal_type: meal.meal_type,
             comment: meal.comment,
-            dish_id: meal.dish_id,
+            dish_id:,
           ),
         )
       end

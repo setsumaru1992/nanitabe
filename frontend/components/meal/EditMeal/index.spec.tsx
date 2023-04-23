@@ -81,7 +81,7 @@ describe('<EditMeal>', () => {
 
     renderWithApollo(
       <EditMeal
-        meal={registeredMeal}
+        meal={buildGraphQLMeal(registeredMeal)}
         onSchemaError={(schemaErrors) => {
           // スキーマエラーがあったときテストで把握しやすいようにログに出す
           console.log(schemaErrors);

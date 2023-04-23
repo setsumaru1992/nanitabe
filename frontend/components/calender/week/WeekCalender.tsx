@@ -68,7 +68,12 @@ export default (props: Props) => {
                 <td className={style['dish-container']}>
                   {meals?.map((meal) => (
                     <React.Fragment key={meal.id}>
-                      <CalenderMealIcon meal={meal} />{' '}
+                      <CalenderMealIcon
+                        meal={meal}
+                        onUpdateSucceeded={() => {
+                          refetchMealsForCalender();
+                        }}
+                      />{' '}
                     </React.Fragment>
                   ))}
                   <AddMealIcon

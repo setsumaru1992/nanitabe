@@ -6,10 +6,11 @@ export const buildMutationExecutor = <Input = any>(
     return mutation({
       variables: input,
       onCompleted: (data) => {
-        onComplated(data);
+        if (onComplated) onComplated(data);
       },
       onError: (err) => {
-        onError(err);
+        console.error(err);
+        if (onError) onError(err);
       },
     });
   };
