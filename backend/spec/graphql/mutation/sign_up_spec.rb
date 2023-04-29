@@ -1,5 +1,5 @@
 require "rails_helper"
-require_relative "./graphql_helper"
+require_relative "../graphql_helper"
 
 def build_signup_mutation
   <<~GRAPHQL

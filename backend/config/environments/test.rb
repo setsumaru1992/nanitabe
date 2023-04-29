@@ -58,7 +58,7 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
-  config.hosts << "www.example.com"
+  config.hosts << "www.example.com" # NOTE: rspec実行時ホスト
 
   config.factory_bot.definition_file_paths = ["spec/support/factories"]
 end

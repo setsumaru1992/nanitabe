@@ -1,5 +1,5 @@
-def fetch_mutation(mutation_string, variables)
-  post "/graphql", params: { query: mutation_string, variables: }, as: :json
+def fetch_mutation(mutation_string, variables, headers: {})
+  post("/graphql", params: { query: mutation_string, variables: }, as: :json, headers:)
   response_body = JSON.parse(response.body)
 
   if response_body["errors"]
