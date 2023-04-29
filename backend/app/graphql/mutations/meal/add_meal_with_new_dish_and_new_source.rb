@@ -4,6 +4,7 @@ module Mutations::Meal
     argument :meal, ::Types::Input::Meal::MealForCreate, required: true
 
     field :meal_id, Int, null: false
+    field :dish_id, Int, null: false
 
     def resolve(dish:, meal:)
       ActiveRecord::Base.transaction do
@@ -20,7 +21,10 @@ module Mutations::Meal
             comment: meal.comment,
           ),
         )
-        { meal_id: created_meal.id }
+        {
+          meal_id: created_meal.id,
+          dish_id: created_meal.dish_id,
+        }
       end
     end
   end

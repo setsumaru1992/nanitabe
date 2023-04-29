@@ -18,8 +18,8 @@ module Mutations::Meal
       comparer.build_records_for_test()
     end
 
-    context "when add dish" do
-      let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_CREATED] }
+    context "when add meal" do
+      let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_CREATED_WITH_FULL_FIELD] }
 
       it "adding succeeds" do
         variables = {
