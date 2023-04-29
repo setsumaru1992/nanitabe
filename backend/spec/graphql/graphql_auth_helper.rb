@@ -1,11 +1,11 @@
 require_relative "./graphql_helper"
 
-def fetch_auth_header_values
+def fetch_auth_header_values(existing_user_id: nil)
   existing_login_user = LoginUser.where(uid: auth_variables[:email]).joins(:user)
   credential = if existing_login_user.present?
-                 fetch_exisiting_login_user_credential
+                 fetch_exisiting_login_user_credential(existing_user_id)
                else
-                 fetch_new_login_user_credential
+                 fetch_new_login_user_credential(existing_user_id)
                end
 
   {
@@ -15,10 +15,15 @@ def fetch_auth_header_values
   }
 end
 
-def fetch_exisiting_login_user_credential
+def fetch_mutation_with_auth(mutation_string, variables, existing_user_id = nil)
+  headers = fetch_auth_header_values(existing_user_id:)
+  fetch_mutation(mutation_string, variables, headers:)
+end
+
+def fetch_exisiting_login_user_credential(existing_user_id)
   login_mutation = <<~GRAPHQL
-    mutation login($email: String!, $password: String!) {
-      loginUserLogin(email: $email, password: $password) {
+    mutation login($email: String!, $password: String!, $userid: Int) {
+      loginUserLogin(email: $email, password: $password, userid: $userid) {
         credentials {
           accessToken
           client
@@ -27,19 +32,22 @@ def fetch_exisiting_login_user_credential
       }
     }
   GRAPHQL
-  fetch_mutation(login_mutation, auth_variables)["loginUserLogin"]["credentials"]
+  variables = auth_variables.merge(userid: existing_user_id)
+  fetch_mutation(login_mutation, variables)["loginUserLogin"]["credentials"]
 end
 
-def fetch_new_login_user_credential
+def fetch_new_login_user_credential(existing_user_id)
   signup_mutation = <<~GRAPHQL
     mutation signup(
         $email: String = "",
         $password: String = "",
+        $userid: Int,
       ) {
       loginUserRegister(
         email: $email,
         password: $password,
         passwordConfirmation: $password
+        userid: $userid
       ) {
         credentials {
           accessToken
@@ -49,7 +57,8 @@ def fetch_new_login_user_credential
       }
     }
   GRAPHQL
-  fetch_mutation(signup_mutation, auth_variables)["loginUserRegister"]["credentials"]
+  variables = auth_variables.merge(userid: existing_user_id)
+  fetch_mutation(signup_mutation, variables)["loginUserRegister"]["credentials"]
 end
 
 def auth_variables
