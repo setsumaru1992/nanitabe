@@ -9,7 +9,7 @@ class BackendSchema < GraphQL::Schema
         operations: {
           # LoginUserだけでなく、Userも作るラッパー。以下のレスポンスをsuperで呼び出して生成
           # https://github.com/graphql-devise/graphql_devise/blob/master/lib/graphql_devise/mutations/register.rb
-          register: Mutations::SignUp,
+          register: Mutations::Auth::SignUp,
         }
       )
     ],

@@ -1,4 +1,4 @@
-module Mutations
+module Mutations::Auth
   class SignUp < ::GraphqlDevise::Mutations::Register
     def resolve(confirm_url: nil, **attrs)
       graphql_devise_result = super(confirm_url:, **attrs)

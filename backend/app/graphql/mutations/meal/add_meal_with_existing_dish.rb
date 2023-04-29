@@ -6,7 +6,6 @@ module Mutations::Meal
     field :meal_id, Int, null: false
 
     def resolve(dish_id:, meal:)
-      Rails.logger.info("★★★★★★★★★★★★★★★★★★★★★★★★★★★★")
       ActiveRecord::Base.transaction do
         created_meal = ::Business::Dish::Meal::Command::CreateMealCommand.call(
           user_id: context[:current_user_id],

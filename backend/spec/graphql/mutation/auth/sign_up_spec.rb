@@ -1,5 +1,5 @@
 require "rails_helper"
-require_relative "../graphql_helper"
+require_relative "../../graphql_helper"
 
 def build_signup_mutation
   <<~GRAPHQL
@@ -20,7 +20,7 @@ def build_signup_mutation
   GRAPHQL
 end
 
-RSpec.describe Mutations::SignUp, type: :request do
+RSpec.describe Mutations::Auth::SignUp, type: :request do
   context "when signup with invalid parameters" do
     it "signup failed" do
       user_record_size_before = ::User.all.size
