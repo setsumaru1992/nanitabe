@@ -21,6 +21,8 @@ module Business::Dish
           user_id:,
           meal_for_update:,
         )
+
+        meal_for_update
       end
     end
   end

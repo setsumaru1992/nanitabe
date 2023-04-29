@@ -4,10 +4,11 @@ module Mutations::Meal
     argument :dish, ::Types::Input::Dish::DishForCreate, required: true
 
     field :meal_id, Int, null: false
+    field :dish_id, Int, null: false
 
     def resolve(meal:, dish:)
       ActiveRecord::Base.transaction do
-        ::Business::Dish::Command::Meal::Update::UpdateMealWithNewDishCommand.call(
+        updated_meal = ::Business::Dish::Command::Meal::Update::UpdateMealWithNewDishCommand.call(
           user_id: context[:current_user_id],
           dish_for_create: ::Business::Dish::Dish::Command::Params::DishForCreate.new(
             name: dish.name,
@@ -21,8 +22,11 @@ module Mutations::Meal
             comment: meal.comment,
           ),
         )
+        {
+          meal_id: meal.id,
+          dish_id: updated_meal.dish_id,
+        }
       end
-      { meal_id: meal.id }
     end
   end
 end
