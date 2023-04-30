@@ -25,6 +25,11 @@ module Business::Dish::Meal
         meal_record_for_update = set_same_name_fields(updated_meal, existing_meal_record, [:dish_id, :date, :meal_type, :comment])
         meal_record_for_update.save!
       end
+
+      def remove(meal_id)
+        existing_meal_record = ::Meal.find(meal_id)
+        existing_meal_record.destroy!
+      end
     end
   end
 end

@@ -1,4 +1,5 @@
 require_relative "../../../../../support/factories/user_repository"
+require_relative "../../../../../support/factories/meal_repository"
 require_relative "../../../../../support/factories/dish_repository"
 
 KEY_OF_TEST_MEAL_SHOULD_BE_UPDATED = "MEAL_SHOULD_BE_UPDATED"
