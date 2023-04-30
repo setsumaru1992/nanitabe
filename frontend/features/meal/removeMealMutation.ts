@@ -1,5 +1,8 @@
 import { gql } from '@apollo/client';
-import { useRemoveMealMutation } from '../../lib/graphql/generated/graphql';
+import {
+  RemoveMealMutation,
+  useRemoveMealMutation,
+} from '../../lib/graphql/generated/graphql';
 import { buildMutationExecutor } from '../utils/mutationUtils';
 
 export const REMOVE_MEAL = gql`
@@ -12,7 +15,9 @@ export const REMOVE_MEAL = gql`
 
 export const useRemoveMeal = () => {
   const [removeMeal, removeMealLoading, removeMealError] =
-    buildMutationExecutor<{ mealId: number }>(useRemoveMealMutation);
+    buildMutationExecutor<{ mealId: number }, RemoveMealMutation>(
+      useRemoveMealMutation,
+    );
 
   return {
     removeMeal,

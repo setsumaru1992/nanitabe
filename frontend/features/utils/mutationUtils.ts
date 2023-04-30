@@ -1,18 +1,33 @@
-export const buildMutationExecutor = <Input = any>(
+import type { ApolloError } from '@apollo/client';
+
+type MutationCallbacks<Output> = {
+  onCompleted: (data: Output) => void;
+  onError: (error: ApolloError) => void;
+};
+
+export type ExecMutation<Input, Output> = (
+  input: Input,
+  callbacks: MutationCallbacks<Output>,
+) => any;
+
+export const buildMutationExecutor = <Input = any, Output = any>(
   codegenMutationHook: () => any,
 ) => {
-  const [mutation, { loading, error }] = codegenMutationHook();
-  const execMutation = async (input: Input, { onCompleted, onError }) => {
+  const [mutation, { mutationLoading, mutationError }] = codegenMutationHook();
+  const execMutation = async (
+    input: Input,
+    { onCompleted, onError }: MutationCallbacks<Output>,
+  ) => {
     return mutation({
       variables: input,
-      onCompleted: (data) => {
+      onCompleted: (data: Output) => {
         if (onCompleted) onCompleted(data);
       },
-      onError: (err) => {
-        console.error(err);
-        if (onError) onError(err);
+      onError: (error: ApolloError) => {
+        console.error(error);
+        if (onError) onError(error);
       },
     });
   };
-  return [execMutation, loading, error];
+  return [execMutation, mutationLoading, mutationError];
 };

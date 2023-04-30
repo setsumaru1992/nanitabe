@@ -3,10 +3,14 @@ import { useFetchMealsForCalender } from './fetchMealQuery';
 import { useUpdateMeal } from './updateMealMutation';
 import { useRemoveMeal } from './removeMealMutation';
 
-export type { AddMealWithNewDishAndNewSource } from './addMealMutation';
-export type { AddMealWithExistingDish } from './addMealMutation';
-export type { UpdateMealWithNewDishAndNewSource } from './updateMealMutation';
-export type { UpdateMealWithExistingDish } from './updateMealMutation';
+export type {
+  AddMealMutationInput,
+  AddMealMutationOutput,
+} from './addMealMutation';
+export type {
+  UpdateMealWithNewDishAndNewSource,
+  UpdateMealWithExistingDish,
+} from './updateMealMutation';
 
 type UseMealArg = {
   startDateForFetchingMealsForCalender: Date | null;

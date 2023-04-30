@@ -1,6 +1,8 @@
 import { gql } from '@apollo/client';
 import * as z from 'zod';
 import {
+  AddMealWithExistingDishMutation,
+  AddMealWithNewDishAndNewSourceMutation,
   useAddMealWithExistingDishMutation,
   useAddMealWithNewDishAndNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
@@ -43,22 +45,32 @@ export type AddMealWithExistingDish = z.infer<
   typeof AddMealWithExistingDishSchema
 >;
 
+export type AddMealMutationInput =
+  | AddMealWithNewDishAndNewSource
+  | AddMealWithExistingDish;
+
+export type AddMealMutationOutput =
+  | AddMealWithNewDishAndNewSourceMutation
+  | AddMealWithExistingDishMutation;
+
 export const useAddMeal = () => {
   const [
     addMealWithNewDishAndNewSource,
     addMealWithNewDishAndNewSourceLoading,
     addMealWithNewDishAndNewSourceError,
-  ] = buildMutationExecutor<AddMealWithNewDishAndNewSource>(
-    useAddMealWithNewDishAndNewSourceMutation,
-  );
+  ] = buildMutationExecutor<
+    AddMealWithNewDishAndNewSource,
+    AddMealWithNewDishAndNewSourceMutation
+  >(useAddMealWithNewDishAndNewSourceMutation);
 
   const [
     addMealWithExistingDish,
     addMealWithExistingDishLoading,
     addMealWithExistingDishError,
-  ] = buildMutationExecutor<AddMealWithExistingDish>(
-    useAddMealWithExistingDishMutation,
-  );
+  ] = buildMutationExecutor<
+    AddMealWithExistingDish,
+    AddMealWithExistingDishMutation
+  >(useAddMealWithExistingDishMutation);
 
   return {
     addMealWithNewDishAndNewSource,

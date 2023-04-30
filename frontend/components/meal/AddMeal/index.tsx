@@ -2,10 +2,11 @@ import React from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import useMeal from '../../../features/meal/useMeal';
 import type {
-  AddMealWithNewDishAndNewSource,
-  AddMealWithExistingDish,
+  AddMealMutationInput,
+  AddMealMutationOutput,
 } from '../../../features/meal/useMeal';
 import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from '../MealForm';
+import { ExecMutation } from '../../../features/utils/mutationUtils';
 
 type Props = {
   defaultDate?: Date;
@@ -32,24 +33,34 @@ export default (props: Props) => {
     choosingUseExistingDish,
   } = useChoosingDishType(CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH);
 
-  const [addMealFunc, AddMealSchema] = (() => {
+  const {
+    addMealFunc,
+    AddMealSchema,
+  }: {
+    addMealFunc: ExecMutation<AddMealMutationInput, AddMealMutationOutput>;
+    AddMealSchema: any;
+  } = (() => {
     if (choosingRegisterNewDish) {
-      return [
-        addMealWithNewDishAndNewSource,
-        AddMealWithNewDishAndNewSourceSchema,
-      ];
+      return {
+        addMealFunc: addMealWithNewDishAndNewSource,
+        AddMealSchema: AddMealWithNewDishAndNewSourceSchema,
+      };
     }
     if (choosingUseExistingDish) {
-      return [addMealWithExistingDish, AddMealWithExistingDishSchema];
+      return {
+        addMealFunc: addMealWithExistingDish,
+        AddMealSchema: AddMealWithExistingDishSchema,
+      };
     }
-    return [null, null];
+    return {
+      addMealFunc: null,
+      AddMealSchema: null,
+    };
   })();
 
-  const onSubmit: SubmitHandler<
-    AddMealWithNewDishAndNewSource | AddMealWithExistingDish
-  > = async (input) => {
+  const onSubmit: SubmitHandler<AddMealMutationInput> = async (input) => {
     await addMealFunc(input, {
-      onCompleted: (data) => {
+      onCompleted: (_) => {
         if (onAddSucceeded) onAddSucceeded();
         // コンポーネント内にあるから触れなくなっちゃったけど、必要になったらフォーム内のものを動かせるようにする
         // reset();
