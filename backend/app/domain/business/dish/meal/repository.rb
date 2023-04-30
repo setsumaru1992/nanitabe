@@ -26,8 +26,12 @@ module Business::Dish::Meal
         meal_record_for_update.save!
       end
 
-      def remove(meal_id)
+      def remove(meal_id, update_user_id, force_update: false)
         existing_meal_record = ::Meal.find(meal_id)
+
+        can_update = existing_meal_record.user_id == update_user_id || force_update
+        raise "このユーザはこのレコードを削除できません。" unless can_update
+
         existing_meal_record.destroy!
       end
     end

@@ -14,9 +14,20 @@ module Business::Dish::Meal
         let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_REMOVED] }
 
         it "removing succeeds" do
-          described_class.remove(comparer.prepared_records[:meal_record].id)
+          described_class.remove(
+            comparer.prepared_records[:meal_record].id,
+            comparer.prepared_records[:user_record].id,
+          )
 
           comparer.compare_to_expectation(self)
+        end
+      end
+
+      context "when remove meal by different user," do
+        let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_REMOVED] }
+
+        it "removing succeeds" do
+          expect { described_class.remove(comparer.prepared_records[:meal_record].id, 99) }.to raise_error "このユーザはこのレコードを削除できません。"
         end
       end
     end
