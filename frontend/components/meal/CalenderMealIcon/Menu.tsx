@@ -4,7 +4,7 @@ import style from './Menu.module.scss';
 import useFullScreenModal from '../../common/modal/useFullScreenModal';
 import { MealForCalender } from '../../../lib/graphql/generated/graphql';
 import useMeal from '../../../features/meal/useMeal';
-import EditMeal from '../EditMeal';
+import { EditMeal } from '../MealForm';
 
 type Props = {
   meal: MealForCalender;

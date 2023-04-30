@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import EditMeal from './index';
+import EditMeal from './EditMeal';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import {
   enterTextBox,

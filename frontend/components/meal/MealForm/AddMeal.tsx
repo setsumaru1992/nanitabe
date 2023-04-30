@@ -5,7 +5,7 @@ import type {
   AddMealMutationInput,
   AddMealMutationOutput,
 } from '../../../features/meal/useMeal';
-import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from '../MealForm';
+import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from './MealForm';
 import { ExecMutation } from '../../../features/utils/mutationUtils';
 
 type Props = {

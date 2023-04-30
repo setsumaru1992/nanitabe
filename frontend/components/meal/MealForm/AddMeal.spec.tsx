@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import AddMeal from './index';
+import AddMeal from './AddMeal';
 import {
   AddMealWithNewDishAndNewSourceDocument,
   AddMealWithExistingDishDocument,

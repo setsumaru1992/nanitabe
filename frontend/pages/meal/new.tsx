@@ -1,6 +1,6 @@
 import React from 'react';
-import AddMeal from '../../components/meal/AddMeal';
-import style from '../../components/meal/MealForm/index.module.scss';
+import AddMeal from '../../components/meal/MealForm/AddMeal';
+import style from '../../components/meal/MealForm/MealForm.module.scss';
 
 export default (props) => {
   return (
