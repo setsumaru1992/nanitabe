@@ -49,7 +49,7 @@ export default (props: Props) => {
     UpdateMealWithNewDishAndNewSource | UpdateMealWithExistingDish
   > = async (input) => {
     await updateMealFunc(input, {
-      onComplated: (data) => {
+      onCompleted: (data) => {
         if (onEditSucceeded) onEditSucceeded();
       },
     });

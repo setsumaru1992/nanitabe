@@ -2,11 +2,11 @@ export const buildMutationExecutor = <Input = any>(
   codegenMutationHook: () => any,
 ) => {
   const [mutation, { loading, error }] = codegenMutationHook();
-  const execMutation = async (input: Input, { onComplated, onError }) => {
+  const execMutation = async (input: Input, { onCompleted, onError }) => {
     return mutation({
       variables: input,
       onCompleted: (data) => {
-        if (onComplated) onComplated(data);
+        if (onCompleted) onCompleted(data);
       },
       onError: (err) => {
         console.error(err);

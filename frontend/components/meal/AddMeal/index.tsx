@@ -49,7 +49,7 @@ export default (props: Props) => {
     AddMealWithNewDishAndNewSource | AddMealWithExistingDish
   > = async (input) => {
     await addMealFunc(input, {
-      onComplated: (data) => {
+      onCompleted: (data) => {
         if (onAddSucceeded) onAddSucceeded();
         // コンポーネント内にあるから触れなくなっちゃったけど、必要になったらフォーム内のものを動かせるようにする
         // reset();

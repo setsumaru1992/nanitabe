@@ -29,7 +29,7 @@ export default (props: Props) => {
     await removeMeal(
       { mealId: meal.id },
       {
-        onComplated: (_) => {
+        onCompleted: (_) => {
           if (onChanged) onChanged();
         },
       },
