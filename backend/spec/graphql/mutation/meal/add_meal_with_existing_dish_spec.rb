@@ -2,18 +2,18 @@ require "rails_helper"
 require_relative "../../graphql_auth_helper"
 require_relative "../../../domain/business/dish/meal/repository/repository_add_shared_examples"
 
-def build_mutation
-  <<~GRAPHQL
-    mutation addMealWithExistingDish($dishId: Int!, $meal: MealForCreate!) {
-      addMealWithExistingDish(input: {dishId: $dishId, meal: $meal}) {
-        mealId
-      }
-    }
-  GRAPHQL
-end
-
 module Mutations::Meal
   RSpec.describe AddMealWithExistingDish, type: :request do
+    def build_mutation
+      <<~GRAPHQL
+        mutation addMealWithExistingDish($dishId: Int!, $meal: MealForCreate!) {
+          addMealWithExistingDish(input: {dishId: $dishId, meal: $meal}) {
+            mealId
+          }
+        }
+      GRAPHQL
+    end
+
     before do
       comparer.build_records_for_test()
     end

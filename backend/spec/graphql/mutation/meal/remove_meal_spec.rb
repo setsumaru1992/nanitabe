@@ -2,18 +2,18 @@ require "rails_helper"
 require_relative "../../graphql_auth_helper"
 require_relative "../../../domain/business/dish/meal/repository/repository_remove_shared_examples"
 
-def build_mutation
-  <<~GRAPHQL
-    mutation removeMeal($mealId: Int!) {
-      removeMeal(input: {mealId: $mealId}) {
-        mealId
-      }
-    }
-  GRAPHQL
-end
-
 module Mutations::Meal
   RSpec.describe RemoveMeal, type: :request do
+    def build_mutation
+      <<~GRAPHQL
+        mutation removeMeal($mealId: Int!) {
+          removeMeal(input: {mealId: $mealId}) {
+            mealId
+          }
+        }
+      GRAPHQL
+    end
+
     before do
       comparer.build_records_for_test()
     end

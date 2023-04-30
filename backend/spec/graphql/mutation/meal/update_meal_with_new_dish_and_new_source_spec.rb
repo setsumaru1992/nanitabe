@@ -3,19 +3,19 @@ require_relative "../../graphql_auth_helper"
 require_relative "../../../domain/business/dish/meal/repository/repository_update_shared_examples"
 require_relative "../../../domain/business/dish/dish/repository/repository_add_shared_examples"
 
-def build_mutation
-  <<~GRAPHQL
-    mutation updateMealWithNewDishAndNewSource($dish: DishForCreate!, $meal: MealForUpdate!) {
-      updateMealWithNewDishAndNewSource(input: {dish: $dish, meal: $meal}) {
-        mealId
-        dishId
-      }
-    }
-  GRAPHQL
-end
-
 module Mutations::Meal
   RSpec.describe UpdateMealWithNewDishAndNewSource, type: :request do
+    def build_mutation
+      <<~GRAPHQL
+        mutation updateMealWithNewDishAndNewSource($dish: DishForCreate!, $meal: MealForUpdate!) {
+          updateMealWithNewDishAndNewSource(input: {dish: $dish, meal: $meal}) {
+            mealId
+            dishId
+          }
+        }
+      GRAPHQL
+    end
+
     before do
       dish_comparer.build_records_for_test()
       meal_comparer.build_records_for_test()

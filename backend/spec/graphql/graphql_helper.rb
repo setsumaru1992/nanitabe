@@ -4,12 +4,11 @@ def fetch_mutation(mutation_string, variables, headers: {})
 
   if response_body["errors"]
     error_messages = response_body["errors"].map do |error|
-      summary = error["message"]
-      detail = build_error_detail_message(error)
-      decorate_error_message(summary, detail)
+      decorate_error_message(error["message"], build_error_detail_message(error))
     end
     raise decorate_error_messages(error_messages, variables)
   end
+
   response_body["data"]
 end
 
@@ -37,4 +36,5 @@ end
 def decorate_error_messages(error_messages, variables)
   result = error_messages.join("\n")
   result << "\n\nvariables: #{variables}"
+  result
 end
