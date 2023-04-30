@@ -56,6 +56,7 @@ export default (props: Props) => {
         <a
           className={classnames(style['menu__content'])}
           onClick={handleRemoveMeal}
+          data-testid="mealDeleteButton"
         >
           削除
         </a>
