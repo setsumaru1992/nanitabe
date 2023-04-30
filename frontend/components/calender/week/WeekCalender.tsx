@@ -70,7 +70,7 @@ export default (props: Props) => {
                     <React.Fragment key={meal.id}>
                       <CalenderMealIcon
                         meal={meal}
-                        onUpdateSucceeded={() => {
+                        onChanged={() => {
                           refetchMealsForCalender();
                         }}
                       />{' '}

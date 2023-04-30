@@ -8,11 +8,11 @@ import EditMeal from '../EditMeal';
 type Props = {
   meal: MealForCalender;
   closeSelf: () => void;
-  onUpdateSucceeded?: () => void;
+  onChanged?: () => void;
 };
 
 export default (props: Props) => {
-  const { meal, onUpdateSucceeded, closeSelf } = props;
+  const { meal, onChanged, closeSelf } = props;
   const { FullScreenModal, FullScreenModalOpener, closeModal } =
     useFullScreenModal({
       onClose: () => {
@@ -30,7 +30,7 @@ export default (props: Props) => {
             meal={meal}
             onEditSucceeded={() => {
               closeModal();
-              if (onUpdateSucceeded) onUpdateSucceeded();
+              if (onChanged) onChanged();
             }}
           />
         </FullScreenModal>
