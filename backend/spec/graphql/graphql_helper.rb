@@ -5,18 +5,36 @@ def fetch_mutation(mutation_string, variables, headers: {})
   if response_body["errors"]
     error_messages = response_body["errors"].map do |error|
       summary = error["message"]
-      detail = if error["extensions"].blank?
-                 []
-               elsif error["extensions"]["detailed_errors"].present? # graphql-deviseエラー
-                 error["extensions"]["detailed_errors"]
-               elsif error["extensions"]["problems"].present? # 通常のgraphqlエラー
-                 error["extensions"]["problems"].map { |problem| problem["explanation"] }
-               else
-                 []
-               end.compact.join(" and ")
-      "#{summary} #{detail.present? ? "[detail: #{detail}]" : ''}"
+      detail = build_error_detail_message(error)
+      decorate_error_message(summary, detail)
     end
-    raise error_messages.join("\n")
+    raise decorate_error_messages(error_messages, variables)
   end
   response_body["data"]
+end
+
+def build_error_detail_message(graphql_error)
+  detail_messages = if graphql_error["extensions"].blank?
+                      []
+                    elsif graphql_error["extensions"]["detailed_errors"].present? # graphql-deviseエラー
+                      graphql_error["extensions"]["detailed_errors"]
+                    elsif graphql_error["extensions"]["problems"].present? # 通常のgraphqlエラー
+                      graphql_error["extensions"]["problems"].map { |problem| problem["explanation"] }
+                    else
+                      []
+                    end
+  detail_messages.compact.join(" and ")
+end
+
+def decorate_error_message(summary, detail)
+  message = summary
+  if detail.present?
+    message << "\n  #{detail}"
+  end
+  message
+end
+
+def decorate_error_messages(error_messages, variables)
+  result = error_messages.join("\n")
+  result << "\n\nvariables: #{variables}"
 end
