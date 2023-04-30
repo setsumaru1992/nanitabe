@@ -1,6 +1,7 @@
 import { useAddMeal } from './addMealMutation';
 import { useFetchMealsForCalender } from './fetchMealQuery';
 import { useUpdateMeal } from './updateMealMutation';
+import { useRemoveMeal } from './removeMealMutation';
 
 export type { AddMealWithNewDishAndNewSource } from './addMealMutation';
 export type { AddMealWithExistingDish } from './addMealMutation';
@@ -34,6 +35,8 @@ export default (
     updateMealError,
   } = useUpdateMeal();
 
+  const { removeMeal, removeMealLoading, removeMealError } = useRemoveMeal();
+
   const {
     mealsForCalender,
     fetchMealsForCalenderLoading,
@@ -63,5 +66,9 @@ export default (
     UpdateMealWithExistingDishSchema,
     updateMealLoading,
     updateMealError,
+
+    removeMeal,
+    removeMealLoading,
+    removeMealError,
   };
 };

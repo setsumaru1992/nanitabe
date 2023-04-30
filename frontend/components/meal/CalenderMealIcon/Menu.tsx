@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import style from './Menu.module.scss';
 import useFullScreenModal from '../../common/modal/useFullScreenModal';
 import { MealForCalender } from '../../../lib/graphql/generated/graphql';
+import useMeal from '../../../features/meal/useMeal';
 import EditMeal from '../EditMeal';
 
 type Props = {
@@ -19,6 +20,22 @@ export default (props: Props) => {
         closeSelf();
       },
     });
+
+  const { removeMeal } = useMeal();
+  const handleRemoveMeal = async (e) => {
+    e.preventDefault();
+    const confirmed = window.confirm('本当に削除してもよろしいですか？');
+    if (!confirmed) return;
+    await removeMeal(
+      { mealId: meal.id },
+      {
+        onComplated: (_) => {
+          if (onChanged) onChanged();
+        },
+      },
+    );
+  };
+
   return (
     <ul className={classnames(style['menu'])}>
       <li className={classnames(style['menu__row'])}>
@@ -36,7 +53,12 @@ export default (props: Props) => {
         </FullScreenModal>
       </li>
       <li className={classnames(style['menu__row'])}>
-        <a className={classnames(style['menu__content'])}>削除</a>
+        <a
+          className={classnames(style['menu__content'])}
+          onClick={handleRemoveMeal}
+        >
+          削除
+        </a>
       </li>
     </ul>
   );
