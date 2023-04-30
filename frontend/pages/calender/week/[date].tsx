@@ -2,6 +2,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import WeekCalender from '../../../components/calender/week/WeekCalender';
 
+export const WEEK_CALENDER_PAGE_URL = '/calender/week';
+export const WEEK_CALENDER_PAGE_URL_FOR_DEV = '/calender/week/2023-02-25';
+
 export async function getServerSideProps(context) {
   return { props: {} };
 }

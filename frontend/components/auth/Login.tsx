@@ -6,6 +6,10 @@ import style from './Login.module.scss';
 import FormFieldWrapperWithLabel from '../common/form/FormFieldWrapperWithLabel';
 import useAuth from '../../features/auth/useAuth';
 import type { Login } from '../../features/auth/useAuth';
+import {
+  WEEK_CALENDER_PAGE_URL,
+  WEEK_CALENDER_PAGE_URL_FOR_DEV,
+} from '../../pages/calender/week/[date]';
 
 export default (props) => {
   const { login, loginLoading, LoginSchema } = useAuth();
@@ -23,6 +27,7 @@ export default (props) => {
       onCompleted: async () => {
         setLoginResultMessage('ログインが成功しました');
         reset();
+        window.location.href = WEEK_CALENDER_PAGE_URL_FOR_DEV;
       },
       onError: async () => {
         setLoginResultMessage('ログインに失敗しました');
