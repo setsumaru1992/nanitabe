@@ -18,5 +18,17 @@ module Business::Base
     def fetch
       raise NotImplementedError
     end
+
+    private
+
+    def group_rows_by_key(rows, key_name, rows_name)
+      grouped_hash = rows.group_by { |row| row[key_name.to_sym] }
+      grouped_hash.map do |(key_value, grouped_rows)|
+        {
+          key_name.to_sym => key_value,
+          rows_name.to_sym => grouped_rows,
+        }
+      end || []
+    end
   end
 end

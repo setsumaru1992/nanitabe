@@ -1,6 +1,8 @@
 import { gql } from '@apollo/client';
 import {
   useDishesLazyQuery,
+  useDishesPerSourceLazyQuery,
+  useDishesPerSourceQuery,
   useDishesQuery,
 } from '../../lib/graphql/generated/graphql';
 import { useCodegenQuery } from '../utils/queryUtils';
@@ -27,20 +29,46 @@ export const DISHES = gql`
   }
 `;
 
+export const DISHES_PER_SOURCE = gql`
+  query dishesPerSource {
+    dishesPerSource {
+      sourceId
+    }
+  }
+`;
+
 export const useFetchDishes = (
   searchString: string | null = null,
   requireFetchedData: boolean = true,
 ) => {
-  const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
-    useDishesQuery,
-    useDishesLazyQuery,
+  const {
+    data: dishesData,
+    fetchLoading: fetchDishesLoading,
+    fetchError: fetchDishesError,
+    refetch: refetchDishes,
+  } = useCodegenQuery(useDishesQuery, useDishesLazyQuery, requireFetchedData, {
+    searchString,
+  });
+
+  const {
+    data: dishesPerSourceData,
+    fetchLoading: fetchDishesPerSourceLoading,
+    fetchError: fetchDishesPerSourceError,
+    refetch: refetchDishesPerSource,
+  } = useCodegenQuery(
+    useDishesPerSourceQuery,
+    useDishesPerSourceLazyQuery,
     requireFetchedData,
-    { searchString },
   );
+
   return {
-    dishes: data?.dishes,
-    fetchLoading,
-    fetchError,
-    refetch,
+    dishes: dishesData?.dishes,
+    dishesPerSource: dishesPerSourceData?.dishesPerSource,
+
+    fetchLoading: fetchDishesLoading || fetchDishesPerSourceLoading,
+    fetchError: fetchDishesError || fetchDishesPerSourceError,
+
+    refetch: refetchDishes,
+    refetchDishesPerSource,
   };
 };

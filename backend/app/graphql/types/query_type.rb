@@ -14,7 +14,8 @@ module Types
       "Hello World!"
     end
 
-    field :dishes, resolver: Queries::Dish::Dishes
     field :meals_for_calender, resolver: Queries::Meal::MealsForCalender
+    field :dishes, resolver: Queries::Dish::Dishes
+    field :dishes_per_source, resolver: Queries::Dish::DishesPerSource
   end
 end
