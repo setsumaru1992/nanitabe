@@ -3,7 +3,11 @@ import { useForm, FormProvider, useFormContext } from 'react-hook-form';
 import { Button, Form } from 'react-bootstrap';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
-import { MEAL_POSITION } from '../../../features/dish/const';
+import {
+  MEAL_POSITION,
+  MEAL_POSITION_LABELS,
+  MEAL_POSITIONS,
+} from '../../../features/dish/const';
 
 type Props = {
   formSchema: any;
@@ -35,36 +39,15 @@ export const DishFormContent = () => {
           {...register('dish.mealPosition', { valueAsNumber: true })}
           data-testid="mealPositionOptions"
         >
-          <option
-            value={MEAL_POSITION.STAPLE_FOOD}
-            data-testid={`mealPositionOption-${MEAL_POSITION.STAPLE_FOOD}`}
-          >
-            主食（炭水化物）
-          </option>
-          <option
-            value={MEAL_POSITION.MAIN_DISH}
-            data-testid={`mealPositionOption-${MEAL_POSITION.MAIN_DISH}`}
-          >
-            主菜（メインディッシュおかず）
-          </option>
-          <option
-            value={MEAL_POSITION.SIDE_DISH}
-            data-testid={`mealPositionOption-${MEAL_POSITION.SIDE_DISH}`}
-          >
-            副菜・前菜
-          </option>
-          <option
-            value={MEAL_POSITION.SOUP}
-            data-testid={`mealPositionOption-${MEAL_POSITION.SOUP}`}
-          >
-            汁物
-          </option>
-          <option
-            value={MEAL_POSITION.DESSERT}
-            data-testid={`mealPositionOption-${MEAL_POSITION.DESSERT}`}
-          >
-            デザート
-          </option>
+          {MEAL_POSITIONS.map((position) => (
+            <option
+              key={position}
+              value={position}
+              data-testid={`mealPositionOption-${position}`}
+            >
+              {MEAL_POSITION_LABELS[position]}
+            </option>
+          ))}
         </Form.Select>
         <ErrorMessageIfExist
           errorMessage={errors.dish?.mealPosition?.message}

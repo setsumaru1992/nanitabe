@@ -10,6 +10,10 @@ export const MEAL_POSITION = {
 
 export type MealPosition = (typeof MEAL_POSITION)[keyof typeof MEAL_POSITION];
 
+export const MEAL_POSITIONS = Object.keys(MEAL_POSITION).map(
+  (key) => MEAL_POSITION[key],
+);
+
 export const MEAL_POSITION_LABELS = {
   [MEAL_POSITION.STAPLE_FOOD]: '主食（炭水化物）',
   [MEAL_POSITION.MAIN_DISH]: '主菜（メインディッシュおかず）',
