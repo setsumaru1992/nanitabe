@@ -7,5 +7,6 @@ module Types
     field :remove_meal, mutation: ::Mutations::Meal::RemoveMeal
 
     field :add_dish, mutation: ::Mutations::Dish::AddDish
+    field :update_dish, mutation: ::Mutations::Dish::UpdateDish
   end
 end
