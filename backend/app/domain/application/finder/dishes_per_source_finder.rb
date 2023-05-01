@@ -10,7 +10,7 @@ module Application::Finder
       dishes_per_source.map do |dish_per_source|
         {
           source_id: dish_per_source[:source_id],
-          positions: group_rows_by_key(dish_per_source[:dishes], :meal_position, :dishes),
+          dishes_per_meal_position: group_rows_by_key(dish_per_source[:dishes], :meal_position, :dishes),
         }
       end
     end

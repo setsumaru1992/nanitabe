@@ -7,7 +7,6 @@ import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLab
 import { buildISODateString } from '../../../features/utils/dateUtils';
 import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
 import { MEAL_TYPE } from '../../../features/meal/const';
-import { MEAL_POSITION } from '../../../features/dish/const';
 import useDish from '../../../features/dish/useDish';
 import { DishFormContent } from '../../dish/DishForm/DishForm';
 

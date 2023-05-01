@@ -1,3 +1,5 @@
+import { MEAL_TYPE } from '../meal/const';
+
 export const MEAL_POSITION = {
   STAPLE_FOOD: 1,
   MAIN_DISH: 2,
@@ -7,3 +9,11 @@ export const MEAL_POSITION = {
 } as const;
 
 export type MealPosition = (typeof MEAL_POSITION)[keyof typeof MEAL_POSITION];
+
+export const MEAL_POSITION_LABELS = {
+  [MEAL_POSITION.STAPLE_FOOD]: '主食（炭水化物）',
+  [MEAL_POSITION.MAIN_DISH]: '主菜（メインディッシュおかず）',
+  [MEAL_POSITION.SIDE_DISH]: '副菜・前菜',
+  [MEAL_POSITION.SOUP]: '汁物',
+  [MEAL_POSITION.DESSERT]: 'デザート',
+};

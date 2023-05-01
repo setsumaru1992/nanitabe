@@ -637,7 +637,7 @@
         "description": null,
         "fields": [
           {
-            "name": "positions",
+            "name": "dishesPerMealPosition",
             "description": null,
             "args": [],
             "type": {
@@ -651,7 +651,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "DishesOfMealPosition",
+                    "name": "DishesPerMealPosition",
                     "ofType": null
                   }
                 }
@@ -680,7 +680,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "DishesOfMealPosition",
+        "name": "DishesPerMealPosition",
         "description": null,
         "fields": [
           {

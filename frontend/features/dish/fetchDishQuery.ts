@@ -33,6 +33,15 @@ export const DISHES_PER_SOURCE = gql`
   query dishesPerSource {
     dishesPerSource {
       sourceId
+      dishesPerMealPosition {
+        mealPosition
+        dishes {
+          id
+          name
+          mealPosition
+          comment
+        }
+      }
     }
   }
 `;

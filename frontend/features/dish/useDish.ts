@@ -4,15 +4,21 @@ export default (
   searchString: string | null = null,
   requireFetchedData: boolean = true,
 ) => {
-  const { dishes, fetchLoading, fetchError, refetch } = useFetchDishes(
-    searchString,
-    requireFetchedData,
-  );
-
-  return {
+  const {
     dishes,
+    dishesPerSource,
     fetchLoading,
     fetchError,
     refetch,
+    refetchDishesPerSource,
+  } = useFetchDishes(searchString, requireFetchedData);
+
+  return {
+    dishes,
+    dishesPerSource,
+    fetchLoading,
+    fetchError,
+    refetch,
+    refetchDishesPerSource,
   };
 };

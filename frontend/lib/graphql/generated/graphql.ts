@@ -94,12 +94,12 @@ export type DishRegisteredWithMeal = DishFields & {
 
 export type DishesForDisplayWithSource = {
   __typename?: 'DishesForDisplayWithSource';
-  positions: Array<DishesOfMealPosition>;
+  dishesPerMealPosition: Array<DishesPerMealPosition>;
   sourceId?: Maybe<Scalars['Int']>;
 };
 
-export type DishesOfMealPosition = {
-  __typename?: 'DishesOfMealPosition';
+export type DishesPerMealPosition = {
+  __typename?: 'DishesPerMealPosition';
   dishes: Array<Dish>;
   mealPosition?: Maybe<Scalars['Int']>;
 };
@@ -361,7 +361,7 @@ export type DishesQuery = { __typename?: 'Query', dishes: Array<{ __typename?: '
 export type DishesPerSourceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DishesPerSourceQuery = { __typename?: 'Query', dishesPerSource: Array<{ __typename?: 'DishesForDisplayWithSource', sourceId?: number | null }> };
+export type DishesPerSourceQuery = { __typename?: 'Query', dishesPerSource: Array<{ __typename?: 'DishesForDisplayWithSource', sourceId?: number | null, dishesPerMealPosition: Array<{ __typename?: 'DishesPerMealPosition', mealPosition?: number | null, dishes: Array<{ __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null }> }> }> };
 
 export type AddMealWithNewDishAndNewSourceMutationVariables = Exact<{
   dish: DishForCreate;
@@ -529,6 +529,15 @@ export const DishesPerSourceDocument = gql`
     query dishesPerSource {
   dishesPerSource {
     sourceId
+    dishesPerMealPosition {
+      mealPosition
+      dishes {
+        id
+        name
+        mealPosition
+        comment
+      }
+    }
   }
 }
     `;
