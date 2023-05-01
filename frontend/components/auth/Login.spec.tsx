@@ -21,7 +21,7 @@ const loginSucceededResult = {
 describe('<Login>', () => {
   describe('with MockedPrivider, ', () => {
     describe('when login with valid params, ', () => {
-      it('succeeds', async () => {
+      beforeEach(() => {
         const validLoginMock = {
           request: {
             query: LoginDocument,
@@ -39,6 +39,9 @@ describe('<Login>', () => {
             <Login />
           </MockedProvider>,
         );
+      });
+
+      it('succeeds', async () => {
         enterTextBox(screen, 'email', 'hogehoge@gmail.com');
         enterTextBox(screen, 'password', 'hogehoge');
         fireEvent.click(screen.getByTestId('loginButton'));

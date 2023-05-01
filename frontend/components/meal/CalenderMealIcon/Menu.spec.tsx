@@ -21,8 +21,6 @@ describe('<Menu>', () => {
     dish: registeredDish,
   };
   beforeEach(() => {
-    const mockCallWindow = jest.fn(() => true);
-    window.confirm = mockCallWindow;
     renderWithApollo(<Menu meal={registeredMeal} closeSelf={() => {}} />);
   });
 
