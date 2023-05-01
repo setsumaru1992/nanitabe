@@ -6,6 +6,7 @@ import {
   AddMealWithNewDishAndNewSourceDocument,
   AddMealWithExistingDishDocument,
   DishesDocument,
+  DishesPerSourceDocument,
 } from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import {
@@ -48,6 +49,10 @@ describe('<AddMeal>', () => {
         },
       ],
     });
+    registerQueryHandler(DishesPerSourceDocument, {
+      dishesPerSource: [],
+    });
+
     renderWithApollo(
       <AddMeal
         defaultDate={newMealWithRequiredParams.date}
