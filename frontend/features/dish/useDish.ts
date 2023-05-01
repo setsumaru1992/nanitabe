@@ -1,7 +1,9 @@
 import { useFetchDishes } from './fetchDishQuery';
 import { useAddDish } from './addDishMutation';
+import { useUpdateDish } from './updateDishMutation';
 
 export type { AddDish } from './addDishMutation';
+export type { UpdateDish } from './updateDishMutation';
 
 export default (
   searchString: string | null = null,
@@ -17,6 +19,8 @@ export default (
   } = useFetchDishes(searchString, requireFetchedData);
 
   const { addDish, addDishLoading, addDishError, AddDishSchema } = useAddDish();
+  const { updateDish, updateDishLoading, updateDishError, UpdateDishSchema } =
+    useUpdateDish();
 
   return {
     dishes,
@@ -30,5 +34,10 @@ export default (
     addDishLoading,
     addDishError,
     AddDishSchema,
+
+    updateDish,
+    updateDishLoading,
+    updateDishError,
+    UpdateDishSchema,
   };
 };

@@ -15,7 +15,9 @@ export const ADD_DISH = gql`
   }
 `;
 
-const AddDishSchema = newDishSchema;
+const AddDishSchema = z.object({
+  dish: newDishSchema,
+});
 
 export type AddDish = z.infer<typeof AddDishSchema>;
 

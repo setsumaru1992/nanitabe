@@ -23,6 +23,12 @@ export const userClick = async (screen, elementTestId) => {
   });
 };
 
+export const userClearTextbox = async (screen, elementTestId) => {
+  await act(async () => {
+    await user.clear(screen.getByTestId(elementTestId));
+  });
+};
+
 export const userChooseSelectBox = async (
   screen,
   selectBoxTestId: string,

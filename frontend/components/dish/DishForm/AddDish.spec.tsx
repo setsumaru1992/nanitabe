@@ -40,12 +40,14 @@ describe('<AddDish>', () => {
 
   describe('when add dish', () => {
     it('succeeds with expected graphql params', async () => {
-      const { getLatestMutationVariables, mutationInterceptor } =
-        registerMutationHandler(AddDishDocument, {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        AddDishDocument,
+        {
           addDish: {
             dishId: 1,
           },
-        });
+        },
+      );
 
       await userType(screen, 'dishname', newDishWithRequiredParams.name);
       await userClick(screen, 'submitDishButton');

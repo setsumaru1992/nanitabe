@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm, FormProvider, useFormContext } from 'react-hook-form';
 import { Button, Form } from 'react-bootstrap';
+import { zodResolver } from '@hookform/resolvers/zod';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
 import {
@@ -8,34 +9,40 @@ import {
   MEAL_POSITION_LABELS,
   MEAL_POSITIONS,
 } from '../../../features/dish/const';
+import { Dish } from '../../../lib/graphql/generated/graphql';
 
-type Props = {
-  formSchema: any;
-  onSubmit: any;
-
-  registeredDish?: any;
-
-  onSchemaError?: any;
+type DishFormContentProps = {
+  registeredDish?: Dish;
 };
 
-export const DishFormContent = () => {
+export const DishFormContent = (props: DishFormContentProps) => {
+  const { registeredDish } = props;
+
   const {
     register,
     formState: { errors },
   } = useFormContext();
   return (
     <>
+      {registeredDish.id && (
+        <input
+          type="hidden"
+          value={registeredDish.id}
+          {...register('dish.id', { valueAsNumber: true })}
+        />
+      )}
       <FormFieldWrapperWithLabel label="料理名" required>
         <Form.Control
           type="text"
           {...register('dish.name')}
+          defaultValue={registeredDish?.name}
           data-testid="dishname"
         />
         <ErrorMessageIfExist errorMessage={errors.dish?.name?.message} />
       </FormFieldWrapperWithLabel>
       <FormFieldWrapperWithLabel label="位置づけ">
         <Form.Select
-          defaultValue={MEAL_POSITION.MAIN_DISH}
+          defaultValue={registeredDish?.mealPosition || MEAL_POSITION.MAIN_DISH}
           {...register('dish.mealPosition', { valueAsNumber: true })}
           data-testid="mealPositionOptions"
         >
@@ -83,11 +90,20 @@ export const DishFormContent = () => {
   );
 };
 
+type Props = {
+  formSchema: any;
+  onSubmit: any;
+
+  registeredDish?: Dish;
+
+  onSchemaError?: any;
+};
+
 export default (props: Props) => {
   const { formSchema, onSubmit, registeredDish, onSchemaError } = props;
 
-  const methods = useForm();
-  const { register, handleSubmit, formState } = methods;
+  const methods = useForm({ resolver: zodResolver(formSchema) });
+  const { handleSubmit } = methods;
 
   const onError = (schemaErrors, _) => {
     if (onSchemaError) onSchemaError(schemaErrors);
@@ -96,7 +112,7 @@ export default (props: Props) => {
   return (
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <DishFormContent />
+        <DishFormContent registeredDish={registeredDish} />
         <Form.Group>
           <Button type="submit" data-testid="submitDishButton">
             登録
