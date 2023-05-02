@@ -72,7 +72,11 @@ export default (props: Props) => {
     onSchemaError,
   } = props;
 
-  const { dishes } = useDish();
+  const { dishes } = useDish({
+    fetchDishesParams: {
+      fetchDishesOnlyParams: { requireFetchedData: true },
+    },
+  });
 
   const methods = useForm({
     resolver: zodResolver(formSchema),

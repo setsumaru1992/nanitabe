@@ -6,7 +6,6 @@ import {
   AddMealWithNewDishAndNewSourceDocument,
   AddMealWithExistingDishDocument,
   DishesDocument,
-  DishesPerSourceDocument,
 } from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import {
@@ -48,9 +47,6 @@ describe('<AddMeal>', () => {
           comment: null,
         },
       ],
-    });
-    registerQueryHandler(DishesPerSourceDocument, {
-      dishesPerSource: [],
     });
 
     renderWithApollo(

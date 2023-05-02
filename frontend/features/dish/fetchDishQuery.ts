@@ -46,33 +46,70 @@ export const DISHES_PER_SOURCE = gql`
   }
 `;
 
-export const useFetchDishes = (
-  searchString: string | null = null,
-  requireFetchedData: boolean = true,
-) => {
-  const {
-    data: dishesData,
-    fetchLoading: fetchDishesLoading,
-    fetchError: fetchDishesError,
-    refetch: refetchDishes,
-  } = useCodegenQuery(useDishesQuery, useDishesLazyQuery, requireFetchedData, {
-    searchString,
-  });
+type FetchDishesOnlyParams = {
+  searchString?: string | null;
+  requireFetchedData?: boolean;
+};
 
-  const {
-    data: dishesPerSourceData,
-    fetchLoading: fetchDishesPerSourceLoading,
-    fetchError: fetchDishesPerSourceError,
-    refetch: refetchDishesPerSource,
-  } = useCodegenQuery(
+const useFetchDishesOnly = (params: FetchDishesOnlyParams = {}) => {
+  const { searchString = null, requireFetchedData = false } = params;
+  const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
+    useDishesQuery,
+    useDishesLazyQuery,
+    requireFetchedData,
+    {
+      searchString,
+    },
+  );
+
+  return {
+    dishes: data?.dishes,
+    fetchDishesLoading: fetchLoading,
+    fetchDishesError: fetchError,
+    refetchDishes: refetch,
+  };
+};
+
+type FetchDishesPerSourceParams = {
+  requireFetchedData?: boolean;
+};
+
+const useFetchDishesPerSource = (params: FetchDishesPerSourceParams) => {
+  const { requireFetchedData = false } = params;
+  const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
     useDishesPerSourceQuery,
     useDishesPerSourceLazyQuery,
     requireFetchedData,
   );
 
   return {
-    dishes: dishesData?.dishes,
-    dishesPerSource: dishesPerSourceData?.dishesPerSource,
+    dishesPerSource: data?.dishesPerSource,
+    fetchDishesPerSourceLoading: fetchLoading,
+    fetchDishesPerSourceError: fetchError,
+    refetchDishesPerSource: refetch,
+  };
+};
+
+export type FetchDishesParams = {
+  fetchDishesOnlyParams?: FetchDishesOnlyParams;
+  fetchDishesPerSourceParams?: FetchDishesPerSourceParams;
+};
+
+export const useFetchDishes = (params: FetchDishesParams) => {
+  const { fetchDishesOnlyParams, fetchDishesPerSourceParams } = params;
+  const { dishes, fetchDishesLoading, fetchDishesError, refetchDishes } =
+    useFetchDishesOnly(fetchDishesOnlyParams || {});
+
+  const {
+    dishesPerSource,
+    fetchDishesPerSourceLoading,
+    fetchDishesPerSourceError,
+    refetchDishesPerSource,
+  } = useFetchDishesPerSource(fetchDishesPerSourceParams || {});
+
+  return {
+    dishes,
+    dishesPerSource,
 
     fetchLoading: fetchDishesLoading || fetchDishesPerSourceLoading,
     fetchError: fetchDishesError || fetchDishesPerSourceError,

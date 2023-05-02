@@ -24,7 +24,7 @@ export const DishFormContent = (props: DishFormContentProps) => {
   } = useFormContext();
   return (
     <>
-      {registeredDish.id && (
+      {registeredDish?.id && (
         <input
           type="hidden"
           value={registeredDish.id}

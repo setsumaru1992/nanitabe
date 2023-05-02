@@ -1,15 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
-import {
-  registerMutationHandler,
-  registerQueryHandler,
-} from '../../../lib/graphql/specHelper/mockServer';
-import {
-  AddDishDocument,
-  DishesDocument,
-  DishesPerSourceDocument,
-} from '../../../lib/graphql/generated/graphql';
+import { registerMutationHandler } from '../../../lib/graphql/specHelper/mockServer';
+import { AddDishDocument } from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import AddDish from './AddDish';
 import { userClick, userType } from '../../specHelper/userEvents';
@@ -21,13 +14,6 @@ describe('<AddDish>', () => {
   };
 
   beforeEach(() => {
-    registerQueryHandler(DishesDocument, {
-      dishes: [],
-    });
-    registerQueryHandler(DishesPerSourceDocument, {
-      dishesPerSource: [],
-    });
-
     renderWithApollo(
       <AddDish
         onSchemaError={(schemaErrors) => {

@@ -1,15 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
-import {
-  registerMutationHandler,
-  registerQueryHandler,
-} from '../../../lib/graphql/specHelper/mockServer';
-import {
-  UpdateDishDocument,
-  DishesDocument,
-  DishesPerSourceDocument,
-} from '../../../lib/graphql/generated/graphql';
+import { registerMutationHandler } from '../../../lib/graphql/specHelper/mockServer';
+import { UpdateDishDocument } from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import EditDish from './EditDish';
 import {
@@ -34,20 +27,6 @@ describe('<EditDish>', () => {
   };
 
   beforeEach(() => {
-    // TODO: useDishの使わないqueryを発行しないようuseDishを修正（使うときにそのクエリ専用のパラメータを送って使うようにする）
-    registerQueryHandler(DishesDocument, {
-      dishes: [
-        {
-          __typename: 'Dish',
-          ...registeredDish,
-          comment: null,
-        },
-      ],
-    });
-    registerQueryHandler(DishesPerSourceDocument, {
-      dishesPerSource: [],
-    });
-
     renderWithApollo(
       <EditDish
         dish={registeredDish}

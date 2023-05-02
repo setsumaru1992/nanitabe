@@ -17,7 +17,6 @@ import {
   UpdateMealWithNewDishAndNewSourceDocument,
   UpdateMealWithExistingDishDocument,
   DishesDocument,
-  DishesPerSourceDocument,
 } from '../../../lib/graphql/generated/graphql';
 import { buildISODateString } from '../../../features/utils/dateUtils';
 
@@ -78,9 +77,6 @@ describe('<EditMeal>', () => {
           ...updatedDish,
         },
       ],
-    });
-    registerQueryHandler(DishesPerSourceDocument, {
-      dishesPerSource: [],
     });
 
     renderWithApollo(

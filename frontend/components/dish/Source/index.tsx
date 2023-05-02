@@ -6,7 +6,11 @@ import useDish from '../../../features/dish/useDish';
 import { MEAL_POSITION_LABELS } from '../../../features/dish/const';
 
 export default () => {
-  const { dishesPerSource } = useDish();
+  const { dishesPerSource } = useDish({
+    fetchDishesParams: {
+      fetchDishesPerSourceParams: { requireFetchedData: true },
+    },
+  });
   return (
     <div>
       {dishesPerSource &&
