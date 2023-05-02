@@ -1,7 +1,7 @@
 module Queries::Dish
   class DishesPerMealPosition < ::Types::BaseObject
     field :meal_position, Int, null: true
-    field :dishes, [::Types::Output::Dish::Dish, { null: false }], null: false
+    field :dishes, [::Types::Output::Dish::DishWithRegisteredMeals, { null: false }], null: false
   end
 
   class DishesForDisplayWithSource < ::Types::BaseObject

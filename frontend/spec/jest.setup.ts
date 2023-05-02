@@ -16,6 +16,9 @@ const setDummyNavigation = () => {
 const setDummyDialog = () => {
   const confirmMock = jest.fn(() => true);
   window.confirm = confirmMock;
+
+  const alertMock = jest.fn(() => true);
+  window.alert = alertMock;
 };
 
 beforeEach(() => {

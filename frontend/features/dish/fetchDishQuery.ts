@@ -101,6 +101,9 @@ export const DISHES_PER_SOURCE = gql`
           name
           mealPosition
           comment
+          meals {
+            id
+          }
         }
       }
     }

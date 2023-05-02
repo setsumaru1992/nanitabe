@@ -114,6 +114,15 @@ export type DishRegisteredWithMeal = DishFields & {
   name: Scalars['String'];
 };
 
+export type DishWithRegisteredMeals = DishFields & {
+  __typename?: 'DishWithRegisteredMeals';
+  comment?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  mealPosition: Scalars['Int'];
+  meals: Array<Meal>;
+  name: Scalars['String'];
+};
+
 export type DishesForDisplayWithSource = {
   __typename?: 'DishesForDisplayWithSource';
   dishesPerMealPosition: Array<DishesPerMealPosition>;
@@ -122,7 +131,7 @@ export type DishesForDisplayWithSource = {
 
 export type DishesPerMealPosition = {
   __typename?: 'DishesPerMealPosition';
-  dishes: Array<Dish>;
+  dishes: Array<DishWithRegisteredMeals>;
   mealPosition?: Maybe<Scalars['Int']>;
 };
 
@@ -172,6 +181,15 @@ export type LoginUserUpdatePasswordWithTokenPayload = {
   authenticatable: Authenticatable;
   /** Authentication credentials. Resource must be signed_in for credentials to be returned. */
   credentials?: Maybe<Credential>;
+};
+
+export type Meal = MealFields & {
+  __typename?: 'Meal';
+  comment?: Maybe<Scalars['String']>;
+  date: Scalars['ISO8601Date'];
+  dish: Dish;
+  id: Scalars['Int'];
+  mealType: Scalars['Int'];
 };
 
 export type MealFields = {
@@ -459,7 +477,7 @@ export type DishQuery = { __typename?: 'Query', dish: { __typename?: 'SpecifiedD
 export type DishesPerSourceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DishesPerSourceQuery = { __typename?: 'Query', dishesPerSource: Array<{ __typename?: 'DishesForDisplayWithSource', sourceId?: number | null, dishesPerMealPosition: Array<{ __typename?: 'DishesPerMealPosition', mealPosition?: number | null, dishes: Array<{ __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null }> }> }> };
+export type DishesPerSourceQuery = { __typename?: 'Query', dishesPerSource: Array<{ __typename?: 'DishesForDisplayWithSource', sourceId?: number | null, dishesPerMealPosition: Array<{ __typename?: 'DishesPerMealPosition', mealPosition?: number | null, dishes: Array<{ __typename?: 'DishWithRegisteredMeals', id: number, name: string, mealPosition: number, comment?: string | null, meals: Array<{ __typename?: 'Meal', id: number }> }> }> }> };
 
 export type RemoveDishMutationVariables = Exact<{
   dishId: Scalars['Int'];
@@ -719,6 +737,9 @@ export const DishesPerSourceDocument = gql`
         name
         mealPosition
         comment
+        meals {
+          id
+        }
       }
     }
   }

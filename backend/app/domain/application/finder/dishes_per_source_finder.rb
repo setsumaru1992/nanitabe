@@ -5,7 +5,7 @@ module Application::Finder
 
     def fetch
       # TODO: sourceのデータができたら紐つける
-      dishes = ::Dish.where(user_id: access_user_id)
+      dishes = ::Dish.where(user_id: access_user_id).eager_load(:meals)
       dishes_per_source = group_rows_by_key(dishes, :source_id, :dishes)
       dishes_per_source.map do |dish_per_source|
         {
