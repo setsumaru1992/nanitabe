@@ -8,5 +8,6 @@ module Types
 
     field :add_dish, mutation: ::Mutations::Dish::AddDish
     field :update_dish, mutation: ::Mutations::Dish::UpdateDish
+    field :remove_dish, mutation: ::Mutations::Dish::RemoveDish
   end
 end
