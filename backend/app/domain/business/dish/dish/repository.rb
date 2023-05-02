@@ -25,6 +25,18 @@ module Business::Dish::Dish
         dish_record_for_update = set_same_name_fields(updated_dish, existing_dish_record, [:name, :meal_position, :comment])
         dish_record_for_update.save!
       end
+
+      def remove(dish_id, update_user_id, force_remove: false)
+        existing_dish_record = ::Dish.find(dish_id)
+
+        is_removable_user = existing_dish_record.user_id == update_user_id || force_remove
+        raise "このユーザはこのレコードを削除できません。" unless is_removable_user
+
+        # ユースケースがはっきり定まっていないので、定まるまで安全に倒す
+        raise "この料理は登録されている食事があるので削除できません。" if existing_dish_record.meals.present?
+
+        existing_dish_record.destroy!
+      end
     end
   end
 end
