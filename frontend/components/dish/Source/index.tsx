@@ -6,11 +6,12 @@ import useDish from '../../../features/dish/useDish';
 import { MEAL_POSITION_LABELS } from '../../../features/dish/const';
 
 export default () => {
-  const { dishesPerSource } = useDish({
+  const { dishesPerSource, refetchDishesPerSource } = useDish({
     fetchDishesParams: {
       fetchDishesPerSourceParams: { requireFetchedData: true },
     },
   });
+
   return (
     <div>
       {dishesPerSource &&
@@ -41,7 +42,12 @@ export default () => {
                       }
                     >
                       {dishesPerMealPositionElement.dishes.map((dish) => (
-                        <Icon dish={dish} />
+                        <Icon
+                          dish={dish}
+                          onChanged={() => {
+                            refetchDishesPerSource();
+                          }}
+                        />
                       ))}
                       <AddDishIcon />
                     </div>

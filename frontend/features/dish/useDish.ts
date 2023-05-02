@@ -1,6 +1,7 @@
 import { FetchDishesParams, useFetchDishes } from './fetchDishQuery';
 import { useAddDish } from './addDishMutation';
 import { useUpdateDish } from './updateDishMutation';
+import { useRemoveDish } from './removeDishMutation';
 
 export type { AddDish } from './addDishMutation';
 export type { UpdateDish } from './updateDishMutation';
@@ -26,6 +27,7 @@ export default (params: UseDishParams = {}) => {
   const { addDish, addDishLoading, addDishError, AddDishSchema } = useAddDish();
   const { updateDish, updateDishLoading, updateDishError, UpdateDishSchema } =
     useUpdateDish();
+  const { removeDish, removeDishLoading, removeDishError } = useRemoveDish();
 
   return {
     dishes,
@@ -46,5 +48,9 @@ export default (params: UseDishParams = {}) => {
     updateDishLoading,
     updateDishError,
     UpdateDishSchema,
+
+    removeDish,
+    removeDishLoading,
+    removeDishError,
   };
 };
