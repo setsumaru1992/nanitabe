@@ -4,6 +4,8 @@ import {
   useDishesPerSourceLazyQuery,
   useDishesPerSourceQuery,
   useDishesQuery,
+  useDishQuery,
+  useDishLazyQuery,
 } from '../../lib/graphql/generated/graphql';
 import { useCodegenQuery } from '../utils/queryUtils';
 
@@ -25,23 +27,6 @@ export const DISHES = gql`
       name
       mealPosition
       comment
-    }
-  }
-`;
-
-export const DISHES_PER_SOURCE = gql`
-  query dishesPerSource {
-    dishesPerSource {
-      sourceId
-      dishesPerMealPosition {
-        mealPosition
-        dishes {
-          id
-          name
-          mealPosition
-          comment
-        }
-      }
     }
   }
 `;
@@ -70,6 +55,58 @@ const useFetchDishesOnly = (params: FetchDishesOnlyParams = {}) => {
   };
 };
 
+export const DISH = gql`
+  query dish($id: Int!) {
+    dish(id: $id) {
+      id
+      name
+      mealPosition
+      comment
+    }
+  }
+`;
+
+type FetchDishParams = {
+  requireFetchedData?: boolean;
+  condition?: {
+    id: number;
+  };
+};
+
+const useFetchDish = (params: FetchDishParams = {}) => {
+  const { condition, requireFetchedData = false } = params;
+  const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
+    useDishQuery,
+    useDishLazyQuery,
+    requireFetchedData,
+    condition,
+  );
+
+  return {
+    dish: data?.dish,
+    fetchDishLoading: fetchLoading,
+    fetchDishError: fetchError,
+    refetchDish: refetch,
+  };
+};
+
+export const DISHES_PER_SOURCE = gql`
+  query dishesPerSource {
+    dishesPerSource {
+      sourceId
+      dishesPerMealPosition {
+        mealPosition
+        dishes {
+          id
+          name
+          mealPosition
+          comment
+        }
+      }
+    }
+  }
+`;
+
 type FetchDishesPerSourceParams = {
   requireFetchedData?: boolean;
 };
@@ -92,11 +129,13 @@ const useFetchDishesPerSource = (params: FetchDishesPerSourceParams) => {
 
 export type FetchDishesParams = {
   fetchDishesOnlyParams?: FetchDishesOnlyParams;
+  fetchDishParams?: FetchDishParams;
   fetchDishesPerSourceParams?: FetchDishesPerSourceParams;
 };
 
 export const useFetchDishes = (params: FetchDishesParams) => {
-  const { fetchDishesOnlyParams, fetchDishesPerSourceParams } = params;
+  const { fetchDishesOnlyParams, fetchDishParams, fetchDishesPerSourceParams } =
+    params;
   const { dishes, fetchDishesLoading, fetchDishesError, refetchDishes } =
     useFetchDishesOnly(fetchDishesOnlyParams || {});
 
@@ -107,14 +146,21 @@ export const useFetchDishes = (params: FetchDishesParams) => {
     refetchDishesPerSource,
   } = useFetchDishesPerSource(fetchDishesPerSourceParams || {});
 
+  const { dish, fetchDishLoading, fetchDishError, refetchDish } = useFetchDish(
+    fetchDishParams || {},
+  );
+
   return {
     dishes,
+    dish,
     dishesPerSource,
 
-    fetchLoading: fetchDishesLoading || fetchDishesPerSourceLoading,
-    fetchError: fetchDishesError || fetchDishesPerSourceError,
+    fetchLoading:
+      fetchDishesLoading || fetchDishesPerSourceLoading || fetchDishLoading,
+    fetchError: fetchDishesError || fetchDishesPerSourceError || fetchDishError,
 
     refetch: refetchDishes,
+    refetchDish,
     refetchDishesPerSource,
   };
 };

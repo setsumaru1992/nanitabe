@@ -5,7 +5,6 @@ import { Dish } from '../../../lib/graphql/generated/graphql';
 import useDish, { UpdateDish } from '../../../features/dish/useDish';
 
 type Props = {
-  // TODO: ページ表示するときにdishをちゃんと渡す。ついでに選ばれたdishを取得するhookを作って、同時に、dishesとかは必要なときだけ専用パラメータ渡して取得するよう修正
   dish: Dish;
   onEditSucceeded?: () => void;
   onSchemaError?: any;

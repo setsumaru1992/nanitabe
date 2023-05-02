@@ -41,7 +41,7 @@ export default () => {
                       }
                     >
                       {dishesPerMealPositionElement.dishes.map((dish) => (
-                        <Icon>{dish.name}</Icon>
+                        <Icon dish={dish} />
                       ))}
                       <AddDishIcon />
                     </div>

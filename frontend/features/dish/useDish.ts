@@ -14,10 +14,12 @@ export default (params: UseDishParams = {}) => {
 
   const {
     dishes,
+    dish,
     dishesPerSource,
     fetchLoading,
     fetchError,
     refetch,
+    refetchDish,
     refetchDishesPerSource,
   } = useFetchDishes(fetchDishesParams || {});
 
@@ -27,10 +29,12 @@ export default (params: UseDishParams = {}) => {
 
   return {
     dishes,
+    dish,
     dishesPerSource,
     fetchLoading,
     fetchError,
     refetch,
+    refetchDish,
     refetchDishesPerSource,
 
     addDish,
