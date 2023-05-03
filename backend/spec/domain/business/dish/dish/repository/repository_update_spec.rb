@@ -15,7 +15,7 @@ module Business::Dish::Dish
         @updated_dish.assign_attributes(**comparer.values)
       end
 
-      context "when update meal with one dish field," do
+      context "when update dish with one dish field," do
         let!(:comparer) { COMPARERS[KEY_OF_TEST_DISH_SHOULD_BE_UPDATED] }
 
         it "updating succeeds" do
