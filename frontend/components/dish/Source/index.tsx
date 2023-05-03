@@ -1,9 +1,11 @@
 import React from 'react';
+import Link from 'next/link';
 import style from './index.module.scss';
 import Icon from '../Icon';
 import AddDishIcon from '../Icon/AddDishIcon';
 import useDish from '../../../features/dish/useDish';
 import { MEAL_POSITION_LABELS } from '../../../features/dish/const';
+import { DISHSOURCE_NEW_PAGE_URL } from '../../../pages/dishsources/new';
 
 export default () => {
   const { dishesPerSource, refetchDishesPerSource } = useDish({
@@ -57,6 +59,7 @@ export default () => {
             </div>
           </div>
         ))}
+      <Link href={DISHSOURCE_NEW_PAGE_URL}>レシピ元作成</Link>
     </div>
   );
 };
