@@ -8,7 +8,7 @@ module Mutations::Dish::Source
       ActiveRecord::Base.transaction do
         created_dish_source = ::Business::Dish::Dish::Source::Command::CreateCommand.call(
           user_id: context[:current_user_id],
-          source_for_create: ::Business::Dish::Dish::Source::Command::Params::SourceForCreate.new(
+          dish_source_for_create: ::Business::Dish::Dish::Source::Command::Params::SourceForCreate.new(
             name: dish_source.name,
             type: dish_source.type,
             comment: dish_source.comment,

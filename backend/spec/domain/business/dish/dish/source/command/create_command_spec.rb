@@ -16,7 +16,7 @@ module Business::Dish::Dish::Source
         it "adding succeeds" do
           described_class.call(
             user_id: comparer.prepared_records[:user_record].id,
-            source_for_create: Command::Params::SourceForCreate.new(
+            dish_source_for_create: Command::Params::SourceForCreate.new(
               name: comparer.values[:name],
               type: comparer.values[:type],
               comment: comparer.values[:comment],
@@ -33,7 +33,7 @@ module Business::Dish::Dish::Source
         it "adding succeeds" do
           described_class.call(
             user_id: comparer.prepared_records[:user_record].id,
-            source_for_create: Command::Params::SourceForCreate.new(
+            dish_source_for_create: Command::Params::SourceForCreate.new(
               name: comparer.values[:name],
               type: comparer.values[:type],
               comment: comparer.values[:comment],
