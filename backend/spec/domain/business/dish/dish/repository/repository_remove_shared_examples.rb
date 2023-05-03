@@ -30,7 +30,7 @@ comparer.define_required_records_for_test do
   }
 end
 
-comparer.define_expectation do |_expected_values, prepared_records|
+comparer.define_expectation do |_, prepared_records|
   expect(::Meal.where(id: prepared_records[:meal_record].id).present?).to eq true
   expect(::Dish.where(id: prepared_records[:dish_record].id).present?).to eq true
   expect(::User.where(id: prepared_records[:dish_record].user_id).present?).to eq true

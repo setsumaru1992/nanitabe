@@ -25,6 +25,18 @@ module Business::Dish::Dish::Source
         dish_source_record_for_update = set_same_name_fields(updated_dish_source, existing_dish_source_record, [:name, :type, :comment])
         dish_source_record_for_update.save!
       end
+
+      def remove(dish_source_id, update_user_id, force_remove: false)
+        existing_dish_source_record = ::DishSource.find(dish_source_id)
+
+        is_removable_user = existing_dish_source_record.user_id == update_user_id || force_remove
+        raise "このユーザはこのレコードを削除できません。" unless is_removable_user
+
+        # ユースケースがはっきり定まっていないので、定まるまで安全に倒す
+        # raise "このレシピ元は登録されている料理があるので削除できません。" if existing_dish_source_record.meals.present?
+
+        existing_dish_source_record.destroy!
+      end
     end
   end
 end
