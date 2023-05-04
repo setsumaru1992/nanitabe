@@ -17,48 +17,60 @@ export default () => {
   return (
     <div>
       {dishesPerSource &&
-        dishesPerSource.map((dishesPerSourceElement) => (
-          <div className={style['dish-source__container']}>
-            {/* 本当は未定義の場合は要素出現させたくないが、デバッグの都合上sourceIdがnullなので機能させていない */}
-            {/* {dishesPerSourceElement.sourceId && ()} */}
-            <div className={style['dish-source-header__container']}>
-              りゅうじ（ダミーSource名）
-              {dishesPerSourceElement.sourceId}
-            </div>
-            <div>
-              {dishesPerSourceElement.dishesPerMealPosition.map(
-                (dishesPerMealPositionElement) => (
-                  <div
-                    className={style['dish-source-meal-position__container']}
-                  >
-                    <div className={style['dish-source-meal-position__header']}>
-                      {
-                        MEAL_POSITION_LABELS[
-                          dishesPerMealPositionElement.mealPosition
-                        ]
-                      }
-                    </div>
+        dishesPerSource.map(
+          (dishesPerSourceElement, dishesPerSourceElementIdx) => (
+            <div
+              className={style['dish-source__container']}
+              key={dishesPerSourceElementIdx}
+            >
+              {/* 本当は未定義の場合は要素出現させたくないが、デバッグの都合上sourceIdがnullなので機能させていない */}
+              {/* {dishesPerSourceElement.sourceId && ()} */}
+              <div className={style['dish-source-header__container']}>
+                りゅうじ（ダミーSource名）
+                {dishesPerSourceElement.sourceId}
+              </div>
+              <div>
+                {dishesPerSourceElement.dishesPerMealPosition.map(
+                  (
+                    dishesPerMealPositionElement,
+                    dishesPerMealPositionElementIdx,
+                  ) => (
                     <div
-                      className={
-                        style['dish-source-meal-position__content-container']
-                      }
+                      className={style['dish-source-meal-position__container']}
+                      key={dishesPerMealPositionElementIdx}
                     >
-                      {dishesPerMealPositionElement.dishes.map((dish) => (
-                        <Icon
-                          dish={dish}
-                          onChanged={() => {
-                            refetchDishesPerSource();
-                          }}
-                        />
-                      ))}
-                      <AddDishIcon />
+                      <div
+                        className={style['dish-source-meal-position__header']}
+                      >
+                        {
+                          MEAL_POSITION_LABELS[
+                            dishesPerMealPositionElement.mealPosition
+                          ]
+                        }
+                      </div>
+                      <div
+                        className={
+                          style['dish-source-meal-position__content-container']
+                        }
+                      >
+                        {dishesPerMealPositionElement.dishes.map((dish) => (
+                          <Icon
+                            dish={dish}
+                            key={dish.id}
+                            onChanged={() => {
+                              refetchDishesPerSource();
+                            }}
+                          />
+                        ))}
+                        <AddDishIcon />
+                      </div>
                     </div>
-                  </div>
-                ),
-              )}
+                  ),
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ),
+        )}
       <Link href={DISHSOURCE_NEW_PAGE_URL}>レシピ元作成</Link>
     </div>
   );
