@@ -1,5 +1,3 @@
-import { MEAL_TYPE } from '../meal/const';
-
 export const MEAL_POSITION = {
   STAPLE_FOOD: 1,
   MAIN_DISH: 2,
