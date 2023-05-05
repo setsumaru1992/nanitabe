@@ -15,7 +15,6 @@ module Business::Dish::Dish
         it "removing succeeds" do
           described_class.remove_dish_relation(
             comparer.prepared_records[:dish_record].id,
-            comparer.prepared_records[:dish_source_record].id,
           )
 
           comparer.compare_to_expectation(self)

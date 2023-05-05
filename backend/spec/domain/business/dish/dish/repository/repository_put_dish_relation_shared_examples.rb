@@ -129,3 +129,28 @@ comparer.define_expectation do |expected_values, prepared_records|
 end
 
 COMPARERS[comparer.key] = comparer
+
+KEY_OF_TEST_DISH_SOURCE_RELATION_HAS_NO_UPDATE = "DISH_SOURCE_RELATION_HAS_NO_UPDATE"
+comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SOURCE_RELATION_HAS_NO_UPDATE, {})
+
+comparer.define_required_records_for_test do
+  {
+    user_record: find_or_create_user(),
+    dish_record: find_or_create_dish(),
+    dish_source_record: find_or_create_dish_source(),
+    dish_source_relation_record: find_or_create_dish_source_relation(),
+  }
+end
+
+comparer.define_expectation do |_, prepared_records|
+  relation_of_before_update = prepared_records[:dish_source_relation_record]
+  updated_dish_source_relation_record = ::DishSourceRelation.find_by(
+    dish_id: relation_of_before_update.dish_id,
+    dish_source_id: relation_of_before_update.dish_source_id,
+  )
+  expect(updated_dish_source_relation_record.recipe_book_page).to eq relation_of_before_update.recipe_book_page
+  expect(updated_dish_source_relation_record.recipe_website_url).to eq nil
+  expect(updated_dish_source_relation_record.recipe_source_memo).to eq nil
+end
+
+COMPARERS[comparer.key] = comparer

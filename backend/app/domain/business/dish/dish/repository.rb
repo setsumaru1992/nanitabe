@@ -52,8 +52,8 @@ module Business::Dish::Dish
         dish_source_relation_record_for_update.save!
       end
 
-      def remove_dish_relation(dish_id, dish_source_id)
-        existing_dish_relation_record = ::DishSourceRelation.find_by(dish_id:, dish_source_id:)
+      def remove_dish_relation(dish_id)
+        existing_dish_relation_record = ::DishSourceRelation.find_by(dish_id:)
         existing_dish_relation_record&.destroy!
       end
     end
