@@ -14,6 +14,7 @@ comparer.define_required_records_for_test do
 end
 
 comparer.define_expectation do |expected_values, prepared_records|
+  # FIXME: 取得するのlastじゃなくて、作成済みレコードのidから取るものだと思う
   updated_dish_source_record = ::DishSource.last
   expect(updated_dish_source_record.name).to eq expected_values[:name]
   expect(updated_dish_source_record.type).to eq expected_values[:type]

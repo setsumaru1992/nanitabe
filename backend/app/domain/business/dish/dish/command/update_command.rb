@@ -38,7 +38,7 @@ module Business::Dish::Dish
         return
       end
 
-      Repository.put_dish_relation
+      Repository.put_dish_relation(dish_id, dish_source_id, dish_source_relation_detail)
     end
   end
 end

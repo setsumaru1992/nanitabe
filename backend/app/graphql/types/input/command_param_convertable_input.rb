@@ -3,10 +3,7 @@ module Types::Input
     CONVERT_DESTINATION_CLASS = nil
 
     def convert_to_command_param
-      values = to_hash
-      puts values
-      puts self.class::CONVERT_DESTINATION_CLASS
-      self.class::CONVERT_DESTINATION_CLASS.new(**values)
+      self.class::CONVERT_DESTINATION_CLASS.new(**to_hash)
     end
   end
 end
