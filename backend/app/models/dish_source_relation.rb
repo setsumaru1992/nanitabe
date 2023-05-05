@@ -36,8 +36,8 @@ class SourceRelationOfWebsite < DishSourceRelation
   validates :recipe_source_memo, absence: true
 
   def set_detail(detail)
-    self[:recipe_website_url] = detail[:recipe_website_url]
     self[:recipe_book_page] = nil
+    self[:recipe_website_url] = detail[:recipe_website_url]
     self[:recipe_source_memo] = nil
   end
 end
@@ -48,8 +48,8 @@ class SourceRelationOfOther < DishSourceRelation
   validates :recipe_source_memo, presence: true
 
   def set_detail(detail)
-    self[:recipe_source_memo] = detail[:recipe_source_memo]
     self[:recipe_book_page] = nil
     self[:recipe_website_url] = nil
+    self[:recipe_source_memo] = detail[:recipe_source_memo]
   end
 end

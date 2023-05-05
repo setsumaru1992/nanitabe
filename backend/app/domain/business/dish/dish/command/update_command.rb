@@ -31,10 +31,8 @@ module Business::Dish::Dish
     end
 
     def update_dish_source_relation(dish_id, dish_source_id, dish_source_relation_detail)
-      return if Repository.exist_dish_relation_of(dish_id, dish_source_id, dish_source_relation_detail)
-
       if dish_source_id.blank?
-        Repository.remove_dish_relation
+        Repository.remove_dish_relation(dish_id, dish_source_id)
         return
       end
 

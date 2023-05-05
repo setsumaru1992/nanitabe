@@ -61,6 +61,27 @@ module Business::Dish::Dish
           comparer.compare_to_expectation(self)
         end
       end
+
+      context "when update dish source relation to different source type detail," do
+        let!(:comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_RELATION_SHOULD_BE_UPDATED_TO_DIFFERENT_SOURCE_TYPE_DETAIL] }
+        it "updating succeeds" do
+          source_command_class = ::Business::Dish::Dish::Source::Command
+          source_command_class::UpdateCommand.call(
+            user_id: comparer.prepared_records[:user_record].id,
+            dish_source_for_update: source_command_class::Params::SourceForUpdate.new(
+              id: comparer.prepared_records[:dish_source_record].id,
+              type: ::Business::Dish::Dish::Source::Type::YOUTUBE,
+            ),
+          )
+          described_class.put_dish_relation(
+            comparer.prepared_records[:dish_record].id,
+            comparer.prepared_records[:dish_source_record].id,
+            comparer.values,
+          )
+
+          comparer.compare_to_expectation(self)
+        end
+      end
     end
   end
 end
