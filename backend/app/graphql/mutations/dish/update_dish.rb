@@ -8,12 +8,7 @@ module Mutations::Dish
       ActiveRecord::Base.transaction do
         ::Business::Dish::Dish::Command::UpdateCommand.call(
           user_id: context[:current_user_id],
-          dish_for_update: ::Business::Dish::Dish::Command::Params::DishForUpdate.new(
-            id: dish.id,
-            name: dish.name,
-            meal_position: dish.meal_position,
-            comment: dish.comment,
-          ),
+          dish_for_update: dish.convert_to_command_param,
         )
 
         {
