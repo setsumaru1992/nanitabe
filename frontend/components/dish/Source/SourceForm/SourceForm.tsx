@@ -70,28 +70,6 @@ export const DishSourceFormContent = () => {
   );
 };
 
-export const DishSourceFormRelationContent = () => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
-
-  return (
-    <>
-      {false && (
-        <FormFieldWrapperWithLabel label="ページ数">
-          <Form.Control type="number" />
-        </FormFieldWrapperWithLabel>
-      )}
-      {false && (
-        <FormFieldWrapperWithLabel label="レシピURL">
-          <Form.Control type="text" />
-        </FormFieldWrapperWithLabel>
-      )}
-    </>
-  );
-};
-
 export default (props: Props) => {
   const { formSchema, onSubmit, onSchemaError } = props;
 

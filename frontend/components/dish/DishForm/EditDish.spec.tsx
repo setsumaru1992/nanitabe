@@ -11,6 +11,7 @@ import {
   userClick,
   userType,
 } from '../../specHelper/userEvents';
+import { DISH_SOURCE_TYPE } from '../../../features/dish/source/const';
 
 describe('<EditDish>', () => {
   const registeredDish = {
@@ -26,6 +27,18 @@ describe('<EditDish>', () => {
     comment: null,
   };
 
+  const registeredDishSource = {
+    id: 1,
+    name: 'りゅうじ',
+    type: DISH_SOURCE_TYPE.YOUTUBE,
+  };
+  const updatedDishSourceRelation = {
+    dishId: updatedDish.id,
+    dishSourceId: registeredDishSource.id,
+    dishSourceType: registeredDishSource.type,
+    dishSourceRelationDetail: { recipeWebsiteUrl: '' }, // 要入力
+  };
+
   beforeEach(() => {
     renderWithApollo(
       <EditDish
@@ -33,7 +46,7 @@ describe('<EditDish>', () => {
         onSchemaError={(schemaErrors) => {
           // スキーマエラーがあったときテストで把握しやすいようにログに出す
           console.log(schemaErrors);
-          screen.debug();
+          // screen.debug();
         }}
       />,
     );
@@ -59,7 +72,7 @@ describe('<EditDish>', () => {
           ...registeredDish,
           name: updatedDish.name,
         },
-        dishSourceRelation: null,
+        dishSourceRelation: updatedDishSourceRelation,
       });
     });
   });
@@ -88,7 +101,7 @@ describe('<EditDish>', () => {
           name: updatedDish.name,
           mealPosition: updatedDish.mealPosition,
         },
-        dishSourceRelation: null,
+        dishSourceRelation: updatedDishSourceRelation,
       });
     });
   });

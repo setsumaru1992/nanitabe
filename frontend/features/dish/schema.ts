@@ -29,11 +29,45 @@ const buildDishSchema = () => {
   return { newDishSchema, updateDishSchema };
 };
 
+export const DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE = {
+  RECIPE_BOOK_PAGE: 'recipeBookPage',
+  RECIPE_WEBSITE_URL: 'recipeWebsiteUrl',
+  RECIPE_SOURCE_MEMO: 'recipeSourceMemo',
+} as const;
+
 export const { newDishSchema, updateDishSchema } = buildDishSchema();
 
 const buildDishSourceRelationSchema = () => {
+  const recipeBookPageSchema = z.number();
+  const recipeWebsiteUrlSchema = z.string();
+  const recipeSourceMemoSchema = z.string();
+
+  const dishSourceRelationDetailSchema = z.discriminatedUnion('detailType', [
+    z.object({
+      detailType: z.literal(
+        DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_BOOK_PAGE,
+      ),
+      recipeBookPage: recipeBookPageSchema,
+    }),
+    z.object({
+      detailType: z.literal(
+        DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_WEBSITE_URL,
+      ),
+      recipeWebsiteUrl: recipeWebsiteUrlSchema,
+    }),
+    z.object({
+      detailType: z.literal(
+        DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_SOURCE_MEMO,
+      ),
+      recipeSourceMemo: recipeSourceMemoSchema,
+    }),
+  ]);
+
+  // NOTE: putと銘打っているのはaddもupdateも区別したくないと思っているからだが、多分これはupdateフレンドリーでaddでは別の値必要になりそう
   const putDishRelationSchema = z.object({
-    dishSourceId: dishSourceIdSchema,
+    // dishId: dishIdSchema,
+    // dishSourceId: dishSourceIdSchema,
+    dishSourceRelationDetail: dishSourceRelationDetailSchema,
   });
 
   return { putDishRelationSchema };

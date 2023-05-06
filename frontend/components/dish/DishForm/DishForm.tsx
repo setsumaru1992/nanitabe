@@ -10,6 +10,11 @@ import {
   MEAL_POSITIONS,
 } from '../../../features/dish/const';
 import { Dish } from '../../../lib/graphql/generated/graphql';
+import {
+  DISH_SOURCE_TYPE,
+  DishSourceType,
+} from '../../../features/dish/source/const';
+import { DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE } from '../../../features/dish/schema';
 
 type DishFormContentProps = {
   registeredDish?: Dish;
@@ -90,9 +95,91 @@ export const DishFormContent = (props: DishFormContentProps) => {
   );
 };
 
+type DishSourceFormRelationContentProps = {
+  dishSource: {
+    id: number;
+    type: DishSourceType;
+  } | null;
+};
+
+export const DishSourceFormRelationContent = (
+  props: DishSourceFormRelationContentProps,
+) => {
+  const { dishSource } = props;
+
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  switch (dishSource?.type) {
+    case DISH_SOURCE_TYPE.RECIPE_BOOK:
+      return (
+        <FormFieldWrapperWithLabel label="ページ数">
+          <Form.Control
+            type="number"
+            {...register(
+              'dishSourceRelation.dishSourceRelationDetail.recipeBookPage',
+              { valueAsNumber: true },
+            )}
+          />
+          <ErrorMessageIfExist
+            errorMessage={
+              errors.dishSourceRelation?.dishSourceRelationDetail
+                ?.recipeBookPage
+            }
+          />
+        </FormFieldWrapperWithLabel>
+      );
+    case DISH_SOURCE_TYPE.YOUTUBE:
+    case DISH_SOURCE_TYPE.WEBSITE:
+      return (
+        <FormFieldWrapperWithLabel label="レシピURL">
+          <Form.Control
+            type="text"
+            {...register(
+              'dishSourceRelation.dishSourceRelationDetail.recipeWebsiteUrl',
+            )}
+          />
+          <ErrorMessageIfExist
+            errorMessage={
+              errors.dishSourceRelation?.dishSourceRelationDetail
+                ?.recipeWebsiteUrl
+            }
+          />
+          <input
+            type="hidden"
+            value={DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_WEBSITE_URL}
+            {...register(
+              'dishSourceRelation.dishSourceRelationDetail.detailType',
+            )}
+          />
+        </FormFieldWrapperWithLabel>
+      );
+    default:
+      return (
+        <FormFieldWrapperWithLabel label="メモ">
+          <Form.Control
+            type="text"
+            {...register(
+              'dishSourceRelation.dishSourceRelationDetail.recipeSourceMemo',
+            )}
+          />
+          <ErrorMessageIfExist
+            errorMessage={
+              errors.dishSourceRelation?.dishSourceRelationDetail
+                ?.recipeSourceMemo
+            }
+          />
+        </FormFieldWrapperWithLabel>
+      );
+  }
+};
+
 type Props = {
   formSchema: any;
   onSubmit: any;
+  children?: React.ReactNode;
 
   registeredDish?: Dish;
 
@@ -100,7 +187,8 @@ type Props = {
 };
 
 export default (props: Props) => {
-  const { formSchema, onSubmit, registeredDish, onSchemaError } = props;
+  const { formSchema, onSubmit, registeredDish, onSchemaError, children } =
+    props;
 
   const methods = useForm({ resolver: zodResolver(formSchema) });
   const { handleSubmit } = methods;
@@ -113,6 +201,7 @@ export default (props: Props) => {
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <DishFormContent registeredDish={registeredDish} />
+        {children}
         <Form.Group>
           <Button type="submit" data-testid="submitDishButton">
             登録
