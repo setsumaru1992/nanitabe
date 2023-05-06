@@ -8,15 +8,15 @@ module Types::Input::Dish::DishSourceRelation
 
     def detail_value_of(dish_source_type)
       source_type_prefix = ::Business::Dish::Dish::Source::Type
-      detail_argument_key = case dish_source_type
-                            when source_type_prefix::YOUTUBE, source_type_prefix::WEBSITE
-                              :recipe_website_url
-                            when source_type_prefix::RECIPE_BOOK
-                              :recipe_book_page
-                            else
-                              :recipe_source_memo
-                            end
-      to_hash[detail_argument_key]
+
+      case dish_source_type
+      when source_type_prefix::YOUTUBE, source_type_prefix::WEBSITE
+        recipe_website_url
+      when source_type_prefix::RECIPE_BOOK
+        recipe_book_page
+      else
+        recipe_source_memo
+      end
     end
   end
 end

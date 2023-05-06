@@ -59,6 +59,7 @@ describe('<EditDish>', () => {
           ...registeredDish,
           name: updatedDish.name,
         },
+        dishSourceRelation: null,
       });
     });
   });
@@ -87,6 +88,7 @@ describe('<EditDish>', () => {
           name: updatedDish.name,
           mealPosition: updatedDish.mealPosition,
         },
+        dishSourceRelation: null,
       });
     });
   });

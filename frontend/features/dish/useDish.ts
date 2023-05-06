@@ -25,8 +25,13 @@ export default (params: UseDishParams = {}) => {
   } = useFetchDishes(fetchDishesParams || {});
 
   const { addDish, addDishLoading, addDishError, AddDishSchema } = useAddDish();
-  const { updateDish, updateDishLoading, updateDishError, UpdateDishSchema } =
-    useUpdateDish();
+  const {
+    updateDish,
+    updateDishLoading,
+    updateDishError,
+    normalizeUpdateDishInput,
+    UpdateDishSchema,
+  } = useUpdateDish();
   const { removeDish, removeDishLoading, removeDishError } = useRemoveDish();
 
   return {
@@ -47,6 +52,7 @@ export default (params: UseDishParams = {}) => {
     updateDish,
     updateDishLoading,
     updateDishError,
+    normalizeUpdateDishInput,
     UpdateDishSchema,
 
     removeDish,

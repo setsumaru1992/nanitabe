@@ -9,7 +9,6 @@ module Types::Input::Dish::DishSourceRelation
     argument :dish_source_relation_detail, DishSourceRelationDetail, required: true
 
     def convert_to_command_param
-      dish_id, dish_source_id, dish_source_id = to_hash.values_at(:dish_id, :dish_source_id, :dish_source_id)
       Business::Dish::Dish::Command::Params::DishSourceRelation.build(
         dish_source_type,
         dish_id,

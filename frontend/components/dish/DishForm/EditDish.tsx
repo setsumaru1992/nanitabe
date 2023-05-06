@@ -13,9 +13,9 @@ type Props = {
 export default (props: Props) => {
   const { dish, onEditSucceeded, onSchemaError } = props;
 
-  const { updateDish, UpdateDishSchema } = useDish();
+  const { updateDish, UpdateDishSchema, normalizeUpdateDishInput } = useDish();
   const onSubmit: SubmitHandler<UpdateDish> = async (input) => {
-    await updateDish(input, {
+    await updateDish(normalizeUpdateDishInput(input), {
       onCompleted: (_) => {
         if (onEditSucceeded) onEditSucceeded();
       },
