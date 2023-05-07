@@ -39,7 +39,7 @@ export const DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE = {
 export const { newDishSchema, updateDishSchema } = buildDishSchema();
 
 const buildDishSourceRelationSchema = () => {
-  const recipeBookPageSchema = z.number();
+  const recipeBookPageSchema = z.number().nullable();
   const recipeWebsiteUrlSchema = z.string();
   const recipeSourceMemoSchema = z.string();
 
