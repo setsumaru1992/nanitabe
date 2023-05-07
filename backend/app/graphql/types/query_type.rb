@@ -18,5 +18,7 @@ module Types
     field :dish, resolver: Queries::Dish::Dish
     field :dishes, resolver: Queries::Dish::Dishes
     field :dishes_per_source, resolver: Queries::Dish::DishesPerSource
+
+    field :dish_sources, resolver: Queries::Dish::Source::DishSources
   end
 end

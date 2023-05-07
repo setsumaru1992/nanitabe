@@ -129,6 +129,19 @@ export type DishRegisteredWithMeal = DishFields & {
   name: Scalars['String'];
 };
 
+export type DishSourceFields = {
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  type: Scalars['Int'];
+};
+
+export type DishSourceRegisteredWithDish = DishSourceFields & {
+  __typename?: 'DishSourceRegisteredWithDish';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  type: Scalars['Int'];
+};
+
 export type DishSourceRelationDetail = {
   recipeBookPage?: InputMaybe<Scalars['Int']>;
   recipeSourceMemo?: InputMaybe<Scalars['String']>;
@@ -374,6 +387,7 @@ export type MutationUpdateMealWithNewDishAndNewSourceArgs = {
 export type Query = {
   __typename?: 'Query';
   dish: SpecifiedDish;
+  dishSources: Array<DishSourceRegisteredWithDish>;
   dishes: Array<DishRegisteredWithMeal>;
   dishesPerSource: Array<DishesForDisplayWithSource>;
   mealsForCalender: Array<MealsOfDate>;
@@ -582,6 +596,11 @@ export type AddDishSourceMutationVariables = Exact<{
 
 
 export type AddDishSourceMutation = { __typename?: 'Mutation', addDishSource?: { __typename?: 'AddSourcePayload', dishSourceId: number } | null };
+
+export type DishSourcesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DishSourcesQuery = { __typename?: 'Query', dishSources: Array<{ __typename?: 'DishSourceRegisteredWithDish', id: number, name: string, type: number }> };
 
 export type UpdateDishMutationVariables = Exact<{
   dish: DishForUpdate;
@@ -936,6 +955,42 @@ export function useAddDishSourceMutation(baseOptions?: Apollo.MutationHookOption
 export type AddDishSourceMutationHookResult = ReturnType<typeof useAddDishSourceMutation>;
 export type AddDishSourceMutationResult = Apollo.MutationResult<AddDishSourceMutation>;
 export type AddDishSourceMutationOptions = Apollo.BaseMutationOptions<AddDishSourceMutation, AddDishSourceMutationVariables>;
+export const DishSourcesDocument = gql`
+    query dishSources {
+  dishSources {
+    id
+    name
+    type
+  }
+}
+    `;
+
+/**
+ * __useDishSourcesQuery__
+ *
+ * To run a query within a React component, call `useDishSourcesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDishSourcesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDishSourcesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDishSourcesQuery(baseOptions?: Apollo.QueryHookOptions<DishSourcesQuery, DishSourcesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DishSourcesQuery, DishSourcesQueryVariables>(DishSourcesDocument, options);
+      }
+export function useDishSourcesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DishSourcesQuery, DishSourcesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DishSourcesQuery, DishSourcesQueryVariables>(DishSourcesDocument, options);
+        }
+export type DishSourcesQueryHookResult = ReturnType<typeof useDishSourcesQuery>;
+export type DishSourcesLazyQueryHookResult = ReturnType<typeof useDishSourcesLazyQuery>;
+export type DishSourcesQueryResult = Apollo.QueryResult<DishSourcesQuery, DishSourcesQueryVariables>;
 export const UpdateDishDocument = gql`
     mutation updateDish($dish: DishForUpdate!, $dishSourceRelation: DishSourceRelationForUpdate) {
   updateDish(input: {dish: $dish, dishSourceRelation: $dishSourceRelation}) {

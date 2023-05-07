@@ -29,7 +29,7 @@ export default (params: UseDishParams = {}) => {
     updateDish,
     updateDishLoading,
     updateDishError,
-    normalizeUpdateDishInput,
+    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
     UpdateDishSchema,
   } = useUpdateDish();
   const { removeDish, removeDishLoading, removeDishError } = useRemoveDish();
@@ -52,7 +52,7 @@ export default (params: UseDishParams = {}) => {
     updateDish,
     updateDishLoading,
     updateDishError,
-    normalizeUpdateDishInput,
+    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
     UpdateDishSchema,
 
     removeDish,

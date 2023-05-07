@@ -33,6 +33,7 @@ export const DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE = {
   RECIPE_BOOK_PAGE: 'recipeBookPage',
   RECIPE_WEBSITE_URL: 'recipeWebsiteUrl',
   RECIPE_SOURCE_MEMO: 'recipeSourceMemo',
+  NO_VALUE: 'noValue',
 } as const;
 
 export const { newDishSchema, updateDishSchema } = buildDishSchema();
@@ -61,12 +62,13 @@ const buildDishSourceRelationSchema = () => {
       ),
       recipeSourceMemo: recipeSourceMemoSchema,
     }),
+    z.object({
+      detailType: z.literal(DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE),
+    }),
   ]);
 
   // NOTE: putと銘打っているのはaddもupdateも区別したくないと思っているからだが、多分これはupdateフレンドリーでaddでは別の値必要になりそう
   const putDishRelationSchema = z.object({
-    // dishId: dishIdSchema,
-    // dishSourceId: dishSourceIdSchema,
     dishSourceRelationDetail: dishSourceRelationDetailSchema,
   });
 

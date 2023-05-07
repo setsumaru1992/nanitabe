@@ -1,8 +1,14 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
-import { registerMutationHandler } from '../../../lib/graphql/specHelper/mockServer';
-import { UpdateDishDocument } from '../../../lib/graphql/generated/graphql';
+import {
+  registerMutationHandler,
+  registerQueryHandler,
+} from '../../../lib/graphql/specHelper/mockServer';
+import {
+  DishSourcesDocument,
+  UpdateDishDocument,
+} from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import EditDish from './EditDish';
 import {
@@ -10,6 +16,7 @@ import {
   userClearTextbox,
   userClick,
   userType,
+  userTypeAfterClearTextBox,
 } from '../../specHelper/userEvents';
 import { DISH_SOURCE_TYPE } from '../../../features/dish/source/const';
 
@@ -32,14 +39,26 @@ describe('<EditDish>', () => {
     name: 'りゅうじ',
     type: DISH_SOURCE_TYPE.YOUTUBE,
   };
+
   const updatedDishSourceRelation = {
     dishId: updatedDish.id,
     dishSourceId: registeredDishSource.id,
     dishSourceType: registeredDishSource.type,
-    dishSourceRelationDetail: { recipeWebsiteUrl: '' }, // 要入力
+    dishSourceRelationDetail: {
+      recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
+    },
   };
 
   beforeEach(() => {
+    registerQueryHandler(DishSourcesDocument, {
+      dishSources: [
+        {
+          __typename: 'DishRegisteredWithMeal',
+          ...registeredDishSource,
+        },
+      ],
+    });
+
     renderWithApollo(
       <EditDish
         dish={registeredDish}
@@ -72,7 +91,7 @@ describe('<EditDish>', () => {
           ...registeredDish,
           name: updatedDish.name,
         },
-        dishSourceRelation: updatedDishSourceRelation,
+        dishSourceRelation: null,
       });
     });
   });
@@ -100,6 +119,38 @@ describe('<EditDish>', () => {
           ...registeredDish,
           name: updatedDish.name,
           mealPosition: updatedDish.mealPosition,
+        },
+        dishSourceRelation: null,
+      });
+    });
+  });
+
+  describe('when update update with different source relation', () => {
+    it('succeeds with expected graphql params', async () => {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        UpdateDishDocument,
+        {
+          updateDish: {
+            dishId: 1,
+          },
+        },
+      );
+
+      await userChooseSelectBox(screen, 'existingDishSources', [
+        `existingDishSource-${registeredDishSource.id}`,
+      ]);
+
+      await userTypeAfterClearTextBox(
+        screen,
+        'dishSourceRelationDetailRecipeWebsiteUrl',
+        updatedDishSourceRelation.dishSourceRelationDetail.recipeWebsiteUrl,
+      );
+
+      await userClick(screen, 'submitDishButton');
+
+      expect(getLatestMutationVariables()).toEqual({
+        dish: {
+          ...registeredDish,
         },
         dishSourceRelation: updatedDishSourceRelation,
       });

@@ -11,12 +11,6 @@ export const enterTextBox = (screen, testId, value) => {
   });
 };
 
-export const userType = async (screen, elementTestId, value) => {
-  await act(async () => {
-    await user.type(screen.getByTestId(elementTestId), value);
-  });
-};
-
 export const userClick = async (screen, elementTestId) => {
   await act(async () => {
     await user.click(screen.getByTestId(elementTestId));
@@ -27,6 +21,21 @@ export const userClearTextbox = async (screen, elementTestId) => {
   await act(async () => {
     await user.clear(screen.getByTestId(elementTestId));
   });
+};
+
+export const userType = async (screen, elementTestId, value) => {
+  await act(async () => {
+    await user.type(screen.getByTestId(elementTestId), value);
+  });
+};
+
+export const userTypeAfterClearTextBox = async (
+  screen,
+  elementTestId,
+  value,
+) => {
+  await userClearTextbox(screen, elementTestId);
+  await userType(screen, elementTestId, value);
 };
 
 export const userChooseSelectBox = async (

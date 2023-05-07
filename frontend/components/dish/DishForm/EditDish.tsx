@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
+import { Form } from 'react-bootstrap';
 import DishForm, { DishSourceFormRelationContent } from './DishForm';
-import { Dish } from '../../../lib/graphql/generated/graphql';
+import {
+  Dish,
+  DishSourceRegisteredWithDish,
+} from '../../../lib/graphql/generated/graphql';
 import useDish, { UpdateDish } from '../../../features/dish/useDish';
-import { DISH_SOURCE_TYPE } from '../../../features/dish/source/const';
+import useDishSource from '../../../features/dish/source/useDishSource';
+import { DishSourceType } from '../../../features/dish/source/const';
+import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 
 type Props = {
   dish: Dish;
@@ -14,9 +20,33 @@ type Props = {
 export default (props: Props) => {
   const { dish, onEditSucceeded, onSchemaError } = props;
 
-  const { updateDish, UpdateDishSchema, normalizeUpdateDishInput } = useDish();
+  const [dishSourceId, setDishSourceId] = useState(null);
+  const { dishSources } = useDishSource({
+    fetchDishSourcesParams: {
+      fetchDishSourcesOnlyParams: { requireFetchedData: true },
+    },
+  });
+  const selectedDishSource: DishSourceRegisteredWithDish | null = (() => {
+    if (!dishSourceId || !dishSources) return null;
+
+    return dishSources.find((dishSource) => dishSource.id === dishSourceId);
+  })();
+
+  const {
+    updateDish,
+    UpdateDishSchema,
+    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
+  } = useDish();
+  const convertToGraphqlInput = (input: UpdateDish) => {
+    return convertFromUpdateDishWithExistingSourceInputToGraphqlInput(
+      input,
+      dishSourceId,
+      selectedDishSource?.type as DishSourceType,
+    );
+  };
   const onSubmit: SubmitHandler<UpdateDish> = async (input) => {
-    await updateDish(normalizeUpdateDishInput(input), {
+    // TODO: 命名をupdateDishからupdateDishWithExistingSourceに変更
+    await updateDish(convertToGraphqlInput(input), {
       onCompleted: (_) => {
         if (onEditSucceeded) onEditSucceeded();
       },
@@ -30,9 +60,31 @@ export default (props: Props) => {
       onSchemaError={onSchemaError}
       registeredDish={dish}
     >
-      {/* 既存のものを選ぶ機構ができていないのでベタ打ち。新規登録・既存選択どちらも機能する機構を作ってから値入れる */}
+      {/* TODO: DishSourceFormに移行 */}
+      <FormFieldWrapperWithLabel label="参考レシピ">
+        {dishSources && (
+          <Form.Select
+            onChange={(e) => {
+              setDishSourceId(Number(e.target.value));
+            }}
+            data-testid="existingDishSources"
+          >
+            <option value={null}>--</option>
+            {dishSources.map((dishSource) => (
+              <option
+                key={dishSource.id}
+                value={dishSource.id}
+                data-testid={`existingDishSource-${dishSource.id}`}
+              >
+                {dishSource.name}
+              </option>
+            ))}
+          </Form.Select>
+        )}
+      </FormFieldWrapperWithLabel>
+
       <DishSourceFormRelationContent
-        dishSource={{ id: 1, type: DISH_SOURCE_TYPE.YOUTUBE }}
+        dishSourceType={selectedDishSource?.type as DishSourceType}
       />
     </DishForm>
   );

@@ -96,23 +96,20 @@ export const DishFormContent = (props: DishFormContentProps) => {
 };
 
 type DishSourceFormRelationContentProps = {
-  dishSource: {
-    id: number;
-    type: DishSourceType;
-  } | null;
+  dishSourceType: DishSourceType | null;
 };
 
 export const DishSourceFormRelationContent = (
   props: DishSourceFormRelationContentProps,
 ) => {
-  const { dishSource } = props;
+  const { dishSourceType } = props;
 
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
-  switch (dishSource?.type) {
+  switch (dishSourceType) {
     case DISH_SOURCE_TYPE.RECIPE_BOOK:
       return (
         <FormFieldWrapperWithLabel label="ページ数">
@@ -122,12 +119,20 @@ export const DishSourceFormRelationContent = (
               'dishSourceRelation.dishSourceRelationDetail.recipeBookPage',
               { valueAsNumber: true },
             )}
+            data-testid="dishSourceRelationDetailRecipeBookPage"
           />
           <ErrorMessageIfExist
             errorMessage={
               errors.dishSourceRelation?.dishSourceRelationDetail
                 ?.recipeBookPage
             }
+          />
+          <input
+            type="hidden"
+            value={DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_BOOK_PAGE}
+            {...register(
+              'dishSourceRelation.dishSourceRelationDetail.detailType',
+            )}
           />
         </FormFieldWrapperWithLabel>
       );
@@ -140,6 +145,7 @@ export const DishSourceFormRelationContent = (
             {...register(
               'dishSourceRelation.dishSourceRelationDetail.recipeWebsiteUrl',
             )}
+            data-testid="dishSourceRelationDetailRecipeWebsiteUrl"
           />
           <ErrorMessageIfExist
             errorMessage={
@@ -156,7 +162,7 @@ export const DishSourceFormRelationContent = (
           />
         </FormFieldWrapperWithLabel>
       );
-    default:
+    case DISH_SOURCE_TYPE.RESTAURANT:
       return (
         <FormFieldWrapperWithLabel label="メモ">
           <Form.Control
@@ -164,6 +170,7 @@ export const DishSourceFormRelationContent = (
             {...register(
               'dishSourceRelation.dishSourceRelationDetail.recipeSourceMemo',
             )}
+            data-testid="dishSourceRelationDetailRecipeSourceMemo"
           />
           <ErrorMessageIfExist
             errorMessage={
@@ -171,8 +178,17 @@ export const DishSourceFormRelationContent = (
                 ?.recipeSourceMemo
             }
           />
+          <input
+            type="hidden"
+            value={DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_SOURCE_MEMO}
+            {...register(
+              'dishSourceRelation.dishSourceRelationDetail.detailType',
+            )}
+          />
         </FormFieldWrapperWithLabel>
       );
+    default:
+      return null;
   }
 };
 
