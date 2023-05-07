@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
-import DishForm, { DishSourceFormRelationContent } from './DishForm';
+import DishForm from './DishForm';
 import {
   Dish,
   DishSourceRegisteredWithDish,
@@ -10,6 +10,7 @@ import useDish, { UpdateDish } from '../../../features/dish/useDish';
 import useDishSource from '../../../features/dish/source/useDishSource';
 import { DishSourceType } from '../../../features/dish/source/const';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
+import { DishSourceFormRelationContent } from './DishSourceFormRelationContent';
 
 type Props = {
   dish: Dish;
@@ -73,11 +74,17 @@ export default (props: Props) => {
           <Form.Select
             defaultValue={dishSourceId}
             onChange={(e) => {
-              setDishSourceId(Number(e.target.value));
+              const selectedValue = e.target.value;
+              const sourceId = Number.isNaN(selectedValue)
+                ? null
+                : Number(selectedValue);
+              setDishSourceId(sourceId);
             }}
             data-testid="existingDishSources"
           >
-            <option value={null}>--</option>
+            <option value={null} data-testid="existingDishSource-novalue">
+              --
+            </option>
             {dishSources.map((dishSource) => (
               <option
                 key={dishSource.id}
