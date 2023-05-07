@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, FormProvider, useFormContext } from 'react-hook-form';
 import { Button, Form } from 'react-bootstrap';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,7 +9,10 @@ import {
   MEAL_POSITION_LABELS,
   MEAL_POSITIONS,
 } from '../../../features/dish/const';
-import { Dish } from '../../../lib/graphql/generated/graphql';
+import {
+  Dish,
+  DishSourceRelation,
+} from '../../../lib/graphql/generated/graphql';
 import {
   DISH_SOURCE_TYPE,
   DishSourceType,
@@ -65,38 +68,13 @@ export const DishFormContent = (props: DishFormContentProps) => {
           errorMessage={errors.dish?.mealPosition?.message}
         />
       </FormFieldWrapperWithLabel>
-
-      {/* <div className={style['reference-recipe']}> */}
-      {/*  <span className={style['reference-recipe__title']}> */}
-      {/*    参考レシピ */}
-      {/*  </span> */}
-      {/*  <FormFieldWrapperWithLabel label="名前"> */}
-      {/*    <Form.Control type="text" /> */}
-      {/*  </FormFieldWrapperWithLabel> */}
-      {/*  <FormFieldWrapperWithLabel label="タイプ"> */}
-      {/*    <Form.Select> */}
-      {/*      <option value="">本</option> */}
-      {/*      <option value="">webサイト</option> */}
-      {/*      <option value="">テレビ</option> */}
-      {/*    </Form.Select> */}
-      {/*  </FormFieldWrapperWithLabel> */}
-      {/*  {true && ( */}
-      {/*    <FormFieldWrapperWithLabel label="ページ数"> */}
-      {/*      <Form.Control type="number" /> */}
-      {/*    </FormFieldWrapperWithLabel> */}
-      {/*  )} */}
-      {/*  {true && ( */}
-      {/*    <FormFieldWrapperWithLabel label="レシピURL"> */}
-      {/*      <Form.Control type="text" /> */}
-      {/*    </FormFieldWrapperWithLabel> */}
-      {/*  )} */}
-      {/* </div> */}
     </>
   );
 };
 
 type DishSourceFormRelationContentProps = {
   dishSourceType: DishSourceType | null;
+  dishSourceRelation: DishSourceRelation | null;
 };
 
 export const DishSourceFormRelationContent = (
@@ -109,9 +87,36 @@ export const DishSourceFormRelationContent = (
     formState: { errors },
   } = useFormContext();
 
-  switch (dishSourceType) {
-    case DISH_SOURCE_TYPE.RECIPE_BOOK:
-      return (
+  const [dishSourceRelation, setDishSourceRelation] = useState({});
+  const existingDishSourceRelation = props.dishSourceRelation || {
+    recipeBookPage: undefined,
+    recipeWebsiteUrl: '',
+    recipeSourceMemo: '',
+  };
+  useEffect(() => {
+    setDishSourceRelation((prevState) => ({
+      ...prevState,
+      ...existingDishSourceRelation,
+    }));
+  }, [
+    existingDishSourceRelation.recipeBookPage,
+    existingDishSourceRelation.recipeWebsiteUrl,
+    existingDishSourceRelation.recipeSourceMemo,
+  ]);
+  const editDishSourceRelationDetail = (params: {
+    recipeBookPage?: number;
+    recipeWebsiteUrl?: string;
+    recipeSourceMemo?: string;
+  }) => {
+    setDishSourceRelation({
+      ...dishSourceRelation,
+      ...params,
+    });
+  };
+
+  return (
+    <>
+      {dishSourceType === DISH_SOURCE_TYPE.RECIPE_BOOK && (
         <FormFieldWrapperWithLabel label="ページ数">
           <Form.Control
             type="number"
@@ -119,6 +124,12 @@ export const DishSourceFormRelationContent = (
               'dishSourceRelation.dishSourceRelationDetail.recipeBookPage',
               { valueAsNumber: true },
             )}
+            value={dishSourceRelation.recipeBookPage || ''}
+            onChange={(e) => {
+              editDishSourceRelationDetail({
+                recipeBookPage: e.target.value,
+              });
+            }}
             data-testid="dishSourceRelationDetailRecipeBookPage"
           />
           <ErrorMessageIfExist
@@ -135,16 +146,21 @@ export const DishSourceFormRelationContent = (
             )}
           />
         </FormFieldWrapperWithLabel>
-      );
-    case DISH_SOURCE_TYPE.YOUTUBE:
-    case DISH_SOURCE_TYPE.WEBSITE:
-      return (
+      )}
+      {(dishSourceType === DISH_SOURCE_TYPE.YOUTUBE ||
+        dishSourceType === DISH_SOURCE_TYPE.WEBSITE) && (
         <FormFieldWrapperWithLabel label="レシピURL">
           <Form.Control
             type="text"
             {...register(
               'dishSourceRelation.dishSourceRelationDetail.recipeWebsiteUrl',
             )}
+            value={dishSourceRelation.recipeWebsiteUrl || ''}
+            onChange={(e) => {
+              editDishSourceRelationDetail({
+                recipeWebsiteUrl: e.target.value,
+              });
+            }}
             data-testid="dishSourceRelationDetailRecipeWebsiteUrl"
           />
           <ErrorMessageIfExist
@@ -161,15 +177,20 @@ export const DishSourceFormRelationContent = (
             )}
           />
         </FormFieldWrapperWithLabel>
-      );
-    case DISH_SOURCE_TYPE.RESTAURANT:
-      return (
+      )}
+      {dishSourceType === DISH_SOURCE_TYPE.RESTAURANT && (
         <FormFieldWrapperWithLabel label="メモ">
           <Form.Control
             type="text"
             {...register(
               'dishSourceRelation.dishSourceRelationDetail.recipeSourceMemo',
             )}
+            value={dishSourceRelation.recipeSourceMemo || ''}
+            onChange={(e) => {
+              editDishSourceRelationDetail({
+                recipeSourceMemo: e.target.value,
+              });
+            }}
             data-testid="dishSourceRelationDetailRecipeSourceMemo"
           />
           <ErrorMessageIfExist
@@ -186,10 +207,9 @@ export const DishSourceFormRelationContent = (
             )}
           />
         </FormFieldWrapperWithLabel>
-      );
-    default:
-      return null;
-  }
+      )}
+    </>
+  );
 };
 
 type Props = {

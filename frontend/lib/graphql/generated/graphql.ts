@@ -96,6 +96,7 @@ export type Credential = {
 export type Dish = DishFields & {
   __typename?: 'Dish';
   comment?: Maybe<Scalars['String']>;
+  dishSourceRelation?: Maybe<DishSourceRelation>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   name: Scalars['String'];
@@ -103,6 +104,7 @@ export type Dish = DishFields & {
 
 export type DishFields = {
   comment?: Maybe<Scalars['String']>;
+  dishSourceRelation?: Maybe<DishSourceRelation>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   name: Scalars['String'];
@@ -124,6 +126,7 @@ export type DishForUpdate = {
 export type DishRegisteredWithMeal = DishFields & {
   __typename?: 'DishRegisteredWithMeal';
   comment?: Maybe<Scalars['String']>;
+  dishSourceRelation?: Maybe<DishSourceRelation>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   name: Scalars['String'];
@@ -139,6 +142,16 @@ export type DishSourceRegisteredWithDish = DishSourceFields & {
   __typename?: 'DishSourceRegisteredWithDish';
   id: Scalars['Int'];
   name: Scalars['String'];
+  type: Scalars['Int'];
+};
+
+export type DishSourceRelation = {
+  __typename?: 'DishSourceRelation';
+  dishId: Scalars['Int'];
+  dishSourceId: Scalars['Int'];
+  recipeBookPage?: Maybe<Scalars['Int']>;
+  recipeSourceMemo?: Maybe<Scalars['String']>;
+  recipeWebsiteUrl?: Maybe<Scalars['String']>;
   type: Scalars['Int'];
 };
 
@@ -158,6 +171,7 @@ export type DishSourceRelationForUpdate = {
 export type DishWithRegisteredMeals = DishFields & {
   __typename?: 'DishWithRegisteredMeals';
   comment?: Maybe<Scalars['String']>;
+  dishSourceRelation?: Maybe<DishSourceRelation>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   meals: Array<Meal>;
@@ -471,6 +485,7 @@ export type SourceForUpdate = {
 export type SpecifiedDish = DishFields & {
   __typename?: 'SpecifiedDish';
   comment?: Maybe<Scalars['String']>;
+  dishSourceRelation?: Maybe<DishSourceRelation>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   name: Scalars['String'];
@@ -576,7 +591,7 @@ export type DishQueryVariables = Exact<{
 }>;
 
 
-export type DishQuery = { __typename?: 'Query', dish: { __typename?: 'SpecifiedDish', id: number, name: string, mealPosition: number, comment?: string | null } };
+export type DishQuery = { __typename?: 'Query', dish: { __typename?: 'SpecifiedDish', id: number, name: string, mealPosition: number, comment?: string | null, dishSourceRelation?: { __typename?: 'DishSourceRelation', dishSourceId: number, recipeBookPage?: number | null, recipeWebsiteUrl?: string | null, recipeSourceMemo?: string | null } | null } };
 
 export type DishesPerSourceQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -812,6 +827,12 @@ export const DishDocument = gql`
     name
     mealPosition
     comment
+    dishSourceRelation {
+      dishSourceId
+      recipeBookPage
+      recipeWebsiteUrl
+      recipeSourceMemo
+    }
   }
 }
     `;

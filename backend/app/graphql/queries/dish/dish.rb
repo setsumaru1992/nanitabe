@@ -10,7 +10,7 @@ module Queries::Dish
     type SpecifiedDish, null: false
 
     def resolve(id:)
-      ::Dish.find_by(id:, user_id: context[:current_user_id])
+      ::Dish.where(id:, user_id: context[:current_user_id]).eager_load(:dish_source_relation).first
     end
   end
 end

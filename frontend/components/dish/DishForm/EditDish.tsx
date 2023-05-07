@@ -20,7 +20,9 @@ type Props = {
 export default (props: Props) => {
   const { dish, onEditSucceeded, onSchemaError } = props;
 
-  const [dishSourceId, setDishSourceId] = useState(null);
+  const [dishSourceId, setDishSourceId] = useState(
+    dish?.dishSourceRelation?.dishSourceId || null,
+  );
   const { dishSources } = useDishSource({
     fetchDishSourcesParams: {
       fetchDishSourcesOnlyParams: { requireFetchedData: true },
@@ -30,6 +32,11 @@ export default (props: Props) => {
     if (!dishSourceId || !dishSources) return null;
 
     return dishSources.find((dishSource) => dishSource.id === dishSourceId);
+  })();
+  const dishSourceRelation = (() => {
+    if (!dish.dishSourceRelation) return null;
+    if (dish.dishSourceRelation.dishSourceId !== dishSourceId) return null;
+    return dish.dishSourceRelation;
   })();
 
   const {
@@ -64,6 +71,7 @@ export default (props: Props) => {
       <FormFieldWrapperWithLabel label="参考レシピ">
         {dishSources && (
           <Form.Select
+            defaultValue={dishSourceId}
             onChange={(e) => {
               setDishSourceId(Number(e.target.value));
             }}
@@ -85,6 +93,7 @@ export default (props: Props) => {
 
       <DishSourceFormRelationContent
         dishSourceType={selectedDishSource?.type as DishSourceType}
+        dishSourceRelation={dishSourceRelation}
       />
     </DishForm>
   );

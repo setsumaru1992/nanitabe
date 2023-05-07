@@ -62,6 +62,12 @@ export const DISH = gql`
       name
       mealPosition
       comment
+      dishSourceRelation {
+        dishSourceId
+        recipeBookPage
+        recipeWebsiteUrl
+        recipeSourceMemo
+      }
     }
   }
 `;

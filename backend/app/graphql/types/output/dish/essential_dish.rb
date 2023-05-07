@@ -6,5 +6,7 @@ module Types::Output::Dish
     field :name, String, null: false
     field :meal_position, Int, null: false
     field :comment, String, null: true
+
+    field :dish_source_relation, DishSourceRelation, null: true
   end
 end

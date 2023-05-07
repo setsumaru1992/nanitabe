@@ -40,6 +40,12 @@ describe('<EditDish>', () => {
     type: DISH_SOURCE_TYPE.YOUTUBE,
   };
 
+  const registeredDishSource2 = {
+    id: 2,
+    name: 'アホアホチャンネル',
+    type: DISH_SOURCE_TYPE.WEBSITE,
+  };
+
   const updatedDishSourceRelation = {
     dishId: updatedDish.id,
     dishSourceId: registeredDishSource.id,
@@ -56,103 +62,167 @@ describe('<EditDish>', () => {
           __typename: 'DishRegisteredWithMeal',
           ...registeredDishSource,
         },
+        {
+          __typename: 'DishRegisteredWithMeal',
+          ...registeredDishSource2,
+        },
       ],
     });
-
-    renderWithApollo(
-      <EditDish
-        dish={registeredDish}
-        onSchemaError={(schemaErrors) => {
-          // スキーマエラーがあったときテストで把握しやすいようにログに出す
-          console.log(schemaErrors);
-          // screen.debug();
-        }}
-      />,
-    );
   });
 
-  describe('when update update with different one field', () => {
-    it('succeeds with expected graphql params', async () => {
-      const { getLatestMutationVariables } = registerMutationHandler(
-        UpdateDishDocument,
-        {
-          updateDish: {
-            dishId: 1,
-          },
-        },
+  describe('edit existing dish having only dish fields, ', () => {
+    beforeEach(() => {
+      renderWithApollo(
+        <EditDish
+          dish={registeredDish}
+          onSchemaError={(schemaErrors) => {
+            // スキーマエラーがあったときテストで把握しやすいようにログに出す
+            console.log(schemaErrors);
+            // screen.debug();
+          }}
+        />,
       );
+    });
 
-      await userClearTextbox(screen, 'dishname');
-      await userType(screen, 'dishname', updatedDish.name);
-      await userClick(screen, 'submitDishButton');
+    describe('when update update with different one field', () => {
+      it('succeeds with expected graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateDishDocument,
+          {
+            updateDish: {
+              dishId: 1,
+            },
+          },
+        );
 
-      expect(getLatestMutationVariables()).toEqual({
-        dish: {
-          ...registeredDish,
-          name: updatedDish.name,
-        },
-        dishSourceRelation: null,
+        await userClearTextbox(screen, 'dishname');
+        await userType(screen, 'dishname', updatedDish.name);
+        await userClick(screen, 'submitDishButton');
+
+        expect(getLatestMutationVariables()).toEqual({
+          dish: {
+            ...registeredDish,
+            name: updatedDish.name,
+          },
+          dishSourceRelation: null,
+        });
+      });
+    });
+
+    describe('when update update with different all dish field', () => {
+      it('succeeds with expected graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateDishDocument,
+          {
+            updateDish: {
+              dishId: 1,
+            },
+          },
+        );
+
+        await userClearTextbox(screen, 'dishname');
+        await userType(screen, 'dishname', updatedDish.name);
+        await userChooseSelectBox(screen, 'mealPositionOptions', [
+          `mealPositionOption-${updatedDish.mealPosition}`,
+        ]);
+        await userClick(screen, 'submitDishButton');
+
+        expect(getLatestMutationVariables()).toEqual({
+          dish: {
+            ...registeredDish,
+            name: updatedDish.name,
+            mealPosition: updatedDish.mealPosition,
+          },
+          dishSourceRelation: null,
+        });
+      });
+    });
+
+    describe('when update update with different source relation', () => {
+      it('succeeds with expected graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateDishDocument,
+          {
+            updateDish: {
+              dishId: 1,
+            },
+          },
+        );
+
+        await userChooseSelectBox(screen, 'existingDishSources', [
+          `existingDishSource-${registeredDishSource.id}`,
+        ]);
+
+        await userTypeAfterClearTextBox(
+          screen,
+          'dishSourceRelationDetailRecipeWebsiteUrl',
+          updatedDishSourceRelation.dishSourceRelationDetail.recipeWebsiteUrl,
+        );
+
+        await userClick(screen, 'submitDishButton');
+
+        expect(getLatestMutationVariables()).toEqual({
+          dish: {
+            ...registeredDish,
+          },
+          dishSourceRelation: updatedDishSourceRelation,
+        });
       });
     });
   });
 
-  describe('when update update with different all dish field', () => {
-    it('succeeds with expected graphql params', async () => {
-      const { getLatestMutationVariables } = registerMutationHandler(
-        UpdateDishDocument,
-        {
-          updateDish: {
-            dishId: 1,
-          },
-        },
+  describe('edit existing dish having dish source relation, ', () => {
+    const registeredDishWithDishSourceRelation = {
+      ...registeredDish,
+      dishSourceRelation: {
+        dishSourceId: registeredDishSource2.id,
+        recipeWebsiteUrl: 'https://youtube/ahoaho_channel',
+        recipeBookPage: undefined,
+        recipeSourceMemo: undefined,
+      },
+    };
+    beforeEach(() => {
+      renderWithApollo(
+        <EditDish
+          dish={registeredDishWithDishSourceRelation}
+          onSchemaError={(schemaErrors) => {
+            // スキーマエラーがあったときテストで把握しやすいようにログに出す
+            console.log(schemaErrors);
+            // screen.debug();
+          }}
+        />,
       );
-
-      await userClearTextbox(screen, 'dishname');
-      await userType(screen, 'dishname', updatedDish.name);
-      await userChooseSelectBox(screen, 'mealPositionOptions', [
-        `mealPositionOption-${updatedDish.mealPosition}`,
-      ]);
-      await userClick(screen, 'submitDishButton');
-
-      expect(getLatestMutationVariables()).toEqual({
-        dish: {
-          ...registeredDish,
-          name: updatedDish.name,
-          mealPosition: updatedDish.mealPosition,
-        },
-        dishSourceRelation: null,
-      });
     });
-  });
 
-  describe('when update update with different source relation', () => {
-    it('succeeds with expected graphql params', async () => {
-      const { getLatestMutationVariables } = registerMutationHandler(
-        UpdateDishDocument,
-        {
-          updateDish: {
-            dishId: 1,
+    describe('when update update with different source relation', () => {
+      it('succeeds with expected graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateDishDocument,
+          {
+            updateDish: {
+              dishId: 1,
+            },
           },
-        },
-      );
+        );
 
-      await userChooseSelectBox(screen, 'existingDishSources', [
-        `existingDishSource-${registeredDishSource.id}`,
-      ]);
+        await userChooseSelectBox(screen, 'existingDishSources', [
+          `existingDishSource-${registeredDishSource.id}`,
+        ]);
 
-      await userTypeAfterClearTextBox(
-        screen,
-        'dishSourceRelationDetailRecipeWebsiteUrl',
-        updatedDishSourceRelation.dishSourceRelationDetail.recipeWebsiteUrl,
-      );
+        await userTypeAfterClearTextBox(
+          screen,
+          'dishSourceRelationDetailRecipeWebsiteUrl',
+          updatedDishSourceRelation.dishSourceRelationDetail.recipeWebsiteUrl,
+        );
 
-      await userClick(screen, 'submitDishButton');
+        await userClick(screen, 'submitDishButton');
 
-      expect(getLatestMutationVariables()).toEqual({
-        dish: {
-          ...registeredDish,
-        },
-        dishSourceRelation: updatedDishSourceRelation,
+        expect(getLatestMutationVariables()).toEqual({
+          dish: {
+            ...registeredDish,
+          },
+          dishSourceRelation: updatedDishSourceRelation,
+        });
       });
     });
   });
