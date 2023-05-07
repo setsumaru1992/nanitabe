@@ -8,17 +8,17 @@ import {
 } from './schema';
 import { buildMutationExecutor } from '../utils/mutationUtils';
 import {
-  UpdateDishMutation,
-  useUpdateDishMutation,
+  UpdateDishWithExistingSourceMutation,
+  useUpdateDishWithExistingSourceMutation,
 } from '../../lib/graphql/generated/graphql';
 import { DISH_SOURCE_TYPE, DishSourceType } from './source/const';
 
 export const UPDATE_DISH = gql`
-  mutation updateDish(
+  mutation updateDishWithExistingSource(
     $dish: DishForUpdate!
     $dishSourceRelation: DishSourceRelationForUpdate
   ) {
-    updateDish(
+    updateDishWithExistingSource(
       input: { dish: $dish, dishSourceRelation: $dishSourceRelation }
     ) {
       dishId
@@ -60,8 +60,8 @@ const convertFromUpdateDishWithExistingSourceInputToGraphqlInput = (
 
 export const useUpdateDish = () => {
   const [updateDish, updateDishLoading, updateDishError] =
-    buildMutationExecutor<UpdateDish, UpdateDishMutation>(
-      useUpdateDishMutation,
+    buildMutationExecutor<UpdateDish, UpdateDishWithExistingSourceMutation>(
+      useUpdateDishWithExistingSourceMutation,
     );
 
   return {

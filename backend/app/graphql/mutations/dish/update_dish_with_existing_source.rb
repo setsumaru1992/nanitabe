@@ -1,5 +1,5 @@
 module Mutations::Dish
-  class UpdateDish < ::Mutations::BaseMutation
+  class UpdateDishWithExistingSource < ::Mutations::BaseMutation
     argument :dish, ::Types::Input::Dish::DishForUpdate, required: true
     argument :dish_source_relation, ::Types::Input::Dish::DishSourceRelation::DishSourceRelationForUpdate, required: false
 

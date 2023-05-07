@@ -2,8 +2,8 @@ require "rails_helper"
 require_relative "../../../graphql_auth_helper"
 require_relative "../../../../domain/business/dish/dish/source/repository/repository_update_shared_examples"
 
-module Mutations::Dish
-  RSpec.describe UpdateDish, type: :request do
+module Mutations::Dish::Source
+  RSpec.describe UpdateSource, type: :request do
     def build_mutation
       <<~GRAPHQL
         mutation updateDishSource($dishSource: SourceForUpdate!) {
