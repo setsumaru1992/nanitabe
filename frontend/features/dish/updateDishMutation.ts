@@ -5,6 +5,7 @@ import {
   updateDishSchema,
   putDishRelationSchema,
   DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE,
+  dishSourceRelationDetailOf,
 } from './schema';
 import { buildMutationExecutor } from '../utils/mutationUtils';
 import {
@@ -28,7 +29,7 @@ export const UPDATE_DISH = gql`
 
 const UpdateDishSchema = z.object({
   dish: updateDishSchema,
-  dishSourceRelation: putDishRelationSchema.optional(),
+  dishSourceRelation: putDishRelationSchema,
 });
 
 export type UpdateDish = z.infer<typeof UpdateDishSchema>;
@@ -41,7 +42,14 @@ const convertFromUpdateDishWithExistingSourceInputToGraphqlInput = (
   const normalizedInput = _.cloneDeep(input);
   const { dishSourceRelation, dish } = input;
 
-  if (!dishSourceRelation || !dishSourceRelation.dishSourceRelationDetail) {
+  const dishSourceRelationDetailType =
+    dishSourceRelationDetailOf(dishSourceType);
+  if (
+    !dishSourceRelation ||
+    !dishSourceRelation.dishSourceRelationDetail ||
+    dishSourceRelationDetailType ===
+      DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE
+  ) {
     normalizedInput.dishSourceRelation = null;
     return normalizedInput;
   }

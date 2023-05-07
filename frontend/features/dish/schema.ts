@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import { MEAL_POSITION } from './const';
 import { dishSourceIdSchema } from './source/schema';
+import { DISH_SOURCE_TYPE } from './source/const';
 
 export const dishIdSchema = z.number();
 
@@ -29,6 +30,8 @@ const buildDishSchema = () => {
   return { newDishSchema, updateDishSchema };
 };
 
+export const { newDishSchema, updateDishSchema } = buildDishSchema();
+
 export const DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE = {
   RECIPE_BOOK_PAGE: 'recipeBookPage',
   RECIPE_WEBSITE_URL: 'recipeWebsiteUrl',
@@ -36,36 +39,31 @@ export const DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE = {
   NO_VALUE: 'noValue',
 } as const;
 
-export const { newDishSchema, updateDishSchema } = buildDishSchema();
+export const dishSourceRelationDetailOf = (dishSourceType) => {
+  switch (dishSourceType) {
+    case DISH_SOURCE_TYPE.RECIPE_BOOK:
+      return DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_BOOK_PAGE;
+    case DISH_SOURCE_TYPE.YOUTUBE:
+    case DISH_SOURCE_TYPE.WEBSITE:
+      return DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_WEBSITE_URL;
+    case DISH_SOURCE_TYPE.RESTAURANT:
+      return DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_SOURCE_MEMO;
+    default:
+      return DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE;
+  }
+};
 
 const buildDishSourceRelationSchema = () => {
-  const recipeBookPageSchema = z.number().nullable();
-  const recipeWebsiteUrlSchema = z.string();
-  const recipeSourceMemoSchema = z.string();
+  const recipeBookPageSchema = z.number().nullish();
+  const recipeWebsiteUrlSchema = z.string().nullish();
+  const recipeSourceMemoSchema = z.string().nullish();
 
-  const dishSourceRelationDetailSchema = z.discriminatedUnion('detailType', [
-    z.object({
-      detailType: z.literal(
-        DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_BOOK_PAGE,
-      ),
-      recipeBookPage: recipeBookPageSchema,
-    }),
-    z.object({
-      detailType: z.literal(
-        DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_WEBSITE_URL,
-      ),
-      recipeWebsiteUrl: recipeWebsiteUrlSchema,
-    }),
-    z.object({
-      detailType: z.literal(
-        DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_SOURCE_MEMO,
-      ),
-      recipeSourceMemo: recipeSourceMemoSchema,
-    }),
-    z.object({
-      detailType: z.literal(DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE),
-    }),
-  ]);
+  const dishSourceRelationDetailSchema = z.object({
+    detailType: z.nativeEnum(DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE),
+    recipeBookPage: recipeBookPageSchema,
+    recipeWebsiteUrl: recipeWebsiteUrlSchema,
+    recipeSourceMemo: recipeSourceMemoSchema,
+  });
 
   // NOTE: putと銘打っているのはaddもupdateも区別したくないと思っているからだが、多分これはupdateフレンドリーでaddでは別の値必要になりそう
   const putDishRelationSchema = z.object({

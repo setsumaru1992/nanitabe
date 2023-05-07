@@ -8,7 +8,10 @@ import {
 } from '../../../features/dish/source/const';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
-import { DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE } from '../../../features/dish/schema';
+import {
+  DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE,
+  dishSourceRelationDetailOf,
+} from '../../../features/dish/schema';
 import { DishSourceRelation } from '../../../lib/graphql/generated/graphql';
 
 type DishSourceFormRelationContentProps = {
@@ -23,7 +26,6 @@ export const DishSourceFormRelationContent = (
   const {
     register,
     formState: { errors },
-    watch,
   } = useFormContext();
 
   const [dishSourceRelation, setDishSourceRelation] = useState({});
@@ -38,6 +40,7 @@ export const DishSourceFormRelationContent = (
       ...existingDishSourceRelation,
     }));
   }, [
+    dishSourceType,
     existingDishSourceRelation.recipeBookPage,
     existingDishSourceRelation.recipeWebsiteUrl,
     existingDishSourceRelation.recipeSourceMemo,
@@ -53,9 +56,17 @@ export const DishSourceFormRelationContent = (
     });
   };
 
+  const detailType = dishSourceRelationDetailOf(dishSourceType);
+
   return (
     <>
-      {dishSourceType === DISH_SOURCE_TYPE.RECIPE_BOOK && (
+      <input
+        type="hidden"
+        value={detailType}
+        {...register('dishSourceRelation.dishSourceRelationDetail.detailType')}
+      />
+      {detailType ===
+        DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_BOOK_PAGE && (
         <FormFieldWrapperWithLabel label="ページ数">
           <Form.Control
             type="number"
@@ -81,17 +92,10 @@ export const DishSourceFormRelationContent = (
                 ?.recipeBookPage
             }
           />
-          <input
-            type="hidden"
-            value={DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_BOOK_PAGE}
-            {...register(
-              'dishSourceRelation.dishSourceRelationDetail.detailType',
-            )}
-          />
         </FormFieldWrapperWithLabel>
       )}
-      {(dishSourceType === DISH_SOURCE_TYPE.YOUTUBE ||
-        dishSourceType === DISH_SOURCE_TYPE.WEBSITE) && (
+      {detailType ===
+        DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_WEBSITE_URL && (
         <FormFieldWrapperWithLabel label="レシピURL">
           <Form.Control
             type="text"
@@ -112,16 +116,10 @@ export const DishSourceFormRelationContent = (
                 ?.recipeWebsiteUrl
             }
           />
-          <input
-            type="hidden"
-            value={DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_WEBSITE_URL}
-            {...register(
-              'dishSourceRelation.dishSourceRelationDetail.detailType',
-            )}
-          />
         </FormFieldWrapperWithLabel>
       )}
-      {dishSourceType === DISH_SOURCE_TYPE.RESTAURANT && (
+      {detailType ===
+        DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_SOURCE_MEMO && (
         <FormFieldWrapperWithLabel label="メモ">
           <Form.Control
             type="text"
@@ -142,23 +140,7 @@ export const DishSourceFormRelationContent = (
                 ?.recipeSourceMemo
             }
           />
-          <input
-            type="hidden"
-            value={DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.RECIPE_SOURCE_MEMO}
-            {...register(
-              'dishSourceRelation.dishSourceRelationDetail.detailType',
-            )}
-          />
         </FormFieldWrapperWithLabel>
-      )}
-      {!DISH_SOURCE_TYPES.includes(dishSourceType) && (
-        <input
-          type="hidden"
-          value={DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE}
-          {...register(
-            'dishSourceRelation.dishSourceRelationDetail.detailType',
-          )}
-        />
       )}
     </>
   );
