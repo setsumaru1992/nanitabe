@@ -46,6 +46,18 @@ describe('<EditDish>', () => {
     type: DISH_SOURCE_TYPE.WEBSITE,
   };
 
+  const registeredDishSourceOfRecipeBook = {
+    id: 3,
+    name: 'はじめての中華料理',
+    type: DISH_SOURCE_TYPE.RECIPE_BOOK,
+  };
+
+  const registeredDishSourceOfRestaurant = {
+    id: 4,
+    name: 'はじめての中華料理',
+    type: DISH_SOURCE_TYPE.RESTAURANT,
+  };
+
   const updatedDishSourceRelation = {
     dishId: updatedDish.id,
     dishSourceId: registeredDishSource.id,
@@ -55,18 +67,37 @@ describe('<EditDish>', () => {
     },
   };
 
+  const updatedDishSourceRelationOfRecipeBook = {
+    dishId: updatedDish.id,
+    dishSourceId: registeredDishSourceOfRecipeBook.id,
+    dishSourceType: registeredDishSourceOfRecipeBook.type,
+    dishSourceRelationDetail: {
+      recipeBookPage: 50,
+    },
+  };
+
+  const updatedDishSourceRelationOfRestaurant = {
+    dishId: updatedDish.id,
+    dishSourceId: registeredDishSourceOfRestaurant.id,
+    dishSourceType: registeredDishSourceOfRestaurant.type,
+    dishSourceRelationDetail: {
+      recipeSourceMemo: '改札出て10分',
+    },
+  };
+
   beforeEach(() => {
     registerQueryHandler(DishSourcesDocument, {
       dishSources: [
-        {
+        registeredDishSource,
+        registeredDishSource2,
+        registeredDishSourceOfRecipeBook,
+        registeredDishSourceOfRestaurant,
+      ].map((dishSource) => {
+        return {
           __typename: 'DishRegisteredWithMeal',
-          ...registeredDishSource,
-        },
-        {
-          __typename: 'DishRegisteredWithMeal',
-          ...registeredDishSource2,
-        },
-      ],
+          ...dishSource,
+        };
+      }),
     });
   });
 
@@ -139,39 +170,107 @@ describe('<EditDish>', () => {
       });
     });
 
-    describe('when update update with different source relation', () => {
-      it('succeeds with expected graphql params', async () => {
-        const { getLatestMutationVariables } = registerMutationHandler(
-          UpdateDishWithExistingSourceDocument,
-          {
-            updateDishWithExistingSource: {
-              dishId: 1,
+    describe('about source relation', () => {
+      describe('when update update with different source relation', () => {
+        it('succeeds with expected graphql params', async () => {
+          const { getLatestMutationVariables } = registerMutationHandler(
+            UpdateDishWithExistingSourceDocument,
+            {
+              updateDishWithExistingSource: {
+                dishId: 1,
+              },
             },
-          },
-        );
+          );
 
-        await userChooseSelectBox(screen, 'existingDishSources', [
-          `existingDishSource-${registeredDishSource.id}`,
-        ]);
+          await userChooseSelectBox(screen, 'existingDishSources', [
+            `existingDishSource-${registeredDishSource.id}`,
+          ]);
 
-        await userTypeAfterClearTextBox(
-          screen,
-          'dishSourceRelationDetailRecipeWebsiteUrl',
-          updatedDishSourceRelation.dishSourceRelationDetail.recipeWebsiteUrl,
-        );
+          await userTypeAfterClearTextBox(
+            screen,
+            'dishSourceRelationDetailRecipeWebsiteUrl',
+            updatedDishSourceRelation.dishSourceRelationDetail.recipeWebsiteUrl,
+          );
 
-        await userClick(screen, 'submitDishButton');
+          await userClick(screen, 'submitDishButton');
 
-        expect(getLatestMutationVariables()).toEqual({
-          dish: {
-            ...registeredDish,
-          },
-          dishSourceRelation: updatedDishSourceRelation,
+          expect(getLatestMutationVariables()).toEqual({
+            dish: {
+              ...registeredDish,
+            },
+            dishSourceRelation: updatedDishSourceRelation,
+          });
+        });
+      });
+
+      describe('when update update with recipe book source relation', () => {
+        it('succeeds with expected graphql params', async () => {
+          const { getLatestMutationVariables } = registerMutationHandler(
+            UpdateDishWithExistingSourceDocument,
+            {
+              updateDishWithExistingSource: {
+                dishId: 1,
+              },
+            },
+          );
+
+          await userChooseSelectBox(screen, 'existingDishSources', [
+            `existingDishSource-${registeredDishSourceOfRecipeBook.id}`,
+          ]);
+
+          await userType(
+            screen,
+            'dishSourceRelationDetailRecipeBookPage',
+            String(
+              updatedDishSourceRelationOfRecipeBook.dishSourceRelationDetail
+                .recipeBookPage,
+            ),
+          );
+
+          await userClick(screen, 'submitDishButton');
+
+          expect(getLatestMutationVariables()).toEqual({
+            dish: {
+              ...registeredDish,
+            },
+            dishSourceRelation: updatedDishSourceRelationOfRecipeBook,
+          });
+        });
+      });
+
+      describe('when update update with source memo source relation', () => {
+        it('succeeds with expected graphql params', async () => {
+          const { getLatestMutationVariables } = registerMutationHandler(
+            UpdateDishWithExistingSourceDocument,
+            {
+              updateDishWithExistingSource: {
+                dishId: 1,
+              },
+            },
+          );
+
+          await userChooseSelectBox(screen, 'existingDishSources', [
+            `existingDishSource-${registeredDishSourceOfRestaurant.id}`,
+          ]);
+
+          await userTypeAfterClearTextBox(
+            screen,
+            'dishSourceRelationDetailRecipeSourceMemo',
+            updatedDishSourceRelationOfRestaurant.dishSourceRelationDetail
+              .recipeSourceMemo,
+          );
+
+          await userClick(screen, 'submitDishButton');
+
+          expect(getLatestMutationVariables()).toEqual({
+            dish: {
+              ...registeredDish,
+            },
+            dishSourceRelation: updatedDishSourceRelationOfRestaurant,
+          });
         });
       });
     });
-
-    // TODO: page, memoを紐つけるやつも作る
   });
 
   describe('edit existing dish having dish source relation, ', () => {

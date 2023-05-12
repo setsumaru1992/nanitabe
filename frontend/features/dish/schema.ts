@@ -58,6 +58,14 @@ const buildDishSourceRelationSchema = () => {
   const recipeWebsiteUrlSchema = z.string().nullish();
   const recipeSourceMemoSchema = z.string().nullish();
 
+  /*
+   * NOTE:
+   * 始めはunionやdiscriminatedUnionを使って
+   * detailTypeに合わせたフィールドしかいじれない型を提供しようとしたが頓挫。
+   * (頓挫理由: detailTypeをhiddenで持っていたが、表示するhiddenを切り替えたのにdetailTypeが切り替わってくれなかった)
+   * 今更detailTypeもGraphQLInputへの変換時の判断にしか使っていないし、実質sourceTypeに置き換えられるけど、
+   * detailTypeの値を元にtransformして使う値だけに変換するなら残してもいい
+   */
   const dishSourceRelationDetailSchema = z.object({
     detailType: z.nativeEnum(DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE),
     recipeBookPage: recipeBookPageSchema,
