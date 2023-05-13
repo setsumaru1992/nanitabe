@@ -17,8 +17,11 @@ import {
   useUpdateDishWithExistingSourceMutation,
   useUpdateDishWithNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
-import { DISH_SOURCE_TYPE, DishSourceType } from './source/const';
-import { newDishSourceSchema } from './source/schema';
+import {
+  dishSourceIdSchema,
+  dishSourceTypeOptionalSchema,
+  newDishSourceSchema,
+} from './source/schema';
 
 export const UPDATE_DISH_WITH_EXISTING_SOURCE = gql`
   mutation updateDishWithExistingSource(
@@ -35,6 +38,12 @@ export const UPDATE_DISH_WITH_EXISTING_SOURCE = gql`
 
 const UpdateDishWithExistingSourceSchema = z.object({
   dish: updateDishSchema,
+  dishSource: z
+    .object({
+      id: dishSourceIdSchema.nullish(),
+      type: dishSourceTypeOptionalSchema,
+    })
+    .optional(),
   dishSourceRelation: putDishRelationSchema,
 });
 
@@ -44,14 +53,13 @@ export type UpdateDishWithExistingSource = z.infer<
 
 const convertFromUpdateDishWithExistingSourceInputToGraphqlInput = (
   input: UpdateDishWithExistingSource,
-  dishSourceId: number,
-  dishSourceType: DishSourceType,
 ): UpdateDishWithExistingSource => {
   const normalizedInput = _.cloneDeep(input);
-  const { dishSourceRelation, dish } = input;
+  const { dishSourceRelation, dish, dishSource } = input;
 
-  const dishSourceRelationDetailType =
-    dishSourceRelationDetailOf(dishSourceType);
+  const dishSourceRelationDetailType = dishSourceRelationDetailOf(
+    dishSource.type,
+  );
   if (
     !dishSourceRelation ||
     !dishSourceRelation.dishSourceRelationDetail ||
@@ -65,12 +73,13 @@ const convertFromUpdateDishWithExistingSourceInputToGraphqlInput = (
   delete normalizedInput.dishSourceRelation.dishSourceRelationDetail.detailType;
   normalizedInput.dishSourceRelation = {
     dishId: dish.id,
-    dishSourceId,
-    dishSourceType,
+    dishSourceId: dishSource.id,
+    dishSourceType: dishSource.type,
     dishSourceRelationDetail:
       normalizedInput.dishSourceRelation.dishSourceRelationDetail,
   };
 
+  delete normalizedInput.dishSource;
   return normalizedInput;
 };
 
@@ -134,12 +143,15 @@ export const useUpdateDish = () => {
 
   return {
     updateDishWithExistingSource,
+    UpdateDishWithExistingSourceSchema,
+
     updateDishWithNewSource,
+    UpdateDishWithNewSourceSchema,
+
     updateDishLoading:
       updateDishWithExistingSourceLoading || updateDishWithNewSourceLoading,
     updateDishError:
       updateDishWithExistingSourceError || updateDishWithNewSourceError,
     convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
-    UpdateDishSchema: UpdateDishWithExistingSourceSchema,
   };
 };

@@ -7,8 +7,9 @@ export const dishSourceTypeRequiredSchema = z.nativeEnum(DISH_SOURCE_TYPE, {
   required_error: '必須項目です。',
 });
 
-export const dishSourceTypeOptionalSchema =
-  z.nativeEnum(DISH_SOURCE_TYPE).optional;
+export const dishSourceTypeOptionalSchema = z
+  .nativeEnum(DISH_SOURCE_TYPE)
+  .nullish();
 
 const buildDishSourceSchema = () => {
   const nameSchema = z.string().min(1, { message: '必須項目です。' });

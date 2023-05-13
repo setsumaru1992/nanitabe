@@ -8,7 +8,7 @@ import { buildISODateString } from '../../../features/utils/dateUtils';
 import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
 import { MEAL_TYPE } from '../../../features/meal/const';
 import useDish from '../../../features/dish/useDish';
-import { DishFormContent } from '../../dish/DishForm/DishForm';
+import { DishFormContentWithoutSource } from '../../dish/DishForm/DishForm';
 
 export enum CHOOSING_DISH_TYPE {
   CHOOSING_REGISTER_NEW_DISH,
@@ -181,7 +181,7 @@ export default (props: Props) => {
               デザインの都合・submitするフィールドの都合でmealフォーム都合の修正が必要になったら、
               それに合わせたコンポーネントを作る
              */}
-            {choosingRegisterNewDish && <DishFormContent />}
+            {choosingRegisterNewDish && <DishFormContentWithoutSource />}
 
             {choosingUseExistingDish && dishes && (
               <FormFieldWrapperWithLabel label="料理">
