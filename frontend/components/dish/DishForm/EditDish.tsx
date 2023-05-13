@@ -6,7 +6,7 @@ import {
   Dish,
   DishSourceRegisteredWithDish,
 } from '../../../lib/graphql/generated/graphql';
-import useDish, { UpdateDish } from '../../../features/dish/useDish';
+import useDish, { UpdateDishInput } from '../../../features/dish/useDish';
 import useDishSource from '../../../features/dish/source/useDishSource';
 import { DishSourceType } from '../../../features/dish/source/const';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
@@ -41,20 +41,19 @@ export default (props: Props) => {
   })();
 
   const {
-    updateDish,
+    updateDishWithExistingSource,
     UpdateDishSchema,
     convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
   } = useDish();
-  const convertToGraphqlInput = (input: UpdateDish) => {
+  const convertToGraphqlInput = (input: UpdateDishInput) => {
     return convertFromUpdateDishWithExistingSourceInputToGraphqlInput(
       input,
       dishSourceId,
       selectedDishSource?.type as DishSourceType,
     );
   };
-  const onSubmit: SubmitHandler<UpdateDish> = async (input) => {
-    // TODO: 命名をupdateDishからupdateDishWithExistingSourceに変更
-    await updateDish(convertToGraphqlInput(input), {
+  const onSubmit: SubmitHandler<UpdateDishInput> = async (input) => {
+    await updateDishWithExistingSource(convertToGraphqlInput(input), {
       onCompleted: (_) => {
         if (onEditSucceeded) onEditSucceeded();
       },
