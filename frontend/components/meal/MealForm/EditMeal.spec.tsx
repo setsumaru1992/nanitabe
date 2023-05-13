@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import EditMeal from './EditMeal';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import {

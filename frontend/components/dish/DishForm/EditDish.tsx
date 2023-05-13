@@ -21,10 +21,11 @@ export default (props: Props) => {
 
   const {
     updateDishWithExistingSource,
-    updateDishWithNewSource,
-    UpdateDishWithNewSourceSchema,
-    UpdateDishWithExistingSourceSchema,
     convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
+    UpdateDishWithExistingSourceSchema,
+    updateDishWithNewSource,
+    convertFromUpdateDishWithNewSourceInputToGraphqlInput,
+    UpdateDishWithNewSourceSchema,
   } = useDish();
 
   const useChoosingPutDishSourceTypeResult = useChoosingPutDishSourceType(
@@ -52,7 +53,15 @@ export default (props: Props) => {
           ];
         }
         if (choosingRegisterNewDishSource) {
-          return [updateDishWithNewSource, (input: UpdateDishInput) => {}];
+          return [
+            updateDishWithNewSource,
+            (input: UpdateDishInput) => {
+              return convertFromUpdateDishWithNewSourceInputToGraphqlInput(
+                input,
+              );
+            },
+            UpdateDishWithNewSourceSchema,
+          ];
         }
         return [null, null, null];
       })();

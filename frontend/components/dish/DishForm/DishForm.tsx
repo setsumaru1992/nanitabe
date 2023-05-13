@@ -140,8 +140,8 @@ const useSelectedExistingDishSource = (registeredDish?: Dish, setValue) => {
   })();
 
   useEffect(() => {
-    setValue('dishSource.id', dishSourceId || null);
-    setValue('dishSource.type', selectedDishSource?.type || null);
+    setValue('selectedDishSource.id', dishSourceId || null);
+    setValue('selectedDishSource.type', selectedDishSource?.type || null);
   }, [dishSourceId, selectedDishSource]);
 
   return {
@@ -168,7 +168,7 @@ const DishFormContent = (props: DishFormContentProps) => {
     },
   } = props;
 
-  const { setValue } = useFormContext();
+  const { getValues, setValue, watch } = useFormContext();
 
   const {
     dishSources,
@@ -258,7 +258,17 @@ const DishFormContent = (props: DishFormContentProps) => {
         <>
           <DishSourceFormContent />
           <DishSourceFormRelationContent
-            dishSourceType={selectedDishSource?.type as DishSourceType}
+            dishSourceType={
+              (() => {
+                const parsedDishSourceTypeOfRhf = parseInt(
+                  watch('dishSource.type'),
+                  10,
+                );
+                return Number.isNaN(parsedDishSourceTypeOfRhf)
+                  ? null
+                  : parsedDishSourceTypeOfRhf;
+              })() as DishSourceType
+            }
             dishSourceRelation={null}
           />
         </>

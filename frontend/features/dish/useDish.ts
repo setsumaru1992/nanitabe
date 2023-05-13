@@ -31,12 +31,13 @@ export default (params: UseDishParams = {}) => {
   const { addDish, addDishLoading, addDishError, AddDishSchema } = useAddDish();
   const {
     updateDishWithExistingSource,
+    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
+    UpdateDishWithExistingSourceSchema,
     updateDishWithNewSource,
+    convertFromUpdateDishWithNewSourceInputToGraphqlInput,
+    UpdateDishWithNewSourceSchema,
     updateDishLoading,
     updateDishError,
-    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
-    UpdateDishWithNewSourceSchema,
-    UpdateDishWithExistingSourceSchema,
   } = useUpdateDish();
   const { removeDish, removeDishLoading, removeDishError } = useRemoveDish();
 
@@ -56,12 +57,13 @@ export default (params: UseDishParams = {}) => {
     AddDishSchema,
 
     updateDishWithExistingSource,
+    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
+    UpdateDishWithExistingSourceSchema,
     updateDishWithNewSource,
+    convertFromUpdateDishWithNewSourceInputToGraphqlInput,
+    UpdateDishWithNewSourceSchema,
     updateDishLoading,
     updateDishError,
-    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
-    UpdateDishWithNewSourceSchema,
-    UpdateDishWithExistingSourceSchema,
 
     removeDish,
     removeDishLoading,

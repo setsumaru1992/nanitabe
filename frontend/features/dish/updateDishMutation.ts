@@ -38,7 +38,7 @@ export const UPDATE_DISH_WITH_EXISTING_SOURCE = gql`
 
 const UpdateDishWithExistingSourceSchema = z.object({
   dish: updateDishSchema,
-  dishSource: z
+  selectedDishSource: z
     .object({
       id: dishSourceIdSchema.nullish(),
       type: dishSourceTypeOptionalSchema,
@@ -55,10 +55,10 @@ const convertFromUpdateDishWithExistingSourceInputToGraphqlInput = (
   input: UpdateDishWithExistingSource,
 ): UpdateDishWithExistingSource => {
   const normalizedInput = _.cloneDeep(input);
-  const { dishSourceRelation, dish, dishSource } = input;
+  const { dishSourceRelation, dish, selectedDishSource } = input;
 
   const dishSourceRelationDetailType = dishSourceRelationDetailOf(
-    dishSource.type,
+    selectedDishSource.type,
   );
   if (
     !dishSourceRelation ||
@@ -73,8 +73,8 @@ const convertFromUpdateDishWithExistingSourceInputToGraphqlInput = (
   delete normalizedInput.dishSourceRelation.dishSourceRelationDetail.detailType;
   normalizedInput.dishSourceRelation = {
     dishId: dish.id,
-    dishSourceId: dishSource.id,
-    dishSourceType: dishSource.type,
+    dishSourceId: selectedDishSource.id,
+    dishSourceType: selectedDishSource.type,
     dishSourceRelationDetail:
       normalizedInput.dishSourceRelation.dishSourceRelationDetail,
   };
@@ -111,6 +111,33 @@ export type UpdateDishWithNewSource = z.infer<
   typeof UpdateDishWithNewSourceSchema
 >;
 
+const convertFromUpdateDishWithNewSourceInputToGraphqlInput = (
+  input: UpdateDishWithNewSource,
+): UpdateDishWithNewSource => {
+  const normalizedInput = _.cloneDeep(input);
+  normalizedInput.dishSourceRelation = null;
+  normalizedInput.dishSourceRelationDetail = null;
+  const { dishSourceRelation, dishSource } = input;
+
+  const dishSourceRelationDetailType = dishSourceRelationDetailOf(
+    dishSource.type,
+  );
+  if (
+    !dishSourceRelation ||
+    !dishSourceRelation.dishSourceRelationDetail ||
+    dishSourceRelationDetailType ===
+      DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE
+  ) {
+    return normalizedInput;
+  }
+
+  // ここの書き方含めて、何かとりあえずやりたいこと満たすための汚いコードにしか見えない
+  normalizedInput.dishSourceRelationDetail =
+    dishSourceRelation.dishSourceRelationDetail;
+  delete normalizedInput.dishSourceRelationDetail.detailType;
+  return normalizedInput;
+};
+
 export type UpdateDishInput =
   | UpdateDishWithNewSource
   | UpdateDishWithExistingSource;
@@ -143,15 +170,16 @@ export const useUpdateDish = () => {
 
   return {
     updateDishWithExistingSource,
+    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
     UpdateDishWithExistingSourceSchema,
 
     updateDishWithNewSource,
+    convertFromUpdateDishWithNewSourceInputToGraphqlInput,
     UpdateDishWithNewSourceSchema,
 
     updateDishLoading:
       updateDishWithExistingSourceLoading || updateDishWithNewSourceLoading,
     updateDishError:
       updateDishWithExistingSourceError || updateDishWithNewSourceError,
-    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
   };
 };

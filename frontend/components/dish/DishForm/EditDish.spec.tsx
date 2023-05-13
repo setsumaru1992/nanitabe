@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import {
   registerMutationHandler,
   registerQueryHandler,
@@ -8,6 +8,7 @@ import {
 import {
   DishSourcesDocument,
   UpdateDishWithExistingSourceDocument,
+  UpdateDishWithNewSourceDocument,
 } from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import EditDish from './EditDish';
@@ -46,6 +47,11 @@ describe('<EditDish>', () => {
     type: DISH_SOURCE_TYPE.WEBSITE,
   };
 
+  const newDishSource = {
+    name: '最強のレシピサイト',
+    type: DISH_SOURCE_TYPE.WEBSITE,
+  };
+
   const registeredDishSourceOfRecipeBook = {
     id: 3,
     name: 'はじめての中華料理',
@@ -58,13 +64,15 @@ describe('<EditDish>', () => {
     type: DISH_SOURCE_TYPE.RESTAURANT,
   };
 
+  const newDishSourceRelationDetailOfRecipeWebsite = {
+    recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
+  };
+
   const updatedDishSourceRelation = {
     dishId: updatedDish.id,
     dishSourceId: registeredDishSource.id,
     dishSourceType: registeredDishSource.type,
-    dishSourceRelationDetail: {
-      recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
-    },
+    dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
   };
 
   const updatedDishSourceRelationOfRecipeBook = {
@@ -267,6 +275,42 @@ describe('<EditDish>', () => {
               ...registeredDish,
             },
             dishSourceRelation: updatedDishSourceRelationOfRestaurant,
+          });
+        });
+      });
+
+      describe('when update update with new source relation', () => {
+        it('succeeds with expected graphql params', async () => {
+          const { getLatestMutationVariables } = registerMutationHandler(
+            UpdateDishWithNewSourceDocument,
+            {
+              updateDishWithNewSource: {
+                dishId: 1,
+              },
+            },
+          );
+
+          await userClick(screen, 'optionOfRegisteringNewDishSource');
+
+          await userType(screen, 'dishSourceName', newDishSource.name);
+          await userChooseSelectBox(screen, 'dishSourceTypeOption', [
+            `dishSourceTypeOption-${newDishSource.type}`,
+          ]);
+          await userTypeAfterClearTextBox(
+            screen,
+            'dishSourceRelationDetailRecipeWebsiteUrl',
+            newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+          );
+
+          await userClick(screen, 'submitDishButton');
+
+          expect(getLatestMutationVariables()).toEqual({
+            dish: {
+              ...registeredDish,
+            },
+            dishSource: newDishSource,
+            dishSourceRelationDetail:
+              newDishSourceRelationDetailOfRecipeWebsite,
           });
         });
       });
