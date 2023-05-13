@@ -1,20 +1,23 @@
 module Mutations::Dish
   class UpdateDishWithNewSource < ::Mutations::BaseMutation
     argument :dish, ::Types::Input::Dish::DishForUpdate, required: true
-    argument :dish_source_relation, ::Types::Input::Dish::DishSourceRelation::DishSourceRelationForUpdate, required: false
+    argument :dish_source, ::Types::Input::Dish::Source::SourceForCreate, required: true
+    argument :dish_source_relation_detail, ::Types::Input::Dish::DishSourceRelation::DishSourceRelationDetail, required: false
 
     field :dish_id, Int, null: false
 
-    def resolve(dish:, dish_source_relation:)
+    def resolve(dish:, dish_source:, dish_source_relation_detail:)
       ActiveRecord::Base.transaction do
-        ::Business::Dish::Dish::Command::UpdateCommand.call(
+        _, created_dish_source = ::Business::Dish::Dish::Command::UpdateWithNewSourceCommand.call(
           user_id: context[:current_user_id],
           dish_for_update: dish.convert_to_command_param,
-          dish_source_relation: dish_source_relation&.convert_to_command_param,
+          dish_source_for_create: dish_source.convert_to_command_param,
+          dish_source_relation_detail_value: dish_source_relation_detail&.detail_value_of(dish_source.type),
         )
 
         {
           dish_id: dish.id,
+          dish_source_id: created_dish_source.id,
         }
       end
     end

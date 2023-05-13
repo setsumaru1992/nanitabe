@@ -42,7 +42,7 @@ module Business::Dish::Dish
         dish_source_relation_record_for_update = proc do
           dish_source_relation_class = ::DishSourceRelation.class_of(::DishSource.find(dish_source_id).type)
 
-          existing_dish_source_relation_record = dish_source_relation_class.find_by(dish_id:, dish_source_id:)
+          existing_dish_source_relation_record = dish_source_relation_class.find_by(dish_id:)
           next existing_dish_source_relation_record if existing_dish_source_relation_record.present?
 
           dish_source_relation_class.new(dish_id:, dish_source_id:)

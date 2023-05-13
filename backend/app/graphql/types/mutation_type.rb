@@ -8,6 +8,7 @@ module Types
 
     field :add_dish, mutation: ::Mutations::Dish::AddDish
     field :update_dish_with_existing_source, mutation: ::Mutations::Dish::UpdateDishWithExistingSource
+    field :update_dish_with_new_source, mutation: ::Mutations::Dish::UpdateDishWithNewSource
     field :remove_dish, mutation: ::Mutations::Dish::RemoveDish
 
     field :add_dish_source, mutation: ::Mutations::Dish::Source::AddSource
