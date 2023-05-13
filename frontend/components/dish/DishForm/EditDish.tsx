@@ -6,11 +6,55 @@ import {
   Dish,
   DishSourceRegisteredWithDish,
 } from '../../../lib/graphql/generated/graphql';
-import useDish, { UpdateDishInput } from '../../../features/dish/useDish';
+import useDish, {
+  UpdateDishInput,
+  UpdateDishFunc,
+} from '../../../features/dish/useDish';
 import useDishSource from '../../../features/dish/source/useDishSource';
 import { DishSourceType } from '../../../features/dish/source/const';
 import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 import { DishSourceFormRelationContent } from './DishSourceFormRelationContent';
+
+export enum CHOOSING_PUT_DISH_SOURCE_TYPE {
+  CHOOSING_REGISTER_NEW_DISH_SOURCE,
+  CHOOSING_USE_EXISTING_DISH_SOURCE,
+}
+
+const isChoosingRegisterNewDishSource = (
+  choosingPutDishSourceType: CHOOSING_PUT_DISH_SOURCE_TYPE,
+) =>
+  choosingPutDishSourceType ===
+  CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_REGISTER_NEW_DISH_SOURCE;
+
+const isChoosingUseExistingDishSource = (
+  choosingDishType: CHOOSING_PUT_DISH_SOURCE_TYPE,
+) =>
+  choosingDishType ===
+  CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_USE_EXISTING_DISH_SOURCE;
+
+type UseChoosingPutDishSourceTypeResult = {
+  choosingPutDishSourceType: CHOOSING_PUT_DISH_SOURCE_TYPE;
+  setChoosingPutDishSourceType: (CHOOSING_DISH_TYPE) => void;
+  choosingRegisterNewDishSource: boolean;
+  choosingUseExistingDishSource: boolean;
+};
+
+export const useChoosingPutDishSourceType = (
+  defaultChoosingDishType: CHOOSING_PUT_DISH_SOURCE_TYPE,
+): UseChoosingPutDishSourceTypeResult => {
+  const [choosingPutDishSourceType, setChoosingPutDishSourceType] =
+    React.useState(defaultChoosingDishType);
+  return {
+    choosingPutDishSourceType,
+    setChoosingPutDishSourceType,
+    choosingRegisterNewDishSource: isChoosingRegisterNewDishSource(
+      choosingPutDishSourceType,
+    ),
+    choosingUseExistingDishSource: isChoosingUseExistingDishSource(
+      choosingPutDishSourceType,
+    ),
+  };
+};
 
 type Props = {
   dish: Dish;
@@ -41,19 +85,44 @@ export default (props: Props) => {
   })();
 
   const {
+    choosingPutDishSourceType,
+    setChoosingPutDishSourceType,
+    choosingRegisterNewDishSource,
+    choosingUseExistingDishSource,
+  } = useChoosingPutDishSourceType(
+    CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_USE_EXISTING_DISH_SOURCE,
+  );
+
+  const {
     updateDishWithExistingSource,
+    updateDishWithNewSource,
     UpdateDishSchema,
     convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
   } = useDish();
-  const convertToGraphqlInput = (input: UpdateDishInput) => {
-    return convertFromUpdateDishWithExistingSourceInputToGraphqlInput(
-      input,
-      dishSourceId,
-      selectedDishSource?.type as DishSourceType,
-    );
-  };
+
+  const updateDish: UpdateDishFunc = (() => {
+    const [updateDishFunc, convertToGraphqlInputFunc] = (() => {
+      if (choosingUseExistingDishSource) {
+        return [
+          updateDishWithExistingSource,
+          (input: UpdateDishInput) => {
+            return convertFromUpdateDishWithExistingSourceInputToGraphqlInput(
+              input,
+              dishSourceId,
+              selectedDishSource?.type as DishSourceType,
+            );
+          },
+        ];
+      }
+      return [null, null];
+    })();
+    return (input, mutationCallbacks) => {
+      updateDishFunc(convertToGraphqlInputFunc(input), mutationCallbacks);
+    };
+  })();
+
   const onSubmit: SubmitHandler<UpdateDishInput> = async (input) => {
-    await updateDishWithExistingSource(convertToGraphqlInput(input), {
+    await updateDish(input, {
       onCompleted: (_) => {
         if (onEditSucceeded) onEditSucceeded();
       },
@@ -67,35 +136,72 @@ export default (props: Props) => {
       onSchemaError={onSchemaError}
       registeredDish={dish}
     >
+      <Form.Group>
+        <Form.Check
+          type="radio"
+          inline
+          name="add_put_dish_source_type"
+          value={
+            CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_USE_EXISTING_DISH_SOURCE
+          }
+          onChange={() =>
+            setChoosingPutDishSourceType(
+              CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_USE_EXISTING_DISH_SOURCE,
+            )
+          }
+          checked={choosingUseExistingDishSource}
+          label="登録済みのレシピ元を選択"
+          data-testid="optionOfUsingExistingDishSource"
+        />
+        <Form.Check
+          type="radio"
+          inline
+          name="add_put_dish_source_type"
+          value={
+            CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_REGISTER_NEW_DISH_SOURCE
+          }
+          onChange={() =>
+            setChoosingPutDishSourceType(
+              CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_REGISTER_NEW_DISH_SOURCE,
+            )
+          }
+          checked={choosingRegisterNewDishSource}
+          label="新しくレシピ元を登録"
+          data-testid="optionOfRegisteringNewDishSource"
+        />
+      </Form.Group>
+
       {/* TODO: DishSourceFormに移行 */}
-      <FormFieldWrapperWithLabel label="参考レシピ">
-        {dishSources && (
-          <Form.Select
-            defaultValue={dishSourceId}
-            onChange={(e) => {
-              const selectedValue = e.target.value;
-              const sourceId = Number.isNaN(selectedValue)
-                ? null
-                : Number(selectedValue);
-              setDishSourceId(sourceId);
-            }}
-            data-testid="existingDishSources"
-          >
-            <option value={null} data-testid="existingDishSource-novalue">
-              --
-            </option>
-            {dishSources.map((dishSource) => (
-              <option
-                key={dishSource.id}
-                value={dishSource.id}
-                data-testid={`existingDishSource-${dishSource.id}`}
-              >
-                {dishSource.name}
+      {choosingUseExistingDishSource && (
+        <FormFieldWrapperWithLabel label="参考レシピ">
+          {dishSources && (
+            <Form.Select
+              defaultValue={dishSourceId}
+              onChange={(e) => {
+                const selectedValue = e.target.value;
+                const sourceId = Number.isNaN(selectedValue)
+                  ? null
+                  : Number(selectedValue);
+                setDishSourceId(sourceId);
+              }}
+              data-testid="existingDishSources"
+            >
+              <option value={null} data-testid="existingDishSource-novalue">
+                --
               </option>
-            ))}
-          </Form.Select>
-        )}
-      </FormFieldWrapperWithLabel>
+              {dishSources.map((dishSource) => (
+                <option
+                  key={dishSource.id}
+                  value={dishSource.id}
+                  data-testid={`existingDishSource-${dishSource.id}`}
+                >
+                  {dishSource.name}
+                </option>
+              ))}
+            </Form.Select>
+          )}
+        </FormFieldWrapperWithLabel>
+      )}
 
       <DishSourceFormRelationContent
         dishSourceType={selectedDishSource?.type as DishSourceType}

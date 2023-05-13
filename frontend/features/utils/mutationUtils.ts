@@ -1,8 +1,8 @@
 import type { ApolloError } from '@apollo/client';
 
-type MutationCallbacks<Output> = {
-  onCompleted: (data: Output) => void;
-  onError: (error: ApolloError) => void;
+export type MutationCallbacks<Output> = {
+  onCompleted?: (data: Output) => void;
+  onError?: (error: ApolloError) => void;
 };
 
 export type ExecMutation<Input, Output> = (

@@ -4,7 +4,11 @@ import { useUpdateDish } from './updateDishMutation';
 import { useRemoveDish } from './removeDishMutation';
 
 export type { AddDish } from './addDishMutation';
-export type { UpdateDishInput, UpdateDishOutput } from './updateDishMutation';
+export type {
+  UpdateDishInput,
+  UpdateDishOutput,
+  UpdateDishFunc,
+} from './updateDishMutation';
 
 export type UseDishParams = {
   fetchDishesParams?: FetchDishesParams;
@@ -27,6 +31,7 @@ export default (params: UseDishParams = {}) => {
   const { addDish, addDishLoading, addDishError, AddDishSchema } = useAddDish();
   const {
     updateDishWithExistingSource,
+    updateDishWithNewSource,
     updateDishLoading,
     updateDishError,
     convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
@@ -50,6 +55,7 @@ export default (params: UseDishParams = {}) => {
     AddDishSchema,
 
     updateDishWithExistingSource,
+    updateDishWithNewSource,
     updateDishLoading,
     updateDishError,
     convertFromUpdateDishWithExistingSourceInputToGraphqlInput,

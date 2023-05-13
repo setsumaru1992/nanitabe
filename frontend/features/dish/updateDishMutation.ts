@@ -7,12 +7,18 @@ import {
   DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE,
   dishSourceRelationDetailOf,
 } from './schema';
-import { buildMutationExecutor } from '../utils/mutationUtils';
+import {
+  buildMutationExecutor,
+  MutationCallbacks,
+} from '../utils/mutationUtils';
 import {
   UpdateDishWithExistingSourceMutation,
+  UpdateDishWithNewSourceMutation,
   useUpdateDishWithExistingSourceMutation,
+  useUpdateDishWithNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
 import { DISH_SOURCE_TYPE, DishSourceType } from './source/const';
+import { newDishSourceSchema } from './source/schema';
 
 export const UPDATE_DISH_WITH_EXISTING_SOURCE = gql`
   mutation updateDishWithExistingSource(
@@ -86,8 +92,26 @@ export const UPDATE_DISH_WITH_NEW_SOURCE = gql`
   }
 `;
 
-export type UpdateDishInput = UpdateDishWithExistingSource;
-export type UpdateDishOutput = UpdateDishWithExistingSourceMutation;
+const UpdateDishWithNewSourceSchema = z.object({
+  dish: updateDishSchema,
+  dishSource: newDishSourceSchema,
+  dishSourceRelation: putDishRelationSchema,
+});
+
+export type UpdateDishWithNewSource = z.infer<
+  typeof UpdateDishWithNewSourceSchema
+>;
+
+export type UpdateDishInput =
+  | UpdateDishWithNewSource
+  | UpdateDishWithExistingSource;
+export type UpdateDishOutput =
+  | UpdateDishWithNewSourceMutation
+  | UpdateDishWithExistingSourceMutation;
+export type UpdateDishFunc = (
+  input: UpdateDishInput,
+  mutationCallbacks: MutationCallbacks<UpdateDishOutput>,
+) => void;
 
 export const useUpdateDish = () => {
   const [
@@ -99,10 +123,22 @@ export const useUpdateDish = () => {
     UpdateDishWithExistingSourceMutation
   >(useUpdateDishWithExistingSourceMutation);
 
+  const [
+    updateDishWithNewSource,
+    updateDishWithNewSourceLoading,
+    updateDishWithNewSourceError,
+  ] = buildMutationExecutor<
+    UpdateDishWithNewSource,
+    UpdateDishWithNewSourceMutation
+  >(useUpdateDishWithNewSourceMutation);
+
   return {
     updateDishWithExistingSource,
-    updateDishLoading: updateDishWithExistingSourceLoading,
-    updateDishError: updateDishWithExistingSourceError,
+    updateDishWithNewSource,
+    updateDishLoading:
+      updateDishWithExistingSourceLoading || updateDishWithNewSourceLoading,
+    updateDishError:
+      updateDishWithExistingSourceError || updateDishWithNewSourceError,
     convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
     UpdateDishSchema: UpdateDishWithExistingSourceSchema,
   };
