@@ -22,7 +22,13 @@ module Business::Base
     private
 
     def group_rows_by_key(rows, key_name, rows_name)
-      grouped_hash = rows.group_by { |row| row[key_name.to_sym] }
+      grouped_hash = rows.group_by do |row|
+        if block_given?
+          yield row
+        else
+          row[key_name.to_sym]
+        end
+      end
       grouped_hash.map do |(key_value, grouped_rows)|
         {
           key_name.to_sym => key_value,
