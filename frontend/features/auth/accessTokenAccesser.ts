@@ -22,7 +22,10 @@ export const setAccessToken = (
   accessToken: string,
   nextJsContext = null,
 ): void => {
-  nookies.set(nextJsContext, COOKIE_ACCESS_TOKEN_KEY_NAME, accessToken);
+  nookies.set(nextJsContext, COOKIE_ACCESS_TOKEN_KEY_NAME, accessToken, {
+    maxAge: 30 * 24 * 60 * 60,
+    path: '/',
+  });
 };
 
 export const useAccessToken = (nextJsContext = null) => {
