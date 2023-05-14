@@ -279,7 +279,7 @@ describe('<EditDish>', () => {
         });
       });
 
-      describe('when update update with new source relation', () => {
+      describe('when update dish with new source relation', () => {
         it('succeeds with expected graphql params', async () => {
           const { getLatestMutationVariables } = registerMutationHandler(
             UpdateDishWithNewSourceDocument,

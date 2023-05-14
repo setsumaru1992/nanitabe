@@ -1,6 +1,9 @@
 import * as z from 'zod';
 import { MEAL_POSITION } from './const';
-import { dishSourceIdSchema } from './source/schema';
+import {
+  dishSourceIdSchema,
+  dishSourceTypeOptionalSchema,
+} from './source/schema';
 import { DISH_SOURCE_TYPE } from './source/const';
 
 export const dishIdSchema = z.number();
@@ -31,6 +34,13 @@ const buildDishSchema = () => {
 };
 
 export const { newDishSchema, updateDishSchema } = buildDishSchema();
+
+export const selectExistingDishSourceSchema = z
+  .object({
+    id: dishSourceIdSchema.nullish(),
+    type: dishSourceTypeOptionalSchema,
+  })
+  .optional();
 
 export const DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE = {
   RECIPE_BOOK_PAGE: 'recipeBookPage',

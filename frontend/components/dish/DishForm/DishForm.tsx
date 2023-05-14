@@ -133,7 +133,7 @@ const useSelectedExistingDishSource = (registeredDish?: Dish, setValue) => {
   })();
   const dishSourceRelation = (() => {
     // if (choosingRegisterNewDishSource) return null;
-    if (!registeredDish.dishSourceRelation) return null;
+    if (!registeredDish || !registeredDish.dishSourceRelation) return null;
     if (registeredDish.dishSourceRelation.dishSourceId !== dishSourceId)
       return null;
     return registeredDish.dishSourceRelation;

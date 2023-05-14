@@ -1,11 +1,24 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
-import { registerMutationHandler } from '../../../lib/graphql/specHelper/mockServer';
-import { AddDishDocument } from '../../../lib/graphql/generated/graphql';
+import {
+  registerMutationHandler,
+  registerQueryHandler,
+} from '../../../lib/graphql/specHelper/mockServer';
+import {
+  AddDishDocument,
+  DishSourcesDocument,
+  AddDishWithNewSourceDocument,
+} from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
 import AddDish from './AddDish';
-import { userClick, userType } from '../../specHelper/userEvents';
+import {
+  userChooseSelectBox,
+  userClick,
+  userType,
+  userTypeAfterClearTextBox,
+} from '../../specHelper/userEvents';
+import { DISH_SOURCE_TYPE } from '../../../features/dish/source/const';
 
 describe('<AddDish>', () => {
   const newDishWithRequiredParams = {
@@ -13,7 +26,35 @@ describe('<AddDish>', () => {
     mealPosition: 2,
   };
 
+  const selectedDishSource = {
+    id: 1,
+    type: DISH_SOURCE_TYPE.YOUTUBE,
+  };
+
+  const registeredDishSource = {
+    ...selectedDishSource,
+    name: 'りゅうじ',
+  };
+
+  const newDishSource = {
+    name: '最強のレシピサイト',
+    type: DISH_SOURCE_TYPE.WEBSITE,
+  };
+
+  const newDishSourceRelationDetailOfRecipeWebsite = {
+    recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
+  };
+
   beforeEach(() => {
+    registerQueryHandler(DishSourcesDocument, {
+      dishSources: [registeredDishSource].map((dishSource) => {
+        return {
+          __typename: 'DishRegisteredWithMeal',
+          ...dishSource,
+        };
+      }),
+    });
+
     renderWithApollo(
       <AddDish
         onSchemaError={(schemaErrors) => {
@@ -43,4 +84,75 @@ describe('<AddDish>', () => {
       });
     });
   });
+
+  describe('when add dish with existing source relation', () => {
+    it('succeeds with expected graphql params', async () => {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        AddDishDocument,
+        {
+          addDish: {
+            dishId: 1,
+          },
+        },
+      );
+
+      await userType(screen, 'dishname', newDishWithRequiredParams.name);
+
+      await userChooseSelectBox(screen, 'existingDishSources', [
+        `existingDishSource-${selectedDishSource.id}`,
+      ]);
+      await userTypeAfterClearTextBox(
+        screen,
+        'dishSourceRelationDetailRecipeWebsiteUrl',
+        newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+      );
+
+      await userClick(screen, 'submitDishButton');
+
+      expect(getLatestMutationVariables()).toEqual({
+        dish: {
+          ...newDishWithRequiredParams,
+        },
+        dishSource: selectedDishSource,
+        dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+      });
+    });
+  });
+
+  // describe('when add dish with new source relation', () => {
+  //   it('succeeds with expected graphql params', async () => {
+  //     const { getLatestMutationVariables } = registerMutationHandler(
+  //       AddDishWithNewSourceDocument,
+  //       {
+  //         addDishWithNewSource: {
+  //           dishId: 1,
+  //         },
+  //       },
+  //     );
+  //
+  //     await userType(screen, 'dishname', newDishWithRequiredParams.name);
+  //
+  //     await userClick(screen, 'optionOfRegisteringNewDishSource');
+  //
+  //     await userType(screen, 'dishSourceName', newDishSource.name);
+  //     await userChooseSelectBox(screen, 'dishSourceTypeOption', [
+  //       `dishSourceTypeOption-${newDishSource.type}`,
+  //     ]);
+  //     await userTypeAfterClearTextBox(
+  //       screen,
+  //       'dishSourceRelationDetailRecipeWebsiteUrl',
+  //       newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+  //     );
+  //
+  //     await userClick(screen, 'submitDishButton');
+  //
+  //     expect(getLatestMutationVariables()).toEqual({
+  //       dish: {
+  //         ...newDishWithRequiredParams,
+  //       },
+  //       dishSource: newDishSource,
+  //       dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+  //     });
+  //   });
+  // });
 });
