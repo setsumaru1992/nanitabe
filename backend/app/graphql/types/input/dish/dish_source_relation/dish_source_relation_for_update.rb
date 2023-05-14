@@ -9,7 +9,7 @@ module Types::Input::Dish::DishSourceRelation
     argument :dish_source_relation_detail, DishSourceRelationDetail, required: true
 
     def convert_to_command_param
-      Business::Dish::Dish::Command::Params::DishSourceRelation.build(
+      Business::Dish::Dish::Command::Params::DishSourceRelation.build_relation(
         dish_source_type,
         dish_id,
         dish_source_id,

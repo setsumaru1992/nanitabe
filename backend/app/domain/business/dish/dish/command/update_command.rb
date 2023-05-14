@@ -29,11 +29,11 @@ module Business::Dish::Dish
 
     def update_dish_source_relation(dish_id, dish_source_relation)
       if dish_source_relation.blank?
-        Repository.remove_dish_relation(dish_id)
+        Repository.remove_dish_source_relation(dish_id)
         return
       end
 
-      Repository.put_dish_relation(dish_id, dish_source_relation.dish_source_id, dish_source_relation.detail_values)
+      Repository.put_dish_source_relation(dish_id, dish_source_relation.dish_source_id, dish_source_relation.relation_detail.detail_values)
     end
   end
 end

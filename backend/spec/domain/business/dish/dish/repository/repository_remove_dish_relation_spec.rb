@@ -13,7 +13,7 @@ module Business::Dish::Dish
       context "when remove dish source relation," do
         let!(:comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_RELATION_SHOULD_BE_REMOVED] }
         it "removing succeeds" do
-          described_class.remove_dish_relation(
+          described_class.remove_dish_source_relation(
             comparer.prepared_records[:dish_record].id,
           )
 

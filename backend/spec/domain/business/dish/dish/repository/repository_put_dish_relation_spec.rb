@@ -13,7 +13,7 @@ module Business::Dish::Dish
       context "when add dish source relation," do
         let!(:comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_RELATION_SHOULD_BE_CREATED] }
         it "adding succeeds" do
-          described_class.put_dish_relation(
+          described_class.put_dish_source_relation(
             comparer.prepared_records[:dish_record].id,
             comparer.prepared_records[:dish_source_record].id,
             comparer.values,
@@ -26,7 +26,7 @@ module Business::Dish::Dish
       context "when add dish source relation of youtube," do
         let!(:comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_RELATION_OF_YOUTUBE_SHOULD_BE_CREATED] }
         it "adding succeeds" do
-          described_class.put_dish_relation(
+          described_class.put_dish_source_relation(
             comparer.prepared_records[:dish_record].id,
             comparer.prepared_records[:dish_source_record].id,
             comparer.values,
@@ -39,7 +39,7 @@ module Business::Dish::Dish
       context "when add dish source relation of other," do
         let!(:comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_RELATION_OF_OTHER_SHOULD_BE_CREATED] }
         it "adding succeeds" do
-          described_class.put_dish_relation(
+          described_class.put_dish_source_relation(
             comparer.prepared_records[:dish_record].id,
             comparer.prepared_records[:dish_source_record].id,
             comparer.values,
@@ -52,7 +52,7 @@ module Business::Dish::Dish
       context "when update dish source relation," do
         let!(:comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_RELATION_SHOULD_BE_UPDATED] }
         it "updating succeeds" do
-          described_class.put_dish_relation(
+          described_class.put_dish_source_relation(
             comparer.prepared_records[:dish_record].id,
             comparer.prepared_records[:dish_source_record].id,
             comparer.values,
@@ -73,7 +73,7 @@ module Business::Dish::Dish
               type: ::Business::Dish::Dish::Source::Type::YOUTUBE,
             ),
           )
-          described_class.put_dish_relation(
+          described_class.put_dish_source_relation(
             comparer.prepared_records[:dish_record].id,
             comparer.prepared_records[:dish_source_record].id,
             comparer.values,

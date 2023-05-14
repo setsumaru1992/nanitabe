@@ -20,7 +20,7 @@ module Business::Dish::Dish
       )
 
       dish_source_relation = if dish_source_relation_detail_value.present?
-                               Command::Params::DishSourceRelation.build(
+                               Command::Params::DishSourceRelation.build_relation(
                                  created_dish_source.type,
                                  dish_for_update.id,
                                  created_dish_source.id,

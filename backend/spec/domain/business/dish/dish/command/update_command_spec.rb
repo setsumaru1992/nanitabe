@@ -24,7 +24,7 @@ module Business::Dish::Dish
               id: dish_comparer.prepared_records[:dish_record].id,
               name: dish_comparer.values[:name],
             ),
-            dish_source_relation: Command::Params::DishSourceRelation.build(
+            dish_source_relation: Command::Params::DishSourceRelation.build_relation(
               dish_source_relation_comparer.prepared_records[:dish_source_record].type,
               dish_source_relation_comparer.prepared_records[:dish_source_relation_record].dish_id,
               dish_source_relation_comparer.prepared_records[:dish_source_relation_record].dish_source_id,
@@ -53,7 +53,7 @@ module Business::Dish::Dish
               meal_position: dish_comparer.values[:meal_position],
               comment: dish_comparer.values[:comment],
             ),
-            dish_source_relation: Command::Params::DishSourceRelation.build(
+            dish_source_relation: Command::Params::DishSourceRelation.build_relation(
               dish_source_relation_comparer.prepared_records[:dish_source_record].type,
               dish_source_relation_comparer.prepared_records[:dish_source_relation_record].dish_id,
               dish_source_relation_comparer.prepared_records[:dish_source_relation_record].dish_source_id,
@@ -76,7 +76,7 @@ module Business::Dish::Dish
             dish_for_update: Command::Params::DishForUpdate.new(
               id: dish_comparer.prepared_records[:dish_record].id,
             ),
-            dish_source_relation: Command::Params::DishSourceRelation.build(
+            dish_source_relation: Command::Params::DishSourceRelation.build_relation(
               dish_source_relation_comparer.prepared_records[:dish_source_record].type,
               dish_source_relation_comparer.prepared_records[:dish_source_relation_record].dish_id,
               dish_source_relation_comparer.prepared_records[:dish_source_relation_record].dish_source_id,
