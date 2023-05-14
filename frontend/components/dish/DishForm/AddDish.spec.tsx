@@ -126,6 +126,7 @@ describe('<AddDish>', () => {
         {
           addDishWithNewSource: {
             dishId: 1,
+            dishSourceId: 1,
           },
         },
       );

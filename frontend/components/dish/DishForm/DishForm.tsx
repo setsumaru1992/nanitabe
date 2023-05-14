@@ -17,6 +17,7 @@ import useDishSource from '../../../features/dish/source/useDishSource';
 import { DishSourceType } from '../../../features/dish/source/const';
 import { DishSourceFormRelationContent } from './DishSourceFormRelationContent';
 import { DishSourceFormContent } from '../Source/SourceForm/SourceForm';
+import { parseIntOrNull } from '../../../features/utils/numberUtils';
 
 export enum CHOOSING_PUT_DISH_SOURCE_TYPE {
   CHOOSING_REGISTER_NEW_DISH_SOURCE,
@@ -222,13 +223,9 @@ const DishFormContent = (props: DishFormContentProps) => {
           <FormFieldWrapperWithLabel label="参考レシピ">
             {dishSources && (
               <Form.Select
-                defaultValue={dishSourceId}
+                defaultValue={parseIntOrNull(dishSourceId)}
                 onChange={(e) => {
-                  const selectedValue = e.target.value;
-                  const sourceId = Number.isNaN(selectedValue)
-                    ? null
-                    : Number(selectedValue);
-                  setDishSourceId(sourceId);
+                  setDishSourceId(parseIntOrNull(e.target.value));
                 }}
                 data-testid="existingDishSources"
               >

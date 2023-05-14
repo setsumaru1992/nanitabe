@@ -113,10 +113,10 @@ const convertFromAddDishWithNewSourceInputToGraphqlInput = (
     dishSource.type,
   );
   if (
-    !dishSourceRelation ||
-    !dishSourceRelation.dishSourceRelationDetail ||
+    // !dishSourceRelation ||
+    // !dishSourceRelation.dishSourceRelationDetail ||
     dishSourceRelationDetailType ===
-      DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE
+    DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE
   ) {
     return normalizedInput;
   }
