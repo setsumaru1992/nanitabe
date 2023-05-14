@@ -2,10 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import style from './index.module.scss';
-import {
-  Dish,
-  DishWithRegisteredMeals,
-} from '../../../lib/graphql/generated/graphql';
+import { DishWithRegisteredMeals } from '../../../lib/graphql/generated/graphql';
 import useDish from '../../../features/dish/useDish';
 
 type Props = {

@@ -1,10 +1,12 @@
 import { useAddDishSource } from './addDishSourceMutation';
+import { useUpdateDishSource } from './updateDishSourceMutation';
 import {
   FetchDishSourcesParams,
   useFetchDishSources,
 } from './fetchDishSourceQuery';
 
 export type { AddDishSource } from './addDishSourceMutation';
+export type { UpdateDishSource } from './updateDishSourceMutation';
 
 export type UseDishSourceParams = {
   fetchDishSourcesParams?: FetchDishSourcesParams;
@@ -18,6 +20,11 @@ export default (params: UseDishSourceParams = {}) => {
     fetchDishSourcesLoading,
     fetchDishSourcesError,
     refetchDishSources,
+
+    dishSource,
+    fetchDishSourceLoading,
+    fetchDishSourceError,
+    refetchDishSource,
   } = useFetchDishSources(fetchDishSourcesParams || {});
 
   const {
@@ -27,15 +34,32 @@ export default (params: UseDishSourceParams = {}) => {
     AddDishSourceSchema,
   } = useAddDishSource();
 
+  const {
+    updateDishSource,
+    updateDishSourceLoading,
+    updateDishSourceError,
+    UpdateDishSourceSchema,
+  } = useUpdateDishSource();
+
   return {
     dishSources,
     fetchDishSourcesLoading,
     fetchDishSourcesError,
     refetchDishSources,
 
+    dishSource,
+    fetchDishSourceLoading,
+    fetchDishSourceError,
+    refetchDishSource,
+
     addDishSource,
     addDishSourceLoading,
     addDishSourceError,
     AddDishSourceSchema,
+
+    updateDishSource,
+    updateDishSourceLoading,
+    updateDishSourceError,
+    UpdateDishSourceSchema,
   };
 };

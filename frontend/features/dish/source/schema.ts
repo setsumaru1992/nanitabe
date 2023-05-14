@@ -19,7 +19,14 @@ const buildDishSourceSchema = () => {
     type: dishSourceTypeRequiredSchema,
   });
 
-  return { newDishSourceSchema };
+  const updateDishSourceSchema = z.object({
+    id: dishSourceIdSchema,
+    name: nameSchema,
+    type: dishSourceTypeRequiredSchema,
+  });
+
+  return { newDishSourceSchema, updateDishSourceSchema };
 };
 
-export const { newDishSourceSchema } = buildDishSourceSchema();
+export const { newDishSourceSchema, updateDishSourceSchema } =
+  buildDishSourceSchema();

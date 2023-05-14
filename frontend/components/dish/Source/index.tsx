@@ -25,9 +25,18 @@ export default () => {
             >
               {/* 本当は未定義の場合は要素出現させたくないが、デバッグの都合上sourceIdがnullなので機能させていない */}
               {/* {dishesPerSourceElement.sourceId && ()} */}
-              <div className={style['dish-source-header__container']}>
-                {dishesPerSourceElement.dishSource?.name}
-              </div>
+              {dishesPerSourceElement.dishSource && (
+                <div className={style['dish-source-header__container']}>
+                  <Link
+                    href={`/dishsources/${dishesPerSourceElement.dishSource?.id}/edit`}
+                  >
+                    {dishesPerSourceElement.dishSource?.name}
+                  </Link>
+                  {dishesPerSourceElement.dishSource !== null &&
+                    dishesPerSourceElement.dishesPerMealPosition.length ===
+                      0 && <span>&nbsp;×</span>}
+                </div>
+              )}
               <div>
                 {dishesPerSourceElement.dishesPerMealPosition.map(
                   (

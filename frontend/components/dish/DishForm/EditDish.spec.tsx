@@ -60,7 +60,7 @@ describe('<EditDish>', () => {
 
   const registeredDishSourceOfRestaurant = {
     id: 4,
-    name: 'はじめての中華料理',
+    name: '蒲田',
     type: DISH_SOURCE_TYPE.RESTAURANT,
   };
 

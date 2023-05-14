@@ -9,18 +9,14 @@ import {
   DISH_SOURCE_TYPE_LABELS,
   DISH_SOURCE_TYPES,
 } from '../../../../features/dish/source/const';
-import { MEAL_POSITION } from '../../../../features/dish/const';
+import { DishSource } from '../../../../lib/graphql/generated/graphql';
 
-type Props = {
-  formSchema: any;
-  onSubmit: any;
-
-  // registeredDishSource?: DishSourceHoge;
-
-  onSchemaError?: any;
+type DishSourceFormContentProps = {
+  registeredDishSource?: DishSource;
 };
 
-export const DishSourceFormContent = () => {
+export const DishSourceFormContent = (props: DishSourceFormContentProps) => {
+  const { registeredDishSource } = props;
   const {
     register,
     formState: { errors },
@@ -30,27 +26,29 @@ export const DishSourceFormContent = () => {
     <div>
       {/* <div className={style['reference-recipe']}> */}
       {/* <span className={style['reference-recipe__title']}> */}
-      {/*  参考レシピ */}
+      {/* 参考レシピ */}
       {/* </span> */}
-      {/* {registeredDish?.id && ( */}
-      {/*  <input */}
-      {/*    type="hidden" */}
-      {/*    value={registeredDish.id} */}
-      {/*    {...register('dish.id', { valueAsNumber: true })} */}
-      {/*  /> */}
-      {/* )} */}
+      {registeredDishSource?.id && (
+        <input
+          type="hidden"
+          value={registeredDishSource.id}
+          {...register('dishSource.id', { valueAsNumber: true })}
+        />
+      )}
       <FormFieldWrapperWithLabel label="名前">
         <Form.Control
           type="text"
           {...register('dishSource.name')}
-          defaultValue=""
+          defaultValue={registeredDishSource?.name || ''}
           data-testid="dishSourceName"
         />
         <ErrorMessageIfExist errorMessage={errors.dishSource?.name?.message} />
       </FormFieldWrapperWithLabel>
       <FormFieldWrapperWithLabel label="タイプ">
         <Form.Select
-          defaultValue={DISH_SOURCE_TYPE.RECIPE_BOOK}
+          defaultValue={
+            registeredDishSource?.type || DISH_SOURCE_TYPE.RECIPE_BOOK
+          }
           {...register('dishSource.type', { valueAsNumber: true })}
           data-testid="dishSourceTypeOption"
         >
@@ -70,8 +68,16 @@ export const DishSourceFormContent = () => {
   );
 };
 
+type Props = {
+  formSchema: any;
+  onSubmit: any;
+
+  registeredDishSource?: DishSource;
+
+  onSchemaError?: any;
+};
 export default (props: Props) => {
-  const { formSchema, onSubmit, onSchemaError } = props;
+  const { formSchema, onSubmit, onSchemaError, registeredDishSource } = props;
 
   const methods = useForm({ resolver: zodResolver(formSchema) });
   const { handleSubmit } = methods;
@@ -83,7 +89,7 @@ export default (props: Props) => {
   return (
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
-        <DishSourceFormContent />
+        <DishSourceFormContent registeredDishSource={registeredDishSource} />
         <Form.Group>
           <Button type="submit" data-testid="submitDishSourceButton">
             登録
