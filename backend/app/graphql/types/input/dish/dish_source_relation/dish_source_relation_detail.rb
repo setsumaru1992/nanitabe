@@ -18,5 +18,14 @@ module Types::Input::Dish::DishSourceRelation
         recipe_source_memo
       end
     end
+
+    def convert_to_command_param(dish_source_type)
+      return nil if dish_source_type.blank?
+
+      ::Business::Dish::Dish::Command::Params::DishSourceRelation.build_relation_detail(
+        dish_source_type,
+        detail_value_of(dish_source_type),
+      )
+    end
   end
 end
