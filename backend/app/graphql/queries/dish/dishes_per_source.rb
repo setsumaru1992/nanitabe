@@ -5,8 +5,7 @@ module Queries::Dish
   end
 
   class DishesForDisplayWithSource < ::Types::BaseObject
-    # TODO: sourceができたら、キーをidじゃなくてsourceにする
-    field :source_id, Int, null: true
+    field :dish_source, ::Types::Output::Dish::Source::DishSource, null: true
     field :dishes_per_meal_position, [DishesPerMealPosition, { null: false }], null: false
   end
 

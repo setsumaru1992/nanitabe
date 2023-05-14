@@ -26,8 +26,7 @@ export default () => {
               {/* 本当は未定義の場合は要素出現させたくないが、デバッグの都合上sourceIdがnullなので機能させていない */}
               {/* {dishesPerSourceElement.sourceId && ()} */}
               <div className={style['dish-source-header__container']}>
-                りゅうじ（ダミーSource名）
-                {dishesPerSourceElement.sourceId}
+                {dishesPerSourceElement.dishSource?.name}
               </div>
               <div>
                 {dishesPerSourceElement.dishesPerMealPosition.map(

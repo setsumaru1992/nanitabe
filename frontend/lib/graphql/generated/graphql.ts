@@ -152,6 +152,13 @@ export type DishRegisteredWithMeal = DishFields & {
   name: Scalars['String'];
 };
 
+export type DishSource = DishSourceFields & {
+  __typename?: 'DishSource';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  type: Scalars['Int'];
+};
+
 export type DishSourceFields = {
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -200,8 +207,8 @@ export type DishWithRegisteredMeals = DishFields & {
 
 export type DishesForDisplayWithSource = {
   __typename?: 'DishesForDisplayWithSource';
+  dishSource?: Maybe<DishSource>;
   dishesPerMealPosition: Array<DishesPerMealPosition>;
-  sourceId?: Maybe<Scalars['Int']>;
 };
 
 export type DishesPerMealPosition = {
@@ -663,7 +670,7 @@ export type DishQuery = { __typename?: 'Query', dish: { __typename?: 'SpecifiedD
 export type DishesPerSourceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DishesPerSourceQuery = { __typename?: 'Query', dishesPerSource: Array<{ __typename?: 'DishesForDisplayWithSource', sourceId?: number | null, dishesPerMealPosition: Array<{ __typename?: 'DishesPerMealPosition', mealPosition?: number | null, dishes: Array<{ __typename?: 'DishWithRegisteredMeals', id: number, name: string, mealPosition: number, comment?: string | null, meals: Array<{ __typename?: 'Meal', id: number }> }> }> }> };
+export type DishesPerSourceQuery = { __typename?: 'Query', dishesPerSource: Array<{ __typename?: 'DishesForDisplayWithSource', dishSource?: { __typename?: 'DishSource', id: number, name: string, type: number } | null, dishesPerMealPosition: Array<{ __typename?: 'DishesPerMealPosition', mealPosition?: number | null, dishes: Array<{ __typename?: 'DishWithRegisteredMeals', id: number, name: string, mealPosition: number, comment?: string | null, meals: Array<{ __typename?: 'Meal', id: number }> }> }> }> };
 
 export type RemoveDishMutationVariables = Exact<{
   dishId: Scalars['Int'];
@@ -985,7 +992,11 @@ export type DishQueryResult = Apollo.QueryResult<DishQuery, DishQueryVariables>;
 export const DishesPerSourceDocument = gql`
     query dishesPerSource {
   dishesPerSource {
-    sourceId
+    dishSource {
+      id
+      name
+      type
+    }
     dishesPerMealPosition {
       mealPosition
       dishes {

@@ -99,7 +99,11 @@ const useFetchDish = (params: FetchDishParams = {}) => {
 export const DISHES_PER_SOURCE = gql`
   query dishesPerSource {
     dishesPerSource {
-      sourceId
+      dishSource {
+        id
+        name
+        type
+      }
       dishesPerMealPosition {
         mealPosition
         dishes {
