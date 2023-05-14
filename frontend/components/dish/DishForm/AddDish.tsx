@@ -4,7 +4,7 @@ import DishForm, {
   CHOOSING_PUT_DISH_SOURCE_TYPE,
   useChoosingPutDishSourceType,
 } from './DishForm';
-import useDish from '../../../features/dish/useDish';
+import useDish, { AddDishFunc } from '../../../features/dish/useDish';
 import type { AddDish } from '../../../features/dish/useDish';
 
 type Props = {
@@ -30,8 +30,33 @@ export default (props: Props) => {
   const { choosingRegisterNewDishSource, choosingUseExistingDishSource } =
     useChoosingPutDishSourceTypeResult;
 
+  const {
+    addDishFunc,
+    addDishSchema,
+  }: { addDishFunc: AddDishFunc; addDishSchema: any } = (() => {
+    const [addDishFunc, convertToGraphqlInput, addDishSchema] = (() => {
+      if (choosingRegisterNewDishSource) {
+        return [
+          addDishWithNewSource,
+          convertFromAddDishWithNewSourceInputToGraphqlInput,
+          AddDishWithNewSourceSchema,
+        ];
+      }
+      if (choosingUseExistingDishSource) {
+        return [addDish, convertFromAddDishInputToGraphqlInput, AddDishSchema];
+      }
+      return [null, null, null];
+    })();
+    return {
+      addDishFunc: (input, mutationCallbacks) => {
+        addDishFunc(convertToGraphqlInput(input), mutationCallbacks);
+      },
+      addDishSchema,
+    };
+  })();
+
   const onSubmit: SubmitHandler<AddDish> = async (input) => {
-    await addDish(convertFromAddDishInputToGraphqlInput(input), {
+    await addDishFunc(input, {
       onCompleted: (_) => {
         if (onAddSucceeded) onAddSucceeded();
       },
@@ -40,7 +65,7 @@ export default (props: Props) => {
 
   return (
     <DishForm
-      formSchema={AddDishSchema}
+      formSchema={addDishSchema}
       onSubmit={onSubmit}
       onSchemaError={onSchemaError}
       useChoosingPutDishSourceTypeResult={useChoosingPutDishSourceTypeResult}

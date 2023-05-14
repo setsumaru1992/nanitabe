@@ -119,40 +119,40 @@ describe('<AddDish>', () => {
     });
   });
 
-  // describe('when add dish with new source relation', () => {
-  //   it('succeeds with expected graphql params', async () => {
-  //     const { getLatestMutationVariables } = registerMutationHandler(
-  //       AddDishWithNewSourceDocument,
-  //       {
-  //         addDishWithNewSource: {
-  //           dishId: 1,
-  //         },
-  //       },
-  //     );
-  //
-  //     await userType(screen, 'dishname', newDishWithRequiredParams.name);
-  //
-  //     await userClick(screen, 'optionOfRegisteringNewDishSource');
-  //
-  //     await userType(screen, 'dishSourceName', newDishSource.name);
-  //     await userChooseSelectBox(screen, 'dishSourceTypeOption', [
-  //       `dishSourceTypeOption-${newDishSource.type}`,
-  //     ]);
-  //     await userTypeAfterClearTextBox(
-  //       screen,
-  //       'dishSourceRelationDetailRecipeWebsiteUrl',
-  //       newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
-  //     );
-  //
-  //     await userClick(screen, 'submitDishButton');
-  //
-  //     expect(getLatestMutationVariables()).toEqual({
-  //       dish: {
-  //         ...newDishWithRequiredParams,
-  //       },
-  //       dishSource: newDishSource,
-  //       dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
-  //     });
-  //   });
-  // });
+  describe('when add dish with new source relation', () => {
+    it('succeeds with expected graphql params', async () => {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        AddDishWithNewSourceDocument,
+        {
+          addDishWithNewSource: {
+            dishId: 1,
+          },
+        },
+      );
+
+      await userType(screen, 'dishname', newDishWithRequiredParams.name);
+
+      await userClick(screen, 'optionOfRegisteringNewDishSource');
+
+      await userType(screen, 'dishSourceName', newDishSource.name);
+      await userChooseSelectBox(screen, 'dishSourceTypeOption', [
+        `dishSourceTypeOption-${newDishSource.type}`,
+      ]);
+      await userTypeAfterClearTextBox(
+        screen,
+        'dishSourceRelationDetailRecipeWebsiteUrl',
+        newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+      );
+
+      await userClick(screen, 'submitDishButton');
+
+      expect(getLatestMutationVariables()).toEqual({
+        dish: {
+          ...newDishWithRequiredParams,
+        },
+        dishSource: newDishSource,
+        dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+      });
+    });
+  });
 });

@@ -43,18 +43,14 @@ export default (props: Props) => {
       if (choosingUseExistingDishSource) {
         return [
           updateDish,
-          (input: UpdateDishInput) => {
-            return convertFromUpdateDishInputToGraphqlInput(input);
-          },
+          convertFromUpdateDishInputToGraphqlInput,
           UpdateDishSchema,
         ];
       }
       if (choosingRegisterNewDishSource) {
         return [
           updateDishWithNewSource,
-          (input: UpdateDishInput) => {
-            return convertFromUpdateDishWithNewSourceInputToGraphqlInput(input);
-          },
+          convertFromUpdateDishWithNewSourceInputToGraphqlInput,
           UpdateDishWithNewSourceSchema,
         ];
       }

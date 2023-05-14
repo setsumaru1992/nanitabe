@@ -18,10 +18,7 @@ import {
   AddDishWithNewSourceMutation,
   useAddDishWithNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
-import {
-  dishSourceIdSchema,
-  dishSourceTypeOptionalSchema,
-} from './source/schema';
+import { newDishSourceSchema } from './source/schema';
 
 export const ADD_DISH = gql`
   mutation addDish(
@@ -51,7 +48,7 @@ export type AddDish = z.infer<typeof AddDishSchema>;
 
 const convertFromAddDishInputToGraphqlInput = (input: AddDish): AddDish => {
   const normalizedInput = _.cloneDeep(input);
-  const { dishSourceRelation, dish, selectedDishSource } = input;
+  const { dishSourceRelation, selectedDishSource } = input;
 
   const dishSourceRelationDetailType = dishSourceRelationDetailOf(
     selectedDishSource.type,
@@ -98,6 +95,8 @@ export const ADD_DISH_WITH_NEW_SOURCE = gql`
 
 const AddDishWithNewSourceSchema = z.object({
   dish: newDishSchema,
+  dishSource: newDishSourceSchema,
+  dishSourceRelation: putDishRelationSchema,
 });
 
 export type AddDishWithNewSource = z.infer<typeof AddDishWithNewSourceSchema>;
@@ -105,7 +104,29 @@ export type AddDishWithNewSource = z.infer<typeof AddDishWithNewSourceSchema>;
 const convertFromAddDishWithNewSourceInputToGraphqlInput = (
   input: AddDishWithNewSource,
 ): AddDishWithNewSource => {
-  return input;
+  const normalizedInput = _.cloneDeep(input);
+  normalizedInput.dishSourceRelation = null;
+  normalizedInput.dishSourceRelationDetail = null;
+  const { dishSourceRelation, dishSource } = input;
+
+  const dishSourceRelationDetailType = dishSourceRelationDetailOf(
+    dishSource.type,
+  );
+  if (
+    !dishSourceRelation ||
+    !dishSourceRelation.dishSourceRelationDetail ||
+    dishSourceRelationDetailType ===
+      DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE
+  ) {
+    return normalizedInput;
+  }
+
+  // ここの書き方含めて、何かとりあえずやりたいこと満たすための汚いコードにしか見えない
+  normalizedInput.dishSourceRelationDetail =
+    dishSourceRelation.dishSourceRelationDetail;
+
+  delete normalizedInput.dishSourceRelationDetail.detailType;
+  return normalizedInput;
 };
 
 export type AddDishInput = AddDish | AddDishWithNewSource;
