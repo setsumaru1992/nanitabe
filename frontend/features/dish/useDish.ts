@@ -30,9 +30,9 @@ export default (params: UseDishParams = {}) => {
 
   const { addDish, addDishLoading, addDishError, AddDishSchema } = useAddDish();
   const {
-    updateDishWithExistingSource,
-    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
-    UpdateDishWithExistingSourceSchema,
+    updateDish,
+    convertFromUpdateDishInputToGraphqlInput,
+    UpdateDishSchema,
     updateDishWithNewSource,
     convertFromUpdateDishWithNewSourceInputToGraphqlInput,
     UpdateDishWithNewSourceSchema,
@@ -56,9 +56,9 @@ export default (params: UseDishParams = {}) => {
     addDishError,
     AddDishSchema,
 
-    updateDishWithExistingSource,
-    convertFromUpdateDishWithExistingSourceInputToGraphqlInput,
-    UpdateDishWithExistingSourceSchema,
+    updateDish,
+    convertFromUpdateDishInputToGraphqlInput,
+    UpdateDishSchema,
     updateDishWithNewSource,
     convertFromUpdateDishWithNewSourceInputToGraphqlInput,
     UpdateDishWithNewSourceSchema,
