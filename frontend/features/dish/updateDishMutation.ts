@@ -12,9 +12,9 @@ import {
   MutationCallbacks,
 } from '../utils/mutationUtils';
 import {
-  UpdateDishWithExistingSourceMutation,
+  UpdateDishMutation,
   UpdateDishWithNewSourceMutation,
-  useUpdateDishWithExistingSourceMutation,
+  useUpdateDishMutation,
   useUpdateDishWithNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
 import {
@@ -23,12 +23,12 @@ import {
   newDishSourceSchema,
 } from './source/schema';
 
-export const UPDATE_DISH_WITH_EXISTING_SOURCE = gql`
-  mutation updateDishWithExistingSource(
+export const UPDATE_DISH = gql`
+  mutation updateDish(
     $dish: DishForUpdate!
     $dishSourceRelation: DishSourceRelationForUpdate
   ) {
-    updateDishWithExistingSource(
+    updateDish(
       input: { dish: $dish, dishSourceRelation: $dishSourceRelation }
     ) {
       dishId
@@ -143,7 +143,7 @@ export type UpdateDishInput =
   | UpdateDishWithExistingSource;
 export type UpdateDishOutput =
   | UpdateDishWithNewSourceMutation
-  | UpdateDishWithExistingSourceMutation;
+  | UpdateDishMutation;
 export type UpdateDishFunc = (
   input: UpdateDishInput,
   mutationCallbacks: MutationCallbacks<UpdateDishOutput>,
@@ -154,10 +154,9 @@ export const useUpdateDish = () => {
     updateDishWithExistingSource,
     updateDishWithExistingSourceLoading,
     updateDishWithExistingSourceError,
-  ] = buildMutationExecutor<
-    UpdateDishWithExistingSource,
-    UpdateDishWithExistingSourceMutation
-  >(useUpdateDishWithExistingSourceMutation);
+  ] = buildMutationExecutor<UpdateDishWithExistingSource, UpdateDishMutation>(
+    useUpdateDishMutation,
+  );
 
   const [
     updateDishWithNewSource,

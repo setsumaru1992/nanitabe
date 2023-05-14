@@ -7,7 +7,7 @@ import {
 } from '../../../lib/graphql/specHelper/mockServer';
 import {
   DishSourcesDocument,
-  UpdateDishWithExistingSourceDocument,
+  UpdateDishDocument,
   UpdateDishWithNewSourceDocument,
 } from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
@@ -127,9 +127,9 @@ describe('<EditDish>', () => {
     describe('when update update with different one field', () => {
       it('succeeds with expected graphql params', async () => {
         const { getLatestMutationVariables } = registerMutationHandler(
-          UpdateDishWithExistingSourceDocument,
+          UpdateDishDocument,
           {
-            updateDishWithExistingSource: {
+            updateDish: {
               dishId: 1,
             },
           },
@@ -152,9 +152,9 @@ describe('<EditDish>', () => {
     describe('when update update with different all dish field', () => {
       it('succeeds with expected graphql params', async () => {
         const { getLatestMutationVariables } = registerMutationHandler(
-          UpdateDishWithExistingSourceDocument,
+          UpdateDishDocument,
           {
-            updateDishWithExistingSource: {
+            updateDish: {
               dishId: 1,
             },
           },
@@ -182,9 +182,9 @@ describe('<EditDish>', () => {
       describe('when update update with different source relation', () => {
         it('succeeds with expected graphql params', async () => {
           const { getLatestMutationVariables } = registerMutationHandler(
-            UpdateDishWithExistingSourceDocument,
+            UpdateDishDocument,
             {
-              updateDishWithExistingSource: {
+              updateDish: {
                 dishId: 1,
               },
             },
@@ -214,9 +214,9 @@ describe('<EditDish>', () => {
       describe('when update update with recipe book source relation', () => {
         it('succeeds with expected graphql params', async () => {
           const { getLatestMutationVariables } = registerMutationHandler(
-            UpdateDishWithExistingSourceDocument,
+            UpdateDishDocument,
             {
-              updateDishWithExistingSource: {
+              updateDish: {
                 dishId: 1,
               },
             },
@@ -249,9 +249,9 @@ describe('<EditDish>', () => {
       describe('when update update with source memo source relation', () => {
         it('succeeds with expected graphql params', async () => {
           const { getLatestMutationVariables } = registerMutationHandler(
-            UpdateDishWithExistingSourceDocument,
+            UpdateDishDocument,
             {
-              updateDishWithExistingSource: {
+              updateDish: {
                 dishId: 1,
               },
             },
@@ -344,9 +344,9 @@ describe('<EditDish>', () => {
     describe('when update update with different source relation', () => {
       it('succeeds with expected graphql params', async () => {
         const { getLatestMutationVariables } = registerMutationHandler(
-          UpdateDishWithExistingSourceDocument,
+          UpdateDishDocument,
           {
-            updateDishWithExistingSource: {
+            updateDish: {
               dishId: 1,
             },
           },
@@ -376,9 +376,9 @@ describe('<EditDish>', () => {
     describe('when update update with no source relation', () => {
       it('succeeds with expected graphql params', async () => {
         const { getLatestMutationVariables } = registerMutationHandler(
-          UpdateDishWithExistingSourceDocument,
+          UpdateDishDocument,
           {
-            updateDishWithExistingSource: {
+            updateDish: {
               dishId: 1,
             },
           },

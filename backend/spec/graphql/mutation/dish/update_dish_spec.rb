@@ -4,14 +4,14 @@ require_relative "../../../domain/business/dish/dish/repository/repository_updat
 require_relative "../../../domain/business/dish/dish/repository/repository_put_dish_relation_shared_examples"
 
 module Mutations::Dish
-  RSpec.describe UpdateDishWithExistingSource, type: :request do
+  RSpec.describe UpdateDish, type: :request do
     def build_mutation
       <<~GRAPHQL
-        mutation updateDishWithExistingSource(
+        mutation updateDish(
           $dish: DishForUpdate!
           $dishSourceRelation: DishSourceRelationForUpdate
         ) {
-          updateDishWithExistingSource(input: {
+          updateDish(input: {
             dish: $dish
             dishSourceRelation: $dishSourceRelation
           }
