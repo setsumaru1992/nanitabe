@@ -4,6 +4,7 @@ import style from './index.module.scss';
 import Icon from '../Icon';
 import AddDishIcon from '../Icon/AddDishIcon';
 import useDish from '../../../features/dish/useDish';
+import useDishSource from '../../../features/dish/source/useDishSource';
 import { MEAL_POSITION_LABELS } from '../../../features/dish/const';
 import { DISHSOURCE_NEW_PAGE_URL } from '../../../pages/dishsources/new';
 
@@ -13,6 +14,20 @@ export default () => {
       fetchDishesPerSourceParams: { requireFetchedData: true },
     },
   });
+  const { removeDishSource } = useDishSource();
+  const handleRemoveDishSource = async (e, dishSourceId) => {
+    e.preventDefault();
+    const confirmed = window.confirm('本当に削除してもよろしいですか？');
+    if (!confirmed) return;
+    await removeDishSource(
+      { dishSourceId },
+      {
+        onCompleted: (_) => {
+          refetchDishesPerSource();
+        },
+      },
+    );
+  };
 
   return (
     <div>
@@ -28,13 +43,28 @@ export default () => {
               {dishesPerSourceElement.dishSource && (
                 <div className={style['dish-source-header__container']}>
                   <Link
-                    href={`/dishsources/${dishesPerSourceElement.dishSource?.id}/edit`}
+                    href={`/dishsources/${dishesPerSourceElement.dishSource.id}/edit`}
                   >
                     {dishesPerSourceElement.dishSource?.name}
                   </Link>
                   {dishesPerSourceElement.dishSource !== null &&
                     dishesPerSourceElement.dishesPerMealPosition.length ===
-                      0 && <span>&nbsp;×</span>}
+                      0 && (
+                      <>
+                        &nbsp;
+                        <span
+                          onClick={(e) => {
+                            handleRemoveDishSource(
+                              e,
+                              dishesPerSourceElement.dishSource.id,
+                            );
+                          }}
+                          data-testid={`dishSourceRemove-${dishesPerSourceElement.dishSource.id}`}
+                        >
+                          ×
+                        </span>
+                      </>
+                    )}
                 </div>
               )}
               <div>

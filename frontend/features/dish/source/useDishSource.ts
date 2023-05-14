@@ -1,5 +1,6 @@
 import { useAddDishSource } from './addDishSourceMutation';
 import { useUpdateDishSource } from './updateDishSourceMutation';
+import { useRemoveDishSource } from './removeDishSourceMutation';
 import {
   FetchDishSourcesParams,
   useFetchDishSources,
@@ -41,6 +42,9 @@ export default (params: UseDishSourceParams = {}) => {
     UpdateDishSourceSchema,
   } = useUpdateDishSource();
 
+  const { removeDishSource, removeDishSourceLoading, removeDishSourceError } =
+    useRemoveDishSource();
+
   return {
     dishSources,
     fetchDishSourcesLoading,
@@ -61,5 +65,9 @@ export default (params: UseDishSourceParams = {}) => {
     updateDishSourceLoading,
     updateDishSourceError,
     UpdateDishSourceSchema,
+
+    removeDishSource,
+    removeDishSourceLoading,
+    removeDishSourceError,
   };
 };

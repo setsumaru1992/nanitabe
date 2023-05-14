@@ -6,15 +6,11 @@ import { registerMutationHandler } from '../../../../lib/graphql/specHelper/mock
 import {
   userChooseSelectBox,
   userClick,
-  userType,
   userTypeAfterClearTextBox,
 } from '../../../specHelper/userEvents';
 import EditSource from './EditSource';
 import { DISH_SOURCE_TYPE } from '../../../../features/dish/source/const';
-import {
-  AddDishSourceDocument,
-  UpdateDishSourceDocument,
-} from '../../../../lib/graphql/generated/graphql';
+import { UpdateDishSourceDocument } from '../../../../lib/graphql/generated/graphql';
 
 describe('<EditSource>', () => {
   const registeredDishSource = {

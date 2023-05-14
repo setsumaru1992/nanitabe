@@ -711,6 +711,13 @@ export type DishSourceQueryVariables = Exact<{
 
 export type DishSourceQuery = { __typename?: 'Query', dishSource: { __typename?: 'SpecifiedDishSource', id: number, name: string, type: number } };
 
+export type RemoveDishSourceMutationVariables = Exact<{
+  dishSourceId: Scalars['Int'];
+}>;
+
+
+export type RemoveDishSourceMutation = { __typename?: 'Mutation', removeDishSource?: { __typename?: 'RemoveSourcePayload', dishSourceId: number } | null };
+
 export type UpdateDishSourceMutationVariables = Exact<{
   dishSource: SourceForUpdate;
 }>;
@@ -1205,6 +1212,39 @@ export function useDishSourceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type DishSourceQueryHookResult = ReturnType<typeof useDishSourceQuery>;
 export type DishSourceLazyQueryHookResult = ReturnType<typeof useDishSourceLazyQuery>;
 export type DishSourceQueryResult = Apollo.QueryResult<DishSourceQuery, DishSourceQueryVariables>;
+export const RemoveDishSourceDocument = gql`
+    mutation removeDishSource($dishSourceId: Int!) {
+  removeDishSource(input: {dishSourceId: $dishSourceId}) {
+    dishSourceId
+  }
+}
+    `;
+export type RemoveDishSourceMutationFn = Apollo.MutationFunction<RemoveDishSourceMutation, RemoveDishSourceMutationVariables>;
+
+/**
+ * __useRemoveDishSourceMutation__
+ *
+ * To run a mutation, you first call `useRemoveDishSourceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveDishSourceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeDishSourceMutation, { data, loading, error }] = useRemoveDishSourceMutation({
+ *   variables: {
+ *      dishSourceId: // value for 'dishSourceId'
+ *   },
+ * });
+ */
+export function useRemoveDishSourceMutation(baseOptions?: Apollo.MutationHookOptions<RemoveDishSourceMutation, RemoveDishSourceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveDishSourceMutation, RemoveDishSourceMutationVariables>(RemoveDishSourceDocument, options);
+      }
+export type RemoveDishSourceMutationHookResult = ReturnType<typeof useRemoveDishSourceMutation>;
+export type RemoveDishSourceMutationResult = Apollo.MutationResult<RemoveDishSourceMutation>;
+export type RemoveDishSourceMutationOptions = Apollo.BaseMutationOptions<RemoveDishSourceMutation, RemoveDishSourceMutationVariables>;
 export const UpdateDishSourceDocument = gql`
     mutation updateDishSource($dishSource: SourceForUpdate!) {
   updateDishSource(input: {dishSource: $dishSource}) {

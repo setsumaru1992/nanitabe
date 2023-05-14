@@ -18,11 +18,7 @@ import {
   useUpdateDishMutation,
   useUpdateDishWithNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
-import {
-  dishSourceIdSchema,
-  dishSourceTypeOptionalSchema,
-  newDishSourceSchema,
-} from './source/schema';
+import { newDishSourceSchema } from './source/schema';
 
 export const UPDATE_DISH = gql`
   mutation updateDish(
