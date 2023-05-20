@@ -8,6 +8,7 @@ import {
   userChooseSelectBox,
   userClick,
   userType,
+  userTypeAfterClearTextBox,
 } from '../../specHelper/userEvents';
 import {
   registerMutationHandler,
@@ -18,8 +19,10 @@ import {
   UpdateMealDocument,
   DishesDocument,
   DishSourcesDocument,
+  UpdateMealWithNewDishDocument,
 } from '../../../lib/graphql/generated/graphql';
 import { buildISODateString } from '../../../features/utils/dateUtils';
+import { DISH_SOURCE_TYPE } from '../../../features/dish/source/const';
 
 const clickSubmitButton = async () => {
   await userClick(screen, 'submitMealButton');
@@ -66,9 +69,30 @@ describe('<EditMeal>', () => {
     mealPosition: 3,
   };
 
+  const selectedDishSource = {
+    id: 1,
+    type: DISH_SOURCE_TYPE.YOUTUBE,
+  };
+
   const registeredDishSource = {
     ...selectedDishSource,
     name: 'りゅうじ',
+  };
+
+  const newDishSource = {
+    name: '最強のレシピサイト',
+    type: DISH_SOURCE_TYPE.WEBSITE,
+  };
+
+  const newDishSourceRelationDetailOfRecipeWebsite = {
+    recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
+  };
+
+  const updatedDishSourceRelation = {
+    dishId: updatedDish.id,
+    dishSourceId: registeredDishSource.id,
+    dishSourceType: registeredDishSource.type,
+    dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
   };
 
   beforeEach(() => {
@@ -101,7 +125,7 @@ describe('<EditMeal>', () => {
         <EditMeal
           meal={buildGraphQLMeal(registeredMeal)}
           onSchemaError={(schemaErrors) => {
-            // スキーマエラーがあったときテストで把握しやすいようにログに出す
+            console.log('入力値バリデーションエラー');
             console.log(schemaErrors);
             // screen.debug();
           }}
@@ -184,7 +208,46 @@ describe('<EditMeal>', () => {
       });
     });
 
-    describe('when update meal with new dish', () => {
+    describe('when update meal with new dish with existing source', () => {
+      it('succeeds with expected required graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateMealWithNewDishDocument,
+          {
+            updateMealWithNewDish: {
+              mealId: registeredMeal.id,
+              dishId: 1,
+            },
+          },
+        );
+
+        await userClick(screen, 'optionOfRegisteringNewDish');
+        await userType(screen, 'dishname', newDishWithRequiredParams.name);
+        await userChooseSelectBox(screen, 'mealPositionOptions', [
+          `mealPositionOption-${newDishWithRequiredParams.mealPosition}`,
+        ]);
+
+        await userChooseSelectBox(screen, 'existingDishSources', [
+          `existingDishSource-${selectedDishSource.id}`,
+        ]);
+
+        await userTypeAfterClearTextBox(
+          screen,
+          'dishSourceRelationDetailRecipeWebsiteUrl',
+          newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+        );
+
+        await clickSubmitButton();
+
+        expect(getLatestMutationVariables()).toEqual({
+          dish: newDishWithRequiredParams,
+          dishSource: selectedDishSource,
+          dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+          meal: buildGraphQLMeal(registeredMealWithoutDish),
+        });
+      });
+    });
+
+    describe('when update meal with new dish and new dish source', () => {
       it('succeeds with expected required graphql params', async () => {
         const { getLatestMutationVariables } = registerMutationHandler(
           UpdateMealWithNewDishAndNewSourceDocument,
@@ -202,15 +265,32 @@ describe('<EditMeal>', () => {
         await userChooseSelectBox(screen, 'mealPositionOptions', [
           `mealPositionOption-${newDishWithRequiredParams.mealPosition}`,
         ]);
+
+        await userClick(screen, 'optionOfRegisteringNewDishSource');
+        await userType(screen, 'dishSourceName', newDishSource.name);
+        await userChooseSelectBox(screen, 'dishSourceTypeOption', [
+          `dishSourceTypeOption-${newDishSource.type}`,
+        ]);
+        await userTypeAfterClearTextBox(
+          screen,
+          'dishSourceRelationDetailRecipeWebsiteUrl',
+          newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+        );
+
         await clickSubmitButton();
 
         expect(getLatestMutationVariables()).toEqual({
           dish: newDishWithRequiredParams,
+          dishSource: newDishSource,
+          dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
           meal: buildGraphQLMeal(registeredMealWithoutDish),
         });
       });
     });
   });
 
-  describe('edit existing meal having dish source relation, ', () => {});
+  describe('edit existing meal with dish having dish source relation, ', () => {
+    // 既存のrelation情報を新しい値で更新するテストはEditDishで行っているので一旦割愛
+    // バグったり必要になったときに改めて定義。
+  });
 });

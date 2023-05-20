@@ -13,17 +13,16 @@ import {
   useUpdateMealWithNewDishAndNewSourceMutation,
   useUpdateMealWithNewDishMutation,
 } from '../../lib/graphql/generated/graphql';
-import {
-  dishIdSchema,
-  newDishSchema,
-  putDishRelationSchema,
-  selectExistingDishSourceSchema,
-} from '../dish/schema';
+import { dishIdSchema } from '../dish/schema';
 import { updateMealSchema } from './schema';
 import {
   AddDishSchema,
   AddDishWithNewSourceSchema,
 } from '../dish/addDishMutation';
+import {
+  normalizeDishSourceRelationDetail,
+  normalizeInputOfAddingDishWithExistingSource,
+} from '../dish/normalizeFunctions';
 
 export const UPDATE_MEAL = gql`
   mutation updateMeal($dishId: Int!, $meal: MealForUpdate!) {
@@ -68,7 +67,14 @@ export type UpdateMealWithNewDish = z.infer<typeof UpdateMealWithNewDishSchema>;
 const convertFromUpdateMealWithNewDishInputToGraphqlInput = (
   input: UpdateMealWithNewDish,
 ): UpdateMealWithNewDish => {
-  return input;
+  const normalizedInput = _.cloneDeep(input);
+  const { selectedDishSource } = input;
+
+  return normalizeInputOfAddingDishWithExistingSource(
+    normalizedInput,
+    selectedDishSource,
+    normalizedInput.dishSourceRelation.dishSourceRelationDetail,
+  );
 };
 
 export const UPDATE_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
@@ -104,7 +110,14 @@ export type UpdateMealWithNewDishAndNewSource = z.infer<
 const convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput = (
   input: UpdateMealWithNewDishAndNewSource,
 ): UpdateMealWithNewDishAndNewSource => {
-  return input;
+  const normalizedInput = _.cloneDeep(input);
+  const { dishSource } = input;
+
+  normalizedInput.dishSourceRelationDetail = normalizeDishSourceRelationDetail(
+    dishSource.type,
+    normalizedInput.dishSourceRelation.dishSourceRelationDetail,
+  );
+  return normalizedInput;
 };
 
 export type UpdateMealInput =
