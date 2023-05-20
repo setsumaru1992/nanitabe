@@ -81,6 +81,8 @@ describe('<AddDish>', () => {
 
       expect(getLatestMutationVariables()).toEqual({
         dish: newDishWithRequiredParams,
+        dishSource: null,
+        dishSourceRelationDetail: null,
       });
     });
   });

@@ -19,6 +19,7 @@ import {
   useUpdateDishWithNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
 import { newDishSourceSchema } from './source/schema';
+import { normalizeDishSourceRelationDetail } from './normalizeFunctions';
 
 export const UPDATE_DISH = gql`
   mutation updateDish(
@@ -104,26 +105,12 @@ const convertFromUpdateDishWithNewSourceInputToGraphqlInput = (
   input: UpdateDishWithNewSource,
 ): UpdateDishWithNewSource => {
   const normalizedInput = _.cloneDeep(input);
-  normalizedInput.dishSourceRelation = null;
-  normalizedInput.dishSourceRelationDetail = null;
-  const { dishSourceRelation, dishSource } = input;
+  const { dishSource } = input;
 
-  const dishSourceRelationDetailType = dishSourceRelationDetailOf(
+  normalizedInput.dishSourceRelationDetail = normalizeDishSourceRelationDetail(
     dishSource.type,
+    normalizedInput.dishSourceRelation.dishSourceRelationDetail,
   );
-  if (
-    !dishSourceRelation ||
-    !dishSourceRelation.dishSourceRelationDetail ||
-    dishSourceRelationDetailType ===
-      DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE
-  ) {
-    return normalizedInput;
-  }
-
-  // ここの書き方含めて、何かとりあえずやりたいこと満たすための汚いコードにしか見えない
-  normalizedInput.dishSourceRelationDetail =
-    dishSourceRelation.dishSourceRelationDetail;
-  delete normalizedInput.dishSourceRelationDetail.detailType;
   return normalizedInput;
 };
 

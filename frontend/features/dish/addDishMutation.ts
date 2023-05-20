@@ -2,8 +2,6 @@ import { gql } from '@apollo/client';
 import * as z from 'zod';
 import _ from 'lodash';
 import {
-  DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE,
-  dishSourceRelationDetailOf,
   newDishSchema,
   putDishRelationSchema,
   selectExistingDishSourceSchema,
@@ -14,11 +12,15 @@ import {
 } from '../utils/mutationUtils';
 import {
   AddDishMutation,
-  useAddDishMutation,
   AddDishWithNewSourceMutation,
+  useAddDishMutation,
   useAddDishWithNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
 import { newDishSourceSchema } from './source/schema';
+import {
+  normalizeDishSourceRelationDetail,
+  normalizeInputOfAddingDishWithExistingSource,
+} from './normalizeFunctions';
 
 export const ADD_DISH = gql`
   mutation addDish(
@@ -48,30 +50,13 @@ export type AddDish = z.infer<typeof AddDishSchema>;
 
 const convertFromAddDishInputToGraphqlInput = (input: AddDish): AddDish => {
   const normalizedInput = _.cloneDeep(input);
-  const { dishSourceRelation, selectedDishSource } = input;
+  const { selectedDishSource } = input;
 
-  const dishSourceRelationDetailType = dishSourceRelationDetailOf(
-    selectedDishSource.type,
+  return normalizeInputOfAddingDishWithExistingSource(
+    normalizedInput,
+    selectedDishSource,
+    normalizedInput.dishSourceRelation.dishSourceRelationDetail,
   );
-  if (
-    !dishSourceRelation ||
-    !dishSourceRelation.dishSourceRelationDetail ||
-    dishSourceRelationDetailType ===
-      DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE
-  ) {
-    normalizedInput.dishSourceRelation = null;
-    return normalizedInput;
-  }
-
-  delete normalizedInput.dishSourceRelation.dishSourceRelationDetail.detailType;
-  normalizedInput.dishSourceRelationDetail =
-    normalizedInput.dishSourceRelation.dishSourceRelationDetail;
-  normalizedInput.dishSource = {
-    id: selectedDishSource.id,
-    type: selectedDishSource.type,
-  };
-
-  return normalizedInput;
 };
 
 export const ADD_DISH_WITH_NEW_SOURCE = gql`
@@ -105,27 +90,12 @@ const convertFromAddDishWithNewSourceInputToGraphqlInput = (
   input: AddDishWithNewSource,
 ): AddDishWithNewSource => {
   const normalizedInput = _.cloneDeep(input);
-  normalizedInput.dishSourceRelation = null;
-  normalizedInput.dishSourceRelationDetail = null;
-  const { dishSourceRelation, dishSource } = input;
+  const { dishSource } = input;
 
-  const dishSourceRelationDetailType = dishSourceRelationDetailOf(
+  normalizedInput.dishSourceRelationDetail = normalizeDishSourceRelationDetail(
     dishSource.type,
+    normalizedInput.dishSourceRelation.dishSourceRelationDetail,
   );
-  if (
-    // !dishSourceRelation ||
-    // !dishSourceRelation.dishSourceRelationDetail ||
-    dishSourceRelationDetailType ===
-    DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE.NO_VALUE
-  ) {
-    return normalizedInput;
-  }
-
-  // ここの書き方含めて、何かとりあえずやりたいこと満たすための汚いコードにしか見えない
-  normalizedInput.dishSourceRelationDetail =
-    dishSourceRelation.dishSourceRelationDetail;
-
-  delete normalizedInput.dishSourceRelationDetail.detailType;
   return normalizedInput;
 };
 
