@@ -3,6 +3,7 @@ module Types
     field :add_meal_with_new_dish_and_new_source, mutation: ::Mutations::Meal::AddMealWithNewDishAndNewSource
     field :add_meal, mutation: ::Mutations::Meal::AddMeal
     field :update_meal, mutation: ::Mutations::Meal::UpdateMeal
+    field :update_meal_with_new_dish, mutation: ::Mutations::Meal::UpdateMealWithNewDish
     field :update_meal_with_new_dish_and_new_source, mutation: ::Mutations::Meal::UpdateMealWithNewDishAndNewSource
     field :remove_meal, mutation: ::Mutations::Meal::RemoveMeal
 
