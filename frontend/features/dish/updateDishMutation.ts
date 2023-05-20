@@ -140,6 +140,7 @@ export const useUpdateDish = () => {
   const [updateDish, updateDishLoading, updateDishError] =
     buildMutationExecutor<UpdateDish, UpdateDishMutation>(
       useUpdateDishMutation,
+      { normalizeInput: convertFromUpdateDishInputToGraphqlInput },
     );
 
   const [
@@ -149,15 +150,15 @@ export const useUpdateDish = () => {
   ] = buildMutationExecutor<
     UpdateDishWithNewSource,
     UpdateDishWithNewSourceMutation
-  >(useUpdateDishWithNewSourceMutation);
+  >(useUpdateDishWithNewSourceMutation, {
+    normalizeInput: convertFromUpdateDishWithNewSourceInputToGraphqlInput,
+  });
 
   return {
     updateDish,
-    convertFromUpdateDishInputToGraphqlInput,
     UpdateDishSchema,
 
     updateDishWithNewSource,
-    convertFromUpdateDishWithNewSourceInputToGraphqlInput,
     UpdateDishWithNewSourceSchema,
 
     updateDishLoading: updateDishLoading || updateDishWithNewSourceLoading,

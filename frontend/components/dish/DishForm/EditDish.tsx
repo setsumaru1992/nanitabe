@@ -21,10 +21,8 @@ export default (props: Props) => {
 
   const {
     updateDish,
-    convertFromUpdateDishInputToGraphqlInput,
     UpdateDishSchema,
     updateDishWithNewSource,
-    convertFromUpdateDishWithNewSourceInputToGraphqlInput,
     UpdateDishWithNewSourceSchema,
   } = useDish();
 
@@ -39,29 +37,18 @@ export default (props: Props) => {
     updateDishFunc,
     updateDishSchema,
   }: { updateDishFunc: UpdateDishFunc; updateDishSchema: any } = (() => {
-    const [updateDishFunc, convertToGraphqlInput, updateDishSchema] = (() => {
-      if (choosingUseExistingDishSource) {
-        return [
-          updateDish,
-          convertFromUpdateDishInputToGraphqlInput,
-          UpdateDishSchema,
-        ];
-      }
-      if (choosingRegisterNewDishSource) {
-        return [
-          updateDishWithNewSource,
-          convertFromUpdateDishWithNewSourceInputToGraphqlInput,
-          UpdateDishWithNewSourceSchema,
-        ];
-      }
-      return [null, null, null];
-    })();
-    return {
-      updateDishFunc: (input, mutationCallbacks) => {
-        updateDishFunc(convertToGraphqlInput(input), mutationCallbacks);
-      },
-      updateDishSchema,
-    };
+    if (choosingUseExistingDishSource) {
+      return {
+        updateDishFunc: updateDish,
+        updateDishSchema: UpdateDishSchema,
+      };
+    }
+    if (choosingRegisterNewDishSource) {
+      return {
+        updateDishFunc: updateDishWithNewSource,
+        updateDishSchema: UpdateDishWithNewSourceSchema,
+      };
+    }
   })();
 
   const onSubmit: SubmitHandler<UpdateDishInput> = async (input) => {

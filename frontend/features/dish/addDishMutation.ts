@@ -140,7 +140,9 @@ export const useAddDish = () => {
   const [addDish, addDishLoading, addDishError] = buildMutationExecutor<
     AddDish,
     AddDishMutation
-  >(useAddDishMutation);
+  >(useAddDishMutation, {
+    normalizeInput: convertFromAddDishInputToGraphqlInput,
+  });
 
   const [
     addDishWithNewSource,
@@ -148,15 +150,14 @@ export const useAddDish = () => {
     addDishWithNewSourceError,
   ] = buildMutationExecutor<AddDishWithNewSource, AddDishWithNewSourceMutation>(
     useAddDishWithNewSourceMutation,
+    { normalizeInput: convertFromAddDishWithNewSourceInputToGraphqlInput },
   );
 
   return {
     addDish,
-    convertFromAddDishInputToGraphqlInput,
     AddDishSchema,
 
     addDishWithNewSource,
-    convertFromAddDishWithNewSourceInputToGraphqlInput,
     AddDishWithNewSourceSchema,
 
     addDishLoading: addDishLoading || addDishWithNewSourceLoading,
