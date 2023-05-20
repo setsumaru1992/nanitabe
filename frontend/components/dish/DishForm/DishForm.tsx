@@ -36,7 +36,7 @@ const isChoosingUseExistingDishSource = (
   choosingDishType ===
   CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_USE_EXISTING_DISH_SOURCE;
 
-type UseChoosingPutDishSourceTypeResult = {
+export type UseChoosingPutDishSourceTypeResult = {
   choosingPutDishSourceType: CHOOSING_PUT_DISH_SOURCE_TYPE;
   setChoosingPutDishSourceType: (CHOOSING_DISH_TYPE) => void;
   choosingRegisterNewDishSource: boolean;
@@ -159,7 +159,7 @@ type DishFormContentProps = {
   useChoosingPutDishSourceTypeResult: UseChoosingPutDishSourceTypeResult;
 };
 
-const DishFormContent = (props: DishFormContentProps) => {
+export const DishFormContent = (props: DishFormContentProps) => {
   const {
     registeredDish,
     useChoosingPutDishSourceTypeResult: {
@@ -169,7 +169,7 @@ const DishFormContent = (props: DishFormContentProps) => {
     },
   } = props;
 
-  const { getValues, setValue, watch } = useFormContext();
+  const { setValue, watch } = useFormContext();
 
   const {
     dishSources,

@@ -15,12 +15,7 @@ module Mutations::Meal
           dish_for_create: dish.convert_to_command_param,
           dish_source_for_read: dish_source.convert_to_command_param,
           dish_source_relation_detail: dish_source_relation_detail&.convert_to_command_param(dish_source&.type),
-          meal_for_update: ::Business::Dish::Meal::Command::Params::MealForUpdate.new(
-            id: meal.id,
-            date: meal.date,
-            meal_type: meal.meal_type,
-            comment: meal.comment,
-          ),
+          meal_for_update: meal.convert_to_command_param,
         )
         {
           meal_id: updated_meal.id,

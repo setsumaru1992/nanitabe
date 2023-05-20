@@ -8,7 +8,11 @@ import { buildISODateString } from '../../../features/utils/dateUtils';
 import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
 import { MEAL_TYPE } from '../../../features/meal/const';
 import useDish from '../../../features/dish/useDish';
-import { DishFormContentWithoutSource } from '../../dish/DishForm/DishForm';
+import {
+  DishFormContent,
+  DishFormContentWithoutSource,
+  UseChoosingPutDishSourceTypeResult,
+} from '../../dish/DishForm/DishForm';
 
 export enum CHOOSING_DISH_TYPE {
   CHOOSING_REGISTER_NEW_DISH,
@@ -52,6 +56,7 @@ type Props = {
   registeredDishId?: number;
 
   useChoosingDishTypeResult: UseChoosingDishTypeResult;
+  useChoosingPutDishSourceTypeResult: UseChoosingPutDishSourceTypeResult;
 
   onSchemaError?: any;
 };
@@ -69,6 +74,7 @@ export default (props: Props) => {
       choosingRegisterNewDish,
       choosingUseExistingDish,
     },
+    useChoosingPutDishSourceTypeResult,
     onSchemaError,
   } = props;
 
@@ -181,7 +187,18 @@ export default (props: Props) => {
               デザインの都合・submitするフィールドの都合でmealフォーム都合の修正が必要になったら、
               それに合わせたコンポーネントを作る
              */}
-            {choosingRegisterNewDish && <DishFormContentWithoutSource />}
+            {choosingRegisterNewDish && (
+              <>
+                {!registeredMealId && <DishFormContentWithoutSource />}
+                {registeredMealId && (
+                  <DishFormContent
+                    useChoosingPutDishSourceTypeResult={
+                      useChoosingPutDishSourceTypeResult
+                    }
+                  />
+                )}
+              </>
+            )}
 
             {choosingUseExistingDish && dishes && (
               <FormFieldWrapperWithLabel label="料理">

@@ -174,6 +174,8 @@ describe('<EditMeal>', () => {
         {
           updateMealWithNewDishAndNewSource: {
             mealId: registeredMeal.id,
+            dishId: 1,
+            dishSourceId: 1,
           },
         },
       );

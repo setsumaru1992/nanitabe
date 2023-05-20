@@ -4,6 +4,10 @@ import { parseISO } from 'date-fns';
 import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from './MealForm';
 import { MealForCalender } from '../../../lib/graphql/generated/graphql';
 import useMeal, { UpdateMealInput } from '../../../features/meal/useMeal';
+import {
+  CHOOSING_PUT_DISH_SOURCE_TYPE,
+  useChoosingPutDishSourceType,
+} from '../../dish/DishForm/DishForm';
 
 type Props = {
   meal: MealForCalender;
@@ -17,6 +21,7 @@ export default (props: Props) => {
   const {
     updateMealWithNewDishAndNewSource,
     UpdateMealWithNewDishAndNewSourceSchema,
+    convertFromUpdateMealWithNewDishInputToGraphqlInput,
 
     updateMeal,
     UpdateMealSchema,
@@ -28,6 +33,12 @@ export default (props: Props) => {
     choosingRegisterNewDish,
     choosingUseExistingDish,
   } = useChoosingDishType(CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH);
+
+  const useChoosingPutDishSourceTypeResult = useChoosingPutDishSourceType(
+    CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_USE_EXISTING_DISH_SOURCE,
+  );
+  const { choosingRegisterNewDishSource, choosingUseExistingDishSource } =
+    useChoosingPutDishSourceTypeResult;
 
   const [updateMealFunc, updateMealSchema] = (() => {
     if (choosingRegisterNewDish) {
@@ -64,6 +75,7 @@ export default (props: Props) => {
         choosingRegisterNewDish,
         choosingUseExistingDish,
       }}
+      useChoosingPutDishSourceTypeResult={useChoosingPutDishSourceTypeResult}
       onSchemaError={onSchemaError}
     />
   );
