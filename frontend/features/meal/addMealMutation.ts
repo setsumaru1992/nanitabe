@@ -10,6 +10,20 @@ import { buildMutationExecutor } from '../utils/mutationUtils';
 import { newMealSchema } from './schema';
 import { dishIdSchema, newDishSchema } from '../dish/schema';
 
+export const ADD_MEAL = gql`
+  mutation addMeal($dishId: Int!, $meal: MealForCreate!) {
+    addMeal(input: { dishId: $dishId, meal: $meal }) {
+      mealId
+    }
+  }
+`;
+
+const AddMealSchema = z.object({
+  dishId: dishIdSchema,
+  meal: newMealSchema,
+});
+export type AddMeal = z.infer<typeof AddMealSchema>;
+
 export const ADD_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
   mutation addMealWithNewDishAndNewSource(
     $dish: DishForCreate!
@@ -28,20 +42,6 @@ const AddMealWithNewDishAndNewSourceSchema = z.object({
 export type AddMealWithNewDishAndNewSource = z.infer<
   typeof AddMealWithNewDishAndNewSourceSchema
 >;
-
-export const ADD_MEAL = gql`
-  mutation addMeal($dishId: Int!, $meal: MealForCreate!) {
-    addMeal(input: { dishId: $dishId, meal: $meal }) {
-      mealId
-    }
-  }
-`;
-
-const AddMealSchema = z.object({
-  dishId: dishIdSchema,
-  meal: newMealSchema,
-});
-export type AddMeal = z.infer<typeof AddMealSchema>;
 
 export type AddMealMutationInput = AddMealWithNewDishAndNewSource | AddMeal;
 
@@ -65,13 +65,13 @@ export const useAddMeal = () => {
   >(useAddMealMutation);
 
   return {
-    addMealWithNewDishAndNewSource,
     addMeal,
+    AddMealSchema,
+
+    addMealWithNewDishAndNewSource,
+    AddMealWithNewDishAndNewSourceSchema,
 
     addMealLoading: addMealWithNewDishAndNewSourceLoading || addMealLoading,
     addMealError: addMealWithNewDishAndNewSourceError || addMealError,
-
-    AddMealWithNewDishAndNewSourceSchema,
-    AddMealSchema,
   };
 };

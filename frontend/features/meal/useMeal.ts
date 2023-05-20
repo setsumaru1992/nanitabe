@@ -25,24 +25,24 @@ export default (
   const { startDateForFetchingMealsForCalender } = arg;
 
   const {
-    addMealWithNewDishAndNewSource,
-    AddMealWithNewDishAndNewSourceSchema,
     addMeal,
     AddMealSchema,
+    addMealWithNewDishAndNewSource,
+    AddMealWithNewDishAndNewSourceSchema,
     addMealLoading,
     addMealError,
   } = useAddMeal();
 
   const {
-    updateMealWithNewDishAndNewSource,
-    UpdateMealWithNewDishAndNewSourceSchema,
-    convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
+    updateMeal,
+    UpdateMealSchema,
+    convertFromUpdateMealInputToGraphqlInput,
     updateMealWithNewDish,
     UpdateMealWithNewDishSchema,
     convertFromUpdateMealWithNewDishInputToGraphqlInput,
-    updateMeal,
-    convertFromUpdateMealInputToGraphqlInput,
-    UpdateMealSchema,
+    updateMealWithNewDishAndNewSource,
+    UpdateMealWithNewDishAndNewSourceSchema,
+    convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
     updateMealLoading,
     updateMealError,
   } = useUpdateMeal();
@@ -65,22 +65,22 @@ export default (
     fetchMealsForCalenderError,
     refetchMealsForCalender,
 
-    addMealWithNewDishAndNewSource,
-    AddMealWithNewDishAndNewSourceSchema,
     addMeal,
     AddMealSchema,
+    addMealWithNewDishAndNewSource,
+    AddMealWithNewDishAndNewSourceSchema,
     addMealLoading,
     addMealError,
 
-    updateMealWithNewDishAndNewSource,
-    UpdateMealWithNewDishAndNewSourceSchema,
-    convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
+    updateMeal,
+    UpdateMealSchema,
+    convertFromUpdateMealInputToGraphqlInput,
     updateMealWithNewDish,
     UpdateMealWithNewDishSchema,
     convertFromUpdateMealWithNewDishInputToGraphqlInput,
-    updateMeal,
-    convertFromUpdateMealInputToGraphqlInput,
-    UpdateMealSchema,
+    updateMealWithNewDishAndNewSource,
+    UpdateMealWithNewDishAndNewSourceSchema,
+    convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
     updateMealLoading,
     updateMealError,
 

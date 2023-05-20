@@ -15,39 +15,23 @@ import {
 import { dishIdSchema, newDishSchema } from '../dish/schema';
 import { updateMealSchema } from './schema';
 
-export const UPDATE_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
-  mutation updateMealWithNewDishAndNewSource(
-    $dish: DishForCreate!
-    $dishSource: SourceForCreate!
-    $dishSourceRelationDetail: DishSourceRelationDetail
-    $meal: MealForUpdate!
-  ) {
-    updateMealWithNewDishAndNewSource(
-      input: {
-        dish: $dish
-        dishSource: $dishSource
-        dishSourceRelationDetail: $dishSourceRelationDetail
-        meal: $meal
-      }
-    ) {
+export const UPDATE_MEAL = gql`
+  mutation updateMeal($dishId: Int!, $meal: MealForUpdate!) {
+    updateMeal(input: { dishId: $dishId, meal: $meal }) {
       mealId
-      dishId
-      dishSourceId
     }
   }
 `;
 
-const UpdateMealWithNewDishAndNewSourceSchema = z.object({
-  dish: newDishSchema,
+const UpdateMealSchema = z.object({
+  dishId: dishIdSchema,
   meal: updateMealSchema,
 });
-export type UpdateMealWithNewDishAndNewSource = z.infer<
-  typeof UpdateMealWithNewDishAndNewSourceSchema
->;
+export type UpdateMeal = z.infer<typeof UpdateMealSchema>;
 
-const convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput = (
-  input: UpdateMealWithNewDishAndNewSource,
-): UpdateMealWithNewDishAndNewSource => {
+const convertFromUpdateMealInputToGraphqlInput = (
+  input: UpdateMeal,
+): UpdateMeal => {
   return input;
 };
 
@@ -84,23 +68,39 @@ const convertFromUpdateMealWithNewDishInputToGraphqlInput = (
   return input;
 };
 
-export const UPDATE_MEAL = gql`
-  mutation updateMeal($dishId: Int!, $meal: MealForUpdate!) {
-    updateMeal(input: { dishId: $dishId, meal: $meal }) {
+export const UPDATE_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
+  mutation updateMealWithNewDishAndNewSource(
+    $dish: DishForCreate!
+    $dishSource: SourceForCreate!
+    $dishSourceRelationDetail: DishSourceRelationDetail
+    $meal: MealForUpdate!
+  ) {
+    updateMealWithNewDishAndNewSource(
+      input: {
+        dish: $dish
+        dishSource: $dishSource
+        dishSourceRelationDetail: $dishSourceRelationDetail
+        meal: $meal
+      }
+    ) {
       mealId
+      dishId
+      dishSourceId
     }
   }
 `;
 
-const UpdateMealSchema = z.object({
-  dishId: dishIdSchema,
+const UpdateMealWithNewDishAndNewSourceSchema = z.object({
+  dish: newDishSchema,
   meal: updateMealSchema,
 });
-export type UpdateMeal = z.infer<typeof UpdateMealSchema>;
+export type UpdateMealWithNewDishAndNewSource = z.infer<
+  typeof UpdateMealWithNewDishAndNewSourceSchema
+>;
 
-const convertFromUpdateMealInputToGraphqlInput = (
-  input: UpdateMeal,
-): UpdateMeal => {
+const convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput = (
+  input: UpdateMealWithNewDishAndNewSource,
+): UpdateMealWithNewDishAndNewSource => {
   return input;
 };
 
@@ -138,12 +138,17 @@ export const useUpdateMeal = () => {
     buildMutationExecutor<UpdateMeal>(useUpdateMealMutation);
 
   return {
-    updateMealWithNewDishAndNewSource,
-    convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
-    updateMealWithNewDish,
-    convertFromUpdateMealWithNewDishInputToGraphqlInput,
     updateMeal,
+    UpdateMealSchema,
     convertFromUpdateMealInputToGraphqlInput,
+
+    updateMealWithNewDish,
+    UpdateMealWithNewDishSchema,
+    convertFromUpdateMealWithNewDishInputToGraphqlInput,
+
+    updateMealWithNewDishAndNewSource,
+    UpdateMealWithNewDishAndNewSourceSchema,
+    convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
 
     updateMealLoading:
       updateMealWithNewDishAndNewSourceLoading ||
@@ -153,9 +158,5 @@ export const useUpdateMeal = () => {
       updateMealWithNewDishAndNewSourceError ||
       updateMealWithNewDishError ||
       updateMealError,
-
-    UpdateMealWithNewDishAndNewSourceSchema,
-    UpdateMealWithNewDishSchema,
-    UpdateMealSchema,
   };
 };
