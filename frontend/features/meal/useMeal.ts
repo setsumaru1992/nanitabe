@@ -36,13 +36,10 @@ export default (
   const {
     updateMeal,
     UpdateMealSchema,
-    convertFromUpdateMealInputToGraphqlInput,
     updateMealWithNewDish,
     UpdateMealWithNewDishSchema,
-    convertFromUpdateMealWithNewDishInputToGraphqlInput,
     updateMealWithNewDishAndNewSource,
     UpdateMealWithNewDishAndNewSourceSchema,
-    convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
     updateMealLoading,
     updateMealError,
   } = useUpdateMeal();
@@ -74,13 +71,10 @@ export default (
 
     updateMeal,
     UpdateMealSchema,
-    convertFromUpdateMealInputToGraphqlInput,
     updateMealWithNewDish,
     UpdateMealWithNewDishSchema,
-    convertFromUpdateMealWithNewDishInputToGraphqlInput,
     updateMealWithNewDishAndNewSource,
     UpdateMealWithNewDishAndNewSourceSchema,
-    convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
     updateMealLoading,
     updateMealError,
 

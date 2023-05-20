@@ -3,7 +3,10 @@ import { SubmitHandler } from 'react-hook-form';
 import { parseISO } from 'date-fns';
 import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from './MealForm';
 import { MealForCalender } from '../../../lib/graphql/generated/graphql';
-import useMeal, { UpdateMealInput } from '../../../features/meal/useMeal';
+import useMeal, {
+  UpdateMealFunc,
+  UpdateMealInput,
+} from '../../../features/meal/useMeal';
 import {
   CHOOSING_PUT_DISH_SOURCE_TYPE,
   useChoosingPutDishSourceType,
@@ -19,12 +22,14 @@ export default (props: Props) => {
   const { meal, onEditSucceeded, onSchemaError } = props;
 
   const {
-    updateMealWithNewDishAndNewSource,
-    UpdateMealWithNewDishAndNewSourceSchema,
-    convertFromUpdateMealWithNewDishInputToGraphqlInput,
-
     updateMeal,
     UpdateMealSchema,
+
+    updateMealWithNewDish,
+    UpdateMealWithNewDishSchema,
+
+    updateMealWithNewDishAndNewSource,
+    UpdateMealWithNewDishAndNewSourceSchema,
   } = useMeal();
 
   const {
@@ -40,17 +45,34 @@ export default (props: Props) => {
   const { choosingRegisterNewDishSource, choosingUseExistingDishSource } =
     useChoosingPutDishSourceTypeResult;
 
-  const [updateMealFunc, updateMealSchema] = (() => {
-    if (choosingRegisterNewDish) {
-      return [
-        updateMealWithNewDishAndNewSource,
-        UpdateMealWithNewDishAndNewSourceSchema,
-      ];
-    }
+  const {
+    updateMealFunc,
+    updateMealSchema,
+  }: { updateMealFunc: UpdateMealFunc; updateMealSchema: any } = (() => {
     if (choosingUseExistingDish) {
-      return [updateMeal, UpdateMealSchema];
+      return {
+        updateMealFunc: updateMeal,
+        updateMealSchema: UpdateMealSchema,
+      };
     }
-    return [null, null];
+
+    // if (choosingRegisterNewDish) の分岐
+    if (choosingUseExistingDishSource) {
+      return {
+        updateMealFunc: updateMealWithNewDish,
+        updateMealSchema: UpdateMealWithNewDishSchema,
+      };
+    }
+    if (choosingRegisterNewDishSource) {
+      return {
+        updateMealFunc: updateMealWithNewDishAndNewSource,
+        updateMealSchema: UpdateMealWithNewDishAndNewSourceSchema,
+      };
+    }
+    return {
+      updateMealFunc: null,
+      updateMealSchema: null,
+    };
   })();
 
   const onSubmit: SubmitHandler<UpdateMealInput> = async (input) => {

@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import * as z from 'zod';
+import _ from 'lodash';
 import {
   buildMutationExecutor,
   MutationCallbacks,
@@ -12,8 +13,17 @@ import {
   useUpdateMealWithNewDishAndNewSourceMutation,
   useUpdateMealWithNewDishMutation,
 } from '../../lib/graphql/generated/graphql';
-import { dishIdSchema, newDishSchema } from '../dish/schema';
+import {
+  dishIdSchema,
+  newDishSchema,
+  putDishRelationSchema,
+  selectExistingDishSourceSchema,
+} from '../dish/schema';
 import { updateMealSchema } from './schema';
+import {
+  AddDishSchema,
+  AddDishWithNewSourceSchema,
+} from '../dish/addDishMutation';
 
 export const UPDATE_MEAL = gql`
   mutation updateMeal($dishId: Int!, $meal: MealForUpdate!) {
@@ -28,12 +38,6 @@ const UpdateMealSchema = z.object({
   meal: updateMealSchema,
 });
 export type UpdateMeal = z.infer<typeof UpdateMealSchema>;
-
-const convertFromUpdateMealInputToGraphqlInput = (
-  input: UpdateMeal,
-): UpdateMeal => {
-  return input;
-};
 
 export const UPDATE_MEAL_WITH_NEW_DISH = gql`
   mutation updateMealWithNewDish(
@@ -56,8 +60,7 @@ export const UPDATE_MEAL_WITH_NEW_DISH = gql`
   }
 `;
 
-const UpdateMealWithNewDishSchema = z.object({
-  dish: newDishSchema,
+const UpdateMealWithNewDishSchema = AddDishSchema.extend({
   meal: updateMealSchema,
 });
 export type UpdateMealWithNewDish = z.infer<typeof UpdateMealWithNewDishSchema>;
@@ -90,10 +93,10 @@ export const UPDATE_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
   }
 `;
 
-const UpdateMealWithNewDishAndNewSourceSchema = z.object({
-  dish: newDishSchema,
-  meal: updateMealSchema,
-});
+const UpdateMealWithNewDishAndNewSourceSchema =
+  AddDishWithNewSourceSchema.extend({
+    meal: updateMealSchema,
+  });
 export type UpdateMealWithNewDishAndNewSource = z.infer<
   typeof UpdateMealWithNewDishAndNewSourceSchema
 >;
@@ -118,13 +121,8 @@ export type UpdateMealFunc = (
 ) => void;
 
 export const useUpdateMeal = () => {
-  const [
-    updateMealWithNewDishAndNewSource,
-    updateMealWithNewDishAndNewSourceLoading,
-    updateMealWithNewDishAndNewSourceError,
-  ] = buildMutationExecutor<UpdateMealWithNewDishAndNewSource>(
-    useUpdateMealWithNewDishAndNewSourceMutation,
-  );
+  const [updateMeal, updateMealLoading, updateMealError] =
+    buildMutationExecutor<UpdateMeal>(useUpdateMealMutation);
 
   const [
     updateMealWithNewDish,
@@ -132,23 +130,32 @@ export const useUpdateMeal = () => {
     updateMealWithNewDishError,
   ] = buildMutationExecutor<UpdateMealWithNewDish>(
     useUpdateMealWithNewDishMutation,
+    {
+      normalizeInput: convertFromUpdateMealWithNewDishInputToGraphqlInput,
+    },
   );
 
-  const [updateMeal, updateMealLoading, updateMealError] =
-    buildMutationExecutor<UpdateMeal>(useUpdateMealMutation);
+  const [
+    updateMealWithNewDishAndNewSource,
+    updateMealWithNewDishAndNewSourceLoading,
+    updateMealWithNewDishAndNewSourceError,
+  ] = buildMutationExecutor<UpdateMealWithNewDishAndNewSource>(
+    useUpdateMealWithNewDishAndNewSourceMutation,
+    {
+      normalizeInput:
+        convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
+    },
+  );
 
   return {
     updateMeal,
     UpdateMealSchema,
-    convertFromUpdateMealInputToGraphqlInput,
 
     updateMealWithNewDish,
     UpdateMealWithNewDishSchema,
-    convertFromUpdateMealWithNewDishInputToGraphqlInput,
 
     updateMealWithNewDishAndNewSource,
     UpdateMealWithNewDishAndNewSourceSchema,
-    convertFromUpdateMealWithNewDishAndNewSourceInputToGraphqlInput,
 
     updateMealLoading:
       updateMealWithNewDishAndNewSourceLoading ||

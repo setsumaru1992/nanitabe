@@ -48,6 +48,8 @@ const convertFromUpdateDishInputToGraphqlInput = (
   const normalizedInput = _.cloneDeep(input);
   const { dishSourceRelation, dish, selectedDishSource } = input;
 
+  // TODO: UpdateDishWithNewSourceやAddDishとmutationエンドポイントの引数のスキーマ揃えて、共通メソッド使用
+
   const dishSourceRelationDetailType = dishSourceRelationDetailOf(
     selectedDishSource.type,
   );

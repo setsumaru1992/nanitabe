@@ -40,7 +40,7 @@ export const ADD_DISH = gql`
   }
 `;
 
-const AddDishSchema = z.object({
+export const AddDishSchema = z.object({
   dish: newDishSchema,
   selectedDishSource: selectExistingDishSourceSchema,
   dishSourceRelation: putDishRelationSchema,
@@ -78,7 +78,7 @@ export const ADD_DISH_WITH_NEW_SOURCE = gql`
   }
 `;
 
-const AddDishWithNewSourceSchema = z.object({
+export const AddDishWithNewSourceSchema = z.object({
   dish: newDishSchema,
   dishSource: newDishSourceSchema,
   dishSourceRelation: putDishRelationSchema,
