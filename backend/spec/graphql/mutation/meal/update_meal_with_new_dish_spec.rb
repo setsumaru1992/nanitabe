@@ -62,9 +62,10 @@ module Mutations::Meal
         }
         response = fetch_mutation_with_auth(build_mutation, variables, meal_comparer.prepared_records[:user_record].id)
 
+        created_dish_id = response["updateMealWithNewDish"]["dishId"]
         dish_comparer.compare_to_expectation(self)
-        dish_source_relation_comparer.compare_to_expectation(self, dish_id: response["updateMealWithNewDish"]["dishId"])
-        meal_comparer.compare_to_expectation(self, dish_id: response["updateMealWithNewDish"]["dishId"])
+        dish_source_relation_comparer.compare_to_expectation(self, dish_id: created_dish_id)
+        meal_comparer.compare_to_expectation(self, dish_id: created_dish_id)
       end
     end
   end
