@@ -1,5 +1,5 @@
 module Mutations::Meal
-  class UpdateMealWithExistingDish < ::Mutations::BaseMutation
+  class UpdateMeal < ::Mutations::BaseMutation
     argument :meal, ::Types::Input::Meal::MealForUpdate, required: true
     argument :dish_id, Int, required: true
 

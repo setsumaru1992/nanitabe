@@ -15,7 +15,7 @@ import {
 } from '../../../lib/graphql/specHelper/mockServer';
 import {
   UpdateMealWithNewDishAndNewSourceDocument,
-  UpdateMealWithExistingDishDocument,
+  UpdateMealDocument,
   DishesDocument,
 } from '../../../lib/graphql/generated/graphql';
 import { buildISODateString } from '../../../features/utils/dateUtils';
@@ -94,9 +94,9 @@ describe('<EditMeal>', () => {
   describe('when update meal with different one field', () => {
     it('succeeds with expected required graphql params', async () => {
       const { getLatestMutationVariables } = registerMutationHandler(
-        UpdateMealWithExistingDishDocument,
+        UpdateMealDocument,
         {
-          updateMealWithExistingDish: {
+          updateMeal: {
             mealId: registeredMeal.id,
           },
         },
@@ -120,9 +120,9 @@ describe('<EditMeal>', () => {
   describe('when update meal with different existing dish', () => {
     it('succeeds with expected required graphql params', async () => {
       const { getLatestMutationVariables } = registerMutationHandler(
-        UpdateMealWithExistingDishDocument,
+        UpdateMealDocument,
         {
-          updateMealWithExistingDish: {
+          updateMeal: {
             mealId: registeredMeal.id,
           },
         },
@@ -143,9 +143,9 @@ describe('<EditMeal>', () => {
   describe('when update meal with different all meal fields', () => {
     it('succeeds with expected required graphql params', async () => {
       const { getLatestMutationVariables } = registerMutationHandler(
-        UpdateMealWithExistingDishDocument,
+        UpdateMealDocument,
         {
-          updateMealWithExistingDish: {
+          updateMeal: {
             mealId: registeredMeal.id,
           },
         },

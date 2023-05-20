@@ -1,8 +1,13 @@
 import { gql } from '@apollo/client';
 import * as z from 'zod';
-import { buildMutationExecutor } from '../utils/mutationUtils';
 import {
-  useUpdateMealWithExistingDishMutation,
+  buildMutationExecutor,
+  MutationCallbacks,
+} from '../utils/mutationUtils';
+import {
+  UpdateMealMutation,
+  UpdateMealWithNewDishAndNewSourceMutation,
+  useUpdateMealMutation,
   useUpdateMealWithNewDishAndNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
 import { dishIdSchema, newDishSchema } from '../dish/schema';
@@ -27,21 +32,28 @@ export type UpdateMealWithNewDishAndNewSource = z.infer<
   typeof UpdateMealWithNewDishAndNewSourceSchema
 >;
 
-export const UPDATE_MEAL_WITH_EXISTING_DISH = gql`
-  mutation updateMealWithExistingDish($dishId: Int!, $meal: MealForUpdate!) {
-    updateMealWithExistingDish(input: { dishId: $dishId, meal: $meal }) {
+export const UPDATE_MEAL = gql`
+  mutation updateMeal($dishId: Int!, $meal: MealForUpdate!) {
+    updateMeal(input: { dishId: $dishId, meal: $meal }) {
       mealId
     }
   }
 `;
 
-const UpdateMealWithExistingDishSchema = z.object({
+const UpdateMealSchema = z.object({
   dishId: dishIdSchema,
   meal: updateMealSchema,
 });
-export type UpdateMealWithExistingDish = z.infer<
-  typeof UpdateMealWithExistingDishSchema
->;
+export type UpdateMeal = z.infer<typeof UpdateMealSchema>;
+
+export type UpdateMealInput = UpdateMeal | UpdateMealWithNewDishAndNewSource;
+export type UpdateMealOutput =
+  | UpdateMealMutation
+  | UpdateMealWithNewDishAndNewSourceMutation;
+export type UpdateMealFunc = (
+  input: UpdateMealInput,
+  mutationCallbacks: MutationCallbacks<UpdateMealOutput>,
+) => void;
 
 export const useUpdateMeal = () => {
   const [
@@ -52,25 +64,18 @@ export const useUpdateMeal = () => {
     useUpdateMealWithNewDishAndNewSourceMutation,
   );
 
-  const [
-    updateMealWithExistingDish,
-    updateMealWithExistingDishLoading,
-    updateMealWithExistingDishError,
-  ] = buildMutationExecutor<UpdateMealWithExistingDish>(
-    useUpdateMealWithExistingDishMutation,
-  );
+  const [updateMeal, updateMealLoading, updateMealError] =
+    buildMutationExecutor<UpdateMeal>(useUpdateMealMutation);
 
   return {
     updateMealWithNewDishAndNewSource,
-    updateMealWithExistingDish,
+    updateMeal,
 
     updateMealLoading:
-      updateMealWithNewDishAndNewSourceLoading ||
-      updateMealWithExistingDishLoading,
-    updateMealError:
-      updateMealWithNewDishAndNewSourceError || updateMealWithExistingDishError,
+      updateMealWithNewDishAndNewSourceLoading || updateMealLoading,
+    updateMealError: updateMealWithNewDishAndNewSourceError || updateMealError,
 
     UpdateMealWithNewDishAndNewSourceSchema,
-    UpdateMealWithExistingDishSchema,
+    UpdateMealSchema,
   };
 };

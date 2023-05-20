@@ -5,7 +5,7 @@ import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from './MealForm';
 import { MealForCalender } from '../../../lib/graphql/generated/graphql';
 import useMeal, {
   UpdateMealWithNewDishAndNewSource,
-  UpdateMealWithExistingDish,
+  UpdateMeal,
 } from '../../../features/meal/useMeal';
 
 type Props = {
@@ -21,7 +21,7 @@ export default (props: Props) => {
     updateMealWithNewDishAndNewSource,
     UpdateMealWithNewDishAndNewSourceSchema,
 
-    updateMealWithExistingDish,
+    updateMeal,
     UpdateMealWithExistingDishSchema,
   } = useMeal();
 
@@ -40,13 +40,13 @@ export default (props: Props) => {
       ];
     }
     if (choosingUseExistingDish) {
-      return [updateMealWithExistingDish, UpdateMealWithExistingDishSchema];
+      return [updateMeal, UpdateMealWithExistingDishSchema];
     }
     return [null, null];
   })();
 
   const onSubmit: SubmitHandler<
-    UpdateMealWithNewDishAndNewSource | UpdateMealWithExistingDish
+    UpdateMealWithNewDishAndNewSource | UpdateMeal
   > = async (input) => {
     await updateMealFunc(input, {
       onCompleted: (data) => {

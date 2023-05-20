@@ -9,7 +9,10 @@ export type {
 } from './addMealMutation';
 export type {
   UpdateMealWithNewDishAndNewSource,
-  UpdateMealWithExistingDish,
+  UpdateMeal,
+  UpdateMealInput,
+  UpdateMealOutput,
+  UpdateMealFunc,
 } from './updateMealMutation';
 
 type UseMealArg = {
@@ -33,8 +36,8 @@ export default (
   const {
     updateMealWithNewDishAndNewSource,
     UpdateMealWithNewDishAndNewSourceSchema,
-    updateMealWithExistingDish,
-    UpdateMealWithExistingDishSchema,
+    updateMeal,
+    UpdateMealSchema,
     updateMealLoading,
     updateMealError,
   } = useUpdateMeal();
@@ -66,8 +69,8 @@ export default (
 
     updateMealWithNewDishAndNewSource,
     UpdateMealWithNewDishAndNewSourceSchema,
-    updateMealWithExistingDish,
-    UpdateMealWithExistingDishSchema,
+    updateMeal,
+    UpdateMealWithExistingDishSchema: UpdateMealSchema,
     updateMealLoading,
     updateMealError,
 
