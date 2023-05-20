@@ -27,8 +27,8 @@ export default (
   const {
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
-    addMealWithExistingDish,
-    AddMealWithExistingDishSchema,
+    addMeal,
+    AddMealSchema,
     addMealLoading,
     addMealError,
   } = useAddMeal();
@@ -62,15 +62,15 @@ export default (
 
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
-    addMealWithExistingDish,
-    AddMealWithExistingDishSchema,
+    addMeal,
+    AddMealSchema,
     addMealLoading,
     addMealError,
 
     updateMealWithNewDishAndNewSource,
     UpdateMealWithNewDishAndNewSourceSchema,
     updateMeal,
-    UpdateMealWithExistingDishSchema: UpdateMealSchema,
+    UpdateMealSchema,
     updateMealLoading,
     updateMealError,
 

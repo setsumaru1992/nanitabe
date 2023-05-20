@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
 import * as z from 'zod';
 import {
-  AddMealWithExistingDishMutation,
+  AddMealMutation,
   AddMealWithNewDishAndNewSourceMutation,
-  useAddMealWithExistingDishMutation,
+  useAddMealMutation,
   useAddMealWithNewDishAndNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
 import { buildMutationExecutor } from '../utils/mutationUtils';
@@ -29,29 +29,25 @@ export type AddMealWithNewDishAndNewSource = z.infer<
   typeof AddMealWithNewDishAndNewSourceSchema
 >;
 
-export const ADD_MEAL_WITH_EXISTING_DISH = gql`
-  mutation addMealWithExistingDish($dishId: Int!, $meal: MealForCreate!) {
-    addMealWithExistingDish(input: { dishId: $dishId, meal: $meal }) {
+export const ADD_MEAL = gql`
+  mutation addMeal($dishId: Int!, $meal: MealForCreate!) {
+    addMeal(input: { dishId: $dishId, meal: $meal }) {
       mealId
     }
   }
 `;
 
-const AddMealWithExistingDishSchema = z.object({
+const AddMealSchema = z.object({
   dishId: dishIdSchema,
   meal: newMealSchema,
 });
-export type AddMealWithExistingDish = z.infer<
-  typeof AddMealWithExistingDishSchema
->;
+export type AddMeal = z.infer<typeof AddMealSchema>;
 
-export type AddMealMutationInput =
-  | AddMealWithNewDishAndNewSource
-  | AddMealWithExistingDish;
+export type AddMealMutationInput = AddMealWithNewDishAndNewSource | AddMeal;
 
 export type AddMealMutationOutput =
   | AddMealWithNewDishAndNewSourceMutation
-  | AddMealWithExistingDishMutation;
+  | AddMealMutation;
 
 export const useAddMeal = () => {
   const [
@@ -63,25 +59,19 @@ export const useAddMeal = () => {
     AddMealWithNewDishAndNewSourceMutation
   >(useAddMealWithNewDishAndNewSourceMutation);
 
-  const [
-    addMealWithExistingDish,
-    addMealWithExistingDishLoading,
-    addMealWithExistingDishError,
-  ] = buildMutationExecutor<
-    AddMealWithExistingDish,
-    AddMealWithExistingDishMutation
-  >(useAddMealWithExistingDishMutation);
+  const [addMeal, addMealLoading, addMealError] = buildMutationExecutor<
+    AddMeal,
+    AddMealMutation
+  >(useAddMealMutation);
 
   return {
     addMealWithNewDishAndNewSource,
-    addMealWithExistingDish,
+    addMeal,
 
-    addMealLoading:
-      addMealWithNewDishAndNewSourceLoading || addMealWithExistingDishLoading,
-    addMealError:
-      addMealWithNewDishAndNewSourceError || addMealWithExistingDishError,
+    addMealLoading: addMealWithNewDishAndNewSourceLoading || addMealLoading,
+    addMealError: addMealWithNewDishAndNewSourceError || addMealError,
 
     AddMealWithNewDishAndNewSourceSchema,
-    AddMealWithExistingDishSchema,
+    AddMealSchema,
   };
 };

@@ -22,8 +22,8 @@ export default (props: Props) => {
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
 
-    addMealWithExistingDish,
-    AddMealWithExistingDishSchema,
+    addMeal,
+    AddMealSchema,
   } = useMeal();
 
   const {
@@ -35,26 +35,26 @@ export default (props: Props) => {
 
   const {
     addMealFunc,
-    AddMealSchema,
+    addMealSchema,
   }: {
     addMealFunc: ExecMutation<AddMealMutationInput, AddMealMutationOutput>;
-    AddMealSchema: any;
+    addMealSchema: any;
   } = (() => {
     if (choosingRegisterNewDish) {
       return {
         addMealFunc: addMealWithNewDishAndNewSource,
-        AddMealSchema: AddMealWithNewDishAndNewSourceSchema,
+        addMealSchema: AddMealWithNewDishAndNewSourceSchema,
       };
     }
     if (choosingUseExistingDish) {
       return {
-        addMealFunc: addMealWithExistingDish,
-        AddMealSchema: AddMealWithExistingDishSchema,
+        addMealFunc: addMeal,
+        addMealSchema: AddMealSchema,
       };
     }
     return {
       addMealFunc: null,
-      AddMealSchema: null,
+      addMealSchema: null,
     };
   })();
 
@@ -71,7 +71,7 @@ export default (props: Props) => {
 
   return (
     <MealForm
-      formSchema={AddMealSchema}
+      formSchema={addMealSchema}
       onSubmit={onSubmit}
       defaultDate={defaultDate}
       useChoosingDishTypeResult={{

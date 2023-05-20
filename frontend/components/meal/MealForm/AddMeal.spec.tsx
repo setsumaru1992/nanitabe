@@ -4,7 +4,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import AddMeal from './AddMeal';
 import {
   AddMealWithNewDishAndNewSourceDocument,
-  AddMealWithExistingDishDocument,
+  AddMealDocument,
   DishesDocument,
 } from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
@@ -84,8 +84,8 @@ describe('<AddMeal>', () => {
   describe('when add meal with existing dish', () => {
     it('succeeds with expected required graphql params', async () => {
       const { getLatestMutationVariables, mutationInterceptor } =
-        registerMutationHandler(AddMealWithExistingDishDocument, {
-          addMealWithExistingDish: {
+        registerMutationHandler(AddMealDocument, {
+          addMeal: {
             mealId: 1,
           },
         });
