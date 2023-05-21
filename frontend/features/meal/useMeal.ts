@@ -6,6 +6,7 @@ import { useRemoveMeal } from './removeMealMutation';
 export type {
   AddMealMutationInput,
   AddMealMutationOutput,
+  AddMealFunc,
 } from './addMealMutation';
 export type {
   UpdateMealWithNewDishAndNewSource,
@@ -29,6 +30,8 @@ export default (
     AddMealSchema,
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
+    addMealWithNewDish,
+    AddMealWithNewDishSchema,
     addMealLoading,
     addMealError,
   } = useAddMeal();
@@ -64,6 +67,8 @@ export default (
 
     addMeal,
     AddMealSchema,
+    addMealWithNewDish,
+    AddMealWithNewDishSchema,
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
     addMealLoading,

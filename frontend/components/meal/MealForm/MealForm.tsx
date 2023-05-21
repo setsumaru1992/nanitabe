@@ -10,7 +10,6 @@ import { MEAL_TYPE } from '../../../features/meal/const';
 import useDish from '../../../features/dish/useDish';
 import {
   DishFormContent,
-  DishFormContentWithoutSource,
   UseChoosingPutDishSourceTypeResult,
 } from '../../dish/DishForm/DishForm';
 
@@ -188,16 +187,11 @@ export default (props: Props) => {
               それに合わせたコンポーネントを作る
              */}
             {choosingRegisterNewDish && (
-              <>
-                {!registeredMealId && <DishFormContentWithoutSource />}
-                {registeredMealId && (
-                  <DishFormContent
-                    useChoosingPutDishSourceTypeResult={
-                      useChoosingPutDishSourceTypeResult
-                    }
-                  />
-                )}
-              </>
+              <DishFormContent
+                useChoosingPutDishSourceTypeResult={
+                  useChoosingPutDishSourceTypeResult
+                }
+              />
             )}
 
             {choosingUseExistingDish && dishes && (

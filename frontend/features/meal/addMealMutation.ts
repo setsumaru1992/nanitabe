@@ -1,14 +1,28 @@
 import { gql } from '@apollo/client';
 import * as z from 'zod';
+import _ from 'lodash';
 import {
   AddMealMutation,
   AddMealWithNewDishAndNewSourceMutation,
+  AddMealWithNewDishMutation,
   useAddMealMutation,
   useAddMealWithNewDishAndNewSourceMutation,
+  useAddMealWithNewDishMutation,
 } from '../../lib/graphql/generated/graphql';
-import { buildMutationExecutor } from '../utils/mutationUtils';
+import {
+  buildMutationExecutor,
+  MutationCallbacks,
+} from '../utils/mutationUtils';
 import { newMealSchema } from './schema';
 import { dishIdSchema, newDishSchema } from '../dish/schema';
+import {
+  normalizeDishSourceRelationDetail,
+  normalizeInputOfAddingDishWithExistingSource,
+} from '../dish/normalizeFunctions';
+import {
+  AddDishSchema,
+  AddDishWithNewSourceSchema,
+} from '../dish/addDishMutation';
 
 export const ADD_MEAL = gql`
   mutation addMeal($dishId: Int!, $meal: MealForCreate!) {
@@ -24,32 +38,119 @@ const AddMealSchema = z.object({
 });
 export type AddMeal = z.infer<typeof AddMealSchema>;
 
-export const ADD_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
-  mutation addMealWithNewDishAndNewSource(
+export const ADD_MEAL_WITH_NEW_DISH = gql`
+  mutation addMealWithNewDish(
     $dish: DishForCreate!
+    $dishSource: SourceForRead!
+    $dishSourceRelationDetail: DishSourceRelationDetail
     $meal: MealForCreate!
   ) {
-    addMealWithNewDishAndNewSource(input: { dish: $dish, meal: $meal }) {
+    addMealWithNewDish(
+      input: {
+        dish: $dish
+        dishSource: $dishSource
+        dishSourceRelationDetail: $dishSourceRelationDetail
+        meal: $meal
+      }
+    ) {
       mealId
+      dishId
     }
   }
 `;
 
-const AddMealWithNewDishAndNewSourceSchema = z.object({
-  dish: newDishSchema,
+const AddMealWithNewDishSchema = AddDishSchema.extend({
+  meal: newMealSchema,
+});
+export type AddMealWithNewDish = z.infer<typeof AddMealWithNewDishSchema>;
+
+const convertFromAddMealWithNewDishInputToGraphqlInput = (
+  input: AddMealWithNewDish,
+): AddMealWithNewDish => {
+  const normalizedInput = _.cloneDeep(input);
+  const { selectedDishSource } = input;
+
+  return normalizeInputOfAddingDishWithExistingSource(
+    normalizedInput,
+    selectedDishSource,
+    normalizedInput.dishSourceRelation.dishSourceRelationDetail,
+  );
+};
+
+export const ADD_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
+  mutation addMealWithNewDishAndNewSource(
+    $dish: DishForCreate!
+    $dishSource: SourceForCreate!
+    $dishSourceRelationDetail: DishSourceRelationDetail
+    $meal: MealForCreate!
+  ) {
+    addMealWithNewDishAndNewSource(
+      input: {
+        dish: $dish
+        dishSource: $dishSource
+        dishSourceRelationDetail: $dishSourceRelationDetail
+        meal: $meal
+      }
+    ) {
+      mealId
+      dishId
+      dishSourceId
+    }
+  }
+`;
+
+const AddMealWithNewDishAndNewSourceSchema = AddDishWithNewSourceSchema.extend({
   meal: newMealSchema,
 });
 export type AddMealWithNewDishAndNewSource = z.infer<
   typeof AddMealWithNewDishAndNewSourceSchema
 >;
 
-export type AddMealMutationInput = AddMealWithNewDishAndNewSource | AddMeal;
+const convertFromAddMealWithNewDishAndNewSourceInputToGraphqlInput = (
+  input: AddMealWithNewDishAndNewSource,
+): AddMealWithNewDishAndNewSource => {
+  const normalizedInput = _.cloneDeep(input);
+  const { dishSource } = input;
+
+  normalizedInput.dishSourceRelationDetail = normalizeDishSourceRelationDetail(
+    dishSource.type,
+    normalizedInput.dishSourceRelation.dishSourceRelationDetail,
+  );
+  return normalizedInput;
+};
+
+export type AddMealMutationInput =
+  | AddMeal
+  | AddMealWithNewDish
+  | AddMealWithNewDishAndNewSource;
 
 export type AddMealMutationOutput =
   | AddMealWithNewDishAndNewSourceMutation
-  | AddMealMutation;
+  | AddMealMutation
+  | AddMealWithNewDishMutation;
+
+export type AddMealFunc = (
+  input: AddMealMutationInput,
+  mutationCallbacks: MutationCallbacks<AddMealMutationOutput>,
+) => void;
 
 export const useAddMeal = () => {
+  const [addMeal, addMealLoading, addMealError] = buildMutationExecutor<
+    AddMeal,
+    AddMealMutation
+  >(useAddMealMutation);
+
+  const [
+    addMealWithNewDish,
+    addMealWithNewDishLoading,
+    addMealWithNewDishError,
+  ] = buildMutationExecutor<AddMealWithNewDish, AddMealWithNewDishMutation>(
+    useAddMealWithNewDishMutation,
+    {
+      normalizeInput: convertFromAddMealWithNewDishInputToGraphqlInput,
+    },
+  );
+
   const [
     addMealWithNewDishAndNewSource,
     addMealWithNewDishAndNewSourceLoading,
@@ -57,21 +158,28 @@ export const useAddMeal = () => {
   ] = buildMutationExecutor<
     AddMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceMutation
-  >(useAddMealWithNewDishAndNewSourceMutation);
-
-  const [addMeal, addMealLoading, addMealError] = buildMutationExecutor<
-    AddMeal,
-    AddMealMutation
-  >(useAddMealMutation);
+  >(useAddMealWithNewDishAndNewSourceMutation, {
+    normalizeInput:
+      convertFromAddMealWithNewDishAndNewSourceInputToGraphqlInput,
+  });
 
   return {
     addMeal,
     AddMealSchema,
 
+    addMealWithNewDish,
+    AddMealWithNewDishSchema,
+
     addMealWithNewDishAndNewSource,
     AddMealWithNewDishAndNewSourceSchema,
 
-    addMealLoading: addMealWithNewDishAndNewSourceLoading || addMealLoading,
-    addMealError: addMealWithNewDishAndNewSourceError || addMealError,
+    addMealLoading:
+      addMealWithNewDishAndNewSourceLoading ||
+      addMealLoading ||
+      addMealWithNewDishLoading,
+    addMealError:
+      addMealWithNewDishAndNewSourceError ||
+      addMealError ||
+      addMealWithNewDishError,
   };
 };

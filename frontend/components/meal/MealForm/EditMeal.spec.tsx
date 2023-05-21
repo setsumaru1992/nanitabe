@@ -88,13 +88,6 @@ describe('<EditMeal>', () => {
     recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
   };
 
-  const updatedDishSourceRelation = {
-    dishId: updatedDish.id,
-    dishSourceId: registeredDishSource.id,
-    dishSourceType: registeredDishSource.type,
-    dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
-  };
-
   beforeEach(() => {
     registerQueryHandler(DishesDocument, {
       dishes: [

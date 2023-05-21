@@ -64,7 +64,7 @@ type DishFormContentWithoutSourceProps = {
   registeredDish?: Dish;
 };
 
-export const DishFormContentWithoutSource = (
+const DishFormContentWithoutSource = (
   props: DishFormContentWithoutSourceProps,
 ) => {
   const { registeredDish } = props;

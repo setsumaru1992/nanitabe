@@ -1,12 +1,12 @@
 import React from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import useMeal from '../../../features/meal/useMeal';
-import type {
-  AddMealMutationInput,
-  AddMealMutationOutput,
-} from '../../../features/meal/useMeal';
+import useMeal, { AddMealFunc } from '../../../features/meal/useMeal';
+import type { AddMealMutationInput } from '../../../features/meal/useMeal';
 import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from './MealForm';
-import { ExecMutation } from '../../../features/utils/mutationUtils';
+import {
+  CHOOSING_PUT_DISH_SOURCE_TYPE,
+  useChoosingPutDishSourceType,
+} from '../../dish/DishForm/DishForm';
 
 type Props = {
   defaultDate?: Date;
@@ -19,11 +19,14 @@ export default (props: Props) => {
   const defaultDate: Date = defaultDateArg || new Date();
 
   const {
-    addMealWithNewDishAndNewSource,
-    AddMealWithNewDishAndNewSourceSchema,
-
     addMeal,
     AddMealSchema,
+
+    addMealWithNewDish,
+    AddMealWithNewDishSchema,
+
+    addMealWithNewDishAndNewSource,
+    AddMealWithNewDishAndNewSourceSchema,
   } = useMeal();
 
   const {
@@ -33,23 +36,36 @@ export default (props: Props) => {
     choosingUseExistingDish,
   } = useChoosingDishType(CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH);
 
+  const useChoosingPutDishSourceTypeResult = useChoosingPutDishSourceType(
+    CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_USE_EXISTING_DISH_SOURCE,
+  );
+  const { choosingRegisterNewDishSource, choosingUseExistingDishSource } =
+    useChoosingPutDishSourceTypeResult;
+
   const {
     addMealFunc,
     addMealSchema,
   }: {
-    addMealFunc: ExecMutation<AddMealMutationInput, AddMealMutationOutput>;
+    addMealFunc: AddMealFunc;
     addMealSchema: any;
   } = (() => {
-    if (choosingRegisterNewDish) {
-      return {
-        addMealFunc: addMealWithNewDishAndNewSource,
-        addMealSchema: AddMealWithNewDishAndNewSourceSchema,
-      };
-    }
     if (choosingUseExistingDish) {
       return {
         addMealFunc: addMeal,
         addMealSchema: AddMealSchema,
+      };
+    }
+    // if (choosingRegisterNewDish) の分岐
+    if (choosingUseExistingDishSource) {
+      return {
+        addMealFunc: addMealWithNewDish,
+        addMealSchema: AddMealWithNewDishSchema,
+      };
+    }
+    if (choosingRegisterNewDishSource) {
+      return {
+        addMealFunc: addMealWithNewDishAndNewSource,
+        addMealSchema: AddMealWithNewDishAndNewSourceSchema,
       };
     }
     return {
@@ -80,6 +96,7 @@ export default (props: Props) => {
         choosingRegisterNewDish,
         choosingUseExistingDish,
       }}
+      useChoosingPutDishSourceTypeResult={useChoosingPutDishSourceTypeResult}
       onSchemaError={onSchemaError}
     />
   );
