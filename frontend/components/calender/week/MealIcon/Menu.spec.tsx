@@ -2,10 +2,10 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
 import Menu from './Menu';
-import renderWithApollo from '../../specHelper/renderWithApollo';
-import { registerMutationHandler } from '../../../lib/graphql/specHelper/mockServer';
-import { RemoveMealDocument } from '../../../lib/graphql/generated/graphql';
-import { userClick } from '../../specHelper/userEvents';
+import renderWithApollo from '../../../specHelper/renderWithApollo';
+import { registerMutationHandler } from '../../../../lib/graphql/specHelper/mockServer';
+import { RemoveMealDocument } from '../../../../lib/graphql/generated/graphql';
+import { userClick } from '../../../specHelper/userEvents';
 
 describe('<Menu>', () => {
   const registeredDish = {

@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import style from './AddMealIcon.module.scss';
-import useFullScreenModal from '../../common/modal/useFullScreenModal';
-import { AddMeal } from '../MealForm';
+import useFullScreenModal from '../../../common/modal/useFullScreenModal';
+import { AddMeal } from '../../../meal/MealForm';
 
 type Props = {
   dateForAdd: Date;

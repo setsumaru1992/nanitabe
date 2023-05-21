@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 import style from './index.module.scss';
-import { MealForCalender } from '../../../lib/graphql/generated/graphql';
-import { MEAL_TYPE } from '../../../features/meal/const';
-import useFloatModal from '../../common/modal/useFloatModal';
+import { MealForCalender } from '../../../../lib/graphql/generated/graphql';
+import { MEAL_TYPE } from '../../../../features/meal/const';
+import useFloatModal from '../../../common/modal/useFloatModal';
 import Menu from './Menu';
 
 type Props = {

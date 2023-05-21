@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import style from './index.module.scss';
-import Icon from '../Icon';
-import AddDishIcon from '../Icon/AddDishIcon';
+import Icon from './DishIcon';
+import AddDishIcon from './DishIcon/AddDishIcon';
 import useDish from '../../../features/dish/useDish';
 import useDishSource from '../../../features/dish/source/useDishSource';
 import { MEAL_POSITION_LABELS } from '../../../features/dish/const';

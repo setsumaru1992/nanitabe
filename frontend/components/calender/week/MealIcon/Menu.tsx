@@ -1,10 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
 import style from './Menu.module.scss';
-import useFullScreenModal from '../../common/modal/useFullScreenModal';
-import { MealForCalender } from '../../../lib/graphql/generated/graphql';
-import useMeal from '../../../features/meal/useMeal';
-import { EditMeal } from '../MealForm';
+import useFullScreenModal from '../../../common/modal/useFullScreenModal';
+import { MealForCalender } from '../../../../lib/graphql/generated/graphql';
+import useMeal from '../../../../features/meal/useMeal';
+import { EditMeal } from '../../../meal/MealForm';
 
 type Props = {
   meal: MealForCalender;

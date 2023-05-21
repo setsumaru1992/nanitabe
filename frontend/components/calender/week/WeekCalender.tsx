@@ -1,8 +1,8 @@
 import React from 'react';
 import { addDays, format, getDate, isSameDay } from 'date-fns';
 import style from './WeekCalender.module.scss';
-import CalenderMealIcon from '../../meal/CalenderMealIcon';
-import AddMealIcon from '../../meal/CalenderMealIcon/AddMealIcon';
+import CalenderMealIcon from './MealIcon';
+import AddMealIcon from './MealIcon/AddMealIcon';
 import useMeal from '../../../features/meal/useMeal';
 import { useFirstDisplayDate } from './useCalenderDate';
 
