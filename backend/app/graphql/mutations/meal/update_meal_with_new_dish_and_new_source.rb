@@ -11,7 +11,7 @@ module Mutations::Meal
 
     def resolve(meal:, dish:, dish_source:, dish_source_relation_detail: nil)
       ActiveRecord::Base.transaction do
-        _, created_dish, created_dish_source = ::Business::Dish::Command::Meal::Update::UpdateMealWithNewDishAndNewSourceCommand.call(
+        _, created_dish, created_dish_source = ::Business::Dish::Command::Meal::UpdateMealWithNewDishAndNewSourceCommand.call(
           user_id: context[:current_user_id],
           dish_for_create: dish.convert_to_command_param,
           dish_source_for_create: dish_source.convert_to_command_param,

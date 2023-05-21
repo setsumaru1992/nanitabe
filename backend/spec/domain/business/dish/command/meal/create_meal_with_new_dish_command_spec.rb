@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require_relative "../../../meal/repository/repository_add_shared_examples"
-require_relative "../../../dish/repository/repository_add_shared_examples"
-require_relative "../../../dish/repository/repository_put_dish_relation_shared_examples"
+require_relative "../../meal/repository/repository_add_shared_examples"
+require_relative "../../dish/repository/repository_add_shared_examples"
+require_relative "../../dish/repository/repository_put_dish_relation_shared_examples"
 
 module Business::Dish
-  module Command::Meal::Create
+  module Command::Meal
     RSpec.describe CreateMealWithNewDishCommand do
       describe ".call" do
         before do
