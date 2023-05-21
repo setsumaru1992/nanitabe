@@ -18,7 +18,7 @@ module Mutations::Meal
       comparer.build_records_for_test()
     end
 
-    context "when add meal" do
+    context "when add meal by graphql with full params for architecture communication confirmation, " do
       let!(:comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_CREATED_WITH_FULL_FIELD] }
 
       it "adding succeeds" do

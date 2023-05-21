@@ -18,7 +18,7 @@ module Mutations::Dish
       comparer.build_records_for_test()
     end
 
-    context "when remove dish" do
+    context "when remove dish by graphql with full params for architecture communication confirmation, " do
       let!(:comparer) { COMPARERS[KEY_OF_TEST_DISH_SHOULD_BE_REMOVED] }
 
       it "removing succeeds" do

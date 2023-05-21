@@ -34,7 +34,7 @@ module Mutations::Meal
       meal_comparer.build_records_for_test()
     end
 
-    context "when add meal and dish" do
+    context "when add meal and dish by graphql with full params for architecture communication confirmation, " do
       let!(:dish_comparer) { COMPARERS[KEY_OF_TEST_DISH_SHOULD_BE_CREATED_WITH_FULL_VALUES] }
       let!(:dish_source_relation_comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_RELATION_SHOULD_BE_CREATED] }
       let!(:meal_comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_CREATED_WITH_FULL_FIELD] }
