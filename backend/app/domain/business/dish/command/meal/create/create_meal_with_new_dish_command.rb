@@ -7,6 +7,12 @@ module Business::Dish
       attribute :dish_for_create, :command_params
       validates :dish_for_create, presence: true
 
+      attribute :dish_source_for_read, :command_params
+      validates :dish_source_for_read, presence: false
+
+      attribute :dish_source_relation_detail, :command_params
+      validates :dish_source_relation_detail, presence: false
+
       attribute :meal_for_create, :command_params
       validates :meal_for_create, presence: true
 
@@ -14,13 +20,16 @@ module Business::Dish
         created_dish = ::Business::Dish::Dish::Command::CreateCommand.call(
           user_id:,
           dish_for_create:,
+          dish_source_for_read:,
+          dish_source_relation_detail:,
         )
 
-        ::Business::Dish::Meal::Command::CreateMealCommand.call(
+        created_meal = ::Business::Dish::Meal::Command::CreateMealCommand.call(
           user_id:,
           dish_id: created_dish.id,
           meal_for_create:,
         )
+        [created_meal, created_dish]
       end
     end
   end
