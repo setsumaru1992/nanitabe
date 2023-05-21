@@ -44,18 +44,20 @@ const truncateTimeFrom = (date: Date) => {
 
 type FetchMealsForCalenderParams = {
   requireFetchedData?: boolean;
-  startDateArg?: Date;
+  startDate?: Date;
 };
 
 const useFetchMealsForCalender = (params: FetchMealsForCalenderParams) => {
-  const { requireFetchedData = false, startDateArg = null } = params;
-  // ISO8601Dateに時間を渡すと型不正と扱われて、無限リクエストが発生するため、時間を切り捨てる
-  const startDate = truncateTimeFrom(startDateArg || new Date());
+  const { requireFetchedData = false, startDate = null } = params;
+
   const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
     useMealsForCalenderQuery,
     useMealsForCalenderLazyQuery,
     requireFetchedData,
-    { startDate },
+    {
+      // ISO8601Dateに時間を渡すと型不正と扱われて、無限リクエストが発生するため、時間を切り捨てる
+      startDate: truncateTimeFrom(startDate || new Date()),
+    },
   );
   return {
     mealsForCalender: data?.mealsForCalender,

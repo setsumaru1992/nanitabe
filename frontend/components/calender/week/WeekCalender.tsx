@@ -1,9 +1,12 @@
 import React from 'react';
-import { addDays, isSameDay, getDate, previousSunday, format } from 'date-fns';
+import { addDays, format, getDate, isSameDay } from 'date-fns';
 import style from './WeekCalender.module.scss';
 import CalenderMealIcon from '../../meal/CalenderMealIcon';
 import AddMealIcon from '../../meal/CalenderMealIcon/AddMealIcon';
 import useMeal from '../../../features/meal/useMeal';
+import { useFirstDisplayDate } from './useCalenderDate';
+
+export { useDateFormatStringInUrl } from './useCalenderDate';
 
 // TODO: ユーザ設定で土曜始まり・日曜始まり・月曜始まりを選べるようにして、それに合わせた体系を使用。とりあえず月曜始まりベースで作成
 const DAYS_OF_WEEK = {
@@ -20,23 +23,20 @@ type Props = {
   date?: Date;
 };
 
-const getWeekStartDateFrom = (date: Date) => {
-  const dayOfWeekNum = date.getDay();
-  if (dayOfWeekNum === 0) return date;
-  return previousSunday(date);
-};
-
 export default (props: Props) => {
   const { date: dateArg } = props;
-  const specifiedDate = dateArg || new Date();
-  const firstDate = getWeekStartDateFrom(specifiedDate);
+  const {
+    firstDisplayDate,
+    updateFirstDateToPreviousWeekFirstDate,
+    updateFirstDateToNextWeekFirstDate,
+  } = useFirstDisplayDate(dateArg || new Date());
 
   const { mealsForCalender, fetchMealsLoading, refetchMealsForCalender } =
     useMeal({
       fetchMealsParams: {
         fetchMealsForCalenderParams: {
           requireFetchedData: true,
-          startDateArg: firstDate,
+          startDate: firstDisplayDate,
         },
       },
     });
@@ -45,12 +45,19 @@ export default (props: Props) => {
   return (
     <>
       <div className={style['week-calender-header']}>
-        {format(firstDate, 'yyyy年M月')} ▼
+        {format(firstDisplayDate, 'yyyy年M月')} ▼
+      </div>
+      <div
+        onClick={() => {
+          updateFirstDateToPreviousWeekFirstDate();
+        }}
+      >
+        ▲
       </div>
       <table>
         <tbody>
           {Object.keys(DAYS_OF_WEEK).map((dayNumStr) => {
-            const date = addDays(firstDate, Number(dayNumStr));
+            const date = addDays(firstDisplayDate, Number(dayNumStr));
             const dateNumber = getDate(date);
             const meals =
               mealsForCalender?.find((mealForCalender) => {
@@ -92,6 +99,13 @@ export default (props: Props) => {
           })}
         </tbody>
       </table>
+      <div
+        onClick={() => {
+          updateFirstDateToNextWeekFirstDate();
+        }}
+      >
+        ▼
+      </div>
     </>
   );
 };

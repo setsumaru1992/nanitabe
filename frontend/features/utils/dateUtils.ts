@@ -4,3 +4,7 @@ export const buildISODateString = (date: Date): string => {
   const dd = `0${date.getDate()}`.slice(-2);
   return `${yyyy}-${mm}-${dd}`;
 };
+
+export const isISODateFormatString = (dateFormatStringCandidate: string) => {
+  return /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(dateFormatStringCandidate);
+};
