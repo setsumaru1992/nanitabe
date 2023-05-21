@@ -133,9 +133,8 @@ describe('<AddMeal>', () => {
         });
 
       await userClick(screen, 'optionOfUsingExistingDish');
-      await userChooseSelectBox(screen, 'existingDishes', [
-        `existingDish-${existingDishId}`,
-      ]);
+      await userClick(screen, `existingDish-${existingDishId}`);
+
       await userClick(screen, 'submitMealButton');
 
       expect(mutationInterceptor).toHaveBeenCalledTimes(1);

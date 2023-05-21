@@ -161,10 +161,7 @@ describe('<EditMeal>', () => {
             },
           },
         );
-
-        await userChooseSelectBox(screen, 'existingDishes', [
-          `existingDish-${updatedDish.id}`,
-        ]);
+        await userClick(screen, `existingDish-${updatedDish.id}`);
         await clickSubmitButton();
 
         expect(getLatestMutationVariables()).toEqual({
@@ -189,9 +186,7 @@ describe('<EditMeal>', () => {
         await userChooseSelectBox(screen, 'mealTypeOptions', [
           `mealTypeOption-${updatedMeal.mealType}`,
         ]);
-        await userChooseSelectBox(screen, 'existingDishes', [
-          `existingDish-${updatedDish.id}`,
-        ]);
+        await userClick(screen, `existingDish-${updatedDish.id}`);
         await clickSubmitButton();
 
         expect(getLatestMutationVariables()).toEqual({

@@ -1,0 +1,19 @@
+@import "../../../base/mixin.module";
+
+.select-dishes-container {
+  height: 200px;
+  width: 100%;
+  border: 1px solid;
+}
+
+.dish-icon-container {
+  display: inline-flex;
+}
+
+.dish-icon {
+  border: 1px solid;
+
+  &--selected {
+    background-color: $gray;
+  }
+}
