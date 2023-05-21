@@ -7,6 +7,12 @@
   width: 100%;
 }
 
+.move-date-button {
+  width: 100%;
+  text-align: center;
+  background-color: $gray;
+}
+
 .date {
   height: calc(100% / 7); // 機能していない。%は親要素での実数指定が必要になるため。意図通り動かすにはおそらく動的計算必要
   padding: 20px 10px;

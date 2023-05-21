@@ -48,6 +48,7 @@ export default (props: Props) => {
         {format(firstDisplayDate, 'yyyy年M月')} ▼
       </div>
       <div
+        className={style['move-date-button']}
         onClick={() => {
           updateFirstDateToPreviousWeekFirstDate();
         }}
@@ -100,6 +101,7 @@ export default (props: Props) => {
         </tbody>
       </table>
       <div
+        className={style['move-date-button']}
         onClick={() => {
           updateFirstDateToNextWeekFirstDate();
         }}
