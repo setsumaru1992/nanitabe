@@ -31,13 +31,17 @@ export default (props: Props) => {
   const specifiedDate = dateArg || new Date();
   const firstDate = getWeekStartDateFrom(specifiedDate);
 
-  const {
-    mealsForCalender,
-    fetchMealsForCalenderLoading,
-    refetchMealsForCalender,
-  } = useMeal({ startDateForFetchingMealsForCalender: firstDate });
+  const { mealsForCalender, fetchMealsLoading, refetchMealsForCalender } =
+    useMeal({
+      fetchMealsParams: {
+        fetchMealsForCalenderParams: {
+          requireFetchedData: true,
+          startDateArg: firstDate,
+        },
+      },
+    });
 
-  if (fetchMealsForCalenderLoading) return <>Loading...</>;
+  if (fetchMealsLoading) return <>Loading...</>;
   return (
     <>
       <div className={style['week-calender-header']}>

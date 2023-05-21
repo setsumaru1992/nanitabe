@@ -1,5 +1,5 @@
 import { useAddMeal } from './addMealMutation';
-import { useFetchMealsForCalender } from './fetchMealQuery';
+import { FetchMealsParams, useFetchMeals } from './fetchMealQuery';
 import { useUpdateMeal } from './updateMealMutation';
 import { useRemoveMeal } from './removeMealMutation';
 
@@ -20,10 +20,12 @@ type UseMealArg = {
   startDateForFetchingMealsForCalender: Date | null;
 };
 
-export default (
-  arg: UseMealArg = { startDateForFetchingMealsForCalender: null },
-) => {
-  const { startDateForFetchingMealsForCalender } = arg;
+export type UseMealParams = {
+  fetchMealsParams?: FetchMealsParams;
+};
+
+export default (params: UseMealParams = {}) => {
+  const { fetchMealsParams } = params;
 
   const {
     addMeal,
@@ -51,18 +53,15 @@ export default (
 
   const {
     mealsForCalender,
-    fetchMealsForCalenderLoading,
-    fetchMealsForCalenderError,
     refetchMealsForCalender,
-  } = useFetchMealsForCalender(
-    startDateForFetchingMealsForCalender,
-    startDateForFetchingMealsForCalender !== null,
-  );
+    fetchMealsLoading,
+    fetchMealsError,
+  } = useFetchMeals(fetchMealsParams || {});
 
   return {
     mealsForCalender,
-    fetchMealsForCalenderLoading,
-    fetchMealsForCalenderError,
+    fetchMealsLoading,
+    fetchMealsError,
     refetchMealsForCalender,
 
     addMeal,

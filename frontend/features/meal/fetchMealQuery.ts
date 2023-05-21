@@ -42,10 +42,13 @@ const truncateTimeFrom = (date: Date) => {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 };
 
-export const useFetchMealsForCalender = (
-  startDateArg = null,
-  requireFetchedData: boolean = true,
-) => {
+type FetchMealsForCalenderParams = {
+  requireFetchedData?: boolean;
+  startDateArg?: Date;
+};
+
+const useFetchMealsForCalender = (params: FetchMealsForCalenderParams) => {
+  const { requireFetchedData = false, startDateArg = null } = params;
   // ISO8601Dateに時間を渡すと型不正と扱われて、無限リクエストが発生するため、時間を切り捨てる
   const startDate = truncateTimeFrom(startDateArg || new Date());
   const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
@@ -59,5 +62,27 @@ export const useFetchMealsForCalender = (
     fetchMealsForCalenderLoading: fetchLoading,
     fetchMealsForCalenderError: fetchError,
     refetchMealsForCalender: refetch,
+  };
+};
+
+export type FetchMealsParams = {
+  fetchMealsForCalenderParams?: FetchMealsForCalenderParams;
+};
+
+export const useFetchMeals = (params: FetchMealsParams = {}) => {
+  const { fetchMealsForCalenderParams } = params;
+
+  const {
+    mealsForCalender,
+    fetchMealsForCalenderLoading,
+    fetchMealsForCalenderError,
+    refetchMealsForCalender,
+  } = useFetchMealsForCalender(fetchMealsForCalenderParams || {});
+
+  return {
+    mealsForCalender,
+    refetchMealsForCalender,
+    fetchMealsLoading: fetchMealsForCalenderLoading,
+    fetchMealsError: fetchMealsForCalenderError,
   };
 };
