@@ -1,7 +1,7 @@
 import React from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { parseISO } from 'date-fns';
-import MealForm, { CHOOSING_DISH_TYPE, useChoosingDishType } from './MealForm';
+import MealForm from './MealForm';
 import { MealForCalender } from '../../../lib/graphql/generated/graphql';
 import useMeal, {
   UpdateMealFunc,
@@ -10,7 +10,11 @@ import useMeal, {
 import {
   CHOOSING_PUT_DISH_SOURCE_TYPE,
   useChoosingPutDishSourceType,
-} from '../../dish/DishForm/DishForm';
+} from '../../dish/DishForm/DishForm/useChoosingPutDishSourceType';
+import {
+  CHOOSING_DISH_TYPE,
+  useChoosingDishType,
+} from './MealForm/useChoosingDishType';
 
 type Props = {
   meal: MealForCalender;

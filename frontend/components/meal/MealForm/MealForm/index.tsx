@@ -1,49 +1,19 @@
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useForm, FormProvider } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import style from './MealForm.module.scss';
-import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
-import { buildISODateString } from '../../../features/utils/dateUtils';
-import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
-import { MEAL_TYPE } from '../../../features/meal/const';
-import useDish from '../../../features/dish/useDish';
+import style from '../MealForm.module.scss';
+import FormFieldWrapperWithLabel from '../../../common/form/FormFieldWrapperWithLabel';
+import { buildISODateString } from '../../../../features/utils/dateUtils';
+import ErrorMessageIfExist from '../../../common/form/ErrorMessageIfExist';
+import { MEAL_TYPE } from '../../../../features/meal/const';
+import { DishFormContent } from '../../../dish/DishForm/DishForm';
+import { UseChoosingPutDishSourceTypeResult } from '../../../dish/DishForm/DishForm/useChoosingPutDishSourceType';
 import {
-  DishFormContent,
-  UseChoosingPutDishSourceTypeResult,
-} from '../../dish/DishForm/DishForm';
-
-export enum CHOOSING_DISH_TYPE {
-  CHOOSING_REGISTER_NEW_DISH,
-  CHOOSING_USE_EXISTING_DISH,
-}
-
-const isChoosingRegisterNewDish = (choosingDishType: CHOOSING_DISH_TYPE) =>
-  choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH;
-
-const isChoosingUseExistingDish = (choosingDishType: CHOOSING_DISH_TYPE) =>
-  choosingDishType === CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH;
-
-type UseChoosingDishTypeResult = {
-  choosingDishType: CHOOSING_DISH_TYPE;
-  setChoosingDishType: (CHOOSING_DISH_TYPE) => void;
-  choosingRegisterNewDish: boolean;
-  choosingUseExistingDish: boolean;
-};
-
-export const useChoosingDishType = (
-  defaultChoosingDishType: CHOOSING_DISH_TYPE,
-): UseChoosingDishTypeResult => {
-  const [choosingDishType, setChoosingDishType] = React.useState(
-    defaultChoosingDishType,
-  );
-  return {
-    choosingDishType,
-    setChoosingDishType,
-    choosingRegisterNewDish: isChoosingRegisterNewDish(choosingDishType),
-    choosingUseExistingDish: isChoosingUseExistingDish(choosingDishType),
-  };
-};
+  CHOOSING_DISH_TYPE,
+  UseChoosingDishTypeResult,
+} from './useChoosingDishType';
+import { ExistingDishesForRegisteringWithMeal } from './ExistingDishesForRegisteringWithMeal';
 
 type Props = {
   formSchema: any;
@@ -76,12 +46,6 @@ export default (props: Props) => {
     useChoosingPutDishSourceTypeResult,
     onSchemaError,
   } = props;
-
-  const { dishes } = useDish({
-    fetchDishesParams: {
-      fetchDishesOnlyParams: { requireFetchedData: true },
-    },
-  });
 
   const methods = useForm({
     resolver: zodResolver(formSchema),
@@ -194,26 +158,10 @@ export default (props: Props) => {
               />
             )}
 
-            {choosingUseExistingDish && dishes && (
-              <FormFieldWrapperWithLabel label="料理">
-                <Form.Select
-                  defaultValue={registeredDishId || null}
-                  {...register('dishId', { valueAsNumber: true })}
-                  data-testid="existingDishes"
-                >
-                  <option value={null}>--</option>
-                  {dishes.map((dish) => (
-                    <option
-                      key={dish.id}
-                      value={dish.id}
-                      data-testid={`existingDish-${dish.id}`}
-                    >
-                      {dish.name}
-                    </option>
-                  ))}
-                </Form.Select>
-                <ErrorMessageIfExist errorMessage={errors.dishId?.message} />
-              </FormFieldWrapperWithLabel>
+            {choosingUseExistingDish && (
+              <ExistingDishesForRegisteringWithMeal
+                dishIdOfRegisteredWithMeal={registeredDishId}
+              />
             )}
           </div>
 

@@ -5,14 +5,14 @@ import {
   DISH_SOURCE_TYPE,
   DISH_SOURCE_TYPES,
   DishSourceType,
-} from '../../../features/dish/source/const';
-import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
-import ErrorMessageIfExist from '../../common/form/ErrorMessageIfExist';
+} from '../../../../features/dish/source/const';
+import FormFieldWrapperWithLabel from '../../../common/form/FormFieldWrapperWithLabel';
+import ErrorMessageIfExist from '../../../common/form/ErrorMessageIfExist';
 import {
   DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE,
   dishSourceRelationDetailOf,
-} from '../../../features/dish/schema';
-import { DishSourceRelation } from '../../../lib/graphql/generated/graphql';
+} from '../../../../features/dish/schema';
+import { DishSourceRelation } from '../../../../lib/graphql/generated/graphql';
 
 type DishSourceFormRelationContentProps = {
   dishSourceType: DishSourceType | null;
