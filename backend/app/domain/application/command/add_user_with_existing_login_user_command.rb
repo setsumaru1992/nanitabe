@@ -1,10 +1,10 @@
 module Application::Command
-  class CreateUserWithExistingLoginUserCommand < ::Business::Base::Command
+  class AddUserWithExistingLoginUserCommand < ::Business::Base::Command
     attribute :email_for_login, :string
     validates :email_for_login, presence: true
 
     def call
-      created_user = ::Business::User::Command::CreateCommand.call
+      created_user = ::Business::User::Command::AddCommand.call
 
       # NOTE: 本来コマンドでCRUD操作をせず、Repositoryでやるべきだが、LoginUserはアプリの持ち物でないため許容
       login_user_record = ::LoginUser.find_by(email: email_for_login)

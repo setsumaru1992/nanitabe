@@ -14,7 +14,7 @@ module Business::Dish::Dish
 
     def call
       source_module = ::Business::Dish::Dish::Source
-      created_dish_source = source_module::Command::CreateCommand.call(
+      created_dish_source = source_module::Command::AddCommand.call(
         user_id:,
         dish_source_for_create:,
       )

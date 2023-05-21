@@ -5,7 +5,7 @@ require_relative "../repository/repository_add_shared_examples"
 require_relative "../repository/repository_put_dish_relation_shared_examples"
 
 module Business::Dish::Dish
-  RSpec.describe Command::CreateCommand do
+  RSpec.describe Command::AddCommand do
     describe ".call" do
       before do
         dish_comparer.build_records_for_test()

@@ -10,7 +10,7 @@ module Mutations::Meal
 
     def resolve(dish:, meal:, dish_source:, dish_source_relation_detail: nil)
       ActiveRecord::Base.transaction do
-        created_meal, created_dish = ::Business::Dish::Command::Meal::CreateMealWithNewDishCommand.call(
+        created_meal, created_dish = ::Business::Dish::Command::Meal::AddMealWithNewDishCommand.call(
           user_id: context[:current_user_id],
           dish_for_create: dish.convert_to_command_param,
           dish_source_for_read: dish_source.convert_to_command_param,

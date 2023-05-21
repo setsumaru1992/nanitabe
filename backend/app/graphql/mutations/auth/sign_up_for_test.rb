@@ -7,7 +7,7 @@ module Mutations::Auth
       graphql_devise_result = super(confirm_url:, **attrs)
 
       if userid.blank?
-        ::Application::Command::CreateUserWithExistingLoginUserCommand.call(
+        ::Application::Command::AddUserWithExistingLoginUserCommand.call(
           email_for_login: attrs[:email],
         )
       else

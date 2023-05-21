@@ -13,12 +13,12 @@ module Business::Dish::Dish
     validates :dish_source_relation_detail, presence: false
 
     def call
-      created_dish_source = Source::Command::CreateCommand.call(
+      created_dish_source = Source::Command::AddCommand.call(
         user_id:,
         dish_source_for_create:,
       )
 
-      created_dish = Command::CreateCommand.call(
+      created_dish = Command::AddCommand.call(
         user_id:,
         dish_for_create:,
         dish_source_for_read: Source::Command::Params::SourceForRead.new(

@@ -4,7 +4,7 @@ require "rails_helper"
 require_relative "../repository/repository_update_shared_examples"
 
 module Business::Dish::Meal
-  RSpec.describe Command::UpdateMealCommand do
+  RSpec.describe Command::UpdateCommand do
     describe ".call" do
       before do
         comparer.build_records_for_test()

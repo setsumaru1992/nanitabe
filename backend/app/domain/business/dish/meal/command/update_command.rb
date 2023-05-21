@@ -1,5 +1,5 @@
 module Business::Dish::Meal
-  class Command::UpdateMealCommand < ::Business::Base::Command
+  class Command::UpdateCommand < ::Business::Base::Command
     attribute :user_id, :integer
     validates :user_id, presence: true
 

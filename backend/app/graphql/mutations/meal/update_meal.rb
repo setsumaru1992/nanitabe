@@ -7,7 +7,7 @@ module Mutations::Meal
 
     def resolve(meal:, dish_id:)
       ActiveRecord::Base.transaction do
-        ::Business::Dish::Meal::Command::UpdateMealCommand.call(
+        ::Business::Dish::Meal::Command::UpdateCommand.call(
           user_id: context[:current_user_id],
           meal_for_update: ::Business::Dish::Meal::Command::Params::MealForUpdate.new(
             id: meal.id,

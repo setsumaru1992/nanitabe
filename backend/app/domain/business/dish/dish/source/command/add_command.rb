@@ -1,5 +1,5 @@
 module Business::Dish::Dish::Source
-  class Command::CreateCommand < ::Business::Base::Command
+  class Command::AddCommand < ::Business::Base::Command
     attribute :user_id, :integer
     validates :user_id, presence: true
 

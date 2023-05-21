@@ -17,7 +17,7 @@ module Business::Dish
       validates :meal_for_update, presence: true
 
       def call
-        created_dish = ::Business::Dish::Dish::Command::CreateCommand.call(
+        created_dish = ::Business::Dish::Dish::Command::AddCommand.call(
           user_id:,
           dish_for_create:,
           dish_source_for_read:,
@@ -25,7 +25,7 @@ module Business::Dish
         )
 
         meal_for_update.dish_id = created_dish.id
-        updated_meal = ::Business::Dish::Meal::Command::UpdateMealCommand.call(
+        updated_meal = ::Business::Dish::Meal::Command::UpdateCommand.call(
           user_id:,
           meal_for_update:,
         )

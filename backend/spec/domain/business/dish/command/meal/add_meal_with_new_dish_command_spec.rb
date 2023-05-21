@@ -7,7 +7,7 @@ require_relative "../../dish/repository/repository_put_dish_relation_shared_exam
 
 module Business::Dish
   module Command::Meal
-    RSpec.describe CreateMealWithNewDishCommand do
+    RSpec.describe AddMealWithNewDishCommand do
       describe ".call" do
         before do
           dish_comparer.build_records_for_test()

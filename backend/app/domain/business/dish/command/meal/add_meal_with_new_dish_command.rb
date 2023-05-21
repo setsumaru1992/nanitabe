@@ -1,6 +1,6 @@
 module Business::Dish
   module Command::Meal
-    class CreateMealWithNewDishCommand < ::Business::Base::Command
+    class AddMealWithNewDishCommand < ::Business::Base::Command
       attribute :user_id, :integer
       validates :user_id, presence: true
 
@@ -17,14 +17,14 @@ module Business::Dish
       validates :meal_for_create, presence: true
 
       def call
-        created_dish = ::Business::Dish::Dish::Command::CreateCommand.call(
+        created_dish = ::Business::Dish::Dish::Command::AddCommand.call(
           user_id:,
           dish_for_create:,
           dish_source_for_read:,
           dish_source_relation_detail:,
         )
 
-        created_meal = ::Business::Dish::Meal::Command::CreateMealCommand.call(
+        created_meal = ::Business::Dish::Meal::Command::AddCommand.call(
           user_id:,
           dish_id: created_dish.id,
           meal_for_create:,

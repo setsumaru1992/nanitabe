@@ -1,5 +1,5 @@
 module Business::User
-  class Command::CreateCommand < ::Business::Base::Command
+  class Command::AddCommand < ::Business::Base::Command
     def call
       while true
         id_param = User.generate_id_param

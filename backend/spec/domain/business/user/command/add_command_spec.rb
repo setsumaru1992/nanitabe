@@ -4,7 +4,7 @@ require "rails_helper"
 require_relative "../repository/repository_add_shared_examples"
 
 module Business::User
-  RSpec.describe Command::CreateCommand do
+  RSpec.describe Command::AddCommand do
     describe ".call" do
       context "when create user with essential field" do
         it "adding succeeds" do

@@ -3,7 +3,7 @@ module Mutations::Auth
     def resolve(confirm_url: nil, **attrs)
       graphql_devise_result = super(confirm_url:, **attrs)
 
-      ::Application::Command::CreateUserWithExistingLoginUserCommand.call(
+      ::Application::Command::AddUserWithExistingLoginUserCommand.call(
         email_for_login: attrs[:email],
       )
 

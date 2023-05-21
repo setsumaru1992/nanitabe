@@ -8,7 +8,7 @@ require_relative "../../dish/repository/repository_put_dish_relation_shared_exam
 
 module Business::Dish
   module Command::Meal
-    RSpec.describe CreateMealWithNewDishAndNewSourceCommand do
+    RSpec.describe AddMealWithNewDishAndNewSourceCommand do
       describe ".call" do
         # CreateMealWithNewDishCommandのテストとの差分、つまりこのCommandゆえのテストを記載
         before do
