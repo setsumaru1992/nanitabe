@@ -1,15 +1,20 @@
 import { gql } from '@apollo/client';
 import {
-  useDishesLazyQuery,
+  useExistingDishesForRegisteringWithMealLazyQuery,
   useDishesPerSourceLazyQuery,
   useDishesPerSourceQuery,
-  useDishesQuery,
+  useExistingDishesForRegisteringWithMealQuery,
   useDishQuery,
   useDishLazyQuery,
 } from '../../lib/graphql/generated/graphql';
 import { useCodegenQuery } from '../utils/queryUtils';
 
 // Dishを使うフラグメントが出てきたらコメントアウトを外して使用
+//
+// 本当はdishと同様のスキーマを持つところで使いまわしたいんだけど、
+// zodのbrandのようにスキーマが同じでも命名が違うものはフラグメントとして使い回せるものではないらしい。
+// というか、fragment xx on oo のooに当てはまるもの以外を置けない
+//
 // export const DISH_FRAGMENT = gql`
 //   fragment Dish on Dish {
 //     id
@@ -19,14 +24,14 @@ import { useCodegenQuery } from '../utils/queryUtils';
 //   }
 // `;
 
-// 本当は上記のように書きたいけど、エラーになるので一旦コメントアウト
-export const DISHES = gql`
-  query dishes($searchString: String) {
-    dishes(searchString: $searchString) {
+export const EXISTING_DISHES_FOR_REGISTERING_WITH_MEAL = gql`
+  query existingDishesForRegisteringWithMeal($searchString: String) {
+    existingDishesForRegisteringWithMeal(searchString: $searchString) {
       id
       name
       mealPosition
       comment
+      dishSourceName
     }
   }
 `;
@@ -39,8 +44,8 @@ type FetchDishesOnlyParams = {
 const useFetchDishesOnly = (params: FetchDishesOnlyParams = {}) => {
   const { searchString = null, requireFetchedData = false } = params;
   const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
-    useDishesQuery,
-    useDishesLazyQuery,
+    useExistingDishesForRegisteringWithMealQuery,
+    useExistingDishesForRegisteringWithMealLazyQuery,
     requireFetchedData,
     {
       searchString,
@@ -48,7 +53,7 @@ const useFetchDishesOnly = (params: FetchDishesOnlyParams = {}) => {
   );
 
   return {
-    dishes: data?.dishes,
+    dishes: data?.existingDishesForRegisteringWithMeal,
     fetchDishesLoading: fetchLoading,
     fetchDishesError: fetchError,
     refetchDishes: refetch,

@@ -5,10 +5,8 @@ import AddMeal from './AddMeal';
 import {
   AddMealWithNewDishAndNewSourceDocument,
   AddMealDocument,
-  DishesDocument,
+  ExistingDishesForRegisteringWithMealDocument,
   DishSourcesDocument,
-  UpdateMealWithNewDishDocument,
-  UpdateMealWithNewDishAndNewSourceDocument,
   AddMealWithNewDishDocument,
 } from '../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../specHelper/renderWithApollo';
@@ -67,14 +65,15 @@ describe('<AddMeal>', () => {
   };
 
   beforeEach(() => {
-    registerQueryHandler(DishesDocument, {
-      dishes: [
+    registerQueryHandler(ExistingDishesForRegisteringWithMealDocument, {
+      existingDishesForRegisteringWithMeal: [
         {
           __typename: 'Dish',
           id: existingDishId,
           name: '生姜焼き',
           mealPosition: 2,
           comment: null,
+          dishSourceName: null,
         },
       ],
     });

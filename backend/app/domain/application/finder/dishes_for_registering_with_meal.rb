@@ -8,7 +8,7 @@ module Application::Finder
     def fetch
       # 追加したい取得ロジック
       # - order
-      #   - (将来)自己評価（低いものを後半に追いやる）
+      #   - (将来)自己評価（低いものを後ろの並び順に追いやる）
       #   - mealへの利用回数 降順
       #   - mealでの登録日時かdishでの登録日時の早い方 降順
       # - 絞り込み(検索フォーム実装後)
@@ -16,9 +16,35 @@ module Application::Finder
       #   - or レシピ元の名前
       #   - or (将来)カテゴリ名
       # - (数が多くなってきたら)20個くらいしか出さずに、続きはGraphQLのページング機能で出す
-      dishes = ::Dish.where(user_id: access_user_id)
-      dishes = dishes.where("name LIKE '%?%'", search_string) if search_string.present?
-      dishes
+      dish_relation = add_auth_filter_to_relation(::Dish.all)
+
+      dish_relation = add_join_to_relation(dish_relation)
+
+      dish_relation = add_filter_to_relation(dish_relation)
+      dish_relation = add_output_fields_to_relation(dish_relation)
+      dish_relation = add_order_to_relation(dish_relation)
+      dish_relation
+    end
+
+    def add_join_to_relation(dish_relation)
+      dish_relation.joins(:meals).eager_load(:dish_source)
+    end
+
+    def add_auth_filter_to_relation(dish_relation)
+      dish_relation.where(user_id: access_user_id)
+    end
+
+    def add_filter_to_relation(dish_relation)
+      dish_relation = dish_relation.where("name LIKE '%?%'", search_string) if search_string.present?
+      dish_relation
+    end
+
+    def add_output_fields_to_relation(dish_relation)
+      dish_relation.select("dishes.*, dish_sources.name AS dish_source_name")
+    end
+
+    def add_order_to_relation(dish_relation)
+      dish_relation.group("dishes.id").order("COUNT(meals.id) DESC")
     end
   end
 end

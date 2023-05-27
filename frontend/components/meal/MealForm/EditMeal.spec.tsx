@@ -17,7 +17,7 @@ import {
 import {
   UpdateMealWithNewDishAndNewSourceDocument,
   UpdateMealDocument,
-  DishesDocument,
+  ExistingDishesForRegisteringWithMealDocument,
   DishSourcesDocument,
   UpdateMealWithNewDishDocument,
 } from '../../../lib/graphql/generated/graphql';
@@ -41,6 +41,7 @@ describe('<EditMeal>', () => {
     name: '生姜焼き',
     mealPosition: 2,
     comment: null,
+    dishSourceName: null,
   };
   const registeredMealWithoutDish = {
     id: 30,
@@ -57,6 +58,7 @@ describe('<EditMeal>', () => {
     name: '目玉焼き',
     mealPosition: 1,
     comment: null,
+    dishSourceName: null,
   };
   const updatedMeal = {
     id: 30,
@@ -89,8 +91,8 @@ describe('<EditMeal>', () => {
   };
 
   beforeEach(() => {
-    registerQueryHandler(DishesDocument, {
-      dishes: [
+    registerQueryHandler(ExistingDishesForRegisteringWithMealDocument, {
+      existingDishesForRegisteringWithMeal: [
         {
           __typename: 'Dish',
           ...registeredDish,

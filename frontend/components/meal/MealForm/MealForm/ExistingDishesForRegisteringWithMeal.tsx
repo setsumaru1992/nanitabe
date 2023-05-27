@@ -36,7 +36,8 @@ const ExistingDishIcon = (props: ExistingDishIconProps) => {
       onClick={() => updateSelectedDishId(dish.id)}
       data-testid={`existingDish-${dish.id}`}
     >
-      {dish.name}
+      {dish.name}({dish.dishSourceName}
+      ...)
     </div>
   );
 };

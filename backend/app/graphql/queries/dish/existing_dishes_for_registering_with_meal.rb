@@ -1,13 +1,14 @@
 module Queries::Dish
-  class DishRegisteredWithMeal < ::Types::BaseObject
+  class ExistingDishForRegisteringWithMeal < ::Types::BaseObject
     implements ::Types::Output::Dish::DishFields
+
+    field :dish_source_name, String, null: true
   end
 
-  # ロジックが固まった後にExistingDishesForRegisteringWithMealに命名変更
-  class Dishes < ::Queries::BaseQuery
+  class ExistingDishesForRegisteringWithMeal < ::Queries::BaseQuery
     argument :search_string, String, required: false
 
-    type [DishRegisteredWithMeal, { null: false }], null: false
+    type [ExistingDishForRegisteringWithMeal, { null: false }], null: false
 
     def resolve(search_string: nil)
       ::Application::Finder::DishesForRegisteringWithMeal.call(

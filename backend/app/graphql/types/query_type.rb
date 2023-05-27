@@ -16,7 +16,7 @@ module Types
 
     field :meals_for_calender, resolver: Queries::Meal::MealsForCalender
     field :dish, resolver: Queries::Dish::Dish
-    field :dishes, resolver: Queries::Dish::Dishes
+    field :existing_dishes_for_registering_with_meal, resolver: Queries::Dish::ExistingDishesForRegisteringWithMeal
     field :dishes_per_source, resolver: Queries::Dish::DishesPerSource
 
     field :dish_source, resolver: Queries::Dish::Source::DishSource
