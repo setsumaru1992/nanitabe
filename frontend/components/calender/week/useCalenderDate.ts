@@ -1,15 +1,89 @@
-import { previousSunday, subDays, addDays } from 'date-fns';
+import {
+  previousSunday,
+  subDays,
+  addDays,
+  previousSaturday,
+  previousMonday,
+} from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { weekCalenderPageUrlOf } from '../../../pages/calender/week/[date]';
 import { isISODateFormatString } from '../../../features/utils/dateUtils';
 
-const getWeekStartDateFrom = (date: Date) => {
-  const dayOfWeekNum = date.getDay();
-  if (dayOfWeekNum === 0) return date;
-  return previousSunday(date);
+export const START_FROM_SAT = 'START_FROM_SAT';
+export const START_FROM_SUN = 'START_FROM_SUN';
+export const START_FROM_MON = 'START_FROM_MON';
+type StartFromValue =
+  | typeof START_FROM_SAT
+  | typeof START_FROM_SUN
+  | typeof START_FROM_MON;
+
+const LIST_PER_START_DAY_OF_DAYS_OF_WEEK = {
+  [START_FROM_SAT]: [
+    { label: '土' },
+    { label: '日' },
+    { label: '月' },
+    { label: '火' },
+    { label: '水' },
+    { label: '木' },
+    { label: '金' },
+  ],
+  [START_FROM_SUN]: [
+    { label: '日' },
+    { label: '月' },
+    { label: '火' },
+    { label: '水' },
+    { label: '木' },
+    { label: '金' },
+    { label: '土' },
+  ],
+  [START_FROM_MON]: [
+    { label: '月' },
+    { label: '火' },
+    { label: '水' },
+    { label: '木' },
+    { label: '金' },
+    { label: '土' },
+    { label: '日' },
+  ],
 };
-export const useFirstDisplayDate = (specifiedDate: Date) => {
+
+export const useCalenderDayOfWeek = (startFromValue: StartFromValue) => {
+  const getWeekStartDateFrom = (() => {
+    if (startFromValue === START_FROM_SAT) {
+      return (date: Date) => {
+        const dayOfWeekNum = date.getDay();
+        if (dayOfWeekNum === 6) return date;
+        return previousSaturday(date);
+      };
+    }
+    if (startFromValue === START_FROM_SUN) {
+      return (date: Date) => {
+        const dayOfWeekNum = date.getDay();
+        if (dayOfWeekNum === 0) return date;
+        return previousSunday(date);
+      };
+    }
+
+    if (startFromValue === START_FROM_MON) {
+      return (date: Date) => {
+        const dayOfWeekNum = date.getDay();
+        if (dayOfWeekNum === 1) return date;
+        return previousMonday(date);
+      };
+    }
+  })();
+
+  return {
+    daysOfWeek: LIST_PER_START_DAY_OF_DAYS_OF_WEEK[startFromValue],
+    getWeekStartDateFrom,
+  };
+};
+
+export const useFirstDisplayDate = (
+  specifiedDate: Date,
+  getWeekStartDateFrom,
+) => {
   const firstDisplayDate = getWeekStartDateFrom(specifiedDate);
 
   /*

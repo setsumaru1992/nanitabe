@@ -4,7 +4,12 @@ import style from './WeekCalender.module.scss';
 import CalenderMealIcon from './MealIcon';
 import AddMealIcon from './MealIcon/AddMealIcon';
 import useMeal from '../../../features/meal/useMeal';
-import { useFirstDisplayDate } from './useCalenderDate';
+import {
+  START_FROM_SAT,
+  START_FROM_SUN,
+  useCalenderDayOfWeek,
+  useFirstDisplayDate,
+} from './useCalenderDate';
 
 export { useDateFormatStringInUrl } from './useCalenderDate';
 
@@ -25,11 +30,15 @@ type Props = {
 
 export default (props: Props) => {
   const { date: dateArg } = props;
+
+  // TODO: 自分以外も使うようになったらユーザ設定で選べるようにする
+  const { daysOfWeek, getWeekStartDateFrom } =
+    useCalenderDayOfWeek(START_FROM_SAT);
   const {
     firstDisplayDate,
     updateFirstDateToPreviousWeekFirstDate,
     updateFirstDateToNextWeekFirstDate,
-  } = useFirstDisplayDate(dateArg || new Date());
+  } = useFirstDisplayDate(dateArg || new Date(), getWeekStartDateFrom);
 
   const { mealsForCalender, fetchMealsLoading, refetchMealsForCalender } =
     useMeal({
@@ -57,8 +66,8 @@ export default (props: Props) => {
       </div>
       <table>
         <tbody>
-          {Object.keys(DAYS_OF_WEEK).map((dayNumStr) => {
-            const date = addDays(firstDisplayDate, Number(dayNumStr));
+          {daysOfWeek.map((day, dayIndex) => {
+            const date = addDays(firstDisplayDate, Number(dayIndex));
             const dateNumber = getDate(date);
             const meals =
               mealsForCalender?.find((mealForCalender) => {
@@ -73,7 +82,7 @@ export default (props: Props) => {
                       {dateNumber}
                     </span>
                     <span className={style['date__day-of-week']}>
-                      {DAYS_OF_WEEK[String(date.getDay())]['label']}
+                      {day.label}
                     </span>
                   </div>
                 </th>
