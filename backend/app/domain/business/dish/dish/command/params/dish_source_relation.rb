@@ -12,19 +12,16 @@ module Business::Dish::Dish
     class RelationDetailOfUrl < Detail
       DETAIL_VALUE_FIELD_NAME = :recipe_website_url
       attribute :recipe_website_url, :string
-      validates :recipe_website_url, presence: true
     end
 
     class RelationDetailOfPage < Detail
       DETAIL_VALUE_FIELD_NAME = :recipe_book_page
       attribute :recipe_book_page, :integer
-      validates :recipe_book_page, presence: true
     end
 
     class RelationDetailOfMemo < Detail
       DETAIL_VALUE_FIELD_NAME = :recipe_source_memo
       attribute :recipe_source_memo, :string
-      validates :recipe_source_memo, presence: true
     end
 
     class Relation < ::Business::Base::CommandParams

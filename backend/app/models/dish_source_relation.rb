@@ -16,7 +16,8 @@ class DishSourceRelation < ApplicationRecord
   end
 
   class SourceRelationOfRecipeBook < self
-    validates :recipe_book_page, presence: true
+    # これ以外は空確定で、この値だけ入ってきて未定義のこともあるよっていうバリデーション入れたいだけなのにうまく行かないからコメントアウト
+    # validates :recipe_book_page, allow_nil: true
     validates :recipe_website_url, absence: true
     validates :recipe_source_memo, absence: true
 
@@ -29,7 +30,7 @@ class DishSourceRelation < ApplicationRecord
 
   class SourceRelationOfWebsite < self
     validates :recipe_book_page, absence: true
-    validates :recipe_website_url, presence: true
+    # validates :recipe_website_url, allow_nil: true
     validates :recipe_source_memo, absence: true
 
     def set_detail(detail)
@@ -42,7 +43,7 @@ class DishSourceRelation < ApplicationRecord
   class SourceRelationOfOther < self
     validates :recipe_book_page, absence: true
     validates :recipe_website_url, absence: true
-    validates :recipe_source_memo, presence: true
+    # validates :recipe_source_memo, allow_nil: true
 
     def set_detail(detail)
       self[:recipe_book_page] = nil
