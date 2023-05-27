@@ -6,7 +6,11 @@ import { registerMutationHandler } from '../../../../lib/graphql/specHelper/mock
 import AddSource from './AddSource';
 import { DISH_SOURCE_TYPE } from '../../../../features/dish/source/const';
 import { AddDishSourceDocument } from '../../../../lib/graphql/generated/graphql';
-import { userClick, userType } from '../../../specHelper/userEvents';
+import {
+  userChooseSelectBox,
+  userClick,
+  userType,
+} from '../../../specHelper/userEvents';
 
 describe('<AddSource>', () => {
   const newDishSourceWithRequiredParams = {
@@ -41,6 +45,9 @@ describe('<AddSource>', () => {
         'dishSourceName',
         newDishSourceWithRequiredParams.name,
       );
+      await userChooseSelectBox(screen, 'dishSourceTypeOption', [
+        `dishSourceTypeOption-${newDishSourceWithRequiredParams.type}`,
+      ]);
       await userClick(screen, 'submitDishSourceButton');
 
       expect(getLatestMutationVariables()).toEqual({

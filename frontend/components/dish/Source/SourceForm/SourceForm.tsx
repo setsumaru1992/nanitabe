@@ -47,11 +47,16 @@ export const DishSourceFormContent = (props: DishSourceFormContentProps) => {
       <FormFieldWrapperWithLabel label="タイプ">
         <Form.Select
           defaultValue={
-            registeredDishSource?.type || DISH_SOURCE_TYPE.RECIPE_BOOK
+            // 本当は初期値を設定したいけど、新規食事登録時に変更を挟まないとwatchで検知できないから仕方なく選ばせる
+            // registeredDishSource?.type || DISH_SOURCE_TYPE.RECIPE_BOOK
+            registeredDishSource?.type || null
           }
           {...register('dishSource.type', { valueAsNumber: true })}
           data-testid="dishSourceTypeOption"
         >
+          <option value={null} data-testid="dishSourceTypeOption-novalue">
+            --
+          </option>
           {DISH_SOURCE_TYPES.map((type) => (
             <option
               key={type}
