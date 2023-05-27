@@ -13,17 +13,6 @@ import {
 
 export { useDateFormatStringInUrl } from './useCalenderDate';
 
-// TODO: ユーザ設定で土曜始まり・日曜始まり・月曜始まりを選べるようにして、それに合わせた体系を使用。とりあえず月曜始まりベースで作成
-const DAYS_OF_WEEK = {
-  0: { label: '日' },
-  1: { label: '月' },
-  2: { label: '火' },
-  3: { label: '水' },
-  4: { label: '木' },
-  5: { label: '金' },
-  6: { label: '土' },
-};
-
 type Props = {
   date?: Date;
 };

@@ -6,6 +6,7 @@ import WeekCalender, {
 import { isISODateFormatString } from '../../../features/utils/dateUtils';
 
 export const WEEK_CALENDER_PAGE_URL = '/calender/week';
+export const WEEK_CALENDER_PAGE_URL_OF_THIS_WEEK = '/calender/week/thisweek';
 export const WEEK_CALENDER_PAGE_URL_FOR_DEV = '/calender/week/2023-02-25';
 export const weekCalenderPageUrlOf = (date: Date) => {
   const dateString = format(date, 'yyyy-MM-dd');
