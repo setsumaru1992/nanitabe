@@ -16,10 +16,6 @@ export type {
   UpdateMealFunc,
 } from './updateMealMutation';
 
-type UseMealArg = {
-  startDateForFetchingMealsForCalender: Date | null;
-};
-
 export type UseMealParams = {
   fetchMealsParams?: FetchMealsParams;
 };

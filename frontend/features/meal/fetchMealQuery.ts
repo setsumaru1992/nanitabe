@@ -39,7 +39,9 @@ export const MEALS_FOR_CALENDER = gql`
 `;
 
 const truncateTimeFrom = (date: Date) => {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  // NOTE: railsに送られるときにUTCで送られるので、タイムゾーン分だけずらすようにした
+  // これで送れたけど、truncateした理由が日付以外の情報除去だったから、どこまで必要かわからなくなった
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 9);
 };
 
 type FetchMealsForCalenderParams = {
