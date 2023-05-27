@@ -26,6 +26,14 @@ const ExistingDishIcon = (props: ExistingDishIconProps) => {
     setValue('dishId', selectedDishId);
   }, [selectedDishId]);
 
+  const shortDishSourceName = (() => {
+    if (!dish.dishSourceName) return null;
+    if (dish.dishSourceName.length <= 10) {
+      return dish.dishSourceName;
+    }
+    return `${dish.dishSourceName.slice(0, 10)}...`;
+  })();
+
   return (
     <div
       className={classNames({
@@ -36,8 +44,12 @@ const ExistingDishIcon = (props: ExistingDishIconProps) => {
       onClick={() => updateSelectedDishId(dish.id)}
       data-testid={`existingDish-${dish.id}`}
     >
-      {dish.name}({dish.dishSourceName}
-      ...)
+      {dish.name}
+      {shortDishSourceName && (
+        <div className={style['dish-icon__source-caption']}>
+          {shortDishSourceName}
+        </div>
+      )}
     </div>
   );
 };
