@@ -6,6 +6,7 @@ import {
   useExistingDishesForRegisteringWithMealQuery,
   useDishQuery,
   useDishLazyQuery,
+  ExistingDishesForRegisteringWithMealDocument,
 } from '../../lib/graphql/generated/graphql';
 import { useCodegenQuery } from '../utils/queryUtils';
 
@@ -36,12 +37,14 @@ export const EXISTING_DISHES_FOR_REGISTERING_WITH_MEAL = gql`
   }
 `;
 
-type FetchDishesOnlyParams = {
+type FetchExistingDishesForRegisteringWithMealParams = {
   searchString?: string | null;
   requireFetchedData?: boolean;
 };
 
-const useFetchDishesOnly = (params: FetchDishesOnlyParams = {}) => {
+const useFetchExistingDishesForRegisteringWithMeal = (
+  params: FetchExistingDishesForRegisteringWithMealParams = {},
+) => {
   const { searchString = null, requireFetchedData = false } = params;
   const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
     useExistingDishesForRegisteringWithMealQuery,
@@ -53,10 +56,11 @@ const useFetchDishesOnly = (params: FetchDishesOnlyParams = {}) => {
   );
 
   return {
-    dishes: data?.existingDishesForRegisteringWithMeal,
-    fetchDishesLoading: fetchLoading,
-    fetchDishesError: fetchError,
-    refetchDishes: refetch,
+    existingDishesForRegisteringWithMeal:
+      data?.existingDishesForRegisteringWithMeal,
+    fetchExistingDishesForRegisteringWithMealLoading: fetchLoading,
+    fetchExistingDishesForRegisteringWithMealError: fetchError,
+    refetchExistingDishesForRegisteringWithMeal: refetch,
   };
 };
 
@@ -146,16 +150,25 @@ const useFetchDishesPerSource = (params: FetchDishesPerSourceParams) => {
 };
 
 export type FetchDishesParams = {
-  fetchDishesOnlyParams?: FetchDishesOnlyParams;
+  fetchExistingDishesForRegisteringWithMealParams?: FetchExistingDishesForRegisteringWithMealParams;
   fetchDishParams?: FetchDishParams;
   fetchDishesPerSourceParams?: FetchDishesPerSourceParams;
 };
 
 export const useFetchDishes = (params: FetchDishesParams) => {
-  const { fetchDishesOnlyParams, fetchDishParams, fetchDishesPerSourceParams } =
-    params;
-  const { dishes, fetchDishesLoading, fetchDishesError, refetchDishes } =
-    useFetchDishesOnly(fetchDishesOnlyParams || {});
+  const {
+    fetchExistingDishesForRegisteringWithMealParams,
+    fetchDishParams,
+    fetchDishesPerSourceParams,
+  } = params;
+  const {
+    existingDishesForRegisteringWithMeal,
+    fetchExistingDishesForRegisteringWithMealLoading,
+    fetchExistingDishesForRegisteringWithMealError,
+    refetchExistingDishesForRegisteringWithMeal,
+  } = useFetchExistingDishesForRegisteringWithMeal(
+    fetchExistingDishesForRegisteringWithMealParams || {},
+  );
 
   const {
     dishesPerSource,
@@ -169,15 +182,20 @@ export const useFetchDishes = (params: FetchDishesParams) => {
   );
 
   return {
-    dishes,
+    existingDishesForRegisteringWithMeal,
     dish,
     dishesPerSource,
 
     fetchLoading:
-      fetchDishesLoading || fetchDishesPerSourceLoading || fetchDishLoading,
-    fetchError: fetchDishesError || fetchDishesPerSourceError || fetchDishError,
+      fetchExistingDishesForRegisteringWithMealLoading ||
+      fetchDishesPerSourceLoading ||
+      fetchDishLoading,
+    fetchError:
+      fetchExistingDishesForRegisteringWithMealError ||
+      fetchDishesPerSourceError ||
+      fetchDishError,
 
-    refetch: refetchDishes,
+    refetchExistingDishesForRegisteringWithMeal,
     refetchDish,
     refetchDishesPerSource,
   };

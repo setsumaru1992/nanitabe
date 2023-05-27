@@ -22,12 +22,12 @@ export default (params: UseDishParams = {}) => {
   const { fetchDishesParams } = params;
 
   const {
-    dishes,
+    existingDishesForRegisteringWithMeal,
     dish,
     dishesPerSource,
     fetchLoading,
     fetchError,
-    refetch,
+    refetchExistingDishesForRegisteringWithMeal,
     refetchDish,
     refetchDishesPerSource,
   } = useFetchDishes(fetchDishesParams || {});
@@ -51,12 +51,12 @@ export default (params: UseDishParams = {}) => {
   const { removeDish, removeDishLoading, removeDishError } = useRemoveDish();
 
   return {
-    dishes,
+    existingDishesForRegisteringWithMeal,
     dish,
     dishesPerSource,
     fetchLoading,
     fetchError,
-    refetch,
+    refetchExistingDishesForRegisteringWithMeal,
     refetchDish,
     refetchDishesPerSource,
 

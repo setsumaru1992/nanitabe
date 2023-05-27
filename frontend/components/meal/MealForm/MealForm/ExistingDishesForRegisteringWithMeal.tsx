@@ -50,16 +50,18 @@ export const ExistingDishesForRegisteringWithMeal = (
 ) => {
   const { dishIdOfRegisteredWithMeal } = props;
   const {
-    register,
     setValue,
     formState: { errors },
   } = useFormContext();
 
-  const { dishes, fetchLoading } = useDish({
-    fetchDishesParams: {
-      fetchDishesOnlyParams: { requireFetchedData: true },
-    },
-  });
+  const { existingDishesForRegisteringWithMeal: dishes, fetchLoading } =
+    useDish({
+      fetchDishesParams: {
+        fetchExistingDishesForRegisteringWithMealParams: {
+          requireFetchedData: true,
+        },
+      },
+    });
 
   const useStateResultArrayOfSelectedDishId = useState(
     dishIdOfRegisteredWithMeal || null,
