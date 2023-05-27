@@ -66,28 +66,43 @@ export const ExistingDishesForRegisteringWithMeal = (
     formState: { errors },
   } = useFormContext();
 
+  const [searchString, setSearchString] = useState('');
+
   const { existingDishesForRegisteringWithMeal: dishes, fetchLoading } =
     useDish({
       fetchDishesParams: {
         fetchExistingDishesForRegisteringWithMealParams: {
           requireFetchedData: true,
+          searchString,
         },
       },
     });
+
+  const [fetchedDishes, setFetchedDishes] = useState(null);
+  useEffect(() => {
+    if (dishes) {
+      setFetchedDishes(dishes);
+    }
+  }, [dishes]);
 
   const useStateResultArrayOfSelectedDishId = useState(
     dishIdOfRegisteredWithMeal || null,
   );
 
-  if (fetchLoading) return <>Loading</>;
+  if (!fetchedDishes && fetchLoading) return <>Loading</>;
 
   return (
     <FormFieldWrapperWithLabel label="料理">
-      <ErrorMessageIfExist errorMessage={errors.dishId?.message} />
       <div className={style['select-dishes-container']}>
-        <Form.Control type="text" data-testid="existingDishSearchWord" />
+        <Form.Control
+          type="text"
+          data-testid="existingDishSearchWord"
+          onChange={(e) => {
+            setSearchString(e.target.value);
+          }}
+        />
         <div className={style['dish-icon-container']}>
-          {dishes.map((dish) => (
+          {(dishes || fetchedDishes).map((dish) => (
             <ExistingDishIcon
               key={dish.id}
               dish={dish}
@@ -99,6 +114,7 @@ export const ExistingDishesForRegisteringWithMeal = (
           ))}
         </div>
       </div>
+      <ErrorMessageIfExist errorMessage={errors.dishId?.message} />
     </FormFieldWrapperWithLabel>
   );
 };

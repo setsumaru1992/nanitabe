@@ -35,7 +35,11 @@ module Application::Finder
     end
 
     def add_filter_to_relation(dish_relation)
-      dish_relation = dish_relation.where("name LIKE '%?%'", search_string) if search_string.present?
+      if search_string.present?
+        dish_relation = dish_relation
+                        .where("dishes.name LIKE ?", "%#{search_string}%")
+                        .or(::DishSource.where("dish_sources.name LIKE ?", "%#{search_string}%"))
+      end
       dish_relation
     end
 
