@@ -55,12 +55,12 @@ const ExistingDishIcon = (props: ExistingDishIconProps) => {
 };
 
 type ExistingDishesForRegisteringWithMealProps = {
-  dishIdOfRegisteredWithMeal?: number;
+  dishIdRegisteredWithMeal?: number;
 };
 export const ExistingDishesForRegisteringWithMeal = (
   props: ExistingDishesForRegisteringWithMealProps,
 ) => {
-  const { dishIdOfRegisteredWithMeal } = props;
+  const { dishIdRegisteredWithMeal } = props;
   const {
     setValue,
     formState: { errors },
@@ -74,6 +74,7 @@ export const ExistingDishesForRegisteringWithMeal = (
         fetchExistingDishesForRegisteringWithMealParams: {
           requireFetchedData: true,
           searchString,
+          dishIdRegisteredWithMeal,
         },
       },
     });
@@ -86,7 +87,7 @@ export const ExistingDishesForRegisteringWithMeal = (
   }, [dishes]);
 
   const useStateResultArrayOfSelectedDishId = useState(
-    dishIdOfRegisteredWithMeal || null,
+    dishIdRegisteredWithMeal || null,
   );
 
   if (!fetchedDishes && fetchLoading) return <>Loading</>;

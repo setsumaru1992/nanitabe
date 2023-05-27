@@ -496,6 +496,7 @@ export type QueryDishSourceArgs = {
 
 
 export type QueryExistingDishesForRegisteringWithMealArgs = {
+  dishIdRegisteredWithMeal?: InputMaybe<Scalars['Int']>;
   searchString?: InputMaybe<Scalars['String']>;
 };
 
@@ -725,6 +726,7 @@ export type AddDishWithNewSourceMutation = { __typename?: 'Mutation', addDishWit
 
 export type ExistingDishesForRegisteringWithMealQueryVariables = Exact<{
   searchString?: InputMaybe<Scalars['String']>;
+  dishIdRegisteredWithMeal?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -1023,8 +1025,11 @@ export type AddDishWithNewSourceMutationHookResult = ReturnType<typeof useAddDis
 export type AddDishWithNewSourceMutationResult = Apollo.MutationResult<AddDishWithNewSourceMutation>;
 export type AddDishWithNewSourceMutationOptions = Apollo.BaseMutationOptions<AddDishWithNewSourceMutation, AddDishWithNewSourceMutationVariables>;
 export const ExistingDishesForRegisteringWithMealDocument = gql`
-    query existingDishesForRegisteringWithMeal($searchString: String) {
-  existingDishesForRegisteringWithMeal(searchString: $searchString) {
+    query existingDishesForRegisteringWithMeal($searchString: String, $dishIdRegisteredWithMeal: Int) {
+  existingDishesForRegisteringWithMeal(
+    searchString: $searchString
+    dishIdRegisteredWithMeal: $dishIdRegisteredWithMeal
+  ) {
     id
     name
     mealPosition
@@ -1047,6 +1052,7 @@ export const ExistingDishesForRegisteringWithMealDocument = gql`
  * const { data, loading, error } = useExistingDishesForRegisteringWithMealQuery({
  *   variables: {
  *      searchString: // value for 'searchString'
+ *      dishIdRegisteredWithMeal: // value for 'dishIdRegisteredWithMeal'
  *   },
  * });
  */

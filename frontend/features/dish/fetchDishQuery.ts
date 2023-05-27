@@ -26,8 +26,14 @@ import { useCodegenQuery } from '../utils/queryUtils';
 // `;
 
 export const EXISTING_DISHES_FOR_REGISTERING_WITH_MEAL = gql`
-  query existingDishesForRegisteringWithMeal($searchString: String) {
-    existingDishesForRegisteringWithMeal(searchString: $searchString) {
+  query existingDishesForRegisteringWithMeal(
+    $searchString: String
+    $dishIdRegisteredWithMeal: Int
+  ) {
+    existingDishesForRegisteringWithMeal(
+      searchString: $searchString
+      dishIdRegisteredWithMeal: $dishIdRegisteredWithMeal
+    ) {
       id
       name
       mealPosition
@@ -38,20 +44,26 @@ export const EXISTING_DISHES_FOR_REGISTERING_WITH_MEAL = gql`
 `;
 
 type FetchExistingDishesForRegisteringWithMealParams = {
-  searchString?: string | null;
   requireFetchedData?: boolean;
+  searchString?: string | null;
+  dishIdRegisteredWithMeal?: number | null;
 };
 
 const useFetchExistingDishesForRegisteringWithMeal = (
   params: FetchExistingDishesForRegisteringWithMealParams = {},
 ) => {
-  const { searchString = null, requireFetchedData = false } = params;
+  const {
+    requireFetchedData = false,
+    searchString = null,
+    dishIdRegisteredWithMeal = null,
+  } = params;
   const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
     useExistingDishesForRegisteringWithMealQuery,
     useExistingDishesForRegisteringWithMealLazyQuery,
     requireFetchedData,
     {
       searchString,
+      dishIdRegisteredWithMeal,
     },
   );
 

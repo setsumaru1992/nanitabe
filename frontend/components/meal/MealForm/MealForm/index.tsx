@@ -160,7 +160,7 @@ export default (props: Props) => {
 
             {choosingUseExistingDish && (
               <ExistingDishesForRegisteringWithMeal
-                dishIdOfRegisteredWithMeal={registeredDishId}
+                dishIdRegisteredWithMeal={registeredDishId}
               />
             )}
           </div>

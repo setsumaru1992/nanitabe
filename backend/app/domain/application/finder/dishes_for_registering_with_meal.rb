@@ -5,6 +5,8 @@ module Application::Finder
 
     attribute :search_string, :string
 
+    attribute :dish_id_registered_with_meal, :integer
+
     def fetch
       # 追加したい取得ロジック
       # - order
@@ -16,14 +18,22 @@ module Application::Finder
       #   - or レシピ元の名前
       #   - or (将来)カテゴリ名
       # - (数が多くなってきたら)20個くらいしか出さずに、続きはGraphQLのページング機能で出す
+      registered_dish_with_meal = nil
+      if dish_id_registered_with_meal.present?
+        registered_dish_with_meal = ::Dish.where(id: dish_id_registered_with_meal)
+        registered_dish_with_meal = add_join_to_relation(registered_dish_with_meal)
+        registered_dish_with_meal = add_output_fields_to_relation(registered_dish_with_meal)
+        registered_dish_with_meal = registered_dish_with_meal.first
+      end
+
       dish_relation = add_auth_filter_to_relation(::Dish.all)
 
       dish_relation = add_join_to_relation(dish_relation)
 
-      dish_relation = add_filter_to_relation(dish_relation)
+      dish_relation = add_filter_to_relation(dish_relation, ignore_dish_id: registered_dish_with_meal&.id)
       dish_relation = add_output_fields_to_relation(dish_relation)
       dish_relation = add_order_to_relation(dish_relation)
-      dish_relation
+      [registered_dish_with_meal, dish_relation].flatten.compact
     end
 
     def add_join_to_relation(dish_relation)
@@ -34,11 +44,15 @@ module Application::Finder
       dish_relation.where(user_id: access_user_id)
     end
 
-    def add_filter_to_relation(dish_relation)
+    def add_filter_to_relation(dish_relation, ignore_dish_id: nil)
       if search_string.present?
         dish_relation = dish_relation
                         .where("dishes.name LIKE ?", "%#{search_string}%")
                         .or(::DishSource.where("dish_sources.name LIKE ?", "%#{search_string}%"))
+      end
+
+      if ignore_dish_id.present?
+        dish_relation = dish_relation.where.not(id: ignore_dish_id)
       end
       dish_relation
     end
