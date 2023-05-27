@@ -62,7 +62,7 @@ module Application::Finder
     end
 
     def add_order_to_relation(dish_relation)
-      dish_relation.group("dishes.id").order("COUNT(meals.id) DESC")
+      dish_relation.group("dishes.id").order("COUNT(meals.id) DESC, MAX(dishes.created_at) DESC")
     end
   end
 end
