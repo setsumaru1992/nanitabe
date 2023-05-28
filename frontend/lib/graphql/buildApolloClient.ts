@@ -98,7 +98,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
 });
 
 function buildApolloClient(nextJsContext = null) {
-  return new ApolloClient({
+  const _apolloClient = new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: from([
       buildAuthLink(nextJsContext),
@@ -108,7 +108,14 @@ function buildApolloClient(nextJsContext = null) {
     ]),
     cache: new InMemoryCache(),
   });
+  if (!apolloClient) apolloClient = _apolloClient;
+
+  return _apolloClient;
 }
+
+export const useApolloClient = () => {
+  return { apolloClient };
+};
 
 function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? buildApolloClient();
