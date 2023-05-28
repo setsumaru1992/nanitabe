@@ -3,6 +3,7 @@ export const DISH_SOURCE_TYPE = {
   YOUTUBE: 2,
   WEBSITE: 3,
   RESTAURANT: 4,
+  OTHER: 50,
 } as const;
 
 export type DishSourceType =
@@ -17,4 +18,5 @@ export const DISH_SOURCE_TYPE_LABELS = {
   [DISH_SOURCE_TYPE.YOUTUBE]: 'Youtube動画',
   [DISH_SOURCE_TYPE.WEBSITE]: 'Webサイト',
   [DISH_SOURCE_TYPE.RESTAURANT]: '外食',
+  [DISH_SOURCE_TYPE.OTHER]: 'その他',
 };

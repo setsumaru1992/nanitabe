@@ -4,6 +4,7 @@ export const MEAL_POSITION = {
   SIDE_DISH: 3,
   SOUP: 4,
   DESSERT: 5,
+  OTHER: 50,
 } as const;
 
 export type MealPosition = (typeof MEAL_POSITION)[keyof typeof MEAL_POSITION];
@@ -18,4 +19,5 @@ export const MEAL_POSITION_LABELS = {
   [MEAL_POSITION.SIDE_DISH]: '副菜・前菜',
   [MEAL_POSITION.SOUP]: '汁物',
   [MEAL_POSITION.DESSERT]: 'デザート',
+  [MEAL_POSITION.OTHER]: 'その他',
 };

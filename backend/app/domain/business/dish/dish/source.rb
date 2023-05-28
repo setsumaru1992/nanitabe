@@ -4,5 +4,6 @@ module Business::Dish::Dish::Source
     YOUTUBE = 2
     WEBSITE = 3
     RESTAURANT = 4
+    OTHER = 50
   end
 end
