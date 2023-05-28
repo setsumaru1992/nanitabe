@@ -35,21 +35,23 @@ const ExistingDishIcon = (props: ExistingDishIconProps) => {
   })();
 
   return (
-    <div
-      className={classNames({
-        [style['icon']]: true,
-        [style['dish-icon']]: true,
-        [style['dish-icon--selected']]: dish.id === selectedDishId,
-      })}
-      onClick={() => updateSelectedDishId(dish.id)}
-      data-testid={`existingDish-${dish.id}`}
-    >
-      {dish.name}
-      {shortDishSourceName && (
-        <div className={style['dish-icon__source-caption']}>
-          {shortDishSourceName}
-        </div>
-      )}
+    <div className={style['dish-icon__wrap']}>
+      <div
+        className={classNames({
+          [style['icon']]: true,
+          [style['dish-icon']]: true,
+          [style['dish-icon--selected']]: dish.id === selectedDishId,
+        })}
+        onClick={() => updateSelectedDishId(dish.id)}
+        data-testid={`existingDish-${dish.id}`}
+      >
+        {dish.name}
+        {shortDishSourceName && (
+          <div className={style['dish-icon__source-caption']}>
+            {shortDishSourceName}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

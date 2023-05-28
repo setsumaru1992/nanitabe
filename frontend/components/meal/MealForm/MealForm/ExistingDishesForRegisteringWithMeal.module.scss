@@ -1,19 +1,24 @@
 @import "../../../base/mixin.module";
 
 .select-dishes-container {
-  height: 200px;
   width: 100%;
   border: 1px solid;
 }
 
 .dish-icon-container {
   display: inline-flex;
+  flex-wrap: wrap;
+  height: 200px;
+  overflow: scroll;
 }
 
 .dish-icon {
   border: 1px solid;
-  margin-top: auto;
-  margin-bottom: auto;
+
+  &__wrap {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 
   &--selected {
     background-color: $selected-blue;
