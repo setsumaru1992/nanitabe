@@ -183,6 +183,35 @@ describe('<AddMeal>', () => {
     });
   });
 
+  describe('when add meal with new dish with no source', () => {
+    it('succeeds with expected required graphql params', async () => {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        AddMealWithNewDishDocument,
+        {
+          addMealWithNewDish: {
+            mealId: 1,
+            dishId: 1,
+          },
+        },
+      );
+
+      await userClick(screen, 'optionOfRegisteringNewDish');
+      await userType(screen, 'dishname', newDishWithRequiredParams.name);
+      await userChooseSelectBox(screen, 'mealPositionOptions', [
+        `mealPositionOption-${newDishWithRequiredParams.mealPosition}`,
+      ]);
+
+      await clickSubmitButton();
+
+      expect(getLatestMutationVariables()).toEqual({
+        dish: newDishWithRequiredParams,
+        dishSource: null,
+        dishSourceRelationDetail: null,
+        meal: buildNewMealGraphQLParams(newMealWithRequiredParams),
+      });
+    });
+  });
+
   describe('when add meal with new dish and new dish source', () => {
     it('succeeds with expected required graphql params', async () => {
       const { getLatestMutationVariables } = registerMutationHandler(
