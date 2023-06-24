@@ -47,7 +47,9 @@ module Backend
       end
     end
 
-    config.hosts << ENV.fetch("FRONTEND_HOST", "")
+    config.hosts << ENV.fetch("FRONTEND_PROD_HOST", "")
+
     config.hosts << "nanitabe_back"
+    config.hosts << ENV.fetch("BACKEND_PROD_HOST", "")
   end
 end

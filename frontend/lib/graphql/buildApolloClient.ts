@@ -54,7 +54,7 @@ const generateURL: () => string = () => {
       case ExecSituation.ExecInServerSide:
         return process.env.SERVER_SIDE_ORIGIN;
       case ExecSituation.ExecInClientSide:
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.ENVIRONMENT === 'development') {
           return process.env.NEXT_PUBLIC_CLIENT_SIDE_DEV_ORIGIN;
         }
         return process.env.NEXT_PUBLIC_CLIENT_SIDE_PROD_ORIGIN;

@@ -2,10 +2,11 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "next build --no-lint",
     "start": "next start",
-    "codegen": "graphql-codegen --config codegen.ts",
-    "test": "jest"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "test": "jest",
+    "lint": "eslint"
   },
   "dependencies": {
     "@apollo/client": "^3.7.7",

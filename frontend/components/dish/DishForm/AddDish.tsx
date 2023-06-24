@@ -2,7 +2,7 @@ import React from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import DishForm from './DishForm';
 import useDish, { AddDishFunc } from '../../../features/dish/useDish';
-import type { AddDish } from '../../../features/dish/useDish';
+import type { AddDishInput } from '../../../features/dish/useDish';
 import {
   CHOOSING_PUT_DISH_SOURCE_TYPE,
   useChoosingPutDishSourceType,
@@ -47,7 +47,7 @@ export default (props: Props) => {
     }
   })();
 
-  const onSubmit: SubmitHandler<AddDish> = async (input) => {
+  const onSubmit: SubmitHandler<AddDishInput> = async (input) => {
     await addDishFunc(input, {
       onCompleted: (_) => {
         if (onAddSucceeded) onAddSucceeded();

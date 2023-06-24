@@ -1,4 +1,4 @@
-FROM ruby:3
+FROM ruby:3.2.2
 
 CMD [ "/bin/bash" ]
 ENV LANG C.UTF-8
