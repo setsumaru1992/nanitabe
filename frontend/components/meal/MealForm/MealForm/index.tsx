@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,6 +8,7 @@ import { buildISODateString } from '../../../../features/utils/dateUtils';
 import ErrorMessageIfExist from '../../../common/form/ErrorMessageIfExist';
 import { MEAL_TYPE } from '../../../../features/meal/const';
 import { DishFormContent } from '../../../dish/DishForm/DishForm';
+import SelectMealType from './SelectMealType';
 import { UseChoosingPutDishSourceTypeResult } from '../../../dish/DishForm/DishForm/useChoosingPutDishSourceType';
 import {
   CHOOSING_DISH_TYPE,
@@ -56,7 +57,15 @@ export default (props: Props) => {
     handleSubmit,
     formState: { errors },
     reset, // 使わないことに不都合があったらonDisplayとかを定義してuseEffect内で使用
+    setValue,
   } = methods;
+
+  const [selectedMealType, setSelectedMealType] = useState(
+    registeredMealType || MEAL_TYPE.DINNER,
+  );
+  useEffect(() => {
+    setValue('meal.mealType', selectedMealType);
+  }, [selectedMealType]);
 
   const onError = (schemaErrors, _) => {
     if (onSchemaError) onSchemaError(schemaErrors);
@@ -84,30 +93,12 @@ export default (props: Props) => {
           </FormFieldWrapperWithLabel>
 
           <FormFieldWrapperWithLabel label="時間帯" required>
-            <Form.Select
-              defaultValue={registeredMealType || MEAL_TYPE.DINNER}
-              {...register('meal.mealType', { valueAsNumber: true })}
-              data-testid="mealTypeOptions"
-            >
-              <option
-                value={MEAL_TYPE.BREAKFAST}
-                data-testid={`mealTypeOption-${MEAL_TYPE.BREAKFAST}`}
-              >
-                朝食
-              </option>
-              <option
-                value={MEAL_TYPE.LUNCH}
-                data-testid={`mealTypeOption-${MEAL_TYPE.LUNCH}`}
-              >
-                昼食
-              </option>
-              <option
-                value={MEAL_TYPE.DINNER}
-                data-testid={`mealTypeOption-${MEAL_TYPE.DINNER}`}
-              >
-                夕食
-              </option>
-            </Form.Select>
+            <SelectMealType
+              selectedMealType={MEAL_TYPE.DINNER}
+              onChange={(mealType) => {
+                setSelectedMealType(mealType);
+              }}
+            />
             <ErrorMessageIfExist
               errorMessage={errors.meal?.mealType?.message}
             />
