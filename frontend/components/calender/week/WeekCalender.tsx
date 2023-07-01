@@ -10,6 +10,7 @@ import {
   useCalenderDayOfWeek,
   useFirstDisplayDate,
 } from './useCalenderDate';
+import AssignDish from '../AssignDish';
 import { useApolloClient } from '../../../lib/graphql/buildApolloClient';
 
 export { useDateFormatStringInUrl } from './useCalenderDate';
@@ -127,6 +128,7 @@ export default (props: Props) => {
       >
         ▼
       </div>
+      <AssignDish />
     </>
   );
 };
