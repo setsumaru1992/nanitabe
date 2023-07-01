@@ -80,7 +80,7 @@ export default (props: Props) => {
 
   if (fetchMealsLoading) return <>Loading...</>;
   return (
-    <>
+    <div className={style['week-calender-container']}>
       <div className={style['week-calender-header']}>
         {format(firstDisplayDate, 'yyyy年M月')} ▼
       </div>
@@ -118,17 +118,19 @@ export default (props: Props) => {
                     </span>
                   </div>
                 </th>
-                <td className={style['dish-container']}>
-                  {meals?.map((meal) => (
-                    <React.Fragment key={meal.id}>
-                      <CalenderMealIcon
-                        meal={meal}
-                        onChanged={async () => {
-                          await refreshData();
-                        }}
-                      />{' '}
-                    </React.Fragment>
-                  ))}
+                <td className={style['dish-container__wrapper']}>
+                  <div className={style['dish-container']}>
+                    {meals?.map((meal) => (
+                      <React.Fragment key={meal.id}>
+                        <CalenderMealIcon
+                          meal={meal}
+                          onChanged={async () => {
+                            await refreshData();
+                          }}
+                        />{' '}
+                      </React.Fragment>
+                    ))}
+                  </div>
                   {isDisplayCalenderMode && (
                     <AddMealIcon
                       dateForAdd={date}
@@ -154,6 +156,6 @@ export default (props: Props) => {
       {useAssignDishModeResult.inAssigningDishMode && (
         <AssignDish useAssignDishModeResult={useAssignDishModeResult} />
       )}
-    </>
+    </div>
   );
 };

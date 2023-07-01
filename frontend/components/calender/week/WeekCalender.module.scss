@@ -1,5 +1,9 @@
 @import "../../base/mixin.module";
 
+.week-calender-container {
+  width: 100vw;
+}
+
 .week-calender-header {
   padding: 10px 0px;
   font-size: 16px;
@@ -37,5 +41,8 @@
 
 .dish-container {
   display: flex;
-  width: 100vw;
+
+  &__wrapper {
+    width: 100%;
+  }
 }
