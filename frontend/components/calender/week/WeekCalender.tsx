@@ -63,7 +63,17 @@ export default (props: Props) => {
     refetchMealsForCalender();
   };
 
-  const { calenderMode, useAssignDishModeResult } = useCalenderMode();
+  const {
+    isDisplayCalenderMode,
+    isNotDisplayCalenderMode,
+    useAssignDishModeResult,
+  } = useCalenderMode();
+
+  const onDateClick = (date: Date) => {
+    if (useAssignDishModeResult.isAssigningSelectedDishMode) {
+      useAssignDishModeResult.onDateClickForAssigningDish(date);
+    }
+  };
 
   if (fetchMealsLoading) return <>Loading...</>;
   return (
@@ -90,7 +100,7 @@ export default (props: Props) => {
               })?.meals || [];
 
             return (
-              <tr key={dateNumber}>
+              <tr key={dateNumber} onClick={() => onDateClick(date)}>
                 <th>
                   <div className={style['date']}>
                     <span className={style['date__date-number']}>
@@ -112,12 +122,14 @@ export default (props: Props) => {
                       />{' '}
                     </React.Fragment>
                   ))}
-                  <AddMealIcon
-                    dateForAdd={date}
-                    onAddSucceeded={async () => {
-                      await refreshData();
-                    }}
-                  />
+                  {isDisplayCalenderMode && (
+                    <AddMealIcon
+                      dateForAdd={date}
+                      onAddSucceeded={async () => {
+                        await refreshData();
+                      }}
+                    />
+                  )}
                 </td>
               </tr>
             );

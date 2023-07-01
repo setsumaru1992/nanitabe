@@ -17,6 +17,9 @@ export default () => {
   const updateCalenderMode = (mode: CalenderMode) => {
     setCalenderMode(mode);
   };
+
+  const isDisplayCalenderMode = calenderMode === DISPLAY_CALENDER_MODE;
+  const isNotDisplayCalenderMode = calenderMode !== DISPLAY_CALENDER_MODE;
   const changeCalenderModeToDisplayCalenderMode = () => {
     updateCalenderMode(DISPLAY_CALENDER_MODE);
   };
@@ -28,7 +31,8 @@ export default () => {
   });
 
   return {
-    calenderMode,
+    isDisplayCalenderMode,
+    isNotDisplayCalenderMode,
     useAssignDishModeResult,
   };
 };

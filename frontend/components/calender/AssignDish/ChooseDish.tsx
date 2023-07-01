@@ -8,25 +8,20 @@ import { MEAL_TYPE } from '../../../features/meal/const';
 
 type Props = {
   useAssignDishModeResult: any;
-  // もしかしたら以下はuseAssignDishModeResultに統合されるかも
-  arrayOfUseStateResultOfSelectedDish: any;
-  arrayOfUseStateResultOfSelectedMealType: any;
 };
 
 export default (props: Props) => {
-  const {
-    useAssignDishModeResult,
-    arrayOfUseStateResultOfSelectedDish,
-    arrayOfUseStateResultOfSelectedMealType,
-  } = props;
+  const { useAssignDishModeResult } = props;
   const {
     changeCalenderModeToDisplayCalenderMode,
     changeCalenderModeToAssigningSelectedDishMode,
+    selectedDish,
+    selectDish,
+    selectedMealType,
+    selectMealType,
+    searchStringForSearchingExistingDish,
+    updateSearchString,
   } = useAssignDishModeResult;
-  const [searchString, setSearchString] = useState('');
-  const [selectedDish, setSelectedDish] = arrayOfUseStateResultOfSelectedDish;
-  const [selectedMealType, setSelectedMealType] =
-    arrayOfUseStateResultOfSelectedMealType;
 
   const {
     existingDishesForRegisteringWithMeal: dishes,
@@ -36,7 +31,7 @@ export default (props: Props) => {
     fetchDishesParams: {
       fetchExistingDishesForRegisteringWithMealParams: {
         requireFetchedData: true,
-        searchString,
+        searchString: searchStringForSearchingExistingDish,
         /*
           TODO:
           このデータ取得固有のクエリを作る
@@ -64,15 +59,16 @@ export default (props: Props) => {
       <SelectMealType
         selectedMealType={selectedMealType || MEAL_TYPE.DINNER}
         onChange={(mealType) => {
-          setSelectedMealType(mealType);
+          selectMealType(mealType);
         }}
       />
+      {/* TODO: 連続登録をできるようにするチェックボックス作成 */}
       [食事を選択してください]
       <Form.Control
         type="text"
         data-testid="existingDishSearchWord"
         onChange={(e) => {
-          setSearchString(e.target.value);
+          updateSearchString(e.target.value);
         }}
       />
       <div className={style['existing-dish-icon-container']}>
@@ -82,7 +78,7 @@ export default (props: Props) => {
             dish={dish}
             selected={dish.id === selectedDish?.id}
             onClick={() => {
-              setSelectedDish(dish);
+              selectDish(dish);
               changeCalenderModeToAssigningSelectedDishMode();
             }}
           />
