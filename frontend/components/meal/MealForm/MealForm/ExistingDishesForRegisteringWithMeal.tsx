@@ -1,60 +1,11 @@
 import { useFormContext } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
 import useDish from '../../../../features/dish/useDish';
 import FormFieldWrapperWithLabel from '../../../common/form/FormFieldWrapperWithLabel';
 import ErrorMessageIfExist from '../../../common/form/ErrorMessageIfExist';
 import style from './ExistingDishesForRegisteringWithMeal.module.scss';
-
-type ExistingDishIconProps = {
-  dish: any;
-  useStateResultArrayOfSelectedDishId: any[];
-  setValue: any;
-};
-
-const ExistingDishIcon = (props: ExistingDishIconProps) => {
-  const { dish, useStateResultArrayOfSelectedDishId, setValue } = props;
-  const [selectedDishId, setSelectedDishId] =
-    useStateResultArrayOfSelectedDishId;
-
-  const updateSelectedDishId = (clickedDishId) => {
-    setSelectedDishId(clickedDishId);
-  };
-
-  useEffect(() => {
-    setValue('dishId', selectedDishId);
-  }, [selectedDishId]);
-
-  const shortDishSourceName = (() => {
-    if (!dish.dishSourceName) return null;
-    if (dish.dishSourceName.length <= 10) {
-      return dish.dishSourceName;
-    }
-    return `${dish.dishSourceName.slice(0, 10)}...`;
-  })();
-
-  return (
-    <div className={style['dish-icon__wrap']}>
-      <div
-        className={classNames({
-          [style['icon']]: true,
-          [style['dish-icon']]: true,
-          [style['dish-icon--selected']]: dish.id === selectedDishId,
-        })}
-        onClick={() => updateSelectedDishId(dish.id)}
-        data-testid={`existingDish-${dish.id}`}
-      >
-        {dish.name}
-        {shortDishSourceName && (
-          <div className={style['dish-icon__source-caption']}>
-            {shortDishSourceName}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
+import ExistingDishIconForSelect from '../../ExistingDishIconForSelect';
 
 type ExistingDishesForRegisteringWithMealProps = {
   dishIdRegisteredWithMeal?: number;
@@ -88,9 +39,13 @@ export const ExistingDishesForRegisteringWithMeal = (
     }
   }, [dishes]);
 
-  const useStateResultArrayOfSelectedDishId = useState(
+  const [selectedDishId, setSelectedDishId] = useState(
     dishIdRegisteredWithMeal || null,
   );
+  // NOTE: onClickでsetValueしたいが、初期値セットも込みで行うためにuseEffect利用
+  useEffect(() => {
+    setValue('dishId', selectedDishId);
+  }, [selectedDishId]);
 
   if (!fetchedDishes && fetchLoading) return <>Loading</>;
 
@@ -106,13 +61,13 @@ export const ExistingDishesForRegisteringWithMeal = (
         />
         <div className={style['dish-icon-container']}>
           {(dishes || fetchedDishes).map((dish) => (
-            <ExistingDishIcon
+            <ExistingDishIconForSelect
               key={dish.id}
               dish={dish}
-              useStateResultArrayOfSelectedDishId={
-                useStateResultArrayOfSelectedDishId
-              }
-              setValue={setValue}
+              selected={dish.id === selectedDishId}
+              onClick={() => {
+                setSelectedDishId(dish.id);
+              }}
             />
           ))}
         </div>
