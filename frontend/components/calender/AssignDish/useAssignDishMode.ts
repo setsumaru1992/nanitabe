@@ -12,13 +12,11 @@ const useOnlyAssigningDishMode = (args: {
   calenderMode: any;
   updateCalenderMode: any;
   changeCalenderModeToDisplayCalenderMode: any;
-  initializeAssignDishValues: any;
 }) => {
   const {
     calenderMode,
     updateCalenderMode,
     changeCalenderModeToDisplayCalenderMode,
-    initializeAssignDishValues,
   } = args;
   const inAssigningDishMode = Object.keys(ASSIGNING_DISH_MODES).some(
     (assigningDishMode) => calenderMode === assigningDishMode,
@@ -29,9 +27,11 @@ const useOnlyAssigningDishMode = (args: {
   const changeCalenderModeToChoosingDishMode = () => {
     updateCalenderMode(ASSIGNING_DISH_MODES.CHOOSING_DISH_MODE);
   };
-  const startAssigningDishMode = () => {
-    initializeAssignDishValues();
-    updateCalenderMode(ASSIGNING_DISH_MODES.CHOOSING_DISH_MODE);
+  const startAssigningDishModeGenerator = (initializeAssignDishValues) => {
+    return () => {
+      initializeAssignDishValues();
+      updateCalenderMode(ASSIGNING_DISH_MODES.CHOOSING_DISH_MODE);
+    };
   };
 
   const isAssigningSelectedDishMode =
@@ -43,7 +43,7 @@ const useOnlyAssigningDishMode = (args: {
   return {
     inAssigningDishMode,
 
-    startAssigningDishMode,
+    startAssigningDishModeGenerator,
     isChoosingDishMode,
     changeCalenderModeToChoosingDishMode,
 
@@ -60,24 +60,28 @@ const useValuesAndFuncsForAddMeal = () => {
   const [selectedDish, setSelectedDish] = useState(null);
   const [selectedMealType, setSelectedMealType] = useState(null);
 
-  const onDateClickForAssigningDish = (date: Date) => {
-    addMeal(
-      {
-        dishId: selectedDish!.id,
-        meal: {
-          date,
-          mealType: selectedMealType,
+  const onDateClickForAssigningDishGenerator = ({ onCompleted }) => {
+    return (date: Date) => {
+      addMeal(
+        {
+          dishId: selectedDish!.id,
+          meal: {
+            date,
+            mealType: selectedMealType,
+          },
         },
-      },
-      {
-        onCompleted: () => {},
-        onError: (error) => {},
-      },
-    );
+        {
+          onCompleted: () => {
+            onCompleted();
+          },
+          onError: (error) => {},
+        },
+      );
+    };
   };
 
   return {
-    onDateClickForAssigningDish,
+    onDateClickForAssigningDishGenerator,
     selectedDish,
     selectDish: setSelectedDish,
     selectedMealType,
@@ -89,26 +93,44 @@ export default (args: {
   calenderMode: any;
   updateCalenderMode: any;
   changeCalenderModeToDisplayCalenderMode: any;
+  onDataChanged: any;
 }) => {
+  const { onDataChanged } = args;
+  const useOnlyAssigningDishModeResult = useOnlyAssigningDishMode(args);
   const useValuesAndFuncsForAddMealResult = useValuesAndFuncsForAddMeal();
   const [searchStringForSearchingExistingDish, updateSearchString] =
     useState('');
 
+  const {
+    startAssigningDishModeGenerator,
+    changeCalenderModeToDisplayCalenderMode,
+  } = useOnlyAssigningDishModeResult;
+  const { onDateClickForAssigningDishGenerator, selectDish, selectMealType } =
+    useValuesAndFuncsForAddMealResult;
+
   const initializeAssignDishValues = () => {
-    const { selectDish, selectMealType } = useValuesAndFuncsForAddMealResult;
     selectDish(null);
     selectMealType(null);
     updateSearchString('');
   };
-
-  const useOnlyAssigningDishModeResult = useOnlyAssigningDishMode({
-    ...args,
+  const startAssigningDishMode = startAssigningDishModeGenerator(
     initializeAssignDishValues,
+  );
+
+  const onDateClickForAssigningDish = onDateClickForAssigningDishGenerator({
+    onCompleted: () => {
+      onDataChanged();
+      changeCalenderModeToDisplayCalenderMode();
+    },
   });
 
   return {
     ...useOnlyAssigningDishModeResult,
     ...useValuesAndFuncsForAddMealResult,
+
+    startAssigningDishMode,
+    onDateClickForAssigningDish,
+
     searchStringForSearchingExistingDish,
     updateSearchString,
   };

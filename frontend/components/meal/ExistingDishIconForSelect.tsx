@@ -4,8 +4,8 @@ import style from './ExistingDishIconForSelect.module.scss';
 
 type Props = {
   dish: any;
-  selected: boolean;
-  onClick: () => void;
+  selected?: boolean;
+  onClick?: () => void;
 };
 
 export default (props: Props) => {
@@ -27,7 +27,9 @@ export default (props: Props) => {
           [style['dish-icon']]: true,
           [style['dish-icon--selected']]: selected,
         })}
-        onClick={() => onClick()}
+        onClick={() => {
+          if (onClick) onClick();
+        }}
         data-testid={`existingDish-${dish.id}`}
       >
         {dish.name}

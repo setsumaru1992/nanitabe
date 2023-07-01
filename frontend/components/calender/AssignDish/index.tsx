@@ -18,7 +18,11 @@ export default (props: Props) => {
         <ChooseDish useAssignDishModeResult={useAssignDishModeResult} />
       )}
 
-      {isAssigningSelectedDishMode && <AssignChoosenDishForDate />}
+      {isAssigningSelectedDishMode && (
+        <AssignChoosenDishForDate
+          useAssignDishModeResult={useAssignDishModeResult}
+        />
+      )}
     </div>
   );
 };

@@ -66,7 +66,11 @@ export default (props: Props) => {
     isDisplayCalenderMode,
     isNotDisplayCalenderMode,
     useAssignDishModeResult,
-  } = useCalenderMode();
+  } = useCalenderMode({
+    onDataChanged: () => {
+      refreshData();
+    },
+  });
 
   const onDateClick = (date: Date) => {
     if (useAssignDishModeResult.isAssigningSelectedDishMode) {

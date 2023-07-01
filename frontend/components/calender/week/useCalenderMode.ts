@@ -8,7 +8,7 @@ export const DISPLAY_CALENDER_MODE = 'DISPLAY_CALENDER_MODE';
 
 export type CalenderMode = typeof DISPLAY_CALENDER_MODE | AssigningDishMode;
 
-export default () => {
+export default ({ onDataChanged }) => {
   // const [calenderMode, setCalenderMode] = useState(DISPLAY_CALENDER_MODE);
   // デバッグ中のみ
   const [calenderMode, setCalenderMode] = useState(
@@ -28,6 +28,7 @@ export default () => {
     calenderMode,
     updateCalenderMode,
     changeCalenderModeToDisplayCalenderMode,
+    onDataChanged,
   });
 
   return {
