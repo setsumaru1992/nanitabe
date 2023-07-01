@@ -57,19 +57,22 @@ const useFetchExistingDishesForRegisteringWithMeal = (
     searchString = null,
     dishIdRegisteredWithMeal = null,
   } = params;
-  const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
-    useExistingDishesForRegisteringWithMealQuery,
-    useExistingDishesForRegisteringWithMealLazyQuery,
-    requireFetchedData,
-    {
-      searchString,
-      dishIdRegisteredWithMeal,
-    },
-  );
+  const { data, previousData, fetchLoading, fetchError, refetch } =
+    useCodegenQuery(
+      useExistingDishesForRegisteringWithMealQuery,
+      useExistingDishesForRegisteringWithMealLazyQuery,
+      requireFetchedData,
+      {
+        searchString,
+        dishIdRegisteredWithMeal,
+      },
+    );
 
   return {
     existingDishesForRegisteringWithMeal:
       data?.existingDishesForRegisteringWithMeal,
+    prefetchedExistingDishesForRegisteringWithMeal:
+      previousData?.existingDishesForRegisteringWithMeal,
     fetchExistingDishesForRegisteringWithMealLoading: fetchLoading,
     fetchExistingDishesForRegisteringWithMealError: fetchError,
     refetchExistingDishesForRegisteringWithMeal: refetch,
@@ -175,6 +178,7 @@ export const useFetchDishes = (params: FetchDishesParams) => {
   } = params;
   const {
     existingDishesForRegisteringWithMeal,
+    prefetchedExistingDishesForRegisteringWithMeal,
     fetchExistingDishesForRegisteringWithMealLoading,
     fetchExistingDishesForRegisteringWithMealError,
     refetchExistingDishesForRegisteringWithMeal,
@@ -195,6 +199,7 @@ export const useFetchDishes = (params: FetchDishesParams) => {
 
   return {
     existingDishesForRegisteringWithMeal,
+    prefetchedExistingDishesForRegisteringWithMeal,
     dish,
     dishesPerSource,
 

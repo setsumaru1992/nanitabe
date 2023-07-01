@@ -12,6 +12,7 @@ export const useCodegenQuery = (
   })();
   return {
     data: query.data,
+    previousData: query.previousData,
     fetchLoading: query.loading,
     fetchError: query.error,
     refetch: query.refetch,

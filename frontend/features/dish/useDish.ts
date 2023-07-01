@@ -23,6 +23,7 @@ export default (params: UseDishParams = {}) => {
 
   const {
     existingDishesForRegisteringWithMeal,
+    prefetchedExistingDishesForRegisteringWithMeal,
     dish,
     dishesPerSource,
     fetchLoading,
@@ -52,6 +53,7 @@ export default (params: UseDishParams = {}) => {
 
   return {
     existingDishesForRegisteringWithMeal,
+    prefetchedExistingDishesForRegisteringWithMeal,
     dish,
     dishesPerSource,
     fetchLoading,
