@@ -12,6 +12,8 @@ import {
 } from './useCalenderDate';
 import AssignDish from '../AssignDish';
 import { useApolloClient } from '../../../lib/graphql/buildApolloClient';
+import useCalenderMode from './useCalenderMode';
+import { ASSIGNING_DISH_MODES } from '../AssignDish/useAssignDishMode';
 
 export { useDateFormatStringInUrl } from './useCalenderDate';
 
@@ -60,6 +62,8 @@ export default (props: Props) => {
     await apolloClient.clearStore();
     refetchMealsForCalender();
   };
+
+  const { calenderMode, useAssignDishModeResult } = useCalenderMode();
 
   if (fetchMealsLoading) return <>Loading...</>;
   return (
@@ -128,7 +132,9 @@ export default (props: Props) => {
       >
         ▼
       </div>
-      <AssignDish />
+      {useAssignDishModeResult.inAssigningDishMode && (
+        <AssignDish useAssignDishModeResult={useAssignDishModeResult} />
+      )}
     </>
   );
 };

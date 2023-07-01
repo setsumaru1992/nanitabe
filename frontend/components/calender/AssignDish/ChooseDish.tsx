@@ -1,22 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import style from './AssignDish.module.scss';
 import ExistingDishIconForSelect from '../../meal/ExistingDishIconForSelect';
 import useDish from '../../../features/dish/useDish';
 import SelectMealType from '../../meal/MealForm/MealForm/SelectMealType';
-import { MEAL_TYPE, MealType } from '../../../features/meal/const';
-import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
+import { MEAL_TYPE } from '../../../features/meal/const';
 
 type Props = {
+  useAssignDishModeResult: any;
+  // もしかしたら以下はuseAssignDishModeResultに統合されるかも
   arrayOfUseStateResultOfSelectedDish: any;
   arrayOfUseStateResultOfSelectedMealType: any;
 };
 
 export default (props: Props) => {
   const {
+    useAssignDishModeResult,
     arrayOfUseStateResultOfSelectedDish,
     arrayOfUseStateResultOfSelectedMealType,
   } = props;
+  const {
+    changeCalenderModeToDisplayCalenderMode,
+    changeCalenderModeToAssigningSelectedDishMode,
+  } = useAssignDishModeResult;
   const [searchString, setSearchString] = useState('');
   const [selectedDish, setSelectedDish] = arrayOfUseStateResultOfSelectedDish;
   const [selectedMealType, setSelectedMealType] =
@@ -46,6 +52,13 @@ export default (props: Props) => {
   return (
     <div>
       タイトル
+      <div
+        onClick={() => {
+          changeCalenderModeToDisplayCalenderMode();
+        }}
+      >
+        閉じる
+      </div>
       <br />
       [時間帯]
       <SelectMealType
@@ -70,6 +83,7 @@ export default (props: Props) => {
             selected={dish.id === selectedDish?.id}
             onClick={() => {
               setSelectedDish(dish);
+              changeCalenderModeToAssigningSelectedDishMode();
             }}
           />
         ))}
