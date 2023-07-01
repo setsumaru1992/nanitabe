@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
+import classNames from 'classnames';
 import style from './AssignDish.module.scss';
 import ExistingDishIconForSelect from '../../meal/ExistingDishIconForSelect';
 import useDish from '../../../features/dish/useDish';
 import SelectMealType from '../../meal/MealForm/MealForm/SelectMealType';
 import { MEAL_TYPE } from '../../../features/meal/const';
+import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 
 type Props = {
   useAssignDishModeResult: any;
@@ -50,44 +52,65 @@ export default (props: Props) => {
 
   if (!fetchedDishes && fetchLoading) return <>Loading</>;
   return (
-    <div>
-      タイトル
-      <div
-        onClick={() => {
-          changeCalenderModeToDisplayCalenderMode();
-        }}
-      >
-        閉じる
-      </div>
-      <br />
-      [時間帯]
-      <SelectMealType
-        selectedMealType={selectedMealType || defaultMealType}
-        onClick={(mealType) => {
-          selectMealType(mealType);
-        }}
-      />
-      {/* TODO: 連続登録をできるようにするチェックボックス作成 */}
-      [食事を選択してください]
-      <Form.Control
-        type="text"
-        data-testid="existingDishSearchWord"
-        onChange={(e) => {
-          updateSearchString(e.target.value);
-        }}
-      />
-      <div className={style['existing-dish-icon-container']}>
-        {(dishes || fetchedDishes).map((dish) => (
-          <ExistingDishIconForSelect
-            key={dish.id}
-            dish={dish}
-            selected={dish.id === selectedDish?.id}
+    <div className={style['chosen-dish-container']}>
+      <div className={style['chosen-dish-header']}>
+        <div className={style['chosen-dish-header-title__container']}>
+          <div className={style['chosen-dish-header-title']}>食事登録</div>
+        </div>
+        <div className={style['chosen-dish-header-menu__container']}>
+          <div
+            className={classNames(
+              'fa fa-xmark',
+              style['chosen-dish-header-menu__close'],
+            )}
             onClick={() => {
-              selectDish(dish);
-              changeCalenderModeToAssigningSelectedDishMode();
+              changeCalenderModeToDisplayCalenderMode();
             }}
           />
-        ))}
+        </div>
+      </div>
+      <div className={style['chosen-dish-form__label-and-input-container']}>
+        <div className={style['chosen-dish-form__label']}>時間帯</div>
+        <SelectMealType
+          selectedMealType={selectedMealType || defaultMealType}
+          onClick={(mealType) => {
+            selectMealType(mealType);
+          }}
+        />
+      </div>
+      {/* TODO: 連続登録をできるようにするチェックボックス作成 */}
+      <div className={style['chosen-dish-form__label-and-input-container']}>
+        {/*
+          NOTE:
+          なぜかflexboxの影響でラベルの幅が縮まってしまっている（開発者ツールで紫の斜線出てるのが証拠）
+          直し方わからないので一旦保留
+        */}
+        <div className={style['chosen-dish-form__label']}>料理</div>
+        <div className={style['chosen-dish-form-select-dish__container']}>
+          <Form.Control
+            type="text"
+            placeholder="料理を検索できます"
+            data-testid="existingDishSearchWord"
+            onChange={(e) => {
+              updateSearchString(e.target.value);
+            }}
+          />
+          <div>
+            <div className={style['existing-dish-icon-container']}>
+              {(dishes || fetchedDishes).map((dish) => (
+                <ExistingDishIconForSelect
+                  key={dish.id}
+                  dish={dish}
+                  selected={dish.id === selectedDish?.id}
+                  onClick={() => {
+                    selectDish(dish);
+                    changeCalenderModeToAssigningSelectedDishMode();
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

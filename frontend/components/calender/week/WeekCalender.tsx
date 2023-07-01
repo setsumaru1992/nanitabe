@@ -130,15 +130,15 @@ export default (props: Props) => {
                         />{' '}
                       </React.Fragment>
                     ))}
+                    {isDisplayCalenderMode && (
+                      <AddMealIcon
+                        dateForAdd={date}
+                        onAddSucceeded={async () => {
+                          await refreshData();
+                        }}
+                      />
+                    )}
                   </div>
-                  {isDisplayCalenderMode && (
-                    <AddMealIcon
-                      dateForAdd={date}
-                      onAddSucceeded={async () => {
-                        await refreshData();
-                      }}
-                    />
-                  )}
                 </td>
               </tr>
             );
