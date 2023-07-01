@@ -13,7 +13,6 @@ import {
 import AssignDish from '../AssignDish';
 import { useApolloClient } from '../../../lib/graphql/buildApolloClient';
 import useCalenderMode from './useCalenderMode';
-import { ASSIGNING_DISH_MODES } from '../AssignDish/useAssignDishMode';
 
 export { useDateFormatStringInUrl } from './useCalenderDate';
 
@@ -100,7 +99,11 @@ export default (props: Props) => {
               })?.meals || [];
 
             return (
-              <tr key={dateNumber} onClick={() => onDateClick(date)}>
+              <tr
+                key={dateNumber}
+                onClick={() => onDateClick(date)}
+                data-testid={`weekCalendarDateOf${date.toISOString()}`}
+              >
                 <th>
                   <div className={style['date']}>
                     <span className={style['date__date-number']}>

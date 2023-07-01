@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import style from './AssignDish.module.scss';
 import ExistingDishIconForSelect from '../../meal/ExistingDishIconForSelect';
@@ -22,6 +22,11 @@ export default (props: Props) => {
     searchStringForSearchingExistingDish,
     updateSearchString,
   } = useAssignDishModeResult;
+
+  const defaultMealType = MEAL_TYPE.DINNER;
+  useEffect(() => {
+    selectMealType(defaultMealType);
+  }, []);
 
   const {
     existingDishesForRegisteringWithMeal: dishes,
@@ -57,8 +62,8 @@ export default (props: Props) => {
       <br />
       [時間帯]
       <SelectMealType
-        selectedMealType={selectedMealType || MEAL_TYPE.DINNER}
-        onChange={(mealType) => {
+        selectedMealType={selectedMealType || defaultMealType}
+        onClick={(mealType) => {
           selectMealType(mealType);
         }}
       />

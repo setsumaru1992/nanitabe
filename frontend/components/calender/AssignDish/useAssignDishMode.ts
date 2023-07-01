@@ -61,13 +61,19 @@ const useValuesAndFuncsForAddMeal = () => {
   const [selectedMealType, setSelectedMealType] = useState(null);
 
   const onDateClickForAssigningDish = (date: Date) => {
-    addMeal({
-      dishId: selectedDish!.id,
-      meal: {
-        date,
-        mealType: selectedMealType,
+    addMeal(
+      {
+        dishId: selectedDish!.id,
+        meal: {
+          date,
+          mealType: selectedMealType,
+        },
       },
-    });
+      {
+        onCompleted: () => {},
+        onError: (error) => {},
+      },
+    );
   };
 
   return {

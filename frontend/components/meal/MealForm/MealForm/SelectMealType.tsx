@@ -7,12 +7,13 @@ import {
 } from '../../../../features/meal/const';
 
 type Props = {
-  onChange: (mealType: MealType) => void;
+  onClick?: (mealType: MealType) => void;
+  onChange?: (mealType: MealType) => void;
   selectedMealType: MealType;
 };
 
 export default (props: Props) => {
-  const { onChange, selectedMealType } = props;
+  const { onClick, onChange, selectedMealType } = props;
 
   return (
     <Form.Group>
@@ -23,7 +24,12 @@ export default (props: Props) => {
           inline
           name="meal_type"
           value={mealType}
-          onChange={() => onChange(mealType)}
+          onClick={() => {
+            if (onClick) onClick(mealType);
+          }}
+          onChange={() => {
+            if (onChange) onChange(mealType);
+          }}
           checked={mealType === selectedMealType}
           label={MEAL_TYPE_LABELS[mealType]}
           data-testid={`mealTypeOption-${mealType}`}
