@@ -6,7 +6,7 @@ import style from '../MealForm.module.scss';
 import FormFieldWrapperWithLabel from '../../../common/form/FormFieldWrapperWithLabel';
 import { buildISODateString } from '../../../../features/utils/dateUtils';
 import ErrorMessageIfExist from '../../../common/form/ErrorMessageIfExist';
-import { MEAL_TYPE } from '../../../../features/meal/const';
+import { MEAL_TYPE, MealType } from '../../../../features/meal/const';
 import { DishFormContent } from '../../../dish/DishForm/DishForm';
 import SelectMealType from './SelectMealType';
 import { UseChoosingPutDishSourceTypeResult } from '../../../dish/DishForm/DishForm/useChoosingPutDishSourceType';
@@ -94,7 +94,9 @@ export default (props: Props) => {
 
           <FormFieldWrapperWithLabel label="時間帯" required>
             <SelectMealType
-              selectedMealType={MEAL_TYPE.DINNER}
+              selectedMealType={
+                (registeredMealType as MealType) || MEAL_TYPE.DINNER
+              }
               onChange={(mealType) => {
                 setSelectedMealType(mealType);
               }}

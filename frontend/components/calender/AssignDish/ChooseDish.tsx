@@ -3,15 +3,24 @@ import { Form } from 'react-bootstrap';
 import style from './AssignDish.module.scss';
 import ExistingDishIconForSelect from '../../meal/ExistingDishIconForSelect';
 import useDish from '../../../features/dish/useDish';
+import SelectMealType from '../../meal/MealForm/MealForm/SelectMealType';
+import { MEAL_TYPE, MealType } from '../../../features/meal/const';
+import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 
 type Props = {
   arrayOfUseStateResultOfSelectedDish: any;
+  arrayOfUseStateResultOfSelectedMealType: any;
 };
 
 export default (props: Props) => {
-  const { arrayOfUseStateResultOfSelectedDish } = props;
+  const {
+    arrayOfUseStateResultOfSelectedDish,
+    arrayOfUseStateResultOfSelectedMealType,
+  } = props;
   const [searchString, setSearchString] = useState('');
   const [selectedDish, setSelectedDish] = arrayOfUseStateResultOfSelectedDish;
+  const [selectedMealType, setSelectedMealType] =
+    arrayOfUseStateResultOfSelectedMealType;
 
   const {
     existingDishesForRegisteringWithMeal: dishes,
@@ -36,9 +45,16 @@ export default (props: Props) => {
   if (!fetchedDishes && fetchLoading) return <>Loading</>;
   return (
     <div>
-      TODO: 食事時間選ばせるラジオボタン
+      タイトル
       <br />
-      食事を選択してください。
+      [時間帯]
+      <SelectMealType
+        selectedMealType={selectedMealType || MEAL_TYPE.DINNER}
+        onChange={(mealType) => {
+          setSelectedMealType(mealType);
+        }}
+      />
+      [食事を選択してください]
       <Form.Control
         type="text"
         data-testid="existingDishSearchWord"
