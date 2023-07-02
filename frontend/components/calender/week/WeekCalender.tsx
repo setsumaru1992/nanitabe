@@ -22,32 +22,8 @@ type Props = {
   date?: Date;
 };
 
-export default (props: Props) => {
-  const { date: dateArg } = props;
-
-  // TODO: 自分以外も使うようになったらユーザ設定で選べるようにする
-  const { daysOfWeek, getWeekStartDateFrom } =
-    useCalenderDayOfWeek(START_FROM_SAT);
-  const {
-    firstDisplayDate,
-    updateFirstDateToPreviousWeekFirstDate,
-    updateFirstDateToNextWeekFirstDate,
-  } = useFirstDisplayDate(dateArg || new Date(), getWeekStartDateFrom);
-
-  const { mealsForCalender, fetchMealsLoading, refetchMealsForCalender } =
-    useMeal({
-      fetchMealsParams: {
-        fetchMealsForCalenderParams: {
-          requireFetchedData: true,
-          startDate: firstDisplayDate,
-        },
-      },
-    });
-
-  const { FloatModal, FloatModalOpener, closeModal } = useFloatModal({
-    followRightEdge: true,
-  });
-
+const useRefreshCalenderData = (args: { refetchMealsForCalender: any }) => {
+  const { refetchMealsForCalender } = args;
   const { apolloClient } = useApolloClient();
 
   const refreshData = async () => {
@@ -71,6 +47,129 @@ export default (props: Props) => {
     refetchMealsForCalender();
   };
 
+  return {
+    refreshData,
+  };
+};
+
+const useOtherWeekDisplayComponent = (props: {
+  updateFirstDateToPreviousWeekFirstDate: any;
+  updateFirstDateToNextWeekFirstDate: any;
+}) => {
+  const {
+    updateFirstDateToPreviousWeekFirstDate,
+    updateFirstDateToNextWeekFirstDate,
+  } = props;
+
+  const PreviousWeekDisplayButton = () => {
+    return (
+      <div
+        className={style['move-date-button']}
+        onClick={() => {
+          updateFirstDateToPreviousWeekFirstDate();
+        }}
+      >
+        ▲
+      </div>
+    );
+  };
+
+  const NextWeekDisplayButton = () => {
+    return (
+      <div
+        className={style['move-date-button']}
+        onClick={() => {
+          updateFirstDateToNextWeekFirstDate();
+        }}
+      >
+        ▼
+      </div>
+    );
+  };
+
+  return {
+    PreviousWeekDisplayButton,
+    NextWeekDisplayButton,
+  };
+};
+
+const CalenderMenu = (props: { useAssignDishModeResult: any }) => {
+  const { useAssignDishModeResult } = props;
+
+  const { FloatModal, FloatModalOpener, closeModal } = useFloatModal({
+    followRightEdge: true,
+  });
+
+  return (
+    <>
+      <FloatModalOpener>
+        <div className={style['mark__wrapper']}>
+          <div
+            className={classnames(
+              'fa-solid fa-bars',
+              style['mark'],
+              style['mark-to-click'],
+            )}
+            data-testid="calenderMenu"
+          />
+        </div>
+      </FloatModalOpener>
+      <FloatModal>
+        <ul className={classnames(style['week-calender-header-float-menu'])}>
+          <li
+            className={classnames(
+              style['week-calender-header-float-menu__row'],
+            )}
+          >
+            <a
+              className={classnames(
+                style['week-calender-header-float-menu__content'],
+              )}
+              onClick={() => {
+                closeModal();
+                useAssignDishModeResult.startAssigningDishMode();
+              }}
+              data-testid="calenderMenu-assignDish"
+            >
+              食事割当て
+            </a>
+          </li>
+        </ul>
+      </FloatModal>
+    </>
+  );
+};
+
+export default (props: Props) => {
+  const { date: dateArg } = props;
+
+  // TODO: 自分以外も使うようになったらユーザ設定で選べるようにする
+  const { daysOfWeek, getWeekStartDateFrom } =
+    useCalenderDayOfWeek(START_FROM_SAT);
+  const {
+    firstDisplayDate,
+    updateFirstDateToPreviousWeekFirstDate,
+    updateFirstDateToNextWeekFirstDate,
+  } = useFirstDisplayDate(dateArg || new Date(), getWeekStartDateFrom);
+
+  const { PreviousWeekDisplayButton, NextWeekDisplayButton } =
+    useOtherWeekDisplayComponent({
+      updateFirstDateToPreviousWeekFirstDate,
+      updateFirstDateToNextWeekFirstDate,
+    });
+
+  const { mealsForCalender, fetchMealsLoading, refetchMealsForCalender } =
+    useMeal({
+      fetchMealsParams: {
+        fetchMealsForCalenderParams: {
+          requireFetchedData: true,
+          startDate: firstDisplayDate,
+        },
+      },
+    });
+
+  const { refreshData } = useRefreshCalenderData({ refetchMealsForCalender });
+
   const { isDisplayCalenderMode, useAssignDishModeResult } = useCalenderMode({
     onDataChanged: () => {
       refreshData();
@@ -92,53 +191,11 @@ export default (props: Props) => {
         </div>
         <div className={style['week-calender-header-menu']}>
           {isDisplayCalenderMode && (
-            <FloatModalOpener>
-              <div className={style['mark__wrapper']}>
-                <div
-                  className={classnames(
-                    'fa-solid fa-bars',
-                    style['mark'],
-                    style['mark-to-click'],
-                  )}
-                  data-testid="calenderMenu"
-                />
-              </div>
-            </FloatModalOpener>
+            <CalenderMenu useAssignDishModeResult={useAssignDishModeResult} />
           )}
-          <FloatModal>
-            <ul
-              className={classnames(style['week-calender-header-float-menu'])}
-            >
-              <li
-                className={classnames(
-                  style['week-calender-header-float-menu__row'],
-                )}
-              >
-                <a
-                  className={classnames(
-                    style['week-calender-header-float-menu__content'],
-                  )}
-                  onClick={() => {
-                    closeModal();
-                    useAssignDishModeResult.startAssigningDishMode();
-                  }}
-                  data-testid="calenderMenu-assignDish"
-                >
-                  食事割当て
-                </a>
-              </li>
-            </ul>
-          </FloatModal>
         </div>
       </div>
-      <div
-        className={style['move-date-button']}
-        onClick={() => {
-          updateFirstDateToPreviousWeekFirstDate();
-        }}
-      >
-        ▲
-      </div>
+      <PreviousWeekDisplayButton />
       <table>
         <tbody>
           {daysOfWeek.map((day, dayIndex) => {
@@ -195,16 +252,17 @@ export default (props: Props) => {
           })}
         </tbody>
       </table>
-      <div
-        className={style['move-date-button']}
-        onClick={() => {
-          updateFirstDateToNextWeekFirstDate();
-        }}
-      >
-        ▼
-      </div>
+
+      {!useAssignDishModeResult.inAssigningDishMode && (
+        <NextWeekDisplayButton />
+      )}
+
+      {/* 食事割当以外にも下からせり出るバーを使うようになったら条件変える */}
       {useAssignDishModeResult.inAssigningDishMode && (
-        <AssignDish useAssignDishModeResult={useAssignDishModeResult} />
+        <div className={style['fixed-bar-from-bottom']}>
+          <NextWeekDisplayButton />
+          <AssignDish useAssignDishModeResult={useAssignDishModeResult} />
+        </div>
       )}
     </div>
   );
