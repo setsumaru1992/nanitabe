@@ -36,6 +36,8 @@ type Props = {
   useChoosingPutDishSourceTypeResult: UseChoosingPutDishSourceTypeResult;
 
   onSchemaError?: any;
+  doContinuousRegistration?: any;
+  toggleDoContinuousRegistration?: any;
 };
 
 export default (props: Props) => {
@@ -46,6 +48,8 @@ export default (props: Props) => {
     onSchemaError,
     children,
     useChoosingPutDishSourceTypeResult,
+    doContinuousRegistration,
+    toggleDoContinuousRegistration,
   } = props;
 
   const methods = useForm({ resolver: zodResolver(formSchema) });
@@ -65,6 +69,20 @@ export default (props: Props) => {
           }
         />
         {children}
+
+        {doContinuousRegistration !== undefined && (
+          <div>
+            {/* デザインちゃんとする */}
+            <input
+              type="checkbox"
+              id="continuousRegistrationCheck"
+              data-testid="continuousRegistrationCheck"
+              checked={doContinuousRegistration}
+              onChange={() => toggleDoContinuousRegistration()}
+            />
+            <label htmlFor="continuousRegistrationCheck">連続登録する</label>
+          </div>
+        )}
         <Form.Group>
           <Button type="submit" data-testid="submitDishButton">
             登録
