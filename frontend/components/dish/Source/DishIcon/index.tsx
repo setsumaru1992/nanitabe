@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import style from './index.module.scss';
 import { DishWithRegisteredMeals } from '../../../../lib/graphql/generated/graphql';
 import useDish from '../../../../features/dish/useDish';
@@ -34,7 +34,7 @@ export default (props: Props) => {
   };
 
   return (
-    <div className={classNames(style['dish-icon__container'], style['icon'])}>
+    <div className={classnames(style['dish-icon__container'], style['icon'])}>
       <div className={style['dish-icon__content']}>
         <Link href={`/dishes/${dish.id}/edit`}>{dish.name}</Link>
         &nbsp;

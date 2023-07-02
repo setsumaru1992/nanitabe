@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import style from './index.module.scss';
 import { MealForCalender } from '../../../../lib/graphql/generated/graphql';
 import { MEAL_TYPE } from '../../../../features/meal/const';
@@ -32,12 +32,12 @@ export default (props: Props) => {
     return `meal-icon--${suffix}`;
   })();
   return (
-    <div className={classNames(style['icon'], style[iconCssClassOfMealType])}>
+    <div className={classnames(style['icon'], style[iconCssClassOfMealType])}>
       {dish.name} &nbsp;
       {canAnythingExeptDisplayDishName && (
         <FloatModalOpener>
           <i
-            className={classNames(
+            className={classnames(
               'fa-solid',
               'fa-ellipsis-vertical',
               style['meal-icon__menu-button'],

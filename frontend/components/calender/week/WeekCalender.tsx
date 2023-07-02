@@ -1,6 +1,6 @@
 import React from 'react';
 import { addDays, format, getDate, isSameDay } from 'date-fns';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import style from './WeekCalender.module.scss';
 import CalenderMealIcon from './MealIcon';
 import AddMealIcon from './MealIcon/AddMealIcon';
@@ -92,32 +92,34 @@ export default (props: Props) => {
             <FloatModalOpener>
               <div className={style['mark__wrapper']}>
                 <div
-                  className={classNames(
+                  className={classnames(
                     'fa-solid fa-bars',
                     style['mark'],
                     style['mark-to-click'],
                   )}
+                  data-testid="calenderMenu"
                 />
               </div>
             </FloatModalOpener>
           )}
           <FloatModal>
             <ul
-              className={classNames(style['week-calender-header-float-menu'])}
+              className={classnames(style['week-calender-header-float-menu'])}
             >
               <li
-                className={classNames(
+                className={classnames(
                   style['week-calender-header-float-menu__row'],
                 )}
               >
                 <a
-                  className={classNames(
+                  className={classnames(
                     style['week-calender-header-float-menu__content'],
                   )}
                   onClick={() => {
                     closeModal();
                     useAssignDishModeResult.startAssigningDishMode();
                   }}
+                  data-testid="calenderMenu-assignDish"
                 >
                   食事割当て
                 </a>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import style from './FloatModal.module.scss';
 import useModalTool, { UseModalToolArgs } from '../useModalTool';
 
@@ -25,10 +25,10 @@ export default (args: Args = {}) => {
   >(closeModal);
 
   const FloatModal = ({ children }: { children: React.ReactNode }) => (
-    <div ref={modalRef} className={classNames(style['float-modal__wrapper'])}>
+    <div ref={modalRef} className={classnames(style['float-modal__wrapper'])}>
       {modalVisible && (
         <div
-          className={classNames({
+          className={classnames({
             [style['float-modal']]: true,
             [style['float-modal--follow-right-edge']]: followRightEdge,
           })}
@@ -42,7 +42,7 @@ export default (args: Args = {}) => {
     <div
       ref={modalOpenerRef}
       onClick={toggleModalOnClick}
-      className={classNames(style['float-modal-opener'])}
+      className={classnames(style['float-modal-opener'])}
     >
       {children}
     </div>

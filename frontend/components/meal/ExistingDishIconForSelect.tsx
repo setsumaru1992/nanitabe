@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import style from './ExistingDishIconForSelect.module.scss';
 
 type Props = {
@@ -22,7 +22,7 @@ export default (props: Props) => {
   return (
     <div className={style['dish-icon__wrap']}>
       <div
-        className={classNames({
+        className={classnames({
           [style['icon']]: true,
           [style['dish-icon']]: true,
           [style['dish-icon--selected']]: selected,

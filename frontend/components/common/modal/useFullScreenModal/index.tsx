@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import style from './FullScreenModal.module.scss';
 import useModalTool, { UseModalToolArgs } from '../useModalTool';
 
@@ -31,18 +31,18 @@ export default (args: Args = {}) => {
   }) => (
     <>
       {modalVisible && (
-        <div className={classNames(style['modal__background'])}>
-          <div className={classNames(style['modal__wrap'])} ref={modalRef}>
-            <div className={classNames(style['modal__header'])}>
-              <p className={classNames(style['modal__title'])}>{title}</p>
+        <div className={classnames(style['modal__background'])}>
+          <div className={classnames(style['modal__wrap'])} ref={modalRef}>
+            <div className={classnames(style['modal__header'])}>
+              <p className={classnames(style['modal__title'])}>{title}</p>
               <a
-                className={classNames(style['modal__icon'])}
+                className={classnames(style['modal__icon'])}
                 onClick={closeModalOnClick}
               >
                 <i className="fa fa-times" />
               </a>
             </div>
-            <div className={classNames(style['modal__contents'])}>
+            <div className={classnames(style['modal__contents'])}>
               {children}
             </div>
           </div>
@@ -58,7 +58,7 @@ export default (args: Args = {}) => {
     <div
       ref={modalOpenerRef}
       onClick={toggleModalOnClick}
-      className={classNames(style['float-modal-opener'])}
+      className={classnames(style['float-modal-opener'])}
     >
       {children}
     </div>

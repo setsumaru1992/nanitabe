@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import style from './AddMealIcon.module.scss';
 import useFullScreenModal from '../../../common/modal/useFullScreenModal';
 import { AddMeal } from '../../../meal/MealForm';
@@ -16,7 +16,7 @@ export default (props: Props) => {
   return (
     <>
       <FullScreenModalOpener>
-        <div className={classNames(style['icon'], style['add-meal-icon'])}>
+        <div className={classnames(style['icon'], style['add-meal-icon'])}>
           +
         </div>
       </FullScreenModalOpener>

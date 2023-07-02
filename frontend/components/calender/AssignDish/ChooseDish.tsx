@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import style from './AssignDish.module.scss';
 import ExistingDishIconForSelect from '../../meal/ExistingDishIconForSelect';
 import useDish from '../../../features/dish/useDish';
@@ -61,7 +61,7 @@ export default (props: Props) => {
           {selectedDish && (
             <div className={style['mark__wrapper']}>
               <div
-                className={classNames(
+                className={classnames(
                   'fa-solid fa-angle-down',
                   style['mark'],
                   style['mark-to-click'],
@@ -74,7 +74,7 @@ export default (props: Props) => {
           )}
           <div className={style['mark__wrapper']}>
             <div
-              className={classNames(
+              className={classnames(
                 'fa fa-xmark',
                 style['mark'],
                 style['mark-to-click'],
