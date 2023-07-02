@@ -25,11 +25,13 @@ module Queries::Meal
         result = meal.attributes
         result[:dish] = meal.dish.attributes
 
-        dish_relation = {
-          dish_id: meal.dish&.dish_source_relation.dish_id,
-          dish_source_id: meal.dish&.dish_source_relation.dish_source_id,
-          type: meal.dish&.dish_source.type,
-        }
+        dish_relation = if meal.dish&.dish_source_relation.present? && meal.dish&.dish_source.present?
+                          {
+                            dish_id: meal.dish.dish_source_relation.dish_id,
+                            dish_source_id: meal.dish.dish_source_relation.dish_source_id,
+                            type: meal.dish.dish_source.type,
+                          }
+                        end
         result[:dish][:dish_source_relation] = dish_relation
 
         result.with_indifferent_access
