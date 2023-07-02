@@ -8,18 +8,18 @@ import { UseChoosingPutDishSourceTypeResult } from './useChoosingPutDishSourceTy
 import { DishFormOfRelatedDishSource } from './DishFormOfRelatedDishSource';
 
 type DishFormContentProps = {
-  registeredDish?: Dish;
+  preFilledDish?: Dish;
   useChoosingPutDishSourceTypeResult: UseChoosingPutDishSourceTypeResult;
 };
 
 export const DishFormContent = (props: DishFormContentProps) => {
-  const { registeredDish, useChoosingPutDishSourceTypeResult } = props;
+  const { preFilledDish, useChoosingPutDishSourceTypeResult } = props;
 
   return (
     <>
-      <DishFormOfOnlyDishFields registeredDish={registeredDish} />
+      <DishFormOfOnlyDishFields preFilledDish={preFilledDish} />
       <DishFormOfRelatedDishSource
-        registeredDish={registeredDish}
+        preFilledDish={preFilledDish}
         useChoosingPutDishSourceTypeResult={useChoosingPutDishSourceTypeResult}
       />
     </>
@@ -31,7 +31,7 @@ type Props = {
   onSubmit: any;
   children?: React.ReactNode;
 
-  registeredDish?: Dish;
+  preFilledDish?: Dish;
 
   useChoosingPutDishSourceTypeResult: UseChoosingPutDishSourceTypeResult;
 
@@ -42,7 +42,7 @@ export default (props: Props) => {
   const {
     formSchema,
     onSubmit,
-    registeredDish,
+    preFilledDish,
     onSchemaError,
     children,
     useChoosingPutDishSourceTypeResult,
@@ -59,7 +59,7 @@ export default (props: Props) => {
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(onSubmit, onError)}>
         <DishFormContent
-          registeredDish={registeredDish}
+          preFilledDish={preFilledDish}
           useChoosingPutDishSourceTypeResult={
             useChoosingPutDishSourceTypeResult
           }

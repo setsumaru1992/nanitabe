@@ -11,12 +11,12 @@ import {
 } from '../../../../features/dish/const';
 
 type DishFormOfOnlyDishFieldsProps = {
-  registeredDish?: Dish;
+  preFilledDish?: Dish;
 };
 export const DishFormOfOnlyDishFields = (
   props: DishFormOfOnlyDishFieldsProps,
 ) => {
-  const { registeredDish } = props;
+  const { preFilledDish } = props;
 
   const {
     register,
@@ -25,10 +25,10 @@ export const DishFormOfOnlyDishFields = (
 
   return (
     <>
-      {registeredDish?.id && (
+      {preFilledDish?.id && (
         <input
           type="hidden"
-          value={registeredDish.id}
+          value={preFilledDish.id}
           {...register('dish.id', { valueAsNumber: true })}
         />
       )}
@@ -36,14 +36,14 @@ export const DishFormOfOnlyDishFields = (
         <Form.Control
           type="text"
           {...register('dish.name')}
-          defaultValue={registeredDish?.name}
+          defaultValue={preFilledDish?.name}
           data-testid="dishname"
         />
         <ErrorMessageIfExist errorMessage={errors.dish?.name?.message} />
       </FormFieldWrapperWithLabel>
       <FormFieldWrapperWithLabel label="位置づけ">
         <Form.Select
-          defaultValue={registeredDish?.mealPosition || MEAL_POSITION.MAIN_DISH}
+          defaultValue={preFilledDish?.mealPosition || MEAL_POSITION.MAIN_DISH}
           {...register('dish.mealPosition', { valueAsNumber: true })}
           data-testid="mealPositionOptions"
         >

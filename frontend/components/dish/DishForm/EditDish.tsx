@@ -65,7 +65,7 @@ export default (props: Props) => {
       formSchema={updateDishSchema}
       onSubmit={onSubmit}
       onSchemaError={onSchemaError}
-      registeredDish={dish}
+      preFilledDish={dish}
       useChoosingPutDishSourceTypeResult={useChoosingPutDishSourceTypeResult}
     />
   );

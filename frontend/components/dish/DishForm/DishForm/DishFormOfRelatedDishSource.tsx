@@ -16,7 +16,7 @@ import {
 } from '../../../../lib/graphql/generated/graphql';
 import useDishSource from '../../../../features/dish/source/useDishSource';
 
-const useSelectedExistingDishSource = (registeredDish?: Dish, setValue) => {
+const useSelectedExistingDishSource = (preFilledDish?: Dish, setValue) => {
   // NOTE: 登録済みのレシピチェックボックス選択時のみ動かすとしてもhooksだけは動かしてから早期空レスポンスリターン
   const { dishSources } = useDishSource({
     fetchDishSourcesParams: {
@@ -24,7 +24,7 @@ const useSelectedExistingDishSource = (registeredDish?: Dish, setValue) => {
     },
   });
   const [dishSourceId, setDishSourceId] = useState(
-    registeredDish?.dishSourceRelation?.dishSourceId || null,
+    preFilledDish?.dishSourceRelation?.dishSourceId || null,
   );
 
   const selectedDishSource: DishSourceRegisteredWithDish | null = (() => {
@@ -34,10 +34,10 @@ const useSelectedExistingDishSource = (registeredDish?: Dish, setValue) => {
   })();
   const dishSourceRelation = (() => {
     // if (choosingRegisterNewDishSource) return null;
-    if (!registeredDish || !registeredDish.dishSourceRelation) return null;
-    if (registeredDish.dishSourceRelation.dishSourceId !== dishSourceId)
+    if (!preFilledDish || !preFilledDish.dishSourceRelation) return null;
+    if (preFilledDish.dishSourceRelation.dishSourceId !== dishSourceId)
       return null;
-    return registeredDish.dishSourceRelation;
+    return preFilledDish.dishSourceRelation;
   })();
 
   useEffect(() => {
@@ -54,14 +54,14 @@ const useSelectedExistingDishSource = (registeredDish?: Dish, setValue) => {
   };
 };
 type DishFormOfRelatedDishSourceProps = {
-  registeredDish?: Dish;
+  preFilledDish?: Dish;
   useChoosingPutDishSourceTypeResult: UseChoosingPutDishSourceTypeResult;
 };
 export const DishFormOfRelatedDishSource = (
   props: DishFormOfRelatedDishSourceProps,
 ) => {
   const {
-    registeredDish,
+    preFilledDish,
     useChoosingPutDishSourceTypeResult: {
       choosingRegisterNewDishSource,
       choosingUseExistingDishSource,
@@ -77,7 +77,7 @@ export const DishFormOfRelatedDishSource = (
     setDishSourceId,
     selectedDishSource,
     dishSourceRelation,
-  } = useSelectedExistingDishSource(registeredDish, setValue);
+  } = useSelectedExistingDishSource(preFilledDish, setValue);
 
   return (
     <>
