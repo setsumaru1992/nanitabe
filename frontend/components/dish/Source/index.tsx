@@ -98,12 +98,23 @@ export default () => {
                             }}
                           />
                         ))}
-                        <AddDishIcon />
+                        <AddDishIcon
+                          addDishParams={{
+                            mealPosition:
+                              dishesPerMealPositionElement?.mealPosition,
+                            dishSourceId:
+                              dishesPerSourceElement?.dishSource?.id,
+                          }}
+                        />
                       </div>
                     </div>
                   ),
                 )}
-                <AddDishIcon />
+                <AddDishIcon
+                  addDishParams={{
+                    dishSourceId: dishesPerSourceElement?.dishSource?.id,
+                  }}
+                />
               </div>
             </div>
           ),
