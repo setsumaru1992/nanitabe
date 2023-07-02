@@ -64,7 +64,10 @@ export default (props: Props) => {
       - apollo経由のデータを使うコンポーネントの初回描画時にキャッシュ経由のデータ取得なら当該データの再取得
         - キャッシュ経由データ取得だったか判断できない
      */
-    await apolloClient.clearStore();
+    // テストが通らないので仕方なく
+    if (apolloClient?.clearStore !== undefined) {
+      await apolloClient.clearStore();
+    }
     refetchMealsForCalender();
   };
 

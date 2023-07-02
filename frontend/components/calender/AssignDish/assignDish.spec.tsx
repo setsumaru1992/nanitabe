@@ -57,13 +57,17 @@ describe('assign dish on week calender', () => {
 
   describe('when assign dish', () => {
     it('succeeds with expected graphql params', async () => {
-      const { getLatestMutationVariables, mutationInterceptor } =
-        registerMutationHandler(AddMealDocument, {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        AddMealDocument,
+        {
           addMeal: {
             mealId: 1,
           },
-        });
+        },
+      );
 
+      await userClick(screen, 'calenderMenu');
+      await userClick(screen, 'calenderMenu-assignDish');
       await userClick(
         screen,
         `mealTypeOption-${newMealWithRequiredParams.mealType}`,
