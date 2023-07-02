@@ -93,17 +93,25 @@ export default (args: {
   calenderMode: any;
   updateCalenderMode: any;
   changeCalenderModeToDisplayCalenderMode: any;
-  onDataChanged: any;
+  onDataChanged?: any;
 }) => {
   const { onDataChanged } = args;
+
   const useOnlyAssigningDishModeResult = useOnlyAssigningDishMode(args);
   const useValuesAndFuncsForAddMealResult = useValuesAndFuncsForAddMeal();
+
   const [searchStringForSearchingExistingDish, updateSearchString] =
     useState('');
+  const [doContinuousRegistration, setDoContinuousRegistration] =
+    useState(false);
+  const toggleDoContinuousRegistration = () => {
+    setDoContinuousRegistration(!doContinuousRegistration);
+  };
 
   const {
     startAssigningDishModeGenerator,
     changeCalenderModeToDisplayCalenderMode,
+    changeCalenderModeToChoosingDishMode,
   } = useOnlyAssigningDishModeResult;
   const { onDateClickForAssigningDishGenerator, selectDish, selectMealType } =
     useValuesAndFuncsForAddMealResult;
@@ -119,8 +127,14 @@ export default (args: {
 
   const onDateClickForAssigningDish = onDateClickForAssigningDishGenerator({
     onCompleted: () => {
-      onDataChanged();
-      changeCalenderModeToDisplayCalenderMode();
+      if (onDataChanged) onDataChanged();
+
+      if (doContinuousRegistration) {
+        selectDish(null);
+        changeCalenderModeToChoosingDishMode();
+      } else {
+        changeCalenderModeToDisplayCalenderMode();
+      }
     },
   });
 
@@ -133,5 +147,8 @@ export default (args: {
 
     searchStringForSearchingExistingDish,
     updateSearchString,
+
+    doContinuousRegistration,
+    toggleDoContinuousRegistration,
   };
 };

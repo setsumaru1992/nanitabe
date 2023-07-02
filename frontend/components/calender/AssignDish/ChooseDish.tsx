@@ -23,6 +23,8 @@ export default (props: Props) => {
     selectMealType,
     searchStringForSearchingExistingDish,
     updateSearchString,
+    doContinuousRegistration,
+    toggleDoContinuousRegistration,
   } = useAssignDishModeResult;
 
   const defaultMealType = MEAL_TYPE.DINNER;
@@ -95,7 +97,16 @@ export default (props: Props) => {
           }}
         />
       </div>
-      {/* TODO: 連続登録をできるようにするチェックボックス作成 */}
+      <div>
+        <input
+          type="checkbox"
+          id="continuousRegistrationCheck"
+          data-testid="continuousRegistrationCheck"
+          checked={doContinuousRegistration}
+          onChange={() => toggleDoContinuousRegistration()}
+        />
+        <label htmlFor="continuousRegistrationCheck">連続登録する</label>
+      </div>
       <div className={style['choose-dish-form__label-and-input-container']}>
         {/*
           NOTE:

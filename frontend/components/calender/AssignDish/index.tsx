@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import style from './AssignDish.module.scss';
 import ChooseDish from './ChooseDish';
-import AssignChoosenDishForDate from './AssignChoosenDishForDate';
+import AssignChosenDishForDate from './AssignChosenDishForDate';
 
 type Props = {
   useAssignDishModeResult: any;
@@ -19,7 +19,7 @@ export default (props: Props) => {
       )}
 
       {isAssigningSelectedDishMode && (
-        <AssignChoosenDishForDate
+        <AssignChosenDishForDate
           useAssignDishModeResult={useAssignDishModeResult}
         />
       )}
