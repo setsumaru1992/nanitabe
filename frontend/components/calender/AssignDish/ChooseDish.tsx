@@ -53,20 +53,37 @@ export default (props: Props) => {
   if (!fetchedDishes && fetchLoading) return <>Loading</>;
   return (
     <div className={style['chosen-dish-container']}>
-      <div className={style['chosen-dish-header']}>
-        <div className={style['chosen-dish-header-title__container']}>
-          <div className={style['chosen-dish-header-title']}>食事登録</div>
+      <div className={style['assign-dish-header']}>
+        <div className={style['assign-dish-header-title__container']}>
+          <div className={style['assign-dish-header-title']}>食事登録</div>
         </div>
-        <div className={style['chosen-dish-header-menu__container']}>
-          <div
-            className={classNames(
-              'fa fa-xmark',
-              style['chosen-dish-header-menu__close'],
-            )}
-            onClick={() => {
-              changeCalenderModeToDisplayCalenderMode();
-            }}
-          />
+        <div className={style['assign-dish-header-menu__container']}>
+          {selectedDish && (
+            <div className={style['mark__wrapper']}>
+              <div
+                className={classNames(
+                  'fa-solid fa-angle-down',
+                  style['mark'],
+                  style['mark-to-click'],
+                )}
+                onClick={() => {
+                  changeCalenderModeToAssigningSelectedDishMode();
+                }}
+              />
+            </div>
+          )}
+          <div className={style['mark__wrapper']}>
+            <div
+              className={classNames(
+                'fa fa-xmark',
+                style['mark'],
+                style['mark-to-click'],
+              )}
+              onClick={() => {
+                changeCalenderModeToDisplayCalenderMode();
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className={style['chosen-dish-form__label-and-input-container']}>

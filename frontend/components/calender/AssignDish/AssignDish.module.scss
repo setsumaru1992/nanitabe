@@ -1,3 +1,5 @@
+@import "../../base/mixin.module";
+
 .container {
   width: 100%;
   position: fixed;
@@ -5,12 +7,7 @@
   background-color: white;
   border-top: 1px solid;
 }
-
-.chosen-dish {
-  &-container {
-    height: 300px
-  }
-
+.assign-dish {
   &-header {
     display: flex;
 
@@ -25,12 +22,13 @@
         display: flex;
         justify-content: flex-end;
       }
-
-      &__close {
-        cursor: pointer;
-        padding: 3px;
-      }
     }
+  }
+}
+
+.chosen-dish {
+  &-container {
+    height: 300px
   }
 
   &-form {
@@ -48,6 +46,18 @@
         display: flex;
         flex-direction: column;
       }
+    }
+  }
+}
+
+.assign-dish-for-date {
+  &-dish-icon {
+    border: 1px solid;
+    display: inline-block;
+
+    &__wrap {
+      margin-top: auto;
+      margin-bottom: auto;
     }
   }
 }

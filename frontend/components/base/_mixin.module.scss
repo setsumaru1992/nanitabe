@@ -24,3 +24,15 @@ $z-index-fullscreen-float-2: 1011;
   margin: 3px 5px;
   cursor: pointer;
 }
+
+.mark {
+  font-size: 20px;
+
+  &-to-click {
+    cursor: pointer;
+  }
+
+  &__wrapper {
+    margin: 5px 10px;
+  }
+}
