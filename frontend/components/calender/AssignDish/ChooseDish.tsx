@@ -52,7 +52,7 @@ export default (props: Props) => {
 
   if (!fetchedDishes && fetchLoading) return <>Loading</>;
   return (
-    <div className={style['chosen-dish-container']}>
+    <div className={style['choose-dish-container']}>
       <div className={style['assign-dish-header']}>
         <div className={style['assign-dish-header-title__container']}>
           <div className={style['assign-dish-header-title']}>食事登録</div>
@@ -86,8 +86,8 @@ export default (props: Props) => {
           </div>
         </div>
       </div>
-      <div className={style['chosen-dish-form__label-and-input-container']}>
-        <div className={style['chosen-dish-form__label']}>時間帯</div>
+      <div className={style['choose-dish-form__label-and-input-container']}>
+        <div className={style['choose-dish-form__label']}>時間帯</div>
         <SelectMealType
           selectedMealType={selectedMealType || defaultMealType}
           onClick={(mealType) => {
@@ -96,14 +96,14 @@ export default (props: Props) => {
         />
       </div>
       {/* TODO: 連続登録をできるようにするチェックボックス作成 */}
-      <div className={style['chosen-dish-form__label-and-input-container']}>
+      <div className={style['choose-dish-form__label-and-input-container']}>
         {/*
           NOTE:
           なぜかflexboxの影響でラベルの幅が縮まってしまっている（開発者ツールで紫の斜線出てるのが証拠）
           直し方わからないので一旦保留
         */}
-        <div className={style['chosen-dish-form__label']}>料理</div>
-        <div className={style['chosen-dish-form-select-dish__container']}>
+        <div className={style['choose-dish-form__label']}>料理</div>
+        <div className={style['choose-dish-form-select-dish__container']}>
           <Form.Control
             type="text"
             placeholder="料理を検索できます"
