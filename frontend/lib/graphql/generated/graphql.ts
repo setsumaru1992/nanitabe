@@ -834,7 +834,7 @@ export type MealsForCalenderQueryVariables = Exact<{
 }>;
 
 
-export type MealsForCalenderQuery = { __typename?: 'Query', mealsForCalender: Array<{ __typename?: 'MealsOfDate', date: any, meals: Array<{ __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment?: string | null, dish: { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null } }> }> };
+export type MealsForCalenderQuery = { __typename?: 'Query', mealsForCalender: Array<{ __typename?: 'MealsOfDate', date: any, meals: Array<{ __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment?: string | null, dish: { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null, dishSourceRelation?: { __typename?: 'DishSourceRelation', type: number } | null } }> }> };
 
 export type RemoveMealMutationVariables = Exact<{
   mealId: Scalars['Int'];
@@ -1564,6 +1564,9 @@ export const MealsForCalenderDocument = gql`
         name
         mealPosition
         comment
+        dishSourceRelation {
+          type
+        }
       }
     }
   }

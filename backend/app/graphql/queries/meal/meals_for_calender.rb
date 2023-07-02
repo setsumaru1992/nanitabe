@@ -18,8 +18,22 @@ module Queries::Meal
       meals = ::Meal.where(user_id: context[:current_user_id])
                     .where(date: start_date..last_date)
                     .eager_load(:dish)
+                    .eager_load(dish: :dish_source)
+                    .eager_load(dish: :dish_source_relation)
                     .order("meals.meal_type, dishes.meal_position")
-      meals.group_by { |meal| meal.date }
+      meals.map do |meal|
+        result = meal.attributes
+        result[:dish] = meal.dish.attributes
+
+        dish_relation = {
+          dish_id: meal.dish&.dish_source_relation.dish_id,
+          dish_source_id: meal.dish&.dish_source_relation.dish_source_id,
+          type: meal.dish&.dish_source.type,
+        }
+        result[:dish][:dish_source_relation] = dish_relation
+
+        result.with_indifferent_access
+      end.group_by { |meal| meal[:date] }
            .map do |(date, meals)|
         {
           date:,

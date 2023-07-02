@@ -32,6 +32,9 @@ export const MEALS_FOR_CALENDER = gql`
           name
           mealPosition
           comment
+          dishSourceRelation {
+            type
+          }
         }
       }
     }
