@@ -22,8 +22,8 @@ module Queries::Meal
                     .eager_load(dish: :dish_source_relation)
                     .order("meals.meal_type, dishes.meal_position")
       meals.map do |meal|
-        result = meal.attributes
-        result[:dish] = meal.dish.attributes
+        result_meal = meal.attributes
+        result_meal[:dish] = meal.dish.attributes
 
         dish_relation = if meal.dish&.dish_source_relation.present? && meal.dish&.dish_source.present?
                           {
@@ -32,9 +32,9 @@ module Queries::Meal
                             type: meal.dish.dish_source.type,
                           }
                         end
-        result[:dish][:dish_source_relation] = dish_relation
+        result_meal[:dish][:dish_source_relation] = dish_relation
 
-        result.with_indifferent_access
+        result_meal.with_indifferent_access
       end.group_by { |meal| meal[:date] }
            .map do |(date, meals)|
         {

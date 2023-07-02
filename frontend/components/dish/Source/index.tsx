@@ -38,8 +38,6 @@ export default () => {
               className={style['dish-source__container']}
               key={dishesPerSourceElementIdx}
             >
-              {/* 本当は未定義の場合は要素出現させたくないが、デバッグの都合上sourceIdがnullなので機能させていない */}
-              {/* {dishesPerSourceElement.sourceId && ()} */}
               {dishesPerSourceElement.dishSource && (
                 <div className={style['dish-source-header__container']}>
                   <Link
@@ -105,6 +103,7 @@ export default () => {
                     </div>
                   ),
                 )}
+                <AddDishIcon />
               </div>
             </div>
           ),

@@ -37,7 +37,7 @@ module Application::Finder
     end
 
     def add_join_to_relation(dish_relation)
-      dish_relation.joins(:meals).eager_load(:dish_source)
+      dish_relation.left_outer_joins(:meals).eager_load(:dish_source)
     end
 
     def add_auth_filter_to_relation(dish_relation)
