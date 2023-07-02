@@ -15,8 +15,11 @@
   &__wrapper {
     display: inline-block;
   }
-}
 
+  &--follow-right-edge {
+    right: 0;
+  }
+}
 
 .float-modal-opener {
   display: inline-block;

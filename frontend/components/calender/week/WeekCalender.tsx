@@ -1,5 +1,6 @@
 import React from 'react';
 import { addDays, format, getDate, isSameDay } from 'date-fns';
+import classNames from 'classnames';
 import style from './WeekCalender.module.scss';
 import CalenderMealIcon from './MealIcon';
 import AddMealIcon from './MealIcon/AddMealIcon';
@@ -13,6 +14,7 @@ import {
 import AssignDish from '../AssignDish';
 import { useApolloClient } from '../../../lib/graphql/buildApolloClient';
 import useCalenderMode from './useCalenderMode';
+import useFloatModal from '../../common/modal/useFloatModal';
 
 export { useDateFormatStringInUrl } from './useCalenderDate';
 
@@ -42,6 +44,10 @@ export default (props: Props) => {
       },
     });
 
+  const { FloatModal, FloatModalOpener, closeModal } = useFloatModal({
+    followRightEdge: true,
+  });
+
   const { apolloClient } = useApolloClient();
 
   const refreshData = async () => {
@@ -62,11 +68,7 @@ export default (props: Props) => {
     refetchMealsForCalender();
   };
 
-  const {
-    isDisplayCalenderMode,
-    isNotDisplayCalenderMode,
-    useAssignDishModeResult,
-  } = useCalenderMode({
+  const { isDisplayCalenderMode, useAssignDishModeResult } = useCalenderMode({
     onDataChanged: () => {
       refreshData();
     },
@@ -82,7 +84,47 @@ export default (props: Props) => {
   return (
     <div className={style['week-calender-container']}>
       <div className={style['week-calender-header']}>
-        {format(firstDisplayDate, 'yyyy年M月')} ▼
+        <div className={style['week-calender-header-title']}>
+          {format(firstDisplayDate, 'yyyy年M月')} ▼
+        </div>
+        <div className={style['week-calender-header-menu']}>
+          {isDisplayCalenderMode && (
+            <FloatModalOpener>
+              <div className={style['mark__wrapper']}>
+                <div
+                  className={classNames(
+                    'fa-solid fa-bars',
+                    style['mark'],
+                    style['mark-to-click'],
+                  )}
+                />
+              </div>
+            </FloatModalOpener>
+          )}
+          <FloatModal>
+            <ul
+              className={classNames(style['week-calender-header-float-menu'])}
+            >
+              <li
+                className={classNames(
+                  style['week-calender-header-float-menu__row'],
+                )}
+              >
+                <a
+                  className={classNames(
+                    style['week-calender-header-float-menu__content'],
+                  )}
+                  onClick={() => {
+                    closeModal();
+                    useAssignDishModeResult.startAssigningDishMode();
+                  }}
+                >
+                  食事割当て
+                </a>
+              </li>
+            </ul>
+          </FloatModal>
+        </div>
       </div>
       <div
         className={style['move-date-button']}
@@ -127,6 +169,9 @@ export default (props: Props) => {
                           onChanged={async () => {
                             await refreshData();
                           }}
+                          canAnythingExeptDisplayDishName={
+                            isDisplayCalenderMode
+                          }
                         />{' '}
                       </React.Fragment>
                     ))}

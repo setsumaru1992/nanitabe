@@ -9,11 +9,7 @@ export const DISPLAY_CALENDER_MODE = 'DISPLAY_CALENDER_MODE';
 export type CalenderMode = typeof DISPLAY_CALENDER_MODE | AssigningDishMode;
 
 export default ({ onDataChanged }) => {
-  // const [calenderMode, setCalenderMode] = useState(DISPLAY_CALENDER_MODE);
-  // デバッグ中のみ
-  const [calenderMode, setCalenderMode] = useState(
-    ASSIGNING_DISH_MODES.CHOOSING_DISH_MODE,
-  );
+  const [calenderMode, setCalenderMode] = useState(DISPLAY_CALENDER_MODE);
   const updateCalenderMode = (mode: CalenderMode) => {
     setCalenderMode(mode);
   };

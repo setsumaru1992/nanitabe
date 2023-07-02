@@ -9,9 +9,10 @@ import Menu from './Menu';
 type Props = {
   meal: MealForCalender;
   onChanged?: () => void;
+  canAnythingExeptDisplayDishName: boolean;
 };
 export default (props: Props) => {
-  const { meal, onChanged } = props;
+  const { meal, onChanged, canAnythingExeptDisplayDishName } = props;
   const { dish } = meal;
   const { FloatModal, FloatModalOpener, closeModal } = useFloatModal();
 
@@ -33,15 +34,17 @@ export default (props: Props) => {
   return (
     <div className={classNames(style['icon'], style[iconCssClassOfMealType])}>
       {dish.name} &nbsp;
-      <FloatModalOpener>
-        <i
-          className={classNames(
-            'fa-solid',
-            'fa-ellipsis-vertical',
-            style['meal-icon__menu-button'],
-          )}
-        />
-      </FloatModalOpener>
+      {canAnythingExeptDisplayDishName && (
+        <FloatModalOpener>
+          <i
+            className={classNames(
+              'fa-solid',
+              'fa-ellipsis-vertical',
+              style['meal-icon__menu-button'],
+            )}
+          />
+        </FloatModalOpener>
+      )}
       <FloatModal>
         <Menu meal={meal} closeSelf={closeModal} onChanged={onChanged} />
       </FloatModal>

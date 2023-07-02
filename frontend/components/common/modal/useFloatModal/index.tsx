@@ -3,10 +3,12 @@ import classNames from 'classnames';
 import style from './FloatModal.module.scss';
 import useModalTool, { UseModalToolArgs } from '../useModalTool';
 
-type Args = UseModalToolArgs & {};
+type Args = UseModalToolArgs & {
+  followRightEdge?: boolean;
+};
 
 export default (args: Args = {}) => {
-  const { onClose } = args;
+  const { onClose, followRightEdge = false } = args;
   const {
     modalVisible,
     useModalRef,
@@ -25,7 +27,14 @@ export default (args: Args = {}) => {
   const FloatModal = ({ children }: { children: React.ReactNode }) => (
     <div ref={modalRef} className={classNames(style['float-modal__wrapper'])}>
       {modalVisible && (
-        <div className={classNames(style['float-modal'])}>{children}</div>
+        <div
+          className={classNames({
+            [style['float-modal']]: true,
+            [style['float-modal--follow-right-edge']]: followRightEdge,
+          })}
+        >
+          {children}
+        </div>
       )}
     </div>
   );
