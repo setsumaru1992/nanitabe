@@ -96,6 +96,7 @@ export const DishFormOfRelatedDishSource = (
           }
           checked={choosingUseExistingDishSource}
           label="登録済みの参考レシピから選択"
+          id="optionOfUsingExistingDishSource"
           data-testid="optionOfUsingExistingDishSource"
         />
         <Form.Check
@@ -112,6 +113,7 @@ export const DishFormOfRelatedDishSource = (
           }
           checked={choosingRegisterNewDishSource}
           label="新しく参考レシピを登録"
+          id="optionOfRegisteringNewDishSource"
           data-testid="optionOfRegisteringNewDishSource"
         />
       </Form.Group>

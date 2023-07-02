@@ -120,6 +120,7 @@ export default (props: Props) => {
                 }
                 checked={choosingRegisterNewDish}
                 label="新しく料理を登録"
+                id="optionOfRegisteringNewDish"
                 data-testid="optionOfRegisteringNewDish"
               />
               <Form.Check
@@ -134,6 +135,7 @@ export default (props: Props) => {
                 }
                 checked={choosingUseExistingDish}
                 label="登録済みの料理を選択"
+                id="optionOfUsingExistingDish"
                 data-testid="optionOfUsingExistingDish"
               />
             </Form.Group>
