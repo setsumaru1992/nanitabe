@@ -94,9 +94,7 @@ export default (props: Props) => {
 
           <FormFieldWrapperWithLabel label="時間帯" required>
             <SelectMealType
-              selectedMealType={
-                (registeredMealType as MealType) || MEAL_TYPE.DINNER
-              }
+              selectedMealType={selectedMealType as MealType}
               onChange={(mealType) => {
                 setSelectedMealType(mealType);
               }}
