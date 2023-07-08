@@ -170,7 +170,7 @@ export default (props: Props) => {
 
   const { refreshData } = useRefreshCalenderData({ refetchMealsForCalender });
 
-  const { isDisplayCalenderMode, useAssignDishModeResult } = useCalenderMode({
+  const { isDisplayCalenderMode, useAssignDishModeResult, calenderModeChangers, useMoveDishModeResult } = useCalenderMode({
     onDataChanged: () => {
       refreshData();
     },
@@ -179,6 +179,11 @@ export default (props: Props) => {
   const onDateClick = (date: Date) => {
     if (useAssignDishModeResult.isAssigningSelectedDishMode) {
       useAssignDishModeResult.onDateClickForAssigningDish(date);
+      return;
+    }
+    if (useMoveDishModeResult.isMovingDishMode) {
+      useMoveDishModeResult.onDateClickForMovingDish(date);
+      return;
     }
   };
 
@@ -234,6 +239,7 @@ export default (props: Props) => {
                           canAnythingExeptDisplayDishName={
                             isDisplayCalenderMode
                           }
+                          calenderModeChangers={calenderModeChangers}
                         />{' '}
                       </React.Fragment>
                     ))}

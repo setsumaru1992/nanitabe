@@ -10,16 +10,19 @@ type Props = {
   meal: MealForCalender;
   closeSelf: () => void;
   onChanged?: () => void;
+  calenderModeChangers: any;
 };
 
 export default (props: Props) => {
-  const { meal, onChanged, closeSelf } = props;
+  const { meal, onChanged, closeSelf, calenderModeChangers } = props;
   const { FullScreenModal, FullScreenModalOpener, closeModal } =
     useFullScreenModal({
       onClose: () => {
         closeSelf();
       },
     });
+
+  const { startMovingDishMode } = calenderModeChangers;
 
   const { removeMeal } = useMeal();
   const handleRemoveMeal = async (e) => {
@@ -52,6 +55,17 @@ export default (props: Props) => {
           />
         </FullScreenModal>
       </li>
+        <li className={classnames(style['menu__row'])}>
+            <a
+                className={classnames(style['menu__content'])}
+                onClick={() => {
+                    startMovingDishMode(meal);
+                }}
+                data-testid="mealMoveButton"
+            >
+                移動
+            </a>
+        </li>
       <li className={classnames(style['menu__row'])}>
         <a
           className={classnames(style['menu__content'])}

@@ -12,9 +12,10 @@ type Props = {
   meal: MealForCalender;
   onChanged?: () => void;
   canAnythingExeptDisplayDishName: boolean;
+  calenderModeChangers: any;
 };
 export default (props: Props) => {
-  const { meal, onChanged, canAnythingExeptDisplayDishName } = props;
+  const { meal, onChanged, canAnythingExeptDisplayDishName, calenderModeChangers } = props;
   const { dish } = meal;
   const { FloatModal, FloatModalOpener, closeModal } = useFloatModal();
 
@@ -71,11 +72,12 @@ export default (props: Props) => {
               'fa-ellipsis-vertical',
               style['meal-icon__menu-button'],
             )}
+            data-testid={`mealMenuOpener-${meal.id}`}
           />
         </FloatModalOpener>
       )}
       <FloatModal>
-        <Menu meal={meal} closeSelf={closeModal} onChanged={onChanged} />
+        <Menu meal={meal} closeSelf={closeModal} onChanged={onChanged} calenderModeChangers={calenderModeChangers} />
       </FloatModal>
     </div>
   );
