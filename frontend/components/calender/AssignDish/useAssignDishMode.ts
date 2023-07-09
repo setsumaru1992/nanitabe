@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useMeal from '../../../features/meal/useMeal';
 import { MEAL_TYPE } from '../../../features/meal/const';
+import useDish from '../../../features/dish/useDish';
 
 export const ASSIGNING_DISH_MODES = {
   CHOOSING_DISH_MODE: 'CHOOSING_DISH_MODE',
@@ -62,12 +63,6 @@ const useValuesAndFuncsForAddMeal = () => {
   const [selectedDish, setSelectedDish] = useState(null);
 
   const [selectedMealType, setSelectedMealType] = useState(DEFAULT_MEAL_TYPE);
-  const [selectedMealPositionForSearch, setSelectedMealPositionForSearch] =
-    useState(null);
-  const [
-    searchedDishesAreRegisteredWithMeal,
-    setSearchedDishesAreRegisteredWithMeal,
-  ] = useState(null);
 
   const onDateClickForAssigningDishGenerator = ({ onCompleted }) => {
     return (date: Date) => {
@@ -95,10 +90,51 @@ const useValuesAndFuncsForAddMeal = () => {
     selectDish: setSelectedDish,
     selectedMealType,
     selectMealType: setSelectedMealType,
+  };
+};
+
+const useSearchedDish = (args: { selectedDish }) => {
+  const { selectedDish } = args;
+  const [selectedMealPositionForSearch, setSelectedMealPositionForSearch] =
+    useState(null);
+  const [
+    searchedDishesAreRegisteredWithMeal,
+    setSearchedDishesAreRegisteredWithMeal,
+  ] = useState(null);
+
+  const [searchStringForSearchingExistingDish, updateSearchString] =
+    useState('');
+
+  const {
+    existingDishesForRegisteringWithMeal: dishes,
+    prefetchedExistingDishesForRegisteringWithMeal: fetchedDishes,
+    fetchLoading,
+  } = useDish({
+    fetchDishesParams: {
+      fetchExistingDishesForRegisteringWithMealParams: {
+        requireFetchedData: true,
+        searchString: searchStringForSearchingExistingDish,
+        /*
+          TODO:
+          このデータ取得固有のクエリを作る
+          （現在食事作成のものを流用しているからdishIdRegisteredWithMealという変数名に金属疲労が起きている）
+          今のところ選んだやつが一番前に移動してしまうくらいしか不都合が無いが、他の不都合が出たらクエリ作成
+         */
+        dishIdRegisteredWithMeal: selectedDish?.id,
+      },
+    },
+  });
+
+  return {
+    dishes: dishes || fetchedDishes,
+    fetchLoading,
     selectedMealPositionForSearch,
     selectMealPosition: setSelectedMealPositionForSearch,
     searchedDishesAreRegisteredWithMeal,
     setSearchedDishesAreRegisteredWithMeal,
+
+    searchStringForSearchingExistingDish,
+    updateSearchString,
   };
 };
 
@@ -112,9 +148,10 @@ export default (args: {
 
   const useOnlyAssigningDishModeResult = useOnlyAssigningDishMode(args);
   const useValuesAndFuncsForAddMealResult = useValuesAndFuncsForAddMeal();
+  const useSearchedDishResult = useSearchedDish({
+    selectedDish: useValuesAndFuncsForAddMealResult.selectedDish,
+  });
 
-  const [searchStringForSearchingExistingDish, updateSearchString] =
-    useState('');
   const [doContinuousRegistration, setDoContinuousRegistration] =
     useState(false);
   const toggleDoContinuousRegistration = () => {
@@ -128,6 +165,7 @@ export default (args: {
   } = useOnlyAssigningDishModeResult;
   const { onDateClickForAssigningDishGenerator, selectDish, selectMealType } =
     useValuesAndFuncsForAddMealResult;
+  const { updateSearchString } = useSearchedDishResult;
 
   const initializeAssignDishValues = () => {
     selectDish(null);
@@ -154,12 +192,10 @@ export default (args: {
   return {
     ...useOnlyAssigningDishModeResult,
     ...useValuesAndFuncsForAddMealResult,
+    ...useSearchedDishResult,
 
     startAssigningDishMode,
     onDateClickForAssigningDish,
-
-    searchStringForSearchingExistingDish,
-    updateSearchString,
 
     doContinuousRegistration,
     toggleDoContinuousRegistration,

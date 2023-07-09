@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Form } from 'react-bootstrap';
 import classnames from 'classnames';
 import style from './AssignDish.module.scss';
 import ExistingDishIconForSelect from '../../dish/ExistingDishIcon/ExistingDishIconForSelect';
-import useDish from '../../../features/dish/useDish';
 import SelectMealType from '../../meal/MealForm/MealForm/SelectMealType';
-import { MEAL_TYPE } from '../../../features/meal/const';
 import SelectMealPosition from '../../dish/DishForm/DishForm/SelectMealPosition';
-import { MealPosition } from '../../../features/dish/const';
+import {
+  MEAL_POSITION_LABELS,
+  MealPosition,
+} from '../../../features/dish/const';
 
 type Props = {
   useAssignDishModeResult: any;
@@ -22,9 +23,10 @@ export default (props: Props) => {
     selectDish,
     selectedMealType,
     selectMealType,
+    dishes,
+    fetchLoading,
     selectedMealPositionForSearch,
     selectMealPosition,
-    searchStringForSearchingExistingDish,
     searchedDishesAreRegisteredWithMeal,
     setSearchedDishesAreRegisteredWithMeal,
     updateSearchString,
@@ -32,27 +34,7 @@ export default (props: Props) => {
     toggleDoContinuousRegistration,
   } = useAssignDishModeResult;
 
-  const {
-    existingDishesForRegisteringWithMeal: dishes,
-    prefetchedExistingDishesForRegisteringWithMeal: fetchedDishes,
-    fetchLoading,
-  } = useDish({
-    fetchDishesParams: {
-      fetchExistingDishesForRegisteringWithMealParams: {
-        requireFetchedData: true,
-        searchString: searchStringForSearchingExistingDish,
-        /*
-          TODO:
-          このデータ取得固有のクエリを作る
-          （現在食事作成のものを流用しているからdishIdRegisteredWithMealという変数名に金属疲労が起きている）
-          今のところ選んだやつが一番前に移動してしまうくらいしか不都合が無いが、他の不都合が出たらクエリ作成
-         */
-        dishIdRegisteredWithMeal: selectedDish?.id,
-      },
-    },
-  });
-
-  if (!fetchedDishes && fetchLoading) return <>Loading</>;
+  if (!dishes && fetchLoading) return <>Loading</>;
   return (
     <div className={style['choose-dish-container']}>
       <div className={style['assign-dish-header']}>
@@ -114,12 +96,13 @@ export default (props: Props) => {
         <div className={style['choose-dish-main-header']}>料理</div>
 
         <div className={style['choose-dish-form__label-and-input-container']}>
-          <div className={style['choose-dish-form__label']}>位置づけ</div>
+          <div className={style['choose-dish-form__label']}>位置</div>
           <SelectMealPosition
             selectedMealPosition={selectedMealPositionForSearch as MealPosition}
             onClick={(mealPosition) => {
               selectMealPosition(mealPosition);
             }}
+            existNullOption
           />
         </div>
 
@@ -161,7 +144,7 @@ export default (props: Props) => {
           />
           <div>
             <div className={style['existing-dish-icon-container']}>
-              {(dishes || fetchedDishes).map((dish) => (
+              {dishes.map((dish) => (
                 <ExistingDishIconForSelect
                   key={dish.id}
                   dish={dish}

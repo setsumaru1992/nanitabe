@@ -10,12 +10,31 @@ type Props = {
   onClick?: (mealPosition: MealPosition) => void;
   onChange?: (mealPosition: MealPosition) => void;
   selectedMealPosition: MealPosition;
+  existNullOption?: boolean;
 };
 
 export default (props: Props) => {
-  const { onClick, onChange, selectedMealPosition } = props;
+  const { onClick, onChange, selectedMealPosition, existNullOption } = props;
   return (
     <Form.Group>
+      {existNullOption && (
+        <Form.Check
+          type="radio"
+          inline
+          name="meal_position"
+          value={null}
+          onClick={() => {
+            if (onClick) onClick(null);
+          }}
+          onChange={() => {
+            if (onClick) onClick(null);
+          }}
+          checked={selectedMealPosition === null}
+          label="指定なし"
+          id="mealPositionOption-null"
+          data-testid="mealPositionOption-null"
+        />
+      )}
       {MEAL_POSITIONS.map((mealPosition) => (
         <Form.Check
           key={mealPosition}
