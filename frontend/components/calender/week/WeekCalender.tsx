@@ -170,7 +170,12 @@ export default (props: Props) => {
 
   const { refreshData } = useRefreshCalenderData({ refetchMealsForCalender });
 
-  const { isDisplayCalenderMode, useAssignDishModeResult, calenderModeChangers, useMoveDishModeResult } = useCalenderMode({
+  const {
+    isDisplayCalenderMode,
+    useAssignDishModeResult,
+    calenderModeChangers,
+    useMoveDishModeResult,
+  } = useCalenderMode({
     onDataChanged: () => {
       refreshData();
     },
@@ -183,7 +188,6 @@ export default (props: Props) => {
     }
     if (useMoveDishModeResult.isMovingDishMode) {
       useMoveDishModeResult.onDateClickForMovingDish(date);
-      return;
     }
   };
 

@@ -2,11 +2,14 @@ import { useState } from 'react';
 import useAssignDishMode, {
   AssigningDishMode,
 } from '../AssignDish/useAssignDishMode';
-import useMoveDishMode, {MovingDishMode} from '../MoveDish/useMoveDishMode';
+import useMoveDishMode, { MovingDishMode } from '../MoveDish/useMoveDishMode';
 
 export const DISPLAY_CALENDER_MODE = 'DISPLAY_CALENDER_MODE';
 
-export type CalenderMode = typeof DISPLAY_CALENDER_MODE | AssigningDishMode | MovingDishMode;
+export type CalenderMode =
+  | typeof DISPLAY_CALENDER_MODE
+  | AssigningDishMode
+  | MovingDishMode;
 
 export default ({ onDataChanged }) => {
   const [calenderMode, setCalenderMode] = useState(DISPLAY_CALENDER_MODE);
@@ -36,7 +39,7 @@ export default ({ onDataChanged }) => {
 
   const calenderModeChangers = {
     startMovingDishMode: useMoveDishModeResult.startMovingDishMode,
-  }
+  };
 
   return {
     isDisplayCalenderMode,

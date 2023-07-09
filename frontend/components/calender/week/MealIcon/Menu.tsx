@@ -55,17 +55,17 @@ export default (props: Props) => {
           />
         </FullScreenModal>
       </li>
-        <li className={classnames(style['menu__row'])}>
-            <a
-                className={classnames(style['menu__content'])}
-                onClick={() => {
-                    startMovingDishMode(meal);
-                }}
-                data-testid="mealMoveButton"
-            >
-                移動
-            </a>
-        </li>
+      <li className={classnames(style['menu__row'])}>
+        <a
+          className={classnames(style['menu__content'])}
+          onClick={() => {
+            startMovingDishMode(meal);
+          }}
+          data-testid="mealMoveButton"
+        >
+          移動
+        </a>
+      </li>
       <li className={classnames(style['menu__row'])}>
         <a
           className={classnames(style['menu__content'])}

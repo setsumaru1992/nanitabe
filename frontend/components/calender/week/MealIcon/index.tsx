@@ -15,7 +15,12 @@ type Props = {
   calenderModeChangers: any;
 };
 export default (props: Props) => {
-  const { meal, onChanged, canAnythingExeptDisplayDishName, calenderModeChangers } = props;
+  const {
+    meal,
+    onChanged,
+    canAnythingExeptDisplayDishName,
+    calenderModeChangers,
+  } = props;
   const { dish } = meal;
   const { FloatModal, FloatModalOpener, closeModal } = useFloatModal();
 
@@ -77,7 +82,12 @@ export default (props: Props) => {
         </FloatModalOpener>
       )}
       <FloatModal>
-        <Menu meal={meal} closeSelf={closeModal} onChanged={onChanged} calenderModeChangers={calenderModeChangers} />
+        <Menu
+          meal={meal}
+          closeSelf={closeModal}
+          onChanged={onChanged}
+          calenderModeChangers={calenderModeChangers}
+        />
       </FloatModal>
     </div>
   );
