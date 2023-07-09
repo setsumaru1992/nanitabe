@@ -11,7 +11,7 @@ import {
 import { Dish } from '../../../lib/graphql/generated/graphql';
 
 type Props = {
-  onFinishAddingComplately?: () => void;
+  onAddingSucceeded?: (doContinuousRegistration: boolean) => void;
   onSchemaError?: any;
   preFilledDish?: Partial<Dish>;
   doContinuousRegistrationDefaultValue?: boolean;
@@ -19,13 +19,11 @@ type Props = {
 
 export default (props: Props) => {
   const {
-    onFinishAddingComplately,
+    onAddingSucceeded,
     onSchemaError,
     preFilledDish,
     doContinuousRegistrationDefaultValue = false,
   } = props;
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const {
     addDish,
@@ -68,14 +66,7 @@ export default (props: Props) => {
   const onSubmit: SubmitHandler<AddDishInput> = async (input) => {
     await addDishFunc(input, {
       onCompleted: (_) => {
-        if (doContinuousRegistration) {
-          const params = new URLSearchParams(searchParams);
-          params.set('doContinuousRegistration', 'true');
-          window.location.href = `${pathname}?${params}`;
-        } else {
-          // eslint-disable-next-line no-lonely-if
-          if (onFinishAddingComplately) onFinishAddingComplately();
-        }
+        if (onAddingSucceeded) onAddingSucceeded(doContinuousRegistration);
       },
     });
   };

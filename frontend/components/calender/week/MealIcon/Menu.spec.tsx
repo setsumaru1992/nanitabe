@@ -21,7 +21,15 @@ describe('<Menu>', () => {
     dish: registeredDish,
   };
   beforeEach(() => {
-    renderWithApollo(<Menu meal={registeredMeal} closeSelf={() => {}} />);
+    renderWithApollo(
+      <Menu
+        meal={registeredMeal}
+        closeSelf={() => {}}
+        calenderModeChangers={{
+          startMovingDishMode: null,
+        }}
+      />,
+    );
   });
 
   describe('when remove meal', () => {
