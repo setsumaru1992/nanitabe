@@ -32,6 +32,7 @@ export default (props: Props) => {
           }}
           checked={mealType === selectedMealType}
           label={MEAL_TYPE_LABELS[mealType]}
+          id={`mealTypeOption-${mealType}`}
           data-testid={`mealTypeOption-${mealType}`}
         />
       ))}

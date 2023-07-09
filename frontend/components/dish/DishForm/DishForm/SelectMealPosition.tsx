@@ -1,7 +1,10 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import { MEAL_POSITIONS, MealPosition } from '../../../../features/dish/const';
-import { MEAL_TYPE_LABELS } from '../../../../features/meal/const';
+import {
+  MEAL_POSITION_LABELS,
+  MEAL_POSITIONS,
+  MealPosition,
+} from '../../../../features/dish/const';
 
 type Props = {
   onClick?: (mealPosition: MealPosition) => void;
@@ -18,7 +21,7 @@ export default (props: Props) => {
           key={mealPosition}
           type="radio"
           inline
-          name="meal_type"
+          name="meal_position"
           value={mealPosition}
           onClick={() => {
             if (onClick) onClick(mealPosition);
@@ -27,8 +30,9 @@ export default (props: Props) => {
             if (onChange) onChange(mealPosition);
           }}
           checked={mealPosition === selectedMealPosition}
-          label={MEAL_TYPE_LABELS[mealPosition]}
-          data-testid={`mealTypeOption-${mealPosition}`}
+          label={MEAL_POSITION_LABELS[mealPosition]}
+          id={`mealPositionOption-${mealPosition}`}
+          data-testid={`mealPositionOption-${mealPosition}`}
         />
       ))}
     </Form.Group>

@@ -162,9 +162,10 @@ describe('<EditDish>', () => {
 
         await userClearTextbox(screen, 'dishname');
         await userType(screen, 'dishname', updatedDish.name);
-        await userChooseSelectBox(screen, 'mealPositionOptions', [
+        await userClick(
+          screen,
           `mealPositionOption-${updatedDish.mealPosition}`,
-        ]);
+        );
         await userClick(screen, 'submitDishButton');
 
         expect(getLatestMutationVariables()).toEqual({

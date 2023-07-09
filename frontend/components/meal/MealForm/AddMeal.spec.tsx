@@ -158,9 +158,10 @@ describe('<AddMeal>', () => {
 
       await userClick(screen, 'optionOfRegisteringNewDish');
       await userType(screen, 'dishname', newDishWithRequiredParams.name);
-      await userChooseSelectBox(screen, 'mealPositionOptions', [
+      await userClick(
+        screen,
         `mealPositionOption-${newDishWithRequiredParams.mealPosition}`,
-      ]);
+      );
 
       await userChooseSelectBox(screen, 'existingDishSources', [
         `existingDishSource-${selectedDishSource.id}`,
@@ -197,9 +198,10 @@ describe('<AddMeal>', () => {
 
       await userClick(screen, 'optionOfRegisteringNewDish');
       await userType(screen, 'dishname', newDishWithRequiredParams.name);
-      await userChooseSelectBox(screen, 'mealPositionOptions', [
+      await userClick(
+        screen,
         `mealPositionOption-${newDishWithRequiredParams.mealPosition}`,
-      ]);
+      );
 
       await clickSubmitButton();
 
@@ -227,9 +229,10 @@ describe('<AddMeal>', () => {
 
       await userClick(screen, 'optionOfRegisteringNewDish');
       await userType(screen, 'dishname', newDishWithRequiredParams.name);
-      await userChooseSelectBox(screen, 'mealPositionOptions', [
+      await userClick(
+        screen,
         `mealPositionOption-${newDishWithRequiredParams.mealPosition}`,
-      ]);
+      );
 
       await userClick(screen, 'optionOfRegisteringNewDishSource');
       await userType(screen, 'dishSourceName', newDishSource.name);
