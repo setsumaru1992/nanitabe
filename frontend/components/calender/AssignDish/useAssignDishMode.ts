@@ -64,6 +64,10 @@ const useValuesAndFuncsForAddMeal = () => {
   const [selectedMealType, setSelectedMealType] = useState(DEFAULT_MEAL_TYPE);
   const [selectedMealPositionForSearch, setSelectedMealPositionForSearch] =
     useState(null);
+  const [
+    searchedDishesAreRegisteredWithMeal,
+    setSearchedDishesAreRegisteredWithMeal,
+  ] = useState(null);
 
   const onDateClickForAssigningDishGenerator = ({ onCompleted }) => {
     return (date: Date) => {
@@ -93,6 +97,8 @@ const useValuesAndFuncsForAddMeal = () => {
     selectMealType: setSelectedMealType,
     selectedMealPositionForSearch,
     selectMealPosition: setSelectedMealPositionForSearch,
+    searchedDishesAreRegisteredWithMeal,
+    setSearchedDishesAreRegisteredWithMeal,
   };
 };
 

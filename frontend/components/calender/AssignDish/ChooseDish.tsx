@@ -25,6 +25,8 @@ export default (props: Props) => {
     selectedMealPositionForSearch,
     selectMealPosition,
     searchStringForSearchingExistingDish,
+    searchedDishesAreRegisteredWithMeal,
+    setSearchedDishesAreRegisteredWithMeal,
     updateSearchString,
     doContinuousRegistration,
     toggleDoContinuousRegistration,
@@ -119,6 +121,33 @@ export default (props: Props) => {
               selectMealPosition(mealPosition);
             }}
           />
+        </div>
+
+        <div className={style['choose-dish-form__label-and-input-container']}>
+          <div className={style['choose-dish-form__label']}>関連食事</div>
+          {[
+            { value: null, label: '指定なし' },
+            { value: 'true', label: '関連食事あり' },
+            { value: 'false', label: '関連食事なし' },
+          ].map((registeredWithMealOption) => (
+            <Form.Check
+              type="radio"
+              inline
+              name="registeredWithMeal"
+              value={registeredWithMealOption.value}
+              checked={
+                searchedDishesAreRegisteredWithMeal ===
+                registeredWithMealOption.value
+              }
+              onChange={() => {
+                setSearchedDishesAreRegisteredWithMeal(
+                  registeredWithMealOption.value,
+                );
+              }}
+              label={registeredWithMealOption.label}
+              id={`optionOfRegisteredWithMeal-${registeredWithMealOption.value}`}
+            />
+          ))}
         </div>
 
         <div className={style['choose-dish-form-select-dish__container']}>

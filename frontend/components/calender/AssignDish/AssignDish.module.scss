@@ -21,7 +21,8 @@
 
 .choose-dish {
   &-container {
-    height: 350px
+    height: 400px;
+    overflow: scroll;
   }
 
   &-form {
@@ -31,7 +32,7 @@
 
     &__label {
       margin: 0 10px 0 0;
-      width: 70px;
+      width: 100px;
     }
 
     &-select-dish {

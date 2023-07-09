@@ -14,8 +14,8 @@ export const MEAL_POSITIONS = Object.keys(MEAL_POSITION).map(
 );
 
 export const MEAL_POSITION_LABELS = {
-  [MEAL_POSITION.STAPLE_FOOD]: '主食（炭水化物）',
-  [MEAL_POSITION.MAIN_DISH]: '主菜（メインディッシュおかず）',
+  [MEAL_POSITION.STAPLE_FOOD]: '主食・炭水化物',
+  [MEAL_POSITION.MAIN_DISH]: 'メインディッシュおかず',
   [MEAL_POSITION.SIDE_DISH]: '副菜・前菜',
   [MEAL_POSITION.SOUP]: '汁物',
   [MEAL_POSITION.DESSERT]: 'デザート',
