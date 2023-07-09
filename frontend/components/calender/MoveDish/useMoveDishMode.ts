@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import * as z from 'zod';
+import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import useMeal from '../../../features/meal/useMeal';
 import { updateMealSchema } from '../../../features/meal/schema';
+import { weekCalenderPageUrlOf } from '../../../pages/calender/week/[date]';
 
 export const MOVING_DISH_MODES = {
   MOVING_DISH_MODE: 'MOVING_DISH_MODE',
@@ -21,6 +24,8 @@ export default (args: {
     changeCalenderModeToDisplayCalenderMode,
     onDataChanged,
   } = args;
+  const router = useRouter();
+  const currentPath = usePathname();
   const { updateMeal } = useMeal();
   const [selectedMeal, setSelectedMeal] = useState(null);
 
@@ -35,7 +40,7 @@ export default (args: {
   };
 
   const onDateClickForMovingDish = (date: Date) => {
-    const { id, mealType } = selectedMeal;
+    const { id, mealType, date: mealDateStringBeforeMove } = selectedMeal;
     // HACK: dishIdとかいらない情報渡しているように、オーバースペックだから、専用Mutation作る
     updateMeal(
       {
@@ -49,6 +54,12 @@ export default (args: {
       {
         onCompleted: () => {
           if (onDataChanged) onDataChanged();
+          const pathOfMealDateBeforeMove = weekCalenderPageUrlOf(
+            new Date(mealDateStringBeforeMove),
+          );
+          if (pathOfMealDateBeforeMove !== currentPath) {
+            router.push(pathOfMealDateBeforeMove);
+          }
           changeCalenderModeToDisplayCalenderMode();
         },
       },
