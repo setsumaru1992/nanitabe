@@ -59,6 +59,7 @@
 
 .dish-container {
   display: flex;
+  flex-wrap: wrap;
 
   &__wrapper {
     width: 100%;

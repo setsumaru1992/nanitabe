@@ -28,6 +28,10 @@ $z-index-fullscreen-float-2: 1011;
 .mark {
   font-size: 20px;
 
+  &-white {
+    color: white;
+  }
+
   &-to-click {
     cursor: pointer;
   }

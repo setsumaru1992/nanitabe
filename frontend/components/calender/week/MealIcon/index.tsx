@@ -62,7 +62,7 @@ export default (props: Props) => {
       }
     })();
     if (!iconCssClass) return null;
-    return <i className={iconCssClass} />;
+    return <i className={classnames(iconCssClass, style['mark-white'])} />;
   })();
 
   return (
