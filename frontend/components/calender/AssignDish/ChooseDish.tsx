@@ -6,6 +6,8 @@ import ExistingDishIconForSelect from '../../dish/ExistingDishIcon/ExistingDishI
 import useDish from '../../../features/dish/useDish';
 import SelectMealType from '../../meal/MealForm/MealForm/SelectMealType';
 import { MEAL_TYPE } from '../../../features/meal/const';
+import SelectMealPosition from '../../dish/DishForm/DishForm/SelectMealPosition';
+import { MealPosition } from '../../../features/dish/const';
 
 type Props = {
   useAssignDishModeResult: any;
@@ -20,16 +22,13 @@ export default (props: Props) => {
     selectDish,
     selectedMealType,
     selectMealType,
+    selectedMealPositionForSearch,
+    selectMealPosition,
     searchStringForSearchingExistingDish,
     updateSearchString,
     doContinuousRegistration,
     toggleDoContinuousRegistration,
   } = useAssignDishModeResult;
-
-  const defaultMealType = MEAL_TYPE.DINNER;
-  useEffect(() => {
-    selectMealType(defaultMealType);
-  }, []);
 
   const {
     existingDishesForRegisteringWithMeal: dishes,
@@ -100,7 +99,7 @@ export default (props: Props) => {
       <div className={style['choose-dish-form__label-and-input-container']}>
         <div className={style['choose-dish-form__label']}>時間帯</div>
         <SelectMealType
-          selectedMealType={selectedMealType || defaultMealType}
+          selectedMealType={selectedMealType}
           onClick={(mealType) => {
             selectMealType(mealType);
           }}
@@ -111,6 +110,16 @@ export default (props: Props) => {
           <div className={style['choose-dish-main-border']} />
         </div>
         <div className={style['choose-dish-main-header']}>料理</div>
+
+        <div className={style['choose-dish-form__label-and-input-container']}>
+          <div className={style['choose-dish-form__label']}>位置づけ</div>
+          <SelectMealPosition
+            selectedMealPosition={selectedMealPositionForSearch as MealPosition}
+            onClick={(mealPosition) => {
+              selectMealPosition(mealPosition);
+            }}
+          />
+        </div>
 
         <div className={style['choose-dish-form-select-dish__container']}>
           <Form.Control

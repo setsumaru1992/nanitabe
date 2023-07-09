@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useMeal from '../../../features/meal/useMeal';
+import { MEAL_TYPE } from '../../../features/meal/const';
 
 export const ASSIGNING_DISH_MODES = {
   CHOOSING_DISH_MODE: 'CHOOSING_DISH_MODE',
@@ -54,11 +55,15 @@ const useOnlyAssigningDishMode = (args: {
   };
 };
 
+const DEFAULT_MEAL_TYPE = MEAL_TYPE.DINNER;
 const useValuesAndFuncsForAddMeal = () => {
   const { addMeal } = useMeal();
 
   const [selectedDish, setSelectedDish] = useState(null);
-  const [selectedMealType, setSelectedMealType] = useState(null);
+
+  const [selectedMealType, setSelectedMealType] = useState(DEFAULT_MEAL_TYPE);
+  const [selectedMealPositionForSearch, setSelectedMealPositionForSearch] =
+    useState(null);
 
   const onDateClickForAssigningDishGenerator = ({ onCompleted }) => {
     return (date: Date) => {
@@ -86,6 +91,8 @@ const useValuesAndFuncsForAddMeal = () => {
     selectDish: setSelectedDish,
     selectedMealType,
     selectMealType: setSelectedMealType,
+    selectedMealPositionForSearch,
+    selectMealPosition: setSelectedMealPositionForSearch,
   };
 };
 
@@ -118,7 +125,7 @@ export default (args: {
 
   const initializeAssignDishValues = () => {
     selectDish(null);
-    selectMealType(null);
+    selectMealType(DEFAULT_MEAL_TYPE);
     updateSearchString('');
   };
   const startAssigningDishMode = startAssigningDishModeGenerator(
