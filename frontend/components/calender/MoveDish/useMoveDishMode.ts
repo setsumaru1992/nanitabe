@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import * as z from 'zod';
 import useMeal from '../../../features/meal/useMeal';
 import { updateMealSchema } from '../../../features/meal/schema';
 
@@ -34,14 +35,16 @@ export default (args: {
   };
 
   const onDateClickForMovingDish = (date: Date) => {
+    const { id, mealType } = selectedMeal;
     // HACK: dishIdとかいらない情報渡しているように、オーバースペックだから、専用Mutation作る
     updateMeal(
       {
         dishId: selectedMeal.dish.id as number,
         meal: {
-          ...selectedMeal,
+          id,
+          mealType,
           date,
-        } as updateMealSchema,
+        } as z.infer<typeof updateMealSchema>,
       },
       {
         onCompleted: () => {

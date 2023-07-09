@@ -20,10 +20,7 @@ const buildMealGraphQLParams = (meal) => {
   return {
     id,
     mealType,
-    dish,
-    comment: null,
     date: date.toISOString(),
-    __typename: 'MealForCalender',
   };
 };
 
@@ -33,7 +30,7 @@ describe('move dish on week calender', () => {
     name: '生姜焼き',
     mealPosition: 2,
     comment: null,
-    dishSourceName: null,
+    dishSourceRelation: null,
   };
   const registeredMealWithoutDish = {
     id: 30,
@@ -41,14 +38,11 @@ describe('move dish on week calender', () => {
     mealType: 3,
     comment: null,
   };
-  const registeredMeal = {
-    ...registeredMealWithoutDish,
-    dish: registeredDish,
-  };
 
   const moveTargetDate = new Date(2023, 5, 27);
   const movedMeal = {
-    ...registeredMeal,
+    ...registeredMealWithoutDish,
+    dish: registeredDish,
     date: moveTargetDate,
   };
 
@@ -61,7 +55,11 @@ describe('move dish on week calender', () => {
           meals: [
             {
               __typename: 'MealForCalender',
-              ...registeredMeal,
+              ...registeredMealWithoutDish,
+              dish: {
+                ...registeredDish,
+                dishSourceName: null,
+              },
             },
           ],
         },
@@ -77,12 +75,12 @@ describe('move dish on week calender', () => {
         UpdateMealDocument,
         {
           updateMeal: {
-            mealId: registeredMeal.id,
+            mealId: movedMeal.id,
           },
         },
       );
 
-      await userClick(screen, `mealMenuOpener-${registeredMeal.id}`);
+      await userClick(screen, `mealMenuOpener-${movedMeal.id}`);
       await userClick(screen, 'mealMoveButton');
       await userClick(
         screen,

@@ -59,6 +59,7 @@ export default (props: Props) => {
         <a
           className={classnames(style['menu__content'])}
           onClick={() => {
+            closeSelf();
             startMovingDishMode(meal);
           }}
           data-testid="mealMoveButton"
