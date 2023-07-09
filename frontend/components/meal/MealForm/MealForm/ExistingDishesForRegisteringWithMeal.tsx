@@ -5,7 +5,7 @@ import useDish from '../../../../features/dish/useDish';
 import FormFieldWrapperWithLabel from '../../../common/form/FormFieldWrapperWithLabel';
 import ErrorMessageIfExist from '../../../common/form/ErrorMessageIfExist';
 import style from './ExistingDishesForRegisteringWithMeal.module.scss';
-import ExistingDishIconForSelect from '../../ExistingDishIconForSelect';
+import ExistingDishIconForSelect from '../../../dish/ExistingDishIcon/ExistingDishIconForSelect';
 
 type ExistingDishesForRegisteringWithMealProps = {
   dishIdRegisteredWithMeal?: number;

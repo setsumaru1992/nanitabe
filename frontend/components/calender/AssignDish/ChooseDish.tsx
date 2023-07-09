@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import classnames from 'classnames';
 import style from './AssignDish.module.scss';
-import ExistingDishIconForSelect from '../../meal/ExistingDishIconForSelect';
+import ExistingDishIconForSelect from '../../dish/ExistingDishIcon/ExistingDishIconForSelect';
 import useDish from '../../../features/dish/useDish';
 import SelectMealType from '../../meal/MealForm/MealForm/SelectMealType';
 import { MEAL_TYPE } from '../../../features/meal/const';
-import FormFieldWrapperWithLabel from '../../common/form/FormFieldWrapperWithLabel';
 
 type Props = {
   useAssignDishModeResult: any;

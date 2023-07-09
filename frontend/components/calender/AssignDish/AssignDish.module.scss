@@ -46,18 +46,6 @@
   }
 }
 
-.assign-dish-for-date {
-  &-dish-icon {
-    border: 1px solid;
-    display: inline-block;
-
-    &__wrap {
-      margin-top: auto;
-      margin-bottom: auto;
-    }
-  }
-}
-
 .existing-dish-icon-container {
   display: inline-flex;
   flex-wrap: wrap;
