@@ -39,8 +39,18 @@ export default (args: {
     changeCalenderModeToMovingDishMode();
   };
 
+  const backToWeekOfBeforeMoveMeal = () => {
+    const mealDateStringBeforeMove = new Date(selectedMeal.date);
+    const pathOfMealDateBeforeMove = weekCalenderPageUrlOf(
+      mealDateStringBeforeMove,
+    );
+    if (pathOfMealDateBeforeMove !== currentPath) {
+      router.push(pathOfMealDateBeforeMove);
+    }
+  };
+
   const onDateClickForMovingDish = (date: Date) => {
-    const { id, mealType, date: mealDateStringBeforeMove } = selectedMeal;
+    const { id, mealType } = selectedMeal;
     // HACK: dishIdとかいらない情報渡しているように、オーバースペックだから、専用Mutation作る
     updateMeal(
       {
@@ -54,12 +64,7 @@ export default (args: {
       {
         onCompleted: () => {
           if (onDataChanged) onDataChanged();
-          const pathOfMealDateBeforeMove = weekCalenderPageUrlOf(
-            new Date(mealDateStringBeforeMove),
-          );
-          if (pathOfMealDateBeforeMove !== currentPath) {
-            router.push(pathOfMealDateBeforeMove);
-          }
+          backToWeekOfBeforeMoveMeal();
           changeCalenderModeToDisplayCalenderMode();
         },
       },
@@ -71,5 +76,7 @@ export default (args: {
     isMovingDishMode,
     startMovingDishMode,
     onDateClickForMovingDish,
+    changeCalenderModeToDisplayCalenderMode,
+    backToWeekOfBeforeMoveMeal,
   };
 };

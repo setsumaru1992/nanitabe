@@ -277,7 +277,9 @@ export default (props: Props) => {
             {useAssignDishModeResult.inAssigningDishMode && (
               <AssignDish useAssignDishModeResult={useAssignDishModeResult} />
             )}
-            {useMoveDishModeResult.isMovingDishMode && <MoveDish />}
+            {useMoveDishModeResult.isMovingDishMode && (
+              <MoveDish useMoveDishModeResult={useMoveDishModeResult} />
+            )}
           </div>
         </div>
       )}
