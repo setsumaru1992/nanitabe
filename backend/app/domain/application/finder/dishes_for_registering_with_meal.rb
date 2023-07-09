@@ -4,6 +4,8 @@ module Application::Finder
     validates :access_user_id, presence: true
 
     attribute :search_string, :string
+    attribute :meal_position, :integer
+    attribute :registered_with_meal, :boolean
 
     attribute :dish_id_registered_with_meal, :integer
 
@@ -49,6 +51,18 @@ module Application::Finder
         dish_relation = dish_relation
                         .where("dishes.name LIKE ?", "%#{search_string}%")
                         .or(::DishSource.where("dish_sources.name LIKE ?", "%#{search_string}%"))
+      end
+
+      if meal_position.present?
+        dish_relation = dish_relation.where(meal_position: meal_position)
+      end
+
+      if !registered_with_meal.nil?
+        if registered_with_meal
+          dish_relation = dish_relation.having("COUNT(meals.id) > 0")
+        else
+          dish_relation = dish_relation.having("COUNT(meals.id) = 0")
+        end
       end
 
       if ignore_dish_id.present?

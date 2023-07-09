@@ -497,6 +497,8 @@ export type QueryDishSourceArgs = {
 
 export type QueryExistingDishesForRegisteringWithMealArgs = {
   dishIdRegisteredWithMeal?: InputMaybe<Scalars['Int']>;
+  mealPosition?: InputMaybe<Scalars['Int']>;
+  registeredWithMeal?: InputMaybe<Scalars['Boolean']>;
   searchString?: InputMaybe<Scalars['String']>;
 };
 
@@ -725,8 +727,10 @@ export type AddDishWithNewSourceMutationVariables = Exact<{
 export type AddDishWithNewSourceMutation = { __typename?: 'Mutation', addDishWithNewSource?: { __typename?: 'AddDishWithNewSourcePayload', dishId: number, dishSourceId: number } | null };
 
 export type ExistingDishesForRegisteringWithMealQueryVariables = Exact<{
-  searchString?: InputMaybe<Scalars['String']>;
   dishIdRegisteredWithMeal?: InputMaybe<Scalars['Int']>;
+  searchString?: InputMaybe<Scalars['String']>;
+  mealPosition?: InputMaybe<Scalars['Int']>;
+  registeredWithMeal?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
@@ -1025,10 +1029,12 @@ export type AddDishWithNewSourceMutationHookResult = ReturnType<typeof useAddDis
 export type AddDishWithNewSourceMutationResult = Apollo.MutationResult<AddDishWithNewSourceMutation>;
 export type AddDishWithNewSourceMutationOptions = Apollo.BaseMutationOptions<AddDishWithNewSourceMutation, AddDishWithNewSourceMutationVariables>;
 export const ExistingDishesForRegisteringWithMealDocument = gql`
-    query existingDishesForRegisteringWithMeal($searchString: String, $dishIdRegisteredWithMeal: Int) {
+    query existingDishesForRegisteringWithMeal($dishIdRegisteredWithMeal: Int, $searchString: String, $mealPosition: Int, $registeredWithMeal: Boolean) {
   existingDishesForRegisteringWithMeal(
-    searchString: $searchString
     dishIdRegisteredWithMeal: $dishIdRegisteredWithMeal
+    searchString: $searchString
+    mealPosition: $mealPosition
+    registeredWithMeal: $registeredWithMeal
   ) {
     id
     name
@@ -1051,8 +1057,10 @@ export const ExistingDishesForRegisteringWithMealDocument = gql`
  * @example
  * const { data, loading, error } = useExistingDishesForRegisteringWithMealQuery({
  *   variables: {
- *      searchString: // value for 'searchString'
  *      dishIdRegisteredWithMeal: // value for 'dishIdRegisteredWithMeal'
+ *      searchString: // value for 'searchString'
+ *      mealPosition: // value for 'mealPosition'
+ *      registeredWithMeal: // value for 'registeredWithMeal'
  *   },
  * });
  */

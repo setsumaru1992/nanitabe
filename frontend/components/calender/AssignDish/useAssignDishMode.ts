@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useMeal from '../../../features/meal/useMeal';
 import { MEAL_TYPE } from '../../../features/meal/const';
 import useDish from '../../../features/dish/useDish';
+import { parseBoolOrNull } from '../../../features/utils/booleanUtils';
 
 export const ASSIGNING_DISH_MODES = {
   CHOOSING_DISH_MODE: 'CHOOSING_DISH_MODE',
@@ -114,6 +115,10 @@ const useSearchedDish = (args: { selectedDish }) => {
       fetchExistingDishesForRegisteringWithMealParams: {
         requireFetchedData: true,
         searchString: searchStringForSearchingExistingDish,
+        mealPosition: selectedMealPositionForSearch,
+        registeredWithMeal: parseBoolOrNull(
+          searchedDishesAreRegisteredWithMeal,
+        ),
         /*
           TODO:
           このデータ取得固有のクエリを作る

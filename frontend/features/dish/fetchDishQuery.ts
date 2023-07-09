@@ -27,12 +27,16 @@ import { useCodegenQuery } from '../utils/queryUtils';
 
 export const EXISTING_DISHES_FOR_REGISTERING_WITH_MEAL = gql`
   query existingDishesForRegisteringWithMeal(
-    $searchString: String
     $dishIdRegisteredWithMeal: Int
+    $searchString: String
+    $mealPosition: Int
+    $registeredWithMeal: Boolean
   ) {
     existingDishesForRegisteringWithMeal(
-      searchString: $searchString
       dishIdRegisteredWithMeal: $dishIdRegisteredWithMeal
+      searchString: $searchString
+      mealPosition: $mealPosition
+      registeredWithMeal: $registeredWithMeal
     ) {
       id
       name
@@ -45,8 +49,10 @@ export const EXISTING_DISHES_FOR_REGISTERING_WITH_MEAL = gql`
 
 type FetchExistingDishesForRegisteringWithMealParams = {
   requireFetchedData?: boolean;
-  searchString?: string | null;
   dishIdRegisteredWithMeal?: number | null;
+  searchString?: string | null;
+  mealPosition?: number | null;
+  registeredWithMeal?: boolean | null;
 };
 
 const useFetchExistingDishesForRegisteringWithMeal = (
@@ -54,8 +60,10 @@ const useFetchExistingDishesForRegisteringWithMeal = (
 ) => {
   const {
     requireFetchedData = false,
-    searchString = null,
     dishIdRegisteredWithMeal = null,
+    searchString = null,
+    mealPosition = null,
+    registeredWithMeal = null,
   } = params;
   const { data, previousData, fetchLoading, fetchError, refetch } =
     useCodegenQuery(
@@ -63,8 +71,10 @@ const useFetchExistingDishesForRegisteringWithMeal = (
       useExistingDishesForRegisteringWithMealLazyQuery,
       requireFetchedData,
       {
-        searchString,
         dishIdRegisteredWithMeal,
+        searchString,
+        mealPosition,
+        registeredWithMeal,
       },
     );
 
