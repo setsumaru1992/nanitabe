@@ -87,15 +87,6 @@ export default (props: Props) => {
           </div>
         </div>
       </div>
-      <div className={style['choose-dish-form__label-and-input-container']}>
-        <div className={style['choose-dish-form__label']}>時間帯</div>
-        <SelectMealType
-          selectedMealType={selectedMealType || defaultMealType}
-          onClick={(mealType) => {
-            selectMealType(mealType);
-          }}
-        />
-      </div>
       <div>
         <input
           type="checkbox"
@@ -107,12 +98,20 @@ export default (props: Props) => {
         <label htmlFor="continuousRegistrationCheck">連続登録する</label>
       </div>
       <div className={style['choose-dish-form__label-and-input-container']}>
-        {/*
-          NOTE:
-          なぜかflexboxの影響でラベルの幅が縮まってしまっている（開発者ツールで紫の斜線出てるのが証拠）
-          直し方わからないので一旦保留
-        */}
-        <div className={style['choose-dish-form__label']}>料理</div>
+        <div className={style['choose-dish-form__label']}>時間帯</div>
+        <SelectMealType
+          selectedMealType={selectedMealType || defaultMealType}
+          onClick={(mealType) => {
+            selectMealType(mealType);
+          }}
+        />
+      </div>
+      <div className={style['choose-dish-main']}>
+        <div className={style['choose-dish-main-border__wrapper']}>
+          <div className={style['choose-dish-main-border']} />
+        </div>
+        <div className={style['choose-dish-main-header']}>料理</div>
+
         <div className={style['choose-dish-form-select-dish__container']}>
           <Form.Control
             type="text"

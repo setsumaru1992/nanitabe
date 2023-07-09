@@ -265,9 +265,7 @@ export default (props: Props) => {
         </tbody>
       </table>
 
-      {!useAssignDishModeResult.inAssigningDishMode && (
-        <NextWeekDisplayButton />
-      )}
+      {!requireDisplayingBottomBar && <NextWeekDisplayButton />}
 
       {/* 食事割当以外にも下からせり出るバーを使うようになったら条件変える */}
       {requireDisplayingBottomBar && (
