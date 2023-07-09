@@ -13,7 +13,7 @@ export default (props: Props) => {
     useAssignDishModeResult;
 
   return (
-    <div className={style.container}>
+    <>
       {isChoosingDishMode && (
         <ChooseDish useAssignDishModeResult={useAssignDishModeResult} />
       )}
@@ -23,6 +23,6 @@ export default (props: Props) => {
           useAssignDishModeResult={useAssignDishModeResult}
         />
       )}
-    </div>
+    </>
   );
 };

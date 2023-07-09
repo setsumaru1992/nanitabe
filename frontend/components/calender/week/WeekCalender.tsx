@@ -12,6 +12,7 @@ import {
   useFirstDisplayDate,
 } from './useCalenderDate';
 import AssignDish from '../AssignDish';
+import MoveDish from '../MoveDish';
 import { useApolloClient } from '../../../lib/graphql/buildApolloClient';
 import useCalenderMode from './useCalenderMode';
 import useFloatModal from '../../common/modal/useFloatModal';
@@ -175,6 +176,7 @@ export default (props: Props) => {
     useAssignDishModeResult,
     calenderModeChangers,
     useMoveDishModeResult,
+    requireDisplayingBottomBar,
   } = useCalenderMode({
     onDataChanged: () => {
       refreshData();
@@ -268,10 +270,15 @@ export default (props: Props) => {
       )}
 
       {/* 食事割当以外にも下からせり出るバーを使うようになったら条件変える */}
-      {useAssignDishModeResult.inAssigningDishMode && (
+      {requireDisplayingBottomBar && (
         <div className={style['fixed-bar-from-bottom']}>
           <NextWeekDisplayButton />
-          <AssignDish useAssignDishModeResult={useAssignDishModeResult} />
+          <div className={style['bottom-bar']}>
+            {useAssignDishModeResult.inAssigningDishMode && (
+              <AssignDish useAssignDishModeResult={useAssignDishModeResult} />
+            )}
+            {useMoveDishModeResult.isMovingDishMode && <MoveDish />}
+          </div>
         </div>
       )}
     </div>

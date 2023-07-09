@@ -41,11 +41,16 @@ export default ({ onDataChanged }) => {
     startMovingDishMode: useMoveDishModeResult.startMovingDishMode,
   };
 
+  const requireDisplayingBottomBar =
+    useAssignDishModeResult.inAssigningDishMode ||
+    useMoveDishModeResult.isMovingDishMode;
+
   return {
     isDisplayCalenderMode,
     isNotDisplayCalenderMode,
     calenderModeChangers,
     useAssignDishModeResult,
     useMoveDishModeResult,
+    requireDisplayingBottomBar,
   };
 };
