@@ -18,7 +18,6 @@ import {
 // `;
 
 // dish同様上記のように書きたいけどやりかたわからないからコメントアウト
-// TODO: dishSourceRelationにtype以外に参照元レシピ名と本ならページ名も返すようにしてカレンダーで表示
 export const MEALS_FOR_CALENDER = gql`
   query mealsForCalender($startDate: ISO8601Date!) {
     mealsForCalender(startDate: $startDate) {

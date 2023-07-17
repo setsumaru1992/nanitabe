@@ -79,8 +79,17 @@ export default (props: Props) => {
   })();
 
   const caption = (() => {
-    if (true) return null;
-    return '(レシピ名.slice(0,5)… Pxx)';
+    if (!dish?.dishSourceRelation?.sourceName) return '';
+    const displaySourceName = (() => {
+      const { sourceName } = dish.dishSourceRelation;
+      if (sourceName.length <= 5) return sourceName;
+      return `${sourceName.slice(0, 5)}…`;
+    })();
+    const pageString = (() => {
+      if (!dish.dishSourceRelation.recipeBookPage) return '';
+      return ` P${dish.dishSourceRelation.recipeBookPage}`;
+    })();
+    return `(${displaySourceName}${pageString})`;
   })();
 
   return (
