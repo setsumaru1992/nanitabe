@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_17_063843) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_17_063844) do
+  create_table "dish_evaluations", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "dish_id", null: false
+    t.bigint "user_id", null: false
+    t.float "score", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id"], name: "index_dish_evaluations_on_dish_id", unique: true
+    t.index ["user_id"], name: "index_dish_evaluations_on_user_id"
+  end
+
   create_table "dish_source_relations", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "dish_id", null: false
     t.bigint "dish_source_id", null: false
@@ -91,6 +101,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_17_063843) do
     t.index ["id_param"], name: "index_users_on_id_param", unique: true
   end
 
+  add_foreign_key "dish_evaluations", "dishes"
+  add_foreign_key "dish_evaluations", "users"
   add_foreign_key "dish_source_relations", "dish_sources"
   add_foreign_key "dish_source_relations", "dishes"
   add_foreign_key "dish_sources", "users"
