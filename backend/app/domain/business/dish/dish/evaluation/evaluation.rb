@@ -1,7 +1,5 @@
 module Business::Dish::Dish::Evaluation
   class Evaluation < ::Business::Base::Entity
-    attribute :id, :integer
-
     attribute :user_id, :integer
     validates :user_id, presence: true
 
