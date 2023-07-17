@@ -62,20 +62,47 @@ export default (props: Props) => {
       }
     })();
     if (!iconCssClass) return null;
-    return <i className={classnames(iconCssClass, style['mark-white'])} />;
+    return (
+      <i
+        className={classnames(
+          iconCssClass,
+          style['mark-white'],
+          style['dish-content-mark'],
+        )}
+      />
+    );
+  })();
+
+  const dishName = (() => {
+    if (dish.name.length <= 15) return dish.name;
+    return `${dish.name.slice(0, 7)}…${dish.name.slice(-7)}`;
+  })();
+
+  const caption = (() => {
+    if (true) return null;
+    return '(レシピ名.slice(0,5)… Pxx)';
   })();
 
   return (
     <div className={classnames(style['icon'], style[iconCssClassOfMealType])}>
       {mealPositionMark && <>{mealPositionMark} &nbsp;</>}
-      {dish.name} &nbsp;
+      <div className={style['dish-content']}>
+        <div className={style['dish-content-name-and-caption-container']}>
+          <div className={style['dish-content-dishname']}>{dishName}</div>
+          {caption && (
+            <div className={style['dish-content-caption']}>{caption}</div>
+          )}
+        </div>
+      </div>
       {canAnythingExeptDisplayDishName && (
         <FloatModalOpener>
+          &nbsp;
           <i
             className={classnames(
               'fa-solid',
               'fa-ellipsis-vertical',
               style['meal-icon__menu-button'],
+              style['dish-content-menu-opener'],
             )}
             data-testid={`mealMenuOpener-${meal.id}`}
           />

@@ -5,15 +5,13 @@ import style from './AssignDish.module.scss';
 import ExistingDishIconForSelect from '../../dish/ExistingDishIcon/ExistingDishIconForSelect';
 import SelectMealType from '../../meal/MealForm/MealForm/SelectMealType';
 import SelectMealPosition from '../../dish/DishForm/DishForm/SelectMealPosition';
-import {
-  MEAL_POSITION_LABELS,
-  MealPosition,
-} from '../../../features/dish/const';
+import { MealPosition } from '../../../features/dish/const';
 
 type Props = {
   useAssignDishModeResult: any;
 };
 
+// TODO: ChooseDish→SelectDishに命名変更
 export default (props: Props) => {
   const { useAssignDishModeResult } = props;
   const {
@@ -115,6 +113,7 @@ export default (props: Props) => {
           ].map((registeredWithMealOption) => (
             <Form.Check
               type="radio"
+              key={registeredWithMealOption.value}
               inline
               name="registeredWithMeal"
               value={registeredWithMealOption.value}

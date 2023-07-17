@@ -20,3 +20,31 @@
     color: white;
   }
 }
+
+.dish-content {
+  display: inline-block;
+  color: inherit;
+  vertical-align: middle;
+
+  &-mark {
+  }
+
+  &-name-and-caption-container {
+    display: inline-block;
+    color: inherit;
+  }
+
+  &-dishname {
+    font-size: 14px;
+    color: inherit;
+  }
+
+  &-caption {
+    font-size: 8px;
+    color: inherit;
+    text-align: center;
+  }
+
+  &-menu-opener {
+  }
+}
