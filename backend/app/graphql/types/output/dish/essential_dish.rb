@@ -7,6 +7,8 @@ module Types::Output::Dish
     field :meal_position, Int, null: false
     field :comment, String, null: true
 
+    field :evaluation_score, Float, null: true
+
     field :dish_source_relation, DishSourceRelation, null: true
   end
 end

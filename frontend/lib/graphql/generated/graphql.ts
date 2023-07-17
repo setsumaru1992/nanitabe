@@ -139,6 +139,7 @@ export type Dish = DishFields & {
   __typename?: 'Dish';
   comment?: Maybe<Scalars['String']>;
   dishSourceRelation?: Maybe<DishSourceRelation>;
+  evaluationScore?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   name: Scalars['String'];
@@ -147,6 +148,7 @@ export type Dish = DishFields & {
 export type DishFields = {
   comment?: Maybe<Scalars['String']>;
   dishSourceRelation?: Maybe<DishSourceRelation>;
+  evaluationScore?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   name: Scalars['String'];
@@ -192,6 +194,7 @@ export type DishSourceRelation = {
   recipeBookPage?: Maybe<Scalars['Int']>;
   recipeSourceMemo?: Maybe<Scalars['String']>;
   recipeWebsiteUrl?: Maybe<Scalars['String']>;
+  sourceName?: Maybe<Scalars['String']>;
   type: Scalars['Int'];
 };
 
@@ -212,6 +215,7 @@ export type DishWithRegisteredMeals = DishFields & {
   __typename?: 'DishWithRegisteredMeals';
   comment?: Maybe<Scalars['String']>;
   dishSourceRelation?: Maybe<DishSourceRelation>;
+  evaluationScore?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   meals: Array<Meal>;
@@ -251,6 +255,7 @@ export type ExistingDishForRegisteringWithMeal = DishFields & {
   comment?: Maybe<Scalars['String']>;
   dishSourceName?: Maybe<Scalars['String']>;
   dishSourceRelation?: Maybe<DishSourceRelation>;
+  evaluationScore?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   name: Scalars['String'];
@@ -598,6 +603,7 @@ export type SpecifiedDish = DishFields & {
   __typename?: 'SpecifiedDish';
   comment?: Maybe<Scalars['String']>;
   dishSourceRelation?: Maybe<DishSourceRelation>;
+  evaluationScore?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
   mealPosition: Scalars['Int'];
   name: Scalars['String'];
@@ -868,7 +874,7 @@ export type MealsForCalenderQueryVariables = Exact<{
 }>;
 
 
-export type MealsForCalenderQuery = { __typename?: 'Query', mealsForCalender: Array<{ __typename?: 'MealsOfDate', date: any, meals: Array<{ __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment?: string | null, dish: { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null, dishSourceRelation?: { __typename?: 'DishSourceRelation', type: number } | null } }> }> };
+export type MealsForCalenderQuery = { __typename?: 'Query', mealsForCalender: Array<{ __typename?: 'MealsOfDate', date: any, meals: Array<{ __typename?: 'MealForCalender', id: number, date: any, mealType: number, comment?: string | null, dish: { __typename?: 'Dish', id: number, name: string, mealPosition: number, comment?: string | null, evaluationScore?: number | null, dishSourceRelation?: { __typename?: 'DishSourceRelation', type: number, sourceName?: string | null, recipeBookPage?: number | null, recipeWebsiteUrl?: string | null, recipeSourceMemo?: string | null } | null } }> }> };
 
 export type RemoveMealMutationVariables = Exact<{
   mealId: Scalars['Int'];
@@ -1636,8 +1642,13 @@ export const MealsForCalenderDocument = gql`
         name
         mealPosition
         comment
+        evaluationScore
         dishSourceRelation {
           type
+          sourceName
+          recipeBookPage
+          recipeWebsiteUrl
+          recipeSourceMemo
         }
       }
     }

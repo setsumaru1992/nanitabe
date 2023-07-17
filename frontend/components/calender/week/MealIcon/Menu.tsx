@@ -67,6 +67,7 @@ export default (props: Props) => {
         <EvaluateDishModal.FullScreenModal title="食事評価">
           <EvaluateDish
             dishId={meal.dish.id}
+            score={meal.dish.evaluationScore}
             onEditSucceeded={() => {
               EvaluateDishModal.closeModal();
               if (onChanged) onChanged();

@@ -33,8 +33,13 @@ export const MEALS_FOR_CALENDER = gql`
           name
           mealPosition
           comment
+          evaluationScore
           dishSourceRelation {
             type
+            sourceName
+            recipeBookPage
+            recipeWebsiteUrl
+            recipeSourceMemo
           }
         }
       }

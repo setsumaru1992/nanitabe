@@ -70,6 +70,7 @@ export default (props: Props) => {
   const { evaluateDish } = useDish();
 
   const submitHandler = () => {
+    // TODO: 時間できたらテスト作成
     evaluateDish(
       { dishId, score: currentScore },
       {
