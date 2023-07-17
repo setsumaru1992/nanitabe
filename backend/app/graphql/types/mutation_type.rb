@@ -17,5 +17,7 @@ module Types
     field :add_dish_source, mutation: ::Mutations::Dish::Source::AddSource
     field :update_dish_source, mutation: ::Mutations::Dish::Source::UpdateSource
     field :remove_dish_source, mutation: ::Mutations::Dish::Source::RemoveSource
+
+    field :evaluate_dish, mutation: ::Mutations::Dish::Evaluation::EvaluateDish
   end
 end

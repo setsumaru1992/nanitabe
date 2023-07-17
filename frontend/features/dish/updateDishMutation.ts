@@ -125,6 +125,20 @@ export type UpdateDishFunc = (
   mutationCallbacks: MutationCallbacks<UpdateDishOutput>,
 ) => void;
 
+// HACK: 数が増えたら、上述のUpdateDishをuseUpdateOnlyDishFieldsに移動
+export const EVALUATE_DISH = gql`
+  mutation evaluateDish($dishId: Int!, $score: Float!) {
+    evaluateDish(input: { dishId: $dishId, score: $score }) {
+      dishId
+    }
+  }
+`;
+
+export type EvaluateDish = {
+  dishId: number;
+  score: number;
+};
+
 export const useUpdateDish = () => {
   const [updateDish, updateDishLoading, updateDishError] =
     buildMutationExecutor<UpdateDish, UpdateDishMutation>(
