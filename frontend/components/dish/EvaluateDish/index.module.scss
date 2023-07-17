@@ -1,0 +1,30 @@
+.stars-container {
+  margin: 0 0 10px 0;
+}
+
+.star {
+  color:#ffd700;
+  font-size: 40px;
+  padding: 0 10px;
+
+  &-container {
+    display: inline-block;
+    position: relative;
+    color: inherit;
+  }
+
+  &-floating {
+    &-container {
+      display: inline-block;
+      position: absolute;
+      width: 65px;
+      height: 40px;
+    }
+
+    &-half-click-target {
+      display: inline-block;
+      width: 50%;
+      height: 100%;
+    }
+  }
+}

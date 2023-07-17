@@ -5,6 +5,7 @@ import useFullScreenModal from '../../../common/modal/useFullScreenModal';
 import { MealForCalender } from '../../../../lib/graphql/generated/graphql';
 import useMeal from '../../../../features/meal/useMeal';
 import { EditMeal } from '../../../meal/MealForm';
+import EvaluateDish from '../../../dish/EvaluateDish';
 
 type Props = {
   meal: MealForCalender;
@@ -15,12 +16,16 @@ type Props = {
 
 export default (props: Props) => {
   const { meal, onChanged, closeSelf, calenderModeChangers } = props;
-  const { FullScreenModal, FullScreenModalOpener, closeModal } =
-    useFullScreenModal({
-      onClose: () => {
-        closeSelf();
-      },
-    });
+  const EditMealModal = useFullScreenModal({
+    onClose: () => {
+      closeSelf();
+    },
+  });
+  const EvaluateDishModal = useFullScreenModal({
+    onClose: () => {
+      closeSelf();
+    },
+  });
 
   const { startMovingDishMode } = calenderModeChangers;
 
@@ -42,18 +47,32 @@ export default (props: Props) => {
   return (
     <ul className={classnames(style['menu'])}>
       <li className={classnames(style['menu__row'])}>
-        <FullScreenModalOpener>
+        <EditMealModal.FullScreenModalOpener>
           <a className={classnames(style['menu__content'])}>修正</a>
-        </FullScreenModalOpener>
-        <FullScreenModal title="食事修正">
+        </EditMealModal.FullScreenModalOpener>
+        <EditMealModal.FullScreenModal title="食事修正">
           <EditMeal
             meal={meal}
             onEditSucceeded={() => {
-              closeModal();
+              EditMealModal.closeModal();
               if (onChanged) onChanged();
             }}
           />
-        </FullScreenModal>
+        </EditMealModal.FullScreenModal>
+      </li>
+      <li className={classnames(style['menu__row'])}>
+        <EvaluateDishModal.FullScreenModalOpener>
+          <a className={classnames(style['menu__content'])}>評価</a>
+        </EvaluateDishModal.FullScreenModalOpener>
+        <EvaluateDishModal.FullScreenModal title="食事評価">
+          <EvaluateDish
+            meal={meal}
+            onEditSucceeded={() => {
+              EvaluateDishModal.closeModal();
+              if (onChanged) onChanged();
+            }}
+          />
+        </EvaluateDishModal.FullScreenModal>
       </li>
       <li className={classnames(style['menu__row'])}>
         <a
