@@ -13,8 +13,10 @@ import {
   MutationCallbacks,
 } from '../utils/mutationUtils';
 import {
+  EvaluateDishMutation,
   UpdateDishMutation,
   UpdateDishWithNewSourceMutation,
+  useEvaluateDishMutation,
   useUpdateDishMutation,
   useUpdateDishWithNewSourceMutation,
 } from '../../lib/graphql/generated/graphql';
@@ -157,6 +159,11 @@ export const useUpdateDish = () => {
     normalizeInput: convertFromUpdateDishWithNewSourceInputToGraphqlInput,
   });
 
+  const [evaluateDish, evaluateDishLoading, evaluateDishError] =
+    buildMutationExecutor<EvaluateDish, EvaluateDishMutation>(
+      useEvaluateDishMutation,
+    );
+
   return {
     updateDish,
     UpdateDishSchema,
@@ -164,7 +171,13 @@ export const useUpdateDish = () => {
     updateDishWithNewSource,
     UpdateDishWithNewSourceSchema,
 
-    updateDishLoading: updateDishLoading || updateDishWithNewSourceLoading,
-    updateDishError: updateDishError || updateDishWithNewSourceError,
+    evaluateDish,
+
+    updateDishLoading:
+      updateDishLoading ||
+      updateDishWithNewSourceLoading ||
+      evaluateDishLoading,
+    updateDishError:
+      updateDishError || updateDishWithNewSourceError || evaluateDishError,
   };
 };

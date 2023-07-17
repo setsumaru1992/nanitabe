@@ -4,7 +4,7 @@
 
 .star {
   color:#ffd700;
-  font-size: 40px;
+  font-size: 40px; // この値はfloatingエリアにも影響
   padding: 0 10px;
 
   &-container {
@@ -17,8 +17,8 @@
     &-container {
       display: inline-block;
       position: absolute;
-      width: 65px;
-      height: 40px;
+      width: 65px; // 星のfont-size + 星のpadding * 2 + 不明の5px
+      height: 40px; // 星のfont-size
     }
 
     &-half-click-target {

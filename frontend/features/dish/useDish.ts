@@ -46,6 +46,7 @@ export default (params: UseDishParams = {}) => {
     UpdateDishSchema,
     updateDishWithNewSource,
     UpdateDishWithNewSourceSchema,
+    evaluateDish,
     updateDishLoading,
     updateDishError,
   } = useUpdateDish();
@@ -73,6 +74,7 @@ export default (params: UseDishParams = {}) => {
     UpdateDishSchema,
     updateDishWithNewSource,
     UpdateDishWithNewSourceSchema,
+    evaluateDish,
     updateDishLoading,
     updateDishError,
 

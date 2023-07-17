@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classnames from 'classnames';
 import { Button, Form } from 'react-bootstrap';
 import style from './index.module.scss';
+import useDish from '../../../features/dish/useDish';
 
 type Props = {
   dishId: number;
@@ -66,6 +67,19 @@ export default (props: Props) => {
   const initialScore = registeredDishScore || 3;
   const [currentScore, updateScore] = useState(initialScore);
 
+  const { evaluateDish } = useDish();
+
+  const submitHandler = () => {
+    evaluateDish(
+      { dishId, score: currentScore },
+      {
+        onCompleted: () => {
+          if (onEditSucceeded) onEditSucceeded();
+        },
+      },
+    );
+  };
+
   return (
     <>
       <div className={style['stars-container']}>
@@ -83,6 +97,7 @@ export default (props: Props) => {
           type="submit"
           variant="light"
           data-testid="submitEvaluateDishButton"
+          onClick={submitHandler}
         >
           登録
         </Button>

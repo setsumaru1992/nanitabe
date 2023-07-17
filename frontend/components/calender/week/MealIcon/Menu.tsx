@@ -66,7 +66,7 @@ export default (props: Props) => {
         </EvaluateDishModal.FullScreenModalOpener>
         <EvaluateDishModal.FullScreenModal title="食事評価">
           <EvaluateDish
-            meal={meal}
+            dishId={meal.dish.id}
             onEditSucceeded={() => {
               EvaluateDishModal.closeModal();
               if (onChanged) onChanged();
