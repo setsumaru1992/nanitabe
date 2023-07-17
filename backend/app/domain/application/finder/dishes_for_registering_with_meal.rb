@@ -39,7 +39,7 @@ module Application::Finder
     end
 
     def add_join_to_relation(dish_relation)
-      dish_relation.left_outer_joins(:meals).eager_load(:dish_source)
+      dish_relation.left_outer_joins(:meals).eager_load(:dish_source).left_outer_joins(:dish_evaluation)
     end
 
     def add_auth_filter_to_relation(dish_relation)
@@ -72,11 +72,15 @@ module Application::Finder
     end
 
     def add_output_fields_to_relation(dish_relation)
-      dish_relation.select("dishes.*, dish_sources.name AS dish_source_name")
+      dish_relation.select("
+        dishes.*
+        , dish_sources.name AS dish_source_name
+        , COALESCE(dish_evaluations.score, 3.0) AS dish_evaluation
+      ")
     end
 
     def add_order_to_relation(dish_relation)
-      dish_relation.group("dishes.id").order("COUNT(meals.id) DESC, MAX(dishes.created_at) DESC")
+      dish_relation.group("dishes.id").order("dish_evaluation DESC, COUNT(meals.id) DESC, MAX(dishes.created_at) DESC")
     end
   end
 end
