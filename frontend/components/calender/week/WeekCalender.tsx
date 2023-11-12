@@ -200,6 +200,8 @@ export default (props: Props) => {
         <div className={style['week-calender-header-title']}>
           {format(firstDisplayDate, 'yyyy年M月')} ▼
         </div>
+        {/* &nbsp; */}
+        {/* 今週(枠で括う) */}
         <div className={style['week-calender-header-menu']}>
           {isDisplayCalenderMode && (
             <CalenderMenu useAssignDishModeResult={useAssignDishModeResult} />
