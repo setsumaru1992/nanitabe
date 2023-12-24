@@ -38,7 +38,7 @@ export default (props: Props) => {
     setChoosingDishType,
     choosingRegisterNewDish,
     choosingUseExistingDish,
-  } = useChoosingDishType(CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH);
+  } = useChoosingDishType(CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH);
 
   const useChoosingPutDishSourceTypeResult = useChoosingPutDishSourceType(
     CHOOSING_PUT_DISH_SOURCE_TYPE.CHOOSING_USE_EXISTING_DISH_SOURCE,

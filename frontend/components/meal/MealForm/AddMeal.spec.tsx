@@ -108,6 +108,7 @@ describe('<AddMeal>', () => {
           },
         });
 
+      await userClick(screen, 'optionOfRegisteringNewDish');
       enterTextBox(screen, 'dishname', newDishWithRequiredParams.name);
       fireEvent.click(screen.getByTestId('submitMealButton'));
 
@@ -131,7 +132,6 @@ describe('<AddMeal>', () => {
           },
         });
 
-      await userClick(screen, 'optionOfUsingExistingDish');
       await userClick(screen, `existingDish-${existingDishId}`);
 
       await userClick(screen, 'submitMealButton');

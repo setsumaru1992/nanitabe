@@ -110,6 +110,21 @@ export default (props: Props) => {
                 type="radio"
                 inline
                 name="add_meal_type"
+                value={CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH}
+                onChange={() =>
+                  setChoosingDishType(
+                    CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH,
+                  )
+                }
+                checked={choosingUseExistingDish}
+                label="料理を選択"
+                id="optionOfUsingExistingDish"
+                data-testid="optionOfUsingExistingDish"
+              />
+              <Form.Check
+                type="radio"
+                inline
+                name="add_meal_type"
                 value={CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH}
                 onChange={() =>
                   setChoosingDishType(
@@ -120,21 +135,6 @@ export default (props: Props) => {
                 label="新しく料理を登録"
                 id="optionOfRegisteringNewDish"
                 data-testid="optionOfRegisteringNewDish"
-              />
-              <Form.Check
-                type="radio"
-                inline
-                name="add_meal_type"
-                value={CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH}
-                onChange={() =>
-                  setChoosingDishType(
-                    CHOOSING_DISH_TYPE.CHOOSING_USE_EXISTING_DISH,
-                  )
-                }
-                checked={choosingUseExistingDish}
-                label="登録済みの料理を選択"
-                id="optionOfUsingExistingDish"
-                data-testid="optionOfUsingExistingDish"
               />
             </Form.Group>
 
