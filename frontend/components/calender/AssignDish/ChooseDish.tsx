@@ -107,16 +107,16 @@ export default (props: Props) => {
         <div className={style['choose-dish-form__label-and-input-container']}>
           <div className={style['choose-dish-form__label']}>関連食事</div>
           {[
-            { value: null, label: '指定なし' },
-            { value: 'true', label: '関連食事あり' },
-            { value: 'false', label: '関連食事なし' },
+            { value: null, checkboxValue: '', label: '指定なし' },
+            { value: 'true', checkboxValue: 'true', label: '関連食事あり' },
+            { value: 'false', checkboxValue: 'false', label: '関連食事なし' },
           ].map((registeredWithMealOption) => (
             <Form.Check
               type="radio"
               key={registeredWithMealOption.value}
               inline
               name="registeredWithMeal"
-              value={registeredWithMealOption.value}
+              value={registeredWithMealOption.checkboxValue}
               checked={
                 searchedDishesAreRegisteredWithMeal ===
                 registeredWithMealOption.value

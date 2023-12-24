@@ -22,7 +22,7 @@ export default (props: Props) => {
           type="radio"
           inline
           name="meal_position"
-          value={null}
+          value=""
           onClick={() => {
             if (onClick) onClick(null);
           }}

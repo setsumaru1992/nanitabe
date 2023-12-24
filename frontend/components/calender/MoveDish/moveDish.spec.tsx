@@ -9,6 +9,7 @@ import {
 import { userClick } from '../../specHelper/userEvents';
 import WeekCalender from '../week/WeekCalender';
 import {
+  ExistingDishesForRegisteringWithMealDocument,
   MealsForCalenderDocument,
   UpdateMealDocument,
 } from '../../../lib/graphql/generated/graphql';
@@ -31,6 +32,7 @@ describe('move dish on week calender', () => {
     mealPosition: 2,
     comment: null,
     dishSourceRelation: null,
+    evaluationScore: null,
   };
   const registeredMealWithoutDish = {
     id: 30,
@@ -62,6 +64,19 @@ describe('move dish on week calender', () => {
               },
             },
           ],
+        },
+      ],
+    });
+
+    registerQueryHandler(ExistingDishesForRegisteringWithMealDocument, {
+      existingDishesForRegisteringWithMeal: [
+        {
+          __typename: 'Dish',
+          id: 55,
+          name: '生姜焼き',
+          mealPosition: 2,
+          comment: null,
+          dishSourceName: null,
         },
       ],
     });
