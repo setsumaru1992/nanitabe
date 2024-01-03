@@ -5,15 +5,23 @@ import useDish from '../../../../features/dish/useDish';
 import FormFieldWrapperWithLabel from '../../../common/form/FormFieldWrapperWithLabel';
 import ErrorMessageIfExist from '../../../common/form/ErrorMessageIfExist';
 import style from './ExistingDishesForRegisteringWithMeal.module.scss';
-import ExistingDishIconForSelect from '../../../dish/ExistingDishIcon/ExistingDishIconForSelect';
+import ExistingDishIconForSelect, {
+  NewDishIconForSelect,
+} from '../../../dish/ExistingDishIcon/ExistingDishIconForSelect';
 
 type ExistingDishesForRegisteringWithMealProps = {
   dishIdRegisteredWithMeal?: number;
+  displayNewDishIconForSelect?: boolean;
+  onNewDishIconForSelectClick?: any;
 };
 export const ExistingDishesForRegisteringWithMeal = (
   props: ExistingDishesForRegisteringWithMealProps,
 ) => {
-  const { dishIdRegisteredWithMeal } = props;
+  const {
+    dishIdRegisteredWithMeal,
+    displayNewDishIconForSelect = false,
+    onNewDishIconForSelectClick,
+  } = props;
   const {
     setValue,
     formState: { errors },
@@ -70,6 +78,16 @@ export const ExistingDishesForRegisteringWithMeal = (
               }}
             />
           ))}
+          {displayNewDishIconForSelect && (
+            <NewDishIconForSelect
+              onClick={() => {
+                if (onNewDishIconForSelectClick) {
+                  onNewDishIconForSelectClick(searchString);
+                }
+              }}
+              exampleDishName={searchString}
+            />
+          )}
         </div>
       </div>
       <ErrorMessageIfExist errorMessage={errors.dishId?.message} />

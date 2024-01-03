@@ -42,3 +42,34 @@ export default (props: Props) => {
     </div>
   );
 };
+
+type NewDishIconForSelectProps = {
+  onClick: () => void;
+  exampleDishName?: string;
+};
+
+export const NewDishIconForSelect = (props: NewDishIconForSelectProps) => {
+  const { onClick, exampleDishName } = props;
+  const label: string = (() => {
+    if (exampleDishName) {
+      return `「${exampleDishName}」を料理登録する`;
+    }
+    return '料理を登録をする';
+  })();
+  return (
+    <div className={style['dish-icon__wrap']}>
+      <div
+        className={classnames({
+          [style['icon']]: true,
+          [style['dish-icon']]: true,
+        })}
+        onClick={() => {
+          if (onClick) onClick();
+        }}
+        data-testid="existingDish-new"
+      >
+        {label}
+      </div>
+    </div>
+  );
+};

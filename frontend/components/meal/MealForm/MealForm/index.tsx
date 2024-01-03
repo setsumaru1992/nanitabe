@@ -154,6 +154,13 @@ export default (props: Props) => {
             {choosingUseExistingDish && (
               <ExistingDishesForRegisteringWithMeal
                 dishIdRegisteredWithMeal={registeredDishId}
+                displayNewDishIconForSelect
+                onNewDishIconForSelectClick={(searchString) => {
+                  setChoosingDishType(
+                    CHOOSING_DISH_TYPE.CHOOSING_REGISTER_NEW_DISH,
+                  );
+                  setValue('dish.name', searchString);
+                }}
               />
             )}
           </div>
