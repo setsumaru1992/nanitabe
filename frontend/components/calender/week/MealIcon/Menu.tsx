@@ -6,6 +6,7 @@ import { MealForCalender } from '../../../../lib/graphql/generated/graphql';
 import useMeal from '../../../../features/meal/useMeal';
 import { EditMeal } from '../../../meal/MealForm';
 import EvaluateDish from '../../../dish/EvaluateDish';
+import { EditDish } from '../../../dish/DishForm';
 
 type Props = {
   meal: MealForCalender;
@@ -22,6 +23,11 @@ export default (props: Props) => {
     },
   });
   const EvaluateDishModal = useFullScreenModal({
+    onClose: () => {
+      closeSelf();
+    },
+  });
+  const EditDishModal = useFullScreenModal({
     onClose: () => {
       closeSelf();
     },
@@ -74,6 +80,20 @@ export default (props: Props) => {
             }}
           />
         </EvaluateDishModal.FullScreenModal>
+      </li>
+      <li className={classnames(style['menu__row'])}>
+        <EditDishModal.FullScreenModalOpener>
+          <a className={classnames(style['menu__content'])}>料理修正</a>
+        </EditDishModal.FullScreenModalOpener>
+        <EditDishModal.FullScreenModal title="料理修正">
+          <EditDish
+            dish={meal.dish}
+            onEditSucceeded={() => {
+              EditMealModal.closeModal();
+              if (onChanged) onChanged();
+            }}
+          />
+        </EditDishModal.FullScreenModal>
       </li>
       <li className={classnames(style['menu__row'])}>
         <a
