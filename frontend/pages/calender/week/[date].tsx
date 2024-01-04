@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import { formatISO } from 'date-fns';
 import WeekCalender, {
   useDateFormatStringInUrl,
 } from '../../../components/calender/week/WeekCalender';
@@ -8,7 +8,7 @@ import { isISODateFormatString } from '../../../features/utils/dateUtils';
 export const WEEK_CALENDER_PAGE_URL = '/calender/week';
 export const WEEK_CALENDER_PAGE_URL_OF_THIS_WEEK = '/calender/week/thisweek';
 export const weekCalenderPageUrlOf = (date: Date) => {
-  const dateString = format(date, 'yyyy-MM-dd');
+  const dateString = formatISO(date, { representation: 'date' });
   return `${WEEK_CALENDER_PAGE_URL}/${dateString}`;
 };
 const extractDateStringFromCalenderWeekUrl = (url: string) => {
