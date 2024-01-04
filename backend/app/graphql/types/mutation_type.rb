@@ -8,6 +8,8 @@ module Types
     field :update_meal_with_new_dish_and_new_source, mutation: ::Mutations::Meal::UpdateMealWithNewDishAndNewSource
     field :remove_meal, mutation: ::Mutations::Meal::RemoveMeal
 
+    field :swap_meals_between_days, mutation: ::Mutations::Meal::SwapMealsBetweenDays
+
     field :add_dish, mutation: ::Mutations::Dish::AddDish
     field :add_dish_with_new_source, mutation: ::Mutations::Dish::AddDishWithNewSource
     field :update_dish, mutation: ::Mutations::Dish::UpdateDish

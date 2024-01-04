@@ -1,8 +1,7 @@
 KEY_OF_TEST_SWAP_FROM_DAY_WITH_MEALS_TO_DAY_WITH_MEALS = "SWAP_FROM_DAY_WITH_MEALS_TO_DAY_WITH_MEALS"
 comparer = ExpectationComparer.new(KEY_OF_TEST_SWAP_FROM_DAY_WITH_MEALS_TO_DAY_WITH_MEALS, {
-  date1: Date.new(2023, 02, 01),
-  date2: Date.new(2023, 02, 02),
-  meal_type: 1,
+  date1: Date.new(2023, 2, 1),
+  date2: Date.new(2023, 2, 2),
 })
 
 comparer.define_required_records_for_test do
@@ -39,7 +38,6 @@ KEY_OF_TEST_SWAP_FROM_DAY_WITH_MEAL_TO_DAY_WITHOUT_MEAL = "SWAP_FROM_DAY_WITH_ME
 comparer = ExpectationComparer.new(KEY_OF_TEST_SWAP_FROM_DAY_WITH_MEAL_TO_DAY_WITHOUT_MEAL, {
   date1: Date.new(2023, 02, 11),
   date2: Date.new(2023, 02, 21),
-  meal_type: 1,
 })
 
 comparer.define_required_records_for_test do
@@ -67,7 +65,6 @@ KEY_OF_TEST_SWAP_FROM_DAY_WITHOUT_MEAL_TO_DAY_WITH_MEAL = "SWAP_FROM_DAY_WITHOUT
 comparer = ExpectationComparer.new(KEY_OF_TEST_SWAP_FROM_DAY_WITHOUT_MEAL_TO_DAY_WITH_MEAL, {
   date1: Date.new(2023, 02, 21),
   date2: Date.new(2023, 02, 11),
-  meal_type: 1,
 })
 
 comparer.define_required_records_for_test do
@@ -95,7 +92,6 @@ KEY_OF_TEST_SWAP_FROM_DAY_WITHOUT_MEAL_TO_DAY_WITHOUT_MEAL = "SWAP_FROM_DAY_WITH
 comparer = ExpectationComparer.new(KEY_OF_TEST_SWAP_FROM_DAY_WITHOUT_MEAL_TO_DAY_WITHOUT_MEAL, {
   date1: Date.new(2023, 02, 21),
   date2: Date.new(2023, 02, 22),
-  meal_type: 1,
 })
 
 comparer.define_required_records_for_test do
