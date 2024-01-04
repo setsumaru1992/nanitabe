@@ -2,6 +2,7 @@ import { useAddMeal } from './addMealMutation';
 import { FetchMealsParams, useFetchMeals } from './fetchMealQuery';
 import { useUpdateMeal } from './updateMealMutation';
 import { useRemoveMeal } from './removeMealMutation';
+import { useSwapMealsBetweenDays } from './swapMealsBetweenDaysMutation';
 
 export type {
   AddMealMutationInput,
@@ -54,6 +55,12 @@ export default (params: UseMealParams = {}) => {
     fetchMealsError,
   } = useFetchMeals(fetchMealsParams || {});
 
+  const {
+    swapMealsBetweenDays,
+    swapMealsBetweenDaysLoading,
+    swapMealsBetweenDaysError,
+  } = useSwapMealsBetweenDays();
+
   return {
     mealsForCalender,
     fetchMealsLoading,
@@ -81,5 +88,9 @@ export default (params: UseMealParams = {}) => {
     removeMeal,
     removeMealLoading,
     removeMealError,
+
+    swapMealsBetweenDays,
+    swapMealsBetweenDaysLoading,
+    swapMealsBetweenDaysError,
   };
 };
