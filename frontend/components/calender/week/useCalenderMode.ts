@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import useAssignDishMode, {
   AssigningDishMode,
 } from '../AssignDish/useAssignDishMode';
 import useMoveDishMode, { MovingDishMode } from '../MoveDish/useMoveDishMode';
+import { weekCalenderPageUrlOf } from '../../../pages/calender/week/[date]';
 
 export const DISPLAY_CALENDER_MODE = 'DISPLAY_CALENDER_MODE';
 
@@ -53,4 +56,20 @@ export default ({ onDataChanged }) => {
     useMoveDishModeResult,
     requireDisplayingBottomBar,
   };
+};
+
+// 以下、カレンダーモードで流用されるものを定義
+
+export const useBackToWeekOfModeStarted = () => {
+  const router = useRouter();
+  const currentPath = usePathname();
+
+  const backToWeekOfModeStarted = (dateOfStartMode: date) => {
+    const pathOfWeekOfModeStarted = weekCalenderPageUrlOf(dateOfStartMode);
+    if (pathOfWeekOfModeStarted !== currentPath) {
+      router.push(pathOfWeekOfModeStarted);
+    }
+  };
+
+  return { backToWeekOfModeStarted };
 };

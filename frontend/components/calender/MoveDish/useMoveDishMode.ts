@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import useMeal from '../../../features/meal/useMeal';
 import { updateMealSchema } from '../../../features/meal/schema';
 import { weekCalenderPageUrlOf } from '../../../pages/calender/week/[date]';
+import { useBackToWeekOfModeStarted } from '../week/useCalenderMode';
 
 export const MOVING_DISH_MODES = {
   MOVING_DISH_MODE: 'MOVING_DISH_MODE',
@@ -24,10 +25,9 @@ export default (args: {
     changeCalenderModeToDisplayCalenderMode,
     onDataChanged,
   } = args;
-  const router = useRouter();
-  const currentPath = usePathname();
   const { updateMeal } = useMeal();
   const [selectedMeal, setSelectedMeal] = useState(null);
+  const { backToWeekOfModeStarted } = useBackToWeekOfModeStarted();
 
   const isMovingDishMode = calenderMode === MOVING_DISH_MODES.MOVING_DISH_MODE;
   const changeCalenderModeToMovingDishMode = () => {
@@ -39,15 +39,8 @@ export default (args: {
     changeCalenderModeToMovingDishMode();
   };
 
-  const backToWeekOfBeforeMoveMeal = () => {
-    const mealDateStringBeforeMove = new Date(selectedMeal.date);
-    const pathOfMealDateBeforeMove = weekCalenderPageUrlOf(
-      mealDateStringBeforeMove,
-    );
-    if (pathOfMealDateBeforeMove !== currentPath) {
-      router.push(pathOfMealDateBeforeMove);
-    }
-  };
+  const backToWeekOfBeforeMoveMeal = () =>
+    backToWeekOfModeStarted(new Date(selectedMeal.date));
 
   const onDateClickForMovingDish = (date: Date) => {
     const { id, mealType } = selectedMeal;
