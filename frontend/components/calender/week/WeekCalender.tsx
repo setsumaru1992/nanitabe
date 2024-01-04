@@ -2,7 +2,9 @@ import React from 'react';
 import { addDays, format, getDate, isSameDay } from 'date-fns';
 import classnames from 'classnames';
 import style from './WeekCalender.module.scss';
+import menuStyle from './MealIcon/Menu.module.scss';
 import CalenderMealIcon from './MealIcon';
+import DateComponent from './Date';
 import AddMealIcon from './MealIcon/AddMealIcon';
 import useMeal from '../../../features/meal/useMeal';
 import {
@@ -226,14 +228,11 @@ export default (props: Props) => {
                 data-testid={`weekCalendarDateOf${date.toISOString()}`}
               >
                 <th>
-                  <div className={style['date']}>
-                    <span className={style['date__date-number']}>
-                      {dateNumber}
-                    </span>
-                    <span className={style['date__day-of-week']}>
-                      {day.label}
-                    </span>
-                  </div>
+                  <DateComponent
+                    dateNumber={dateNumber}
+                    dayOfWeekLabel={day.label}
+                    canAnythingExceptDisplay={isDisplayCalenderMode}
+                  />
                 </th>
                 <td className={style['dish-container__wrapper']}>
                   <div className={style['dish-container']}>
