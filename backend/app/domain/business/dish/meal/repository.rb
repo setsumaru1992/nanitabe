@@ -8,6 +8,15 @@ module Business::Dish::Meal
         build_values_object_with_existing_object(meal_record, Meal, [:id, :user_id, :dish_id, :date, :meal_type, :comment])
       end
 
+      def fetch_by_date(date)
+        meal_records = ::Meal.where(date:)
+        return [] if meal_records.blank?
+
+        meal_records.map do |meal_record|
+          build_values_object_with_existing_object(meal_record, Meal, [:id, :user_id, :dish_id, :date, :meal_type, :comment])
+        end
+      end
+
       def add(meal)
         new_meal_record = set_same_name_fields(meal, ::Meal.new, [:user_id, :dish_id, :date, :meal_type, :comment])
         new_meal_record.save!

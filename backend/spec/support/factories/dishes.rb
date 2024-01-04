@@ -14,7 +14,7 @@ FactoryBot.define do
     meal_position { 2 }
   end
 
-  (1..4).each do |idx|
+  (1..6).each do |idx|
     eval <<-DISH_OF_DAY_WITH_MEAL
       factory :dish_of_day_with_multi_meals_#{idx}, class: Dish do
         user { find_or_create_user() }
