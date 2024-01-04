@@ -3414,10 +3414,10 @@ dataloader@2.2.1:
   resolved "https://registry.npmjs.org/dataloader/-/dataloader-2.2.1.tgz"
   integrity sha512-Zn+tVZo1RKu120rgoe0JsRk56UiKdefPSH47QROJsMHrX8/S9UJvi5A/A6+Sbuk6rE88z5JoM/wIJ09Z7BTfYA==
 
-date-fns@^2.29.3:
-  version "2.29.3"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
-  integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
+date-fns@3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.0.6.tgz#fe3aeb7592d359f075ffc41cb16139828810ca83"
+  integrity sha512-W+G99rycpKMMF2/YD064b2lE7jJGUe+EjOES7Q8BIGY8sbNdbgcs9XFTZwvzc9Jx1f3k7LB7gZaZa7f8Agzljg==
 
 debounce@^1.2.0:
   version "1.2.1"

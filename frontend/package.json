@@ -14,7 +14,7 @@
     "@hookform/resolvers": "^2.9.11",
     "bootstrap": "^5.2.3",
     "classnames": "^2.3.2",
-    "date-fns": "^2.29.3",
+    "date-fns": "3.0.6",
     "deepmerge": "^4.2.2",
     "graphql": "^15.3.0",
     "isomorphic-unfetch": "3.1.0",
