@@ -10,28 +10,28 @@ end
 
 def find_create_meal_of_day_1_with_multi_meals_1
   existing_meal = ::Meal.find_by(
-    dish: find_or_create_dish_day_of_day_with_multi_meals_1(),
+    dish: find_or_create_dish_of_day_with_multi_meals_1(),
     )
   existing_meal || FactoryBot.create(:meal_of_day_1_with_multi_meals_1)
 end
 
 def find_create_meal_of_day_1_with_multi_meals_2
   existing_meal = ::Meal.find_by(
-    dish: find_or_create_dish_day_of_day_with_multi_meals_2(),
+    dish: find_or_create_dish_of_day_with_multi_meals_2(),
     )
   existing_meal || FactoryBot.create(:meal_of_day_1_with_multi_meals_2)
 end
 
 def find_create_meal_of_day_2_with_multi_meals_1
   existing_meal = ::Meal.find_by(
-    dish: find_or_create_dish_day_of_day_with_multi_meals_3(),
+    dish: find_or_create_dish_of_day_with_multi_meals_3(),
     )
   existing_meal || FactoryBot.create(:meal_of_day_2_with_multi_meals_1)
 end
 
 def find_create_meal_of_day_2_with_multi_meals_2
   existing_meal = ::Meal.find_by(
-    dish: find_or_create_dish_day_of_day_with_multi_meals_4(),
+    dish: find_or_create_dish_of_day_with_multi_meals_4(),
     )
   existing_meal || FactoryBot.create(:meal_of_day_2_with_multi_meals_2)
 end

@@ -14,7 +14,7 @@ end
   eval <<-DISH_OF_DAY_WITH_MEAL
     DISH_NAME_OF_DAY_WITH_MULTI_MEALS_#{idx} ||= "DISH_NAME_OF_DAY_WITH_MULTI_MEALS_#{idx}"
 
-    def find_or_create_dish_day_of_day_with_multi_meals_#{idx}
+    def find_or_create_dish_of_day_with_multi_meals_#{idx}
       ::Dish.find_by(name: DISH_NAME_OF_DAY_WITH_MULTI_MEALS_#{idx}) || FactoryBot.create(:dish_of_day_with_multi_meals_#{idx})
     end
 
