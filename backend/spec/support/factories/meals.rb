@@ -49,14 +49,14 @@ FactoryBot.define do
 
   factory :meal_of_day_1_with_meal, class: Meal do
     user { find_or_create_user() }
-    date { Date.new(2023, 02, 10) }
+    date { Date.new(2023, 02, 11) }
     meal_type { 1 }
     dish { find_or_create_dish_of_day_with_meal_1() }
   end
 
   factory :meal_of_day_2_with_meal, class: Meal do
     user { find_or_create_user() }
-    date { Date.new(2023, 02, 11) }
+    date { Date.new(2023, 02, 12) }
     meal_type { 1 }
     dish { find_or_create_dish_of_day_with_meal_2() }
   end
