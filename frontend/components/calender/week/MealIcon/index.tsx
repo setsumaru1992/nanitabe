@@ -79,17 +79,24 @@ export default (props: Props) => {
   })();
 
   const caption = (() => {
-    if (!dish?.dishSourceRelation?.sourceName) return '';
-    const displaySourceName = (() => {
-      const { sourceName } = dish.dishSourceRelation;
-      if (sourceName.length <= 5) return sourceName;
-      return `${sourceName.slice(0, 5)}…`;
+    const dishSourceCaption = (() => {
+      if (!dish?.dishSourceRelation?.sourceName) return '';
+      const displaySourceName = (() => {
+        const { sourceName } = dish.dishSourceRelation;
+        if (sourceName.length <= 5) return sourceName;
+        return `${sourceName.slice(0, 5)}…`;
+      })();
+      const pageString = (() => {
+        if (!dish.dishSourceRelation.recipeBookPage) return '';
+        return ` P${dish.dishSourceRelation.recipeBookPage}`;
+      })();
+      return `(${displaySourceName}${pageString})`;
     })();
-    const pageString = (() => {
-      if (!dish.dishSourceRelation.recipeBookPage) return '';
-      return ` P${dish.dishSourceRelation.recipeBookPage}`;
+    const evaluationCaption = (() => {
+      if (!dish?.evaluationScore) return '';
+      return `★${dish.evaluationScore}`;
     })();
-    return `(${displaySourceName}${pageString})`;
+    return `${dishSourceCaption} ${evaluationCaption}`;
   })();
 
   return (
