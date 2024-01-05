@@ -19,14 +19,13 @@ module Business::Dish::Dish
         dish_source_for_create:,
       )
 
-      dish_source_relation = if dish_source_relation_detail_value.present?
-                               Command::Params::DishSourceRelation.build_relation(
-                                 created_dish_source.type,
-                                 dish_for_update.id,
-                                 created_dish_source.id,
-                                 dish_source_relation_detail_value,
-                               )
-                             end
+      dish_source_relation = Command::Params::DishSourceRelation.build_relation(
+        created_dish_source.type,
+        dish_for_update.id,
+        created_dish_source.id,
+        dish_source_relation_detail_value,
+        )
+
       updated_dish = Command::UpdateCommand.call(
         user_id:,
         dish_for_update:,

@@ -77,6 +77,31 @@ end
 
 COMPARERS[comparer.key] = comparer
 
+KEY_OF_TEST_DISH_SOURCE_RELATION_OF_OTHER_WITHOUT_DETAIL_VALUE_SHOULD_BE_CREATED = "DISH_SOURCE_RELATION_OF_OTHER_WITHOUT_DETAIL_VALUE_SHOULD_BE_CREATED"
+comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SOURCE_RELATION_OF_OTHER_WITHOUT_DETAIL_VALUE_SHOULD_BE_CREATED, {
+  recipe_source_memo: "",
+})
+
+comparer.define_required_records_for_test do
+  {
+    user_record: find_or_create_user(),
+    dish_record: find_or_create_dish(),
+    dish_source_record: find_or_create_dish_source_of_other(),
+  }
+end
+
+comparer.define_expectation do |expected_values, prepared_records|
+  added_dish_source_relation_record = ::DishSourceRelation.find_by(
+    dish_id: expected_values[:dish_id] || prepared_records[:dish_record].id,
+    dish_source_id: expected_values[:dish_source_id] || prepared_records[:dish_source_record].id,
+    )
+  expect(added_dish_source_relation_record.recipe_book_page).to eq nil
+  expect(added_dish_source_relation_record.recipe_website_url).to eq nil
+  expect(added_dish_source_relation_record.recipe_source_memo).to eq nil
+end
+
+COMPARERS[comparer.key] = comparer
+
 KEY_OF_TEST_DISH_SOURCE_RELATION_SHOULD_BE_UPDATED = "DISH_SOURCE_RELATION_SHOULD_BE_UPDATED"
 comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SOURCE_RELATION_SHOULD_BE_UPDATED, {
   recipe_book_page: 150,
