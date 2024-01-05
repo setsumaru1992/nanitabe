@@ -1,8 +1,7 @@
 import React from 'react';
-import { addDays, format, getDate, isSameDay } from 'date-fns';
+import { addDays, format, isSameDay } from 'date-fns';
 import classnames from 'classnames';
 import style from './WeekCalender.module.scss';
-import menuStyle from './MealIcon/Menu.module.scss';
 import CalenderMealIcon from './MealIcon';
 import DateComponent from './Date';
 import AddMealIcon from './MealIcon/AddMealIcon';
@@ -15,6 +14,7 @@ import {
 } from './useCalenderDate';
 import AssignDish from '../AssignDish';
 import MoveDish from '../MoveDish';
+import SwapMeals from '../SwapMeals';
 import { useApolloClient } from '../../../lib/graphql/buildApolloClient';
 import useCalenderMode from './useCalenderMode';
 import useFloatModal from '../../common/modal/useFloatModal';
@@ -178,6 +178,7 @@ export default (props: Props) => {
     useAssignDishModeResult,
     calenderModeChangers,
     useMoveDishModeResult,
+    useSwapMealsModeResult,
     requireDisplayingBottomBar,
   } = useCalenderMode({
     onDataChanged: () => {
@@ -192,6 +193,11 @@ export default (props: Props) => {
     }
     if (useMoveDishModeResult.isMovingDishMode) {
       useMoveDishModeResult.onDateClickForMovingDish(date);
+      return;
+    }
+    if (useSwapMealsModeResult.isSwappingMealMode) {
+      useSwapMealsModeResult.onDateClickForSwappingMeals(date);
+      // return;
     }
   };
 
@@ -215,7 +221,6 @@ export default (props: Props) => {
         <tbody>
           {daysOfWeek.map((day, dayIndex) => {
             const date = addDays(firstDisplayDate, Number(dayIndex));
-            const dateNumber = getDate(date);
             const meals =
               mealsForCalender?.find((mealForCalender) => {
                 return isSameDay(new Date(mealForCalender.date), date);
@@ -223,15 +228,18 @@ export default (props: Props) => {
 
             return (
               <tr
-                key={dateNumber}
+                key={`key_${dayIndex}`}
                 onClick={() => onDateClick(date)}
                 data-testid={`weekCalendarDateOf${date.toISOString()}`}
               >
                 <th>
                   <DateComponent
-                    dateNumber={dateNumber}
+                    date={date}
                     dayOfWeekLabel={day.label}
                     canAnythingExceptDisplay={isDisplayCalenderMode}
+                    startSwappingMealsMode={
+                      useSwapMealsModeResult.startSwappingMealsMode
+                    }
                   />
                 </th>
                 <td className={style['dish-container__wrapper']}>
@@ -278,6 +286,9 @@ export default (props: Props) => {
             )}
             {useMoveDishModeResult.isMovingDishMode && (
               <MoveDish useMoveDishModeResult={useMoveDishModeResult} />
+            )}
+            {useSwapMealsModeResult.isSwappingMealMode && (
+              <SwapMeals useSwapMealsModeResult={useSwapMealsModeResult} />
             )}
           </div>
         </div>

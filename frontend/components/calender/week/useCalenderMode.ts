@@ -5,6 +5,9 @@ import useAssignDishMode, {
   AssigningDishMode,
 } from '../AssignDish/useAssignDishMode';
 import useMoveDishMode, { MovingDishMode } from '../MoveDish/useMoveDishMode';
+import useSwapMealsMode, {
+  SwappingMealMode,
+} from '../SwapMeals/useSwapMealsMode';
 import { weekCalenderPageUrlOf } from '../../../pages/calender/week/[date]';
 
 export const DISPLAY_CALENDER_MODE = 'DISPLAY_CALENDER_MODE';
@@ -12,6 +15,7 @@ export const DISPLAY_CALENDER_MODE = 'DISPLAY_CALENDER_MODE';
 export type CalenderMode =
   | typeof DISPLAY_CALENDER_MODE
   | AssigningDishMode
+  | SwappingMealMode
   | MovingDishMode;
 
 export default ({ onDataChanged }) => {
@@ -40,13 +44,21 @@ export default ({ onDataChanged }) => {
     onDataChanged,
   });
 
+  const useSwapMealsModeResult = useSwapMealsMode({
+    calenderMode,
+    updateCalenderMode,
+    changeCalenderModeToDisplayCalenderMode,
+    onDataChanged,
+  });
+
   const calenderModeChangers = {
     startMovingDishMode: useMoveDishModeResult.startMovingDishMode,
   };
 
   const requireDisplayingBottomBar =
     useAssignDishModeResult.inAssigningDishMode ||
-    useMoveDishModeResult.isMovingDishMode;
+    useMoveDishModeResult.isMovingDishMode ||
+    useSwapMealsModeResult.isSwappingMealMode;
 
   return {
     isDisplayCalenderMode,
@@ -54,6 +66,7 @@ export default ({ onDataChanged }) => {
     calenderModeChangers,
     useAssignDishModeResult,
     useMoveDishModeResult,
+    useSwapMealsModeResult,
     requireDisplayingBottomBar,
   };
 };

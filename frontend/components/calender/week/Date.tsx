@@ -1,18 +1,27 @@
 import React from 'react';
 import classnames from 'classnames';
+import { getDate } from 'date-fns';
 import style from './WeekCalender.module.scss'; // TODO: 独立した形で作る
-import menuStyle from './MealIcon/Menu.module.scss';
-import useFloatModal from '../../common/modal/useFloatModal'; // TODO: 独立した形で作る
+import menuStyle from './MealIcon/Menu.module.scss'; // TODO: 独立した形で作る
+import useFloatModal from '../../common/modal/useFloatModal';
 
 type Props = {
-  dateNumber: number;
+  date: Date;
   dayOfWeekLabel: string;
   canAnythingExceptDisplay: boolean;
+  startSwappingMealsMode: any;
 };
 
 export default (props: Props) => {
-  const { dateNumber, dayOfWeekLabel, canAnythingExceptDisplay } = props;
+  const {
+    date,
+    dayOfWeekLabel,
+    canAnythingExceptDisplay,
+    startSwappingMealsMode,
+  } = props;
   const { FloatModal, FloatModalOpener, closeModal } = useFloatModal();
+
+  const dateNumber = getDate(date);
 
   const DateDisplay = () => (
     <div className={style['date']}>
@@ -36,7 +45,7 @@ export default (props: Props) => {
               className={classnames(menuStyle['menu__content'])}
               onClick={() => {
                 closeModal();
-                // startMovingDishMode(meal);
+                startSwappingMealsMode(date);
               }}
               data-testid="mealMoveButton"
             >

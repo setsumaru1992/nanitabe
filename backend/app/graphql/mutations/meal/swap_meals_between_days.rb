@@ -3,7 +3,7 @@ module Mutations::Meal
     argument :date1, GraphQL::Types::ISO8601Date, required: true
     argument :date2, GraphQL::Types::ISO8601Date, required: true
 
-    field :updated_meal_ids, [GraphQL::Types::ISO8601Date], null: true
+    field :updated_meal_ids, [Int], null: true
 
     def resolve(date1:, date2:)
       ActiveRecord::Base.transaction do

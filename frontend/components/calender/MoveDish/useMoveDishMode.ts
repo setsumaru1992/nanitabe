@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import * as z from 'zod';
-import { useRouter } from 'next/router';
-import { usePathname } from 'next/navigation';
 import useMeal from '../../../features/meal/useMeal';
 import { updateMealSchema } from '../../../features/meal/schema';
-import { weekCalenderPageUrlOf } from '../../../pages/calender/week/[date]';
 import { useBackToWeekOfModeStarted } from '../week/useCalenderMode';
 
 export const MOVING_DISH_MODES = {
