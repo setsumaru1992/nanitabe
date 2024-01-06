@@ -36,6 +36,7 @@ export const MEALS_FOR_CALENDER = gql`
           dishSourceRelation {
             type
             sourceName
+            dishSourceId
             recipeBookPage
             recipeWebsiteUrl
             recipeSourceMemo

@@ -31,6 +31,7 @@ module Queries::Meal
                             dish_id: meal.dish.dish_source_relation.dish_id,
                             type: meal.dish.dish_source.type,
                             source_name: meal.dish.dish_source.name,
+                            dish_source_id: meal.dish.dish_source.id,
                             recipe_book_page: meal.dish.dish_source_relation.recipe_book_page,
                             recipe_website_url: meal.dish.dish_source_relation.recipe_website_url,
                             recipe_source_memo: meal.dish.dish_source_relation.recipe_source_memo,
