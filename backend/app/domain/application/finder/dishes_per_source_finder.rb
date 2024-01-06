@@ -4,7 +4,10 @@ module Application::Finder
     validates :access_user_id, presence: true
 
     def fetch
-      dishes = ::Dish.where(user_id: access_user_id).eager_load(:meals).eager_load(:dish_source_relation)
+      dishes = ::Dish.where(user_id: access_user_id)
+                     .eager_load(:meals)
+                     .eager_load(:dish_source_relation)
+                     .eager_load(dish_source_relation: :dish_source)
       dishes_per_source = group_rows_by_key(dishes, :dish_source, :dishes) do |dish|
         dish&.dish_source_relation&.dish_source
       end
