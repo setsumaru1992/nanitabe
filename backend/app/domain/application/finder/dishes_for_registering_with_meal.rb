@@ -48,9 +48,13 @@ module Application::Finder
 
     def add_filter_to_relation(dish_relation, ignore_dish_id: nil)
       if search_string.present?
-        dish_relation = dish_relation
-                        .where("dishes.name LIKE ?", "%#{search_string}%")
-                        .or(::DishSource.where("dish_sources.name LIKE ?", "%#{search_string}%"))
+        normalized_search_string = normalize_word(search_string)
+        dish_relation = normalized_search_string.split(" ").reduce(dish_relation) do |relation, word|
+          relation.merge(
+            Dish.where("dishes.name LIKE ?", "%#{word}%")
+                .or(::DishSource.where("dish_sources.name LIKE ?", "%#{word}%"))
+          )
+        end
       end
 
       if meal_position.present?
@@ -69,6 +73,18 @@ module Application::Finder
         dish_relation = dish_relation.where.not(id: ignore_dish_id)
       end
       dish_relation
+    end
+
+    # TODO: word_normalizeモジュールで正規化
+    def normalize_word(word)
+      # TODO: かな→カナ変換 / 全角英数字→半角英数字変換 / 全角スペース→半角スペース変換
+      normalized_word = word
+      normalize_words = NormalizeWord.where("? LIKE CONCAT('%', normalize_words.source, '%')", word)
+
+      normalize_words.each do |normalize_word|
+        normalized_word.gsub!(/#{normalize_word.source}/, normalize_word.destination)
+      end
+      normalized_word
     end
 
     def add_output_fields_to_relation(dish_relation)
