@@ -1,0 +1,2 @@
+class NormalizeWord < ApplicationRecord
+end
