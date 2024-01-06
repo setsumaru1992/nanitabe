@@ -8,6 +8,8 @@ module Business::Dish::Dish
 
         Repository.update(dish, nil, force_update: true)
       end
+
+      nil
     end
   end
 end
