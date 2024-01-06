@@ -5,7 +5,14 @@ module Business::Dish::Dish
         dish_record = ::Dish.find(id)
         return if dish_record.blank?
 
-        build_values_object_with_existing_object(dish_record, Dish, [:id, :user_id, :name, :meal_position, :comment])
+        build_values_object_with_existing_object(dish_record, Dish, [:id, :user_id, :name, :normalized_name, :meal_position, :comment])
+      end
+
+      def all_dishes
+        ::Dish.all.map do |dish_record|
+          # ::Dish.all.where("dishes.normalized_name IS NULL").map do |dish_record|
+          build_values_object_with_existing_object(dish_record, Dish, [:id, :user_id, :name, :meal_position, :comment])
+        end
       end
 
       def add(dish)
@@ -22,7 +29,7 @@ module Business::Dish::Dish
         can_update = existing_dish_record.user_id == update_user_id || force_update
         raise "このユーザはこのレコードを更新できません。" unless can_update
 
-        dish_record_for_update = set_same_name_fields(updated_dish, existing_dish_record, [:name, :meal_position, :comment])
+        dish_record_for_update = set_same_name_fields(updated_dish, existing_dish_record, [:name, :normalized_name, :meal_position, :comment])
         dish_record_for_update.save!
       end
 

@@ -8,6 +8,8 @@ module Business::Dish::Dish
     attribute :name, :string
     validates :name, presence: true
 
+    attribute :normalized_name, :string
+
     attribute :meal_position, :integer
     validates :meal_position, presence: true
 
