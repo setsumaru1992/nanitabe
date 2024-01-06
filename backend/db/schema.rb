@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_06_083248) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_06_135927) do
   create_table "dish_evaluations", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "dish_id", null: false
     t.bigint "user_id", null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_06_083248) do
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "normalized_name"
     t.index ["user_id"], name: "index_dishes_on_user_id"
   end
 
