@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import useMeal from '../../../features/meal/useMeal';
-import { MEAL_TYPE } from '../../../features/meal/const';
-import useDish from '../../../features/dish/useDish';
-import { parseBoolOrNull } from '../../../features/utils/booleanUtils';
+import useMeal from '../../../../features/meal/useMeal';
+import { MEAL_TYPE } from '../../../../features/meal/const';
+import useDish from '../../../../features/dish/useDish';
+import { parseBoolOrNull } from '../../../../features/utils/booleanUtils';
 
 export const ASSIGNING_DISH_MODES = {
   CHOOSING_DISH_MODE: 'CHOOSING_DISH_MODE',

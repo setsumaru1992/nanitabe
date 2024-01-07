@@ -2,10 +2,10 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 import classnames from 'classnames';
 import style from './AssignDish.module.scss';
-import ExistingDishIconForSelect from '../../dish/ExistingDishIcon/ExistingDishIconForSelect';
-import SelectMealType from '../../meal/MealForm/MealForm/SelectMealType';
-import SelectMealPosition from '../../dish/DishForm/DishForm/SelectMealPosition';
-import { MealPosition } from '../../../features/dish/const';
+import ExistingDishIconForSelect from '../../../dish/ExistingDishIcon/ExistingDishIconForSelect';
+import SelectMealType from '../../../meal/MealForm/MealForm/SelectMealType';
+import SelectMealPosition from '../../../dish/DishForm/DishForm/SelectMealPosition';
+import { MealPosition } from '../../../../features/dish/const';
 
 type Props = {
   useAssignDishModeResult: any;

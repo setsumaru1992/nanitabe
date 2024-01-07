@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import * as z from 'zod';
-import useMeal from '../../../features/meal/useMeal';
-import { updateMealSchema } from '../../../features/meal/schema';
-import { useBackToWeekOfModeStarted } from '../WeekCalender/useCalenderMode';
+import useMeal from '../../../../features/meal/useMeal';
+import { updateMealSchema } from '../../../../features/meal/schema';
+import { useBackToWeekOfModeStarted } from '../useCalenderMode';
 
 export const MOVING_DISH_MODES = {
   MOVING_DISH_MODE: 'MOVING_DISH_MODE',

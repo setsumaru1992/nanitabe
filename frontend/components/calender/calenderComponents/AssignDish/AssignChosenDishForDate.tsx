@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import style from './AssignDish.module.scss';
-import ExistingDishIconForDisplay from '../../dish/ExistingDishIcon/ExistingDishIconForDisplay';
+import ExistingDishIconForDisplay from '../../../dish/ExistingDishIcon/ExistingDishIconForDisplay';
 
 type Props = {
   useAssignDishModeResult: any;

@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { getDate } from 'date-fns';
-import style from './index.module.scss'; // TODO: 独立した形で作る
+import style from '../WeekCalender/index.module.scss'; // TODO: 独立した形で作る
 import menuStyle from './MealIcon/Menu.module.scss'; // TODO: 独立した形で作る
 import useFloatModal from '../../common/modal/useFloatModal';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import ExistingDishIconForDisplay from '../../dish/ExistingDishIcon/ExistingDishIconForDisplay';
+import ExistingDishIconForDisplay from '../../../dish/ExistingDishIcon/ExistingDishIconForDisplay';
 import style from './MoveDish.module.scss';
 
 type Props = {

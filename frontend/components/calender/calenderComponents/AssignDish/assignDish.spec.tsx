@@ -1,19 +1,19 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
-import renderWithApollo from '../../specHelper/renderWithApollo';
+import renderWithApollo from '../../../specHelper/renderWithApollo';
 import {
   registerMutationHandler,
   registerQueryHandler,
-} from '../../../lib/graphql/specHelper/mockServer';
-import { userClick } from '../../specHelper/userEvents';
-import WeekCalender from '../WeekCalender';
+} from '../../../../lib/graphql/specHelper/mockServer';
+import { userClick } from '../../../specHelper/userEvents';
+import WeekCalender from '../../WeekCalender';
 import {
   AddMealDocument,
   ExistingDishesForRegisteringWithMealDocument,
   MealsForCalenderDocument,
-} from '../../../lib/graphql/generated/graphql';
-import { MEAL_TYPE } from '../../../features/meal/const';
+} from '../../../../lib/graphql/generated/graphql';
+import { MEAL_TYPE } from '../../../../features/meal/const';
 
 jest.mock('next/router', () => require('next-router-mock'));
 

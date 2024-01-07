@@ -3,24 +3,24 @@ import Link from 'next/link';
 import { addDays, format, isSameDay } from 'date-fns';
 import classnames from 'classnames';
 import style from './index.module.scss';
-import CalenderMealIcon from './MealIcon';
-import DateComponent from './Date';
-import AddMealIcon from './MealIcon/AddMealIcon';
+import CalenderMealIcon from '../calenderComponents/MealIcon';
+import DateComponent from '../calenderComponents/Date';
+import AddMealIcon from '../calenderComponents/MealIcon/AddMealIcon';
 import useMeal from '../../../features/meal/useMeal';
 import {
   START_FROM_SAT,
   START_FROM_SUN,
   useCalenderDayOfWeek,
   useFirstDisplayDate,
-} from './useCalenderDate';
-import AssignDish from '../AssignDish';
-import MoveDish from '../MoveDish';
-import SwapMeals from '../SwapMeals';
+} from './useWeekCalenderDate';
+import AssignDish from '../calenderComponents/AssignDish';
+import MoveDish from '../calenderComponents/MoveDish';
+import SwapMeals from '../calenderComponents/SwapMeals';
 import { useApolloClient } from '../../../lib/graphql/buildApolloClient';
-import useCalenderMode from './useCalenderMode';
+import useCalenderMode from '../calenderComponents/useCalenderMode';
 import useFloatModal from '../../common/modal/useFloatModal';
 
-export { useDateFormatStringInUrl } from './useCalenderDate';
+export { useDateFormatStringInUrl } from './useWeekCalenderDate';
 
 type Props = {
   date?: Date;
