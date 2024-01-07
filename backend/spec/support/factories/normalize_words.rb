@@ -21,7 +21,7 @@ FactoryBot.define do
   end
 
   factory :normalize_word_for_katsudon, class: NormalizeWord do
-    entered_source { "カツ丼" }
+    entered_source { "かつ丼" }
     entered_destination { "カカカカカツツツツツ丼丼丼丼丼" }
     source { "カツ丼" }
     destination { "カカカカカツツツツツ丼丼丼丼丼" }

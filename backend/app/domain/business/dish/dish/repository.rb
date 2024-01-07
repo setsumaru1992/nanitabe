@@ -11,12 +11,12 @@ module Business::Dish::Dish
       def all_dishes
         ::Dish.all.map do |dish_record|
         # ::Dish.all.where("dishes.normalized_name IS NULL").map do |dish_record| # デバッグ
-          build_values_object_with_existing_object(dish_record, Dish, [:id, :user_id, :name, :meal_position, :comment])
+          build_values_object_with_existing_object(dish_record, Dish, [:id, :user_id, :name, :normalized_name, :meal_position, :comment])
         end
       end
 
       def add(dish)
-        new_dish_record = set_same_name_fields(dish, ::Dish.new, [:user_id, :name, :meal_position, :comment])
+        new_dish_record = set_same_name_fields(dish, ::Dish.new, [:user_id, :name, :normalized_name, :meal_position, :comment])
         new_dish_record.save!
 
         dish.id = new_dish_record.id

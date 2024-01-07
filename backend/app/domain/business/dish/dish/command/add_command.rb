@@ -16,6 +16,9 @@ module Business::Dish::Dish
       dish = Dish.new(
         user_id:,
         name: dish_for_create.name,
+        normalized_name: Business::Dish::Word::Normalize::Command::NormalizeCommand.call(
+          string_sequence: dish_for_create.name
+        ),
         meal_position: dish_for_create.meal_position,
         comment: dish_for_create.comment,
       )

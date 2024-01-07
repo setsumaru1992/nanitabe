@@ -49,7 +49,7 @@ COMPARERS[comparer.key] = comparer
 
 KEY_OF_TEST_DISH_HAVE_NO_UPDATED = "DISH_HAVE_NO_UPDATED"
 comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_HAVE_NO_UPDATED, {
-  name: "カツ丼",
+  name: "かつ丼",
   meal_position: 1,
 })
 

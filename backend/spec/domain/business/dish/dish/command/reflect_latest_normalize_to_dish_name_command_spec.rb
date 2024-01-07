@@ -14,7 +14,7 @@ module Business::Dish::Dish
           described_class.call
 
           normalized_dish_record = ::Dish.find(dish_record.id)
-          expect(normalized_dish_record.name).to eq "カツ丼"
+          expect(normalized_dish_record.name).to eq "かつ丼"
           expect(normalized_dish_record.normalized_name).to eq normalize_word_record.destination
         end
       end
