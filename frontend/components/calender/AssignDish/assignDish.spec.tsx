@@ -7,7 +7,7 @@ import {
   registerQueryHandler,
 } from '../../../lib/graphql/specHelper/mockServer';
 import { userClick } from '../../specHelper/userEvents';
-import WeekCalender from '../week/WeekCalender';
+import WeekCalender from '../WeekCalender';
 import {
   AddMealDocument,
   ExistingDishesForRegisteringWithMealDocument,

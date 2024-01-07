@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useMeal from '../../../features/meal/useMeal';
-import { useBackToWeekOfModeStarted } from '../week/useCalenderMode';
+import { useBackToWeekOfModeStarted } from '../WeekCalender/useCalenderMode';
 
 export const SWAPPING_MEALS_MODES = {
   SWAPPING_MEALS_MODE: 'SWAPPING_MEALS_MODE',

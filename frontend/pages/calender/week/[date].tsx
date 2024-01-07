@@ -2,7 +2,7 @@ import React from 'react';
 import { formatISO } from 'date-fns';
 import WeekCalender, {
   useDateFormatStringInUrl,
-} from '../../../components/calender/week/WeekCalender';
+} from '../../../components/calender/WeekCalender';
 import { isISODateFormatString } from '../../../features/utils/dateUtils';
 
 export const WEEK_CALENDER_PAGE_URL = '/calender/week';

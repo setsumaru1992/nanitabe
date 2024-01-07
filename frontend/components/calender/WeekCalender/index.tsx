@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { addDays, format, isSameDay } from 'date-fns';
 import classnames from 'classnames';
-import style from './WeekCalender.module.scss';
+import style from './index.module.scss';
 import CalenderMealIcon from './MealIcon';
 import DateComponent from './Date';
 import AddMealIcon from './MealIcon/AddMealIcon';
