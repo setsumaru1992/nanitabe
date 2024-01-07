@@ -25,7 +25,7 @@ module Business::Dish::Word::Normalize
                           NormalizeWord.where("? LIKE CONCAT('%', normalize_words.source, '%')", string_sequence_arg)
                         end
       normalize_words.reduce(string_sequence_arg.dup) do |normalized, normalize_word|
-        # Rails.logger.info "[正規化]対象:#{normalized} from:#{normalize_word.source} to:#{normalize_word.destination}"
+        # Rails.logger.info "[正規化]対象:#{normalized} from:#{normalize_word.source} to:#{normalize_word.destination}" # デバッグ
         normalized.gsub!(/#{normalize_word.source}/, normalize_word.destination)
       end
     end

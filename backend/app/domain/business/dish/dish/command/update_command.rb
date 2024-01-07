@@ -24,6 +24,10 @@ module Business::Dish::Dish
       )
       dish.assign_attributes(update_fields)
 
+      dish.normalized_name = Business::Dish::Word::Normalize::Command::NormalizeCommand.call(
+        string_sequence: dish.name
+      )
+
       Repository.update(dish, user_id)
     end
 

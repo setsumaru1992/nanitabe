@@ -3,7 +3,8 @@ require_relative "../../../../../support/factories/dish_repository"
 
 KEY_OF_TEST_DISH_SHOULD_BE_UPDATED = "DISH_SHOULD_BE_UPDATED"
 comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SHOULD_BE_UPDATED, {
-  name: "親子丼",
+  name: "おやこ丼",
+  normalized_name: "オヤコ丼",
 })
 
 comparer.define_required_records_for_test do
@@ -16,6 +17,7 @@ end
 comparer.define_expectation do |expected_values, prepared_records|
   updated_dish_record = ::Dish.find(prepared_records[:dish_record].id)
   expect(updated_dish_record.name).to eq expected_values[:name]
+  expect(updated_dish_record.normalized_name).to eq expected_values[:normalized_name]
   expect(updated_dish_record.meal_position).to eq expected_values[:meal_position]
   expect(updated_dish_record.comment).to eq expected_values[:comment]
   expect(updated_dish_record.user_id).to eq prepared_records[:user_record].id
@@ -25,7 +27,8 @@ COMPARERS[comparer.key] = comparer
 
 KEY_OF_TEST_DISH_SHOULD_BE_UPDATED_WITH_FULL_FIELD = "DISH_SHOULD_BE_UPDATED_WITH_FULL_FIELD"
 comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_SHOULD_BE_UPDATED_WITH_FULL_FIELD, {
-  name: "親子丼",
+  name: "おやこ丼",
+  normalized_name: "オヤコ丼",
   meal_position: 3,
   comment: "親子丼丼丼丼",
 })
@@ -40,6 +43,7 @@ end
 comparer.define_expectation do |expected_values, prepared_records|
   updated_dish_record = ::Dish.find(prepared_records[:dish_record].id)
   expect(updated_dish_record.name).to eq expected_values[:name]
+  expect(updated_dish_record.normalized_name).to eq expected_values[:normalized_name]
   expect(updated_dish_record.meal_position).to eq expected_values[:meal_position]
   expect(updated_dish_record.comment).to eq expected_values[:comment]
   expect(updated_dish_record.user_id).to eq prepared_records[:user_record].id
@@ -50,6 +54,7 @@ COMPARERS[comparer.key] = comparer
 KEY_OF_TEST_DISH_HAVE_NO_UPDATED = "DISH_HAVE_NO_UPDATED"
 comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_HAVE_NO_UPDATED, {
   name: "かつ丼",
+  normalized_name: "カツ丼",
   meal_position: 1,
 })
 
@@ -63,6 +68,7 @@ end
 comparer.define_expectation do |expected_values, prepared_records|
   updated_dish_record = ::Dish.find(prepared_records[:dish_record].id)
   expect(updated_dish_record.name).to eq expected_values[:name]
+  expect(updated_dish_record.normalized_name).to eq expected_values[:normalized_name]
   expect(updated_dish_record.meal_position).to eq expected_values[:meal_position]
   expect(updated_dish_record.comment).to eq expected_values[:comment]
   expect(updated_dish_record.user_id).to eq prepared_records[:user_record].id
