@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { addDays, format, isSameDay } from 'date-fns';
 import classnames from 'classnames';
 import style from './WeekCalender.module.scss';
@@ -136,6 +137,22 @@ const CalenderMenu = (props: { useAssignDishModeResult: any }) => {
             >
               食事割当て
             </a>
+          </li>
+          <li
+            className={classnames(
+              style['week-calender-header-float-menu__row'],
+            )}
+          >
+            <Link
+              href={{
+                pathname: '/calender/week/thisweek',
+              }}
+              className={classnames(
+                style['week-calender-header-float-menu__content'],
+              )}
+            >
+              今週に移動
+            </Link>
           </li>
         </ul>
       </FloatModal>
