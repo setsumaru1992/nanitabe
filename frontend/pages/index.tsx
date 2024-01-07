@@ -3,6 +3,7 @@ import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import buildApolloClient, {
   addApolloState,
 } from '../lib/graphql/buildApolloClient';
+import { WEEK_CALENDER_PAGE_URL_OF_THIS_WEEK } from './calender/week/[date]';
 
 const IndexPage = (props) => {
   // const { hogehoge } = props;
@@ -40,5 +41,14 @@ const IndexPage = (props) => {
 //     props: { hogehoge },
 //   });
 // };
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    redirect: {
+      permanent: true,
+      destination: WEEK_CALENDER_PAGE_URL_OF_THIS_WEEK,
+    },
+  };
+};
 
 export default IndexPage;
