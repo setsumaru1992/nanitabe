@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_06_135927) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_24_054252) do
   create_table "dish_evaluations", id: false, force: :cascade do |t|
     t.integer "dish_id", null: false
     t.integer "user_id", null: false
@@ -41,6 +41,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_06_135927) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_dish_sources_on_user_id"
+  end
+
+  create_table "dish_tags", force: :cascade do |t|
+    t.integer "dish_id", null: false
+    t.integer "user_id", null: false
+    t.string "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["content"], name: "index_dish_tags_on_content"
+    t.index ["dish_id"], name: "index_dish_tags_on_dish_id"
+    t.index ["user_id"], name: "index_dish_tags_on_user_id"
   end
 
   create_table "dishes", force: :cascade do |t|
@@ -117,6 +128,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_06_135927) do
   add_foreign_key "dish_source_relations", "dish_sources"
   add_foreign_key "dish_source_relations", "dishes"
   add_foreign_key "dish_sources", "users"
+  add_foreign_key "dish_tags", "dishes"
+  add_foreign_key "dish_tags", "users"
   add_foreign_key "dishes", "users"
   add_foreign_key "login_users", "users"
   add_foreign_key "meals", "dishes"
