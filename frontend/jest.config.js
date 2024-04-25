@@ -8,10 +8,15 @@ const createJestConfig = nextJest({
 // Add any custom config to be passed to Jest
 /** @type {import('jest').Config} */
 const customJestConfig = {
+  setupFiles: ['./jest.polyfills.js'],
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['./spec/jest.setup.ts'],
 
   testEnvironment: 'jest-environment-jsdom',
+
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

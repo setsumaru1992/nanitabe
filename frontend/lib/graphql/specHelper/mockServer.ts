@@ -1,5 +1,5 @@
 import { setupServer } from 'msw/node';
-import { graphql } from 'msw';
+import { graphql, HttpResponse } from 'msw';
 
 const server = setupServer();
 
@@ -11,10 +11,15 @@ export const registerMutationHandler = (mutationDocument, resposeData) => {
   };
 
   const mutationInterceptor = jest.fn();
-  const handler = graphql.mutation(mutationDocument, (req, res, ctx) => {
-    execVariables.push(req.variables);
+  const handler = graphql.mutation(mutationDocument, ({ variables }) => {
+    execVariables.push(variables);
     mutationInterceptor();
-    return res(ctx.data(resposeData));
+    return HttpResponse.json({
+      data: {
+        ...resposeData
+      }
+    });
+    // return res(ctx.data(resposeData));
   });
   server.use(handler);
 
@@ -34,10 +39,15 @@ export const registerQueryHandler = (queryDocument, resposeData) => {
   };
 
   const queryInterceptor = jest.fn();
-  const handler = graphql.query(queryDocument, (req, res, ctx) => {
-    execVariables.push(req.variables);
+  const handler = graphql.query(queryDocument, ({ variables }) => {
+    execVariables.push(variables);
     queryInterceptor();
-    return res(ctx.data(resposeData));
+    return HttpResponse.json({
+      data: {
+        ...resposeData
+      }
+    });
+    // return res(ctx.data(resposeData));
   });
   server.use(handler);
 
