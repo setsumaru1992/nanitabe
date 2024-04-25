@@ -8,7 +8,6 @@ const createJestConfig = nextJest({
 // Add any custom config to be passed to Jest
 /** @type {import('jest').Config} */
 const customJestConfig = {
-  setupFiles: ['./jest.polyfills.js'],
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['./spec/jest.setup.ts'],
 

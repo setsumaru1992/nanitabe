@@ -11,15 +11,9 @@ export const registerMutationHandler = (mutationDocument, resposeData) => {
   };
 
   const mutationInterceptor = jest.fn();
-  const handler = graphql.mutation(mutationDocument, ({ variables }) => {
-    execVariables.push(variables);
-    mutationInterceptor();
-    return HttpResponse.json({
-      data: {
-        ...resposeData
-      }
-    });
-    // return res(ctx.data(resposeData));
+  const handler = graphql.mutation(mutationDocument, (req, res, ctx) => {
+    execVariables.push(req.variables);
+    return res(ctx.data(resposeData));
   });
   server.use(handler);
 
@@ -39,15 +33,9 @@ export const registerQueryHandler = (queryDocument, resposeData) => {
   };
 
   const queryInterceptor = jest.fn();
-  const handler = graphql.query(queryDocument, ({ variables }) => {
-    execVariables.push(variables);
-    queryInterceptor();
-    return HttpResponse.json({
-      data: {
-        ...resposeData
-      }
-    });
-    // return res(ctx.data(resposeData));
+  const handler = graphql.query(queryDocument, (req, res, ctx) => {
+    execVariables.push(req.variables);
+    return res(ctx.data(resposeData));
   });
   server.use(handler);
 
