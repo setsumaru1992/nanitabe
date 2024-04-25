@@ -1,9 +1,9 @@
 import { setupServer } from 'msw/node';
-import { graphql, HttpResponse } from 'msw';
+import { graphql } from 'msw';
 
 const server = setupServer();
 
-export const registerMutationHandler = (mutationDocument, resposeData) => {
+export const registerMutationHandler = (mutationDocument, responseData) => {
   const execVariables = [];
   const getLatestMutationVariables = () => {
     if (execVariables.length === 0) return null;
@@ -12,8 +12,9 @@ export const registerMutationHandler = (mutationDocument, resposeData) => {
 
   const mutationInterceptor = jest.fn();
   const handler = graphql.mutation(mutationDocument, (req, res, ctx) => {
+    mutationInterceptor();
     execVariables.push(req.variables);
-    return res(ctx.data(resposeData));
+    return res(ctx.data(responseData));
   });
   server.use(handler);
 
@@ -21,11 +22,11 @@ export const registerMutationHandler = (mutationDocument, resposeData) => {
 };
 
 /*
-  resposeDataについての注意事項
+  responseDataについての注意事項
   - 本番が返すような`__typename`がないとそのオブジェクトの中身が空としてしか認識されない
   - nullableな値であっても定義はしておかないと長々とした警告メッセージが出る
  */
-export const registerQueryHandler = (queryDocument, resposeData) => {
+export const registerQueryHandler = (queryDocument, responseData) => {
   const execVariables = [];
   const getLatestQueryVariables = () => {
     if (execVariables.length === 0) return null;
@@ -34,8 +35,9 @@ export const registerQueryHandler = (queryDocument, resposeData) => {
 
   const queryInterceptor = jest.fn();
   const handler = graphql.query(queryDocument, (req, res, ctx) => {
+    queryInterceptor();
     execVariables.push(req.variables);
-    return res(ctx.data(resposeData));
+    return res(ctx.data(responseData));
   });
   server.use(handler);
 

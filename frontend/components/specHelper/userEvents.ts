@@ -13,23 +13,17 @@ export const enterTextBox = (screen, testId, value) => {
 
 export const userClick = async (screen, elementTestId) => {
   await waitFor(() => screen.getByTestId(elementTestId));
-  await act(async () => {
-    await user.click(screen.getByTestId(elementTestId));
-  });
+  await user.click(screen.getByTestId(elementTestId));
 };
 
 export const userClearTextbox = async (screen, elementTestId) => {
   await waitFor(() => screen.getByTestId(elementTestId));
-  await act(async () => {
-    await user.clear(screen.getByTestId(elementTestId));
-  });
+  await user.clear(screen.getByTestId(elementTestId));
 };
 
 export const userType = async (screen, elementTestId, value) => {
   await waitFor(() => screen.getByTestId(elementTestId));
-  await act(async () => {
-    await user.type(screen.getByTestId(elementTestId), value);
-  });
+  await user.type(screen.getByTestId(elementTestId), value);
 };
 
 export const userTypeAfterClearTextBox = async (
@@ -50,7 +44,5 @@ export const userChooseSelectBox = async (
   const options = optionTestIds.map((optionTestId) =>
     screen.getByTestId(optionTestId),
   );
-  await act(async () => {
-    await user.selectOptions(screen.getByTestId(selectBoxTestId), options);
-  });
+  await user.selectOptions(screen.getByTestId(selectBoxTestId), options);
 };
