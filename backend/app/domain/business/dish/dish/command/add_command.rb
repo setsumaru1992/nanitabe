@@ -13,6 +13,15 @@ module Business::Dish::Dish
     validates :dish_source_relation_detail, presence: false
 
     def call
+      created_dish = create_dish(dish_for_create, user_id)
+      register_dish_source_relation(created_dish.id, dish_source_for_read, dish_source_relation_detail)
+
+      created_dish
+    end
+
+    private
+
+    def create_dish(dish_for_create, user_id)
       dish = Dish.new(
         user_id:,
         name: dish_for_create.name,
@@ -24,13 +33,13 @@ module Business::Dish::Dish
       )
 
       created_dish = Repository.add(dish)
+    end
 
+    def register_dish_source_relation(dish_id, dish_source_for_read, dish_source_relation_detail)
       can_register_dish_source_relation = dish_source_relation_detail.present? && dish_source_for_read.present?
-      return created_dish unless can_register_dish_source_relation
+      return unless can_register_dish_source_relation
 
-      Repository.put_dish_source_relation(created_dish.id, dish_source_for_read.id, dish_source_relation_detail.detail_values)
-
-      created_dish
+      Repository.put_dish_source_relation(dish_id, dish_source_for_read.id, dish_source_relation_detail.detail_values)
     end
   end
 end
