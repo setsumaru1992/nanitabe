@@ -10,11 +10,11 @@ module Business::Dish::Dish::Tag
     validates :dish_tags, disallow_nil: true
 
     def call
-      # existing_dish_tags = Repository.fetch_tags_of_dish(dish_id)
+      existing_dish_tags = Repository.fetch_tags_of_dish(dish_id)
 
-      # add_tags_if_need(dish_tags, dish_id, user_id)
-      # update_tags_if_need
-      # delete_tags_if_need(existing_dish_tags, dish_tags)
+      add_tags_if_need(dish_tags, dish_id, user_id)
+      update_tags_if_need
+      delete_tags_if_need(existing_dish_tags, dish_tags)
     end
 
     def add_tags_if_need(dish_tags, dish_id, user_id)
@@ -26,7 +26,7 @@ module Business::Dish::Dish::Tag
             dish_id:,
             content: tag.content
           )
-        end.each do |tag|
+        end.map do |tag|
           Repository.add(tag)
         end
     end

@@ -1,5 +1,5 @@
 require_relative "../../../../../../support/factories/user_repository"
-require_relative "../../../../../../support/factories/dish_tags_repository"
+require_relative "../../../../../../support/factories/dish_tag_repository"
 
 KEY_OF_TEST_DISH_TAG_SHOULD_BE_REMOVED = "DISH_TAG_SHOULD_BE_REMOVED"
 comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_TAG_SHOULD_BE_REMOVED, {})
