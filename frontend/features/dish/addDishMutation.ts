@@ -27,12 +27,14 @@ export const ADD_DISH = gql`
     $dish: DishForCreate!
     $dishSource: SourceForRead
     $dishSourceRelationDetail: DishSourceRelationDetail
+    $dishTags: [Tag!]
   ) {
     addDish(
       input: {
         dish: $dish
         dishSource: $dishSource
         dishSourceRelationDetail: $dishSourceRelationDetail
+        dishTags: $dishTags
       }
     ) {
       dishId
