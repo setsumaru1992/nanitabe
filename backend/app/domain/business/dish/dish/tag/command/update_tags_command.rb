@@ -9,12 +9,19 @@ module Business::Dish::Dish::Tag
     attribute :dish_tags, :command_params_array
     validates :dish_tags, disallow_nil: true
 
+    # やってることはほぼdelete insertだが、変更がないのにdelete insertをしたくないためこの作りへ
     def call
       existing_dish_tags = Repository.fetch_tags_of_dish(dish_id)
 
-      add_tags_if_need(dish_tags, dish_id, user_id)
       update_tags_if_need
-      delete_tags_if_need(existing_dish_tags, dish_tags)
+
+      dish_tag_ids = dish_tags.map(&:id)
+      existing_dish_tag_ids = existing_dish_tags.map(&:id)
+
+      return if dish_tag_ids == existing_dish_tag_ids
+
+      add_tags_if_need(dish_tags, dish_id, user_id)
+      delete_tags_if_need(existing_dish_tag_ids, dish_tag_ids)
     end
 
     def add_tags_if_need(dish_tags, dish_id, user_id)
@@ -35,12 +42,11 @@ module Business::Dish::Dish::Tag
       # TODO: 実装時にロジック記載
     end
 
-    def delete_tags_if_need(existing_dish_tags, dish_tags)
-      dish_tag_ids = dish_tags.map(&:id)
-      existing_dish_tags
-        .reject {|existing_dish_tag| dish_tag_ids.include?(existing_dish_tag.id)}
-        .each do |tag_needing_removed|
-          Repository.remove(tag_needing_removed.id)
+    def delete_tags_if_need(existing_dish_tag_ids, dish_tag_ids)
+      existing_dish_tag_ids
+        .reject {|existing_dish_tag_id| dish_tag_ids.include?(existing_dish_tag_id)}
+        .each do |tag_id_needing_removed|
+          Repository.remove(tag_id_needing_removed)
         end
     end
   end

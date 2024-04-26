@@ -11,10 +11,14 @@ module Business::Dish::Dish
 
     attribute :dish_source_relation_detail, :command_params
     validates :dish_source_relation_detail, presence: false
+    
+    attribute :dish_tags, :command_params_array
+    validates :dish_tags, presence: false
 
     def call
       created_dish = create_dish(dish_for_create, user_id)
       register_dish_source_relation(created_dish.id, dish_source_for_read, dish_source_relation_detail)
+      register_tags(dish_tags, created_dish.id, user_id)
 
       created_dish
     end
@@ -40,6 +44,14 @@ module Business::Dish::Dish
       return unless can_register_dish_source_relation
 
       Repository.put_dish_source_relation(dish_id, dish_source_for_read.id, dish_source_relation_detail.detail_values)
+    end
+
+    def register_tags(dish_tags, dish_id, user_id)
+      return if dish_tags.blank? # 新規作成時はタグ作成のみで、更新・削除が行われないため、空ならスキップ可能
+
+      ::Business::Dish::Dish::Tag::Command::UpdateTagsCommand.call(
+        dish_id:, user_id:, dish_tags:
+      )
     end
   end
 end

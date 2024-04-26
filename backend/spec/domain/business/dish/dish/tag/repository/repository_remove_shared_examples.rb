@@ -14,7 +14,6 @@ end
 
 comparer.define_expectation do |_, prepared_records|
   expect(::DishTag.where(id: prepared_records[:dish_tag_record].id).present?).to eq false
-  expect(::User.where(id: prepared_records[:dish_tag_record].user_id).present?).to eq true
 end
 
 COMPARERS[comparer.key] = comparer

@@ -115,8 +115,6 @@ module Business::Dish::Dish::Tag
         end
 
         comparer.define_expectation do |expected_values, prepared_records|
-          added_dish_tag_records = ::DishTag.last
-
           added_dish_evaluation_record = ::DishTag.last
           expect(added_dish_evaluation_record.user_id).to eq prepared_records[:user_record].id
           expect(added_dish_evaluation_record.dish_id).to eq prepared_records[:dish_record].id
@@ -150,6 +148,51 @@ module Business::Dish::Dish::Tag
             ),
             Command::Params::Tag.new(
               content: comparer.values[:content]
+            ),
+          ]
+        )
+
+        comparer.compare_to_expectation(self)
+      end
+    end
+
+    context "when nothing changed, " do
+      let!(:comparer) do
+        comparer = ExpectationComparer.new("", {})
+
+        comparer.define_required_records_for_test do
+          {
+            user_record: find_or_create_user(),
+            dish_record: find_or_create_dish(),
+            dish_tag_record: find_or_create_dish_tag(),
+          }
+        end
+
+        comparer.define_expectation do |expected_values, prepared_records|
+          dish_tag_record = comparer.prepared_records[:dish_tag_record]
+          existing_dish_tag_record = ::DishTag.find(dish_tag_record.id)
+
+          expect(existing_dish_tag_record.id).to eq dish_tag_record.id
+          expect(existing_dish_tag_record.user_id).to eq dish_tag_record.user_id
+          expect(existing_dish_tag_record.dish_id).to eq dish_tag_record.dish_id
+          expect(existing_dish_tag_record.content).to eq dish_tag_record.content
+        end
+
+        comparer
+      end
+
+      before do
+        comparer.build_records_for_test()
+      end
+
+      it "nothing changed" do
+        described_class.call(
+          user_id: comparer.prepared_records[:user_record].id,
+          dish_id: comparer.prepared_records[:dish_record].id,
+          dish_tags: [
+            Command::Params::Tag.new(
+              id: comparer.prepared_records[:dish_tag_record].id,
+              content: comparer.prepared_records[:dish_tag_record].content,
             ),
           ]
         )
