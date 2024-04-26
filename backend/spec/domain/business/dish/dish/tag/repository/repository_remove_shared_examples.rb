@@ -7,6 +7,7 @@ comparer = ExpectationComparer.new(KEY_OF_TEST_DISH_TAG_SHOULD_BE_REMOVED, {})
 comparer.define_required_records_for_test do
   {
     user_record: find_or_create_user(),
+    dish_record: find_or_create_dish(),
     dish_tag_record: find_or_create_dish_tag(),
   }
 end
