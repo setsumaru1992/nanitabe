@@ -96,5 +96,5 @@ export const { putDishRelationSchema } = buildDishSourceRelationSchema();
 
 export const dishTagsSchema = z.object({
   id: z.number().nullish(),
-  content: z.string(),
+  content: z.string().min(1, { message: '空では登録できません。' }),
 }).array();

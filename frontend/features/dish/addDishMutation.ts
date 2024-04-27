@@ -88,6 +88,7 @@ export const AddDishWithNewSourceSchema = z.object({
   dish: newDishSchema,
   dishSource: newDishSourceSchema,
   dishSourceRelation: putDishRelationSchema,
+  dishTags: dishTagsSchema,
 });
 
 export type AddDishWithNewSource = z.infer<typeof AddDishWithNewSourceSchema>;

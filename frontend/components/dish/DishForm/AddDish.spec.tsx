@@ -161,6 +161,7 @@ describe('<AddDish>', () => {
         },
         dishSource: newDishSource,
         dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+        dishTags: [],
       });
     });
   });
@@ -191,7 +192,51 @@ describe('<AddDish>', () => {
         dishSourceRelationDetail: null,
         dishTags: [
           { content: newDishTag.content }
-        ]
+        ],
+      });
+    });
+  });
+
+  describe('when add dish with new source relation and new tag', () => {
+    it('succeeds with expected graphql params', async () => {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        AddDishWithNewSourceDocument,
+        {
+          addDishWithNewSource: {
+            dishId: 1,
+            dishSourceId: 1,
+          },
+        },
+      );
+
+      await userType(screen, 'dishname', newDishWithRequiredParams.name);
+
+      await userClick(screen, 'optionOfRegisteringNewDishSource');
+
+      await userType(screen, 'dishSourceName', newDishSource.name);
+      await userChooseSelectBox(screen, 'dishSourceTypeOption', [
+        `dishSourceTypeOption-${newDishSource.type}`,
+      ]);
+      await userTypeAfterClearTextBox(
+        screen,
+        'dishSourceRelationDetailRecipeWebsiteUrl',
+        newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+      );
+
+      await userClick(screen, 'appendDishTag');
+      await userType(screen, 'newDishTag-0', newDishTag.content);
+
+      await userClick(screen, 'submitDishButton');
+
+      expect(getLatestMutationVariables()).toEqual({
+        dish: {
+          ...newDishWithRequiredParams,
+        },
+        dishSource: newDishSource,
+        dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+        dishTags: [
+          { content: newDishTag.content }
+        ],
       });
     });
   });
