@@ -6,6 +6,7 @@ import { Dish } from '../../../../lib/graphql/generated/graphql';
 import { DishFormOfOnlyDishFields } from './DishFormOfOnlyDishFields';
 import { UseChoosingPutDishSourceTypeResult } from './useChoosingPutDishSourceType';
 import { DishFormOfRelatedDishSource } from './DishFormOfRelatedDishSource';
+import { DishFormOfTags } from './DishFormOfTags';
 
 type DishFormContentProps = {
   preFilledDish?: Dish;
@@ -22,6 +23,7 @@ export const DishFormContent = (props: DishFormContentProps) => {
         preFilledDish={preFilledDish}
         useChoosingPutDishSourceTypeResult={useChoosingPutDishSourceTypeResult}
       />
+      <DishFormOfTags preFilledDish={preFilledDish} />
     </>
   );
 };

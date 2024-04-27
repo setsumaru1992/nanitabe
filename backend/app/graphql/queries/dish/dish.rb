@@ -10,7 +10,16 @@ module Queries::Dish
     type SpecifiedDish, null: false
 
     def resolve(id:)
-      ::Dish.where(id:, user_id: context[:current_user_id]).eager_load(:dish_source_relation).first
+      ::Dish
+        .where(id:, user_id: context[:current_user_id])
+        .eager_load(:dish_source_relation)
+        .eager_load(:dish_tags).map do |dish|
+          result_dish = dish.attributes
+          result_dish["dish_source_relation"] = dish.dish_source_relation
+          result_dish["tags"] = dish.dish_tags
+          result_dish
+        end
+        .first
     end
   end
 end

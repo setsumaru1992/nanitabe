@@ -93,3 +93,8 @@ const buildDishSourceRelationSchema = () => {
 };
 
 export const { putDishRelationSchema } = buildDishSourceRelationSchema();
+
+export const dishTagsSchema = z.object({
+  id: z.number().nullish(),
+  content: z.string(),
+}).array();

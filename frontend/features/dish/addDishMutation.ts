@@ -5,6 +5,7 @@ import {
   newDishSchema,
   putDishRelationSchema,
   selectExistingDishSourceSchema,
+  dishTagsSchema,
 } from './schema';
 import {
   buildMutationExecutor,
@@ -46,6 +47,7 @@ export const AddDishSchema = z.object({
   dish: newDishSchema,
   selectedDishSource: selectExistingDishSourceSchema,
   dishSourceRelation: putDishRelationSchema,
+  dishTags: dishTagsSchema,
 });
 
 export type AddDish = z.infer<typeof AddDishSchema>;

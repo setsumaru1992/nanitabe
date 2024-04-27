@@ -102,6 +102,10 @@ export const DISH = gql`
         recipeWebsiteUrl
         recipeSourceMemo
       }
+      tags {
+        id
+        content
+      }
     }
   }
 `;

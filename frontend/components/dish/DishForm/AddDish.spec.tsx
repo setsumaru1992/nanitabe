@@ -41,6 +41,10 @@ describe('<AddDish>', () => {
     type: DISH_SOURCE_TYPE.WEBSITE,
   };
 
+  const newDishTag = {
+    content: '白ワインに合う',
+  };
+
   const newDishSourceRelationDetailOfRecipeWebsite = {
     recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
   };
@@ -83,6 +87,7 @@ describe('<AddDish>', () => {
         dish: newDishWithRequiredParams,
         dishSource: null,
         dishSourceRelationDetail: null,
+        dishTags: [],
       });
     });
   });
@@ -117,6 +122,7 @@ describe('<AddDish>', () => {
         },
         dishSource: selectedDishSource,
         dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+        dishTags: [],
       });
     });
   });
@@ -155,6 +161,37 @@ describe('<AddDish>', () => {
         },
         dishSource: newDishSource,
         dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+      });
+    });
+  });
+
+  describe('when add dish with new tag', () => {
+    it('succeeds with expected graphql params', async () => {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        AddDishDocument,
+        {
+          addDish: {
+            dishId: 1,
+          },
+        },
+      );
+
+      await userType(screen, 'dishname', newDishWithRequiredParams.name);
+
+      await userClick(screen, 'appendDishTag');
+      await userType(screen, 'newDishTag-0', newDishTag.content);
+
+      await userClick(screen, 'submitDishButton');
+
+      expect(getLatestMutationVariables()).toEqual({
+        dish: {
+          ...newDishWithRequiredParams,
+        },
+        dishSource: null,
+        dishSourceRelationDetail: null,
+        dishTags: [
+          { content: newDishTag.content }
+        ]
       });
     });
   });

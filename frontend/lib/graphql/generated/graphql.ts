@@ -812,7 +812,7 @@ export type DishQueryVariables = Exact<{
 }>;
 
 
-export type DishQuery = { __typename?: 'Query', dish: { __typename?: 'SpecifiedDish', id: number, name: string, mealPosition: number, comment?: string | null, dishSourceRelation?: { __typename?: 'DishSourceRelation', dishSourceId: number, recipeBookPage?: number | null, recipeWebsiteUrl?: string | null, recipeSourceMemo?: string | null } | null } };
+export type DishQuery = { __typename?: 'Query', dish: { __typename?: 'SpecifiedDish', id: number, name: string, mealPosition: number, comment?: string | null, dishSourceRelation?: { __typename?: 'DishSourceRelation', dishSourceId: number, recipeBookPage?: number | null, recipeWebsiteUrl?: string | null, recipeSourceMemo?: string | null } | null, tags?: Array<{ __typename?: 'DishTag', id: number, content: string }> | null } };
 
 export type DishesPerSourceQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1180,6 +1180,10 @@ export const DishDocument = gql`
       recipeBookPage
       recipeWebsiteUrl
       recipeSourceMemo
+    }
+    tags {
+      id
+      content
     }
   }
 }
