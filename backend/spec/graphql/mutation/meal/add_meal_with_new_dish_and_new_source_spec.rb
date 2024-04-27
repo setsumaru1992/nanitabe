@@ -4,6 +4,7 @@ require_relative "../../../domain/business/dish/meal/repository/repository_add_s
 require_relative "../../../domain/business/dish/dish/repository/repository_add_shared_examples"
 require_relative "../../../domain/business/dish/dish/source/repository/repository_add_shared_examples"
 require_relative "../../../domain/business/dish/dish/repository/repository_put_dish_relation_shared_examples"
+require_relative "../../../domain/business/dish/dish/tag/repository/repository_add_shared_examples"
 
 module Mutations::Meal
   RSpec.describe AddMealWithNewDishAndNewSource, type: :request do
@@ -13,12 +14,14 @@ module Mutations::Meal
           $dish: DishForCreate!
           $dishSource: SourceForCreate!
           $dishSourceRelationDetail: DishSourceRelationDetail
+          $dishTags: [Tag!]
           $meal: MealForCreate!
         ) {
           addMealWithNewDishAndNewSource(input: {
             dish: $dish
             dishSource: $dishSource
             dishSourceRelationDetail: $dishSourceRelationDetail
+            dishTags: $dishTags
             meal: $meal
           }
         ) {
@@ -34,6 +37,7 @@ module Mutations::Meal
       dish_comparer.build_records_for_test()
       dish_source_comparer.build_records_for_test()
       dish_source_relation_comparer.build_records_for_test()
+      dish_tag_comparer.build_records_for_test()
       meal_comparer.build_records_for_test()
     end
 
@@ -41,6 +45,7 @@ module Mutations::Meal
       let!(:dish_comparer) { COMPARERS[KEY_OF_TEST_DISH_SHOULD_BE_CREATED_WITH_FULL_VALUES] }
       let!(:dish_source_comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_SHOULD_BE_CREATED] }
       let!(:dish_source_relation_comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_RELATION_SHOULD_BE_CREATED] }
+      let!(:dish_tag_comparer) { COMPARERS[KEY_OF_TEST_DISH_TAG_SHOULD_BE_CREATED] }
       let!(:meal_comparer) { COMPARERS[KEY_OF_TEST_MEAL_SHOULD_BE_CREATED_WITH_FULL_FIELD] }
 
       it "adding succeeds" do
@@ -58,6 +63,11 @@ module Mutations::Meal
           dishSourceRelationDetail: {
             recipeBookPage: dish_source_relation_comparer.values[:recipe_book_page],
           },
+          dishTags: [
+            {
+              content: dish_tag_comparer.values[:content],
+            },
+          ],
           meal: {
             date: meal_comparer.values[:date],
             mealType: meal_comparer.values[:meal_type],
@@ -75,6 +85,7 @@ module Mutations::Meal
           dish_id: created_dish_id,
           dish_source_id: created_dish_source_id,
         )
+        dish_tag_comparer.compare_to_expectation(self, dish_id: created_dish_id)
         meal_comparer.compare_to_expectation(
           self,
           dish_id: created_dish_id,

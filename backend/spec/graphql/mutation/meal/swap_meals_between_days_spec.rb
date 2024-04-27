@@ -31,7 +31,6 @@ module Mutations::Meal
           date1: comparer.values[:date1],
           date2: comparer.values[:date2],
         }
-        puts variables
         fetch_mutation_with_auth(build_mutation, variables, comparer.prepared_records[:user_record].id)
 
         comparer.compare_to_expectation(self)

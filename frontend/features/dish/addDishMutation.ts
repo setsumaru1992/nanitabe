@@ -68,12 +68,14 @@ export const ADD_DISH_WITH_NEW_SOURCE = gql`
     $dish: DishForCreate!
     $dishSource: SourceForCreate!
     $dishSourceRelationDetail: DishSourceRelationDetail
+    $dishTags: [Tag!]
   ) {
     addDishWithNewSource(
       input: {
         dish: $dish
         dishSource: $dishSource
         dishSourceRelationDetail: $dishSourceRelationDetail
+        dishTags: $dishTags
       }
     ) {
       dishId
