@@ -12,6 +12,9 @@ module Business::Dish
 
       attribute :dish_source_relation_detail, :command_params
       validates :dish_source_relation_detail, presence: false
+    
+      attribute :dish_tags, :command_params_array
+      validates :dish_tags, presence: false
 
       attribute :meal_for_create, :command_params
       validates :meal_for_create, presence: true
@@ -22,6 +25,7 @@ module Business::Dish
           dish_for_create:,
           dish_source_for_read:,
           dish_source_relation_detail:,
+          dish_tags:,
         )
 
         created_meal = ::Business::Dish::Meal::Command::AddCommand.call(

@@ -11,6 +11,9 @@ module Business::Dish::Dish
 
     attribute :dish_source_relation_detail, :command_params
     validates :dish_source_relation_detail, presence: false
+    
+    attribute :dish_tags, :command_params_array
+    validates :dish_tags, presence: false
 
     def call
       created_dish_source = Source::Command::AddCommand.call(
@@ -26,6 +29,7 @@ module Business::Dish::Dish
           **dish_source_for_create.attributes,
         ),
         dish_source_relation_detail:,
+        dish_tags:,
       )
       [created_dish, created_dish_source]
     end
