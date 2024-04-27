@@ -106,6 +106,38 @@ module Business::Dish::Dish
           dish_source_relation_comparer.compare_to_expectation(self)
         end
       end
+
+      context "when update dish with new tag, " do
+        let!(:dish_comparer) { COMPARERS[KEY_OF_TEST_DISH_HAVE_NO_UPDATED] }
+        let!(:dish_tag_comparer) { COMPARERS[KEY_OF_TEST_DISH_TAG_SHOULD_BE_CREATED] }
+        let!(:dish_source_relation_comparer) { COMPARERS[KEY_OF_TEST_DISH_SOURCE_RELATION_SHOULD_BE_UPDATED] }
+
+        it "updating succeeds" do
+          dish_tag_comparer.build_records_for_test()
+
+          described_class.call(
+            user_id: dish_comparer.prepared_records[:user_record].id,
+            dish_for_update: Command::Params::DishForUpdate.new(
+              id: dish_comparer.prepared_records[:dish_record].id,
+            ),
+            dish_source_relation: Command::Params::DishSourceRelation.build_relation(
+              dish_source_relation_comparer.prepared_records[:dish_source_record].type,
+              dish_source_relation_comparer.prepared_records[:dish_source_relation_record].dish_id,
+              dish_source_relation_comparer.prepared_records[:dish_source_relation_record].dish_source_id,
+              dish_source_relation_comparer.values[:recipe_book_page],
+            ),
+            dish_tags: [
+              ::Business::Dish::Dish::Tag::Command::Params::Tag.new(
+                content: dish_tag_comparer.values[:content],
+              ),
+            ],
+          )
+
+          dish_comparer.compare_to_expectation(self)
+          dish_source_relation_comparer.compare_to_expectation(self)
+          dish_tag_comparer.compare_to_expectation(self, dish_id: dish_comparer.prepared_records[:dish_record].id)
+        end
+      end
     end
   end
 end

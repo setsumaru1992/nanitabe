@@ -8,15 +8,21 @@ module Business::Dish::Dish
 
     attribute :dish_source_relation, :command_params
     validates :dish_source_relation, presence: false
+    
+    attribute :dish_tags, :command_params_array
+    validates :dish_tags, presence: false
 
     def call
       dish = Repository.find(dish_for_update.id)
 
       update_dish(dish, dish_for_update)
       update_dish_source_relation(dish.id, dish_source_relation)
+      register_tags(dish_tags, dish.id, user_id)
 
       dish
     end
+
+    private
 
     def update_dish(dish, dish_for_update)
       update_fields = extract_present_fields(
@@ -38,6 +44,12 @@ module Business::Dish::Dish
       end
 
       Repository.put_dish_source_relation(dish_id, dish_source_relation.dish_source_id, dish_source_relation.relation_detail.detail_values)
+    end
+
+    def register_tags(dish_tags, dish_id, user_id)
+      ::Business::Dish::Dish::Tag::Command::UpdateTagsCommand.call(
+        dish_id:, user_id:, dish_tags: dish_tags.presence || []
+      )
     end
   end
 end

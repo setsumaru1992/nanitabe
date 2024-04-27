@@ -7,6 +7,7 @@ import {
   DISH_SOURCE_RELATION_DETAIL_VALUE_TYPE,
   dishSourceRelationDetailOf,
   selectExistingDishSourceSchema,
+  dishTagsSchema,
 } from './schema';
 import {
   buildMutationExecutor,
@@ -27,10 +28,14 @@ export const UPDATE_DISH = gql`
   mutation updateDish(
     $dish: DishForUpdate!
     $dishSourceRelation: DishSourceRelationForUpdate
+    $dishTags: [Tag!]
   ) {
-    updateDish(
-      input: { dish: $dish, dishSourceRelation: $dishSourceRelation }
-    ) {
+    updateDish(input: {
+      dish: $dish
+      dishSourceRelation: $dishSourceRelation
+      dishTags: $dishTags
+    }
+  ) {
       dishId
     }
   }
@@ -40,6 +45,7 @@ const UpdateDishSchema = z.object({
   dish: updateDishSchema,
   selectedDishSource: selectExistingDishSourceSchema,
   dishSourceRelation: putDishRelationSchema,
+  dishTags: dishTagsSchema,
 });
 
 export type UpdateDish = z.infer<typeof UpdateDishSchema>;

@@ -68,6 +68,10 @@ describe('<EditDish>', () => {
     recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
   };
 
+  const newDishTag = {
+    content: '白ワインに合う',
+  };
+
   const updatedDishSourceRelation = {
     dishId: updatedDish.id,
     dishSourceId: registeredDishSource.id,
@@ -145,6 +149,7 @@ describe('<EditDish>', () => {
             name: updatedDish.name,
           },
           dishSourceRelation: null,
+          dishTags: [],
         });
       });
     });
@@ -175,6 +180,7 @@ describe('<EditDish>', () => {
             mealPosition: updatedDish.mealPosition,
           },
           dishSourceRelation: null,
+          dishTags: [],
         });
       });
     });
@@ -208,6 +214,7 @@ describe('<EditDish>', () => {
               ...registeredDish,
             },
             dishSourceRelation: updatedDishSourceRelation,
+            dishTags: [],
           });
         });
       });
@@ -243,6 +250,7 @@ describe('<EditDish>', () => {
               ...registeredDish,
             },
             dishSourceRelation: updatedDishSourceRelationOfRecipeBook,
+            dishTags: [],
           });
         });
       });
@@ -276,6 +284,7 @@ describe('<EditDish>', () => {
               ...registeredDish,
             },
             dishSourceRelation: updatedDishSourceRelationOfRestaurant,
+            dishTags: [],
           });
         });
       });
@@ -370,6 +379,7 @@ describe('<EditDish>', () => {
             ...registeredDish,
           },
           dishSourceRelation: updatedDishSourceRelation,
+          dishTags: [],
         });
       });
     });
@@ -396,7 +406,162 @@ describe('<EditDish>', () => {
             ...registeredDish,
           },
           dishSourceRelation: null,
+          dishTags: [],
         });
+      });
+    });
+  });
+
+  describe('edit existing dish updating tag, ', () => {
+    describe('when update update with new tag', () => {
+      beforeEach(() => {
+        renderWithApollo(
+          <EditDish
+            dish={registeredDish}
+            onSchemaError={(schemaErrors) => {
+              console.log('入力値バリデーションエラー');
+              // スキーマエラーがあったときテストで把握しやすいようにログに出す
+              console.log(schemaErrors);
+              // screen.debug();
+            }}
+          />,
+        );
+      });
+
+      it('succeeds with expected graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateDishDocument,
+          {
+            updateDish: {
+              dishId: 1,
+            },
+          },
+        );
+
+        await userClearTextbox(screen, 'dishname');
+        await userType(screen, 'dishname', updatedDish.name);
+
+        await userClick(screen, 'appendDishTag');
+        await userType(screen, 'newDishTag-0', newDishTag.content);
+  
+        await userClick(screen, 'submitDishButton');
+
+        expect(getLatestMutationVariables()).toEqual({
+          dish: {
+            ...registeredDish,
+            name: updatedDish.name,
+          },
+          dishSourceRelation: null,
+          dishTags: [
+            { content: newDishTag.content }
+          ],
+        });
+      });
+    });
+
+    describe('when update update with removing tag', () => {
+      beforeEach(() => {
+        const registeredDishWithOneTag = {
+          ...registeredDish,
+          tags: [
+            { id: 1, content: newDishTag.content },
+          ]
+        };
+
+        renderWithApollo(
+          <EditDish
+            dish={registeredDishWithOneTag}
+            onSchemaError={(schemaErrors) => {
+              console.log('入力値バリデーションエラー');
+              // スキーマエラーがあったときテストで把握しやすいようにログに出す
+              console.log(schemaErrors);
+              // screen.debug();
+            }}
+          />,
+        );
+      });
+      
+      it('succeeds with expected graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateDishDocument,
+          {
+            updateDish: {
+              dishId: 1,
+            },
+          },
+        );
+
+        await userClearTextbox(screen, 'dishname');
+        await userType(screen, 'dishname', updatedDish.name);
+
+        await userType(screen, 'removeDishTag-0', newDishTag.content);
+  
+        await userClick(screen, 'submitDishButton');
+
+        expect(getLatestMutationVariables()).toEqual({
+          dish: {
+            ...registeredDish,
+            name: updatedDish.name,
+          },
+          dishSourceRelation: null,
+          dishTags: [],
+        });
+      });
+    });
+  });
+
+  describe('when update update with removing existing tag and appending new tag', () => {
+    const existingTag1 = {id: 4, content: '1個目のターグ'};
+    const existingTag2 = {id: 7, content: '2個目のたぐんちゅ'};
+    const registeredDishWithTwoTag = {
+      ...registeredDish,
+      tags: [existingTag1, existingTag2]
+    };
+
+    beforeEach(() => {
+      renderWithApollo(
+        <EditDish
+          dish={registeredDishWithTwoTag}
+          onSchemaError={(schemaErrors) => {
+            console.log('入力値バリデーションエラー');
+            // スキーマエラーがあったときテストで把握しやすいようにログに出す
+            console.log(schemaErrors);
+            // screen.debug();
+          }}
+        />,
+      );
+    });
+    
+    it('succeeds with expected graphql params', async () => {
+      const { getLatestMutationVariables } = registerMutationHandler(
+        UpdateDishDocument,
+        {
+          updateDish: {
+            dishId: 1,
+          },
+        },
+      );
+
+      await userClearTextbox(screen, 'dishname');
+      await userType(screen, 'dishname', updatedDish.name);
+
+      await userClick(screen, 'appendDishTag');
+      await userType(screen, 'newDishTag-2', newDishTag.content);
+
+      await userType(screen, 'removeDishTag-0', newDishTag.content);
+
+      await userClick(screen, 'submitDishButton');
+
+      expect(getLatestMutationVariables()).toEqual({
+        dish: {
+          ...registeredDish,
+          name: updatedDish.name,
+        },
+        dishSourceRelation: null,
+        dishTags: [
+          existingTag2,
+          { content: newDishTag.content },
+        ],
       });
     });
   });

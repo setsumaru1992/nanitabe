@@ -32,9 +32,10 @@ export const DishFormOfTags = (
     keyName: 'fieldKey', // これを指定しないと既存タグレコードのidフィールドが汚染される
   });
 
+  // 初回表示時、fieldsが空でuseEffectのsetValueが反映されないため、初回はsetValueで反映させる値を表示させる
   const displayTags = (() => {
-    if(fields.length > 0) return fields;
-    if(!tagsEdited && preFilledDish?.tags !== null && preFilledDish?.tags.length > 0) return preFilledDish.tags;
+    if(tagsEdited || fields.length > 0) return fields;
+    if(preFilledDish?.tags !== undefined && preFilledDish.tags.length > 0) return preFilledDish.tags;
     return [];
   })();
 
@@ -56,7 +57,10 @@ export const DishFormOfTags = (
                   {...register(`dishTags.${index}.content`)}
                 />
                 {tag.content}
-                <span onClick={() => {remove(index); setTagsEdited(true);}}>
+                <span 
+                  onClick={() => {remove(index); setTagsEdited(true);}}
+                  data-testid={`removeDishTag-${index}`}
+                >
                   ×
                 </span>
               </li>
@@ -69,7 +73,10 @@ export const DishFormOfTags = (
                 {...register(`dishTags.${index}.content`)} 
                 data-testid={`newDishTag-${index}`}
               />
-              <span onClick={() => {remove(index); setTagsEdited(true);}}>
+              <span 
+                onClick={() => {remove(index); setTagsEdited(true);}}
+                data-testid={`removeDishTag-${index}`}
+              >
                 ×
               </span>
             </li>
