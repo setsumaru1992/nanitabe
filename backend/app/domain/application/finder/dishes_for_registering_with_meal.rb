@@ -12,12 +12,12 @@ module Application::Finder
     def fetch
       # 追加したい取得ロジック
       # - order
-      #   - (将来)自己評価（低いものを後ろの並び順に追いやる）
-      #   - mealへの利用回数 降順
-      #   - mealでの登録日時かdishでの登録日時の早い方 降順
+      #   - (済)(将来)自己評価（低いものを後ろの並び順に追いやる）
+      #   - (済)mealへの利用回数 降順
+      #   - (済)mealでの登録日時かdishでの登録日時の早い方 降順
       # - 絞り込み(検索フォーム実装後)
-      #   - dishの名前
-      #   - or レシピ元の名前
+      #   - (済)dishの名前
+      #   - or (済)レシピ元の名前
       #   - or (将来)カテゴリ名
       # - (数が多くなってきたら)20個くらいしか出さずに、続きはGraphQLのページング機能で出す
       registered_dish_with_meal = nil
@@ -39,7 +39,11 @@ module Application::Finder
     end
 
     def add_join_to_relation(dish_relation)
-      dish_relation.left_outer_joins(:meals).eager_load(:dish_source).left_outer_joins(:dish_evaluation)
+      dish_relation
+        .left_outer_joins(:meals)
+        .eager_load(:dish_source)
+        .left_outer_joins(:dish_evaluation)
+        .left_outer_joins(:dish_tags)
     end
 
     def add_auth_filter_to_relation(dish_relation)
@@ -53,6 +57,7 @@ module Application::Finder
           relation.merge(
             Dish.where("COALESCE(dishes.normalized_name, dishes.name) LIKE ?", "%#{word}%")
                 .or(::DishSource.where("dish_sources.name LIKE ?", "%#{word}%"))
+                .or(::DishTag.where("dish_tags.content LIKE ?", "%#{word}%"))
           )
         end
       end

@@ -21,6 +21,7 @@ module Queries::Meal
                     .eager_load(dish: :dish_evaluation)
                     .eager_load(dish: :dish_source)
                     .eager_load(dish: :dish_source_relation)
+                    .eager_load(dish: :dish_tags)
                     .order("meals.meal_type, dishes.meal_position")
       meals.map do |meal|
         result_meal = meal.attributes
@@ -39,6 +40,7 @@ module Queries::Meal
                         end
         result_meal[:dish][:dish_source_relation] = dish_relation
         result_meal[:dish][:evaluation_score] = meal.dish.dish_evaluation&.score
+        result_meal[:dish][:tags] = (meal.dish.dish_tags.presence || []).map {|tag| tag.attributes}
 
         result_meal.with_indifferent_access
       end.group_by { |meal| meal[:date] }

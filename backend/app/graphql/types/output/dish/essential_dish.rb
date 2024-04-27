@@ -8,6 +8,7 @@ module Types::Output::Dish
     field :comment, String, null: true
 
     field :evaluation_score, Float, null: true
+    field :tags, [DishTag], null: true
 
     field :dish_source_relation, DishSourceRelation, null: true
   end

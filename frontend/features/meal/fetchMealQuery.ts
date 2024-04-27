@@ -41,6 +41,11 @@ export const MEALS_FOR_CALENDER = gql`
             recipeWebsiteUrl
             recipeSourceMemo
           }
+          tags {
+            id
+            dishId
+            content
+          }
         }
       }
     }
