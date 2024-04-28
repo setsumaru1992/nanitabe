@@ -4,6 +4,7 @@ require "rails_helper"
 require_relative "../repository/repository_update_shared_examples"
 require_relative "../repository/repository_put_dish_relation_shared_examples"
 require_relative "../repository/repository_remove_dish_relation_shared_examples"
+require_relative "../tag/repository/repository_add_shared_examples"
 
 module Business::Dish::Dish
   RSpec.describe Command::UpdateCommand do
