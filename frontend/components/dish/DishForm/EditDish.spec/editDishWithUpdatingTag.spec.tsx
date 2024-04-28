@@ -6,6 +6,7 @@ import {
 } from '../../../../lib/graphql/specHelper/mockServer';
 import {
   UpdateDishDocument,
+  UpdateDishWithNewSourceDocument,
 } from '../../../../lib/graphql/generated/graphql';
 import renderWithApollo from '../../../specHelper/renderWithApollo';
 import EditDish from '../EditDish';
@@ -13,10 +14,14 @@ import {
   userClearTextbox,
   userClick,
   userType,
+  userChooseSelectBox,
+  userTypeAfterClearTextBox,
 } from '../../../specHelper/userEvents';
 import { 
   registeredDish,
   updatedDish,
+  newDishSourceRelationDetailOfRecipeWebsite,
+  newDishSource,
   registerDishSourcesQuery,
 } from './commonVariables';
 
@@ -30,7 +35,7 @@ beforeEach(() => {
 
 describe('<EditDish>', () => {
   describe('edit existing dish updating tag, ', () => {
-    describe('when update update with new tag', () => {
+    describe('when update with new tag', () => {
       beforeEach(() => {
         renderWithApollo(
           <EditDish
@@ -69,6 +74,62 @@ describe('<EditDish>', () => {
             name: updatedDish.name,
           },
           dishSourceRelation: null,
+          dishTags: [
+            { content: newDishTag.content }
+          ],
+        });
+      });
+    });
+
+    describe('when update dish with new source relation and new tag', () => {
+      beforeEach(() => {
+        renderWithApollo(
+          <EditDish
+            dish={registeredDish}
+            onSchemaError={(schemaErrors) => {
+              console.log('入力値バリデーションエラー');
+              // スキーマエラーがあったときテストで把握しやすいようにログに出す
+              console.log(schemaErrors);
+              // screen.debug();
+            }}
+          />,
+        );
+      });
+
+      it('succeeds with expected graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateDishWithNewSourceDocument,
+          {
+            updateDishWithNewSource: {
+              dishId: 1,
+            },
+          },
+        );
+
+        await userClick(screen, 'optionOfRegisteringNewDishSource');
+
+        await userType(screen, 'dishSourceName', newDishSource.name);
+        await userChooseSelectBox(screen, 'dishSourceTypeOption', [
+          `dishSourceTypeOption-${newDishSource.type}`,
+        ]);
+        await userTypeAfterClearTextBox(
+          screen,
+          'dishSourceRelationDetailRecipeWebsiteUrl',
+          newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+        );
+
+        await userClick(screen, 'appendDishTag');
+        await userType(screen, 'newDishTag-0', newDishTag.content);
+
+        await userClick(screen, 'submitDishButton');
+
+        expect(getLatestMutationVariables()).toEqual({
+          dish: {
+            ...registeredDish,
+          },
+          dishSource: newDishSource,
+          dishSourceRelationDetail:
+            newDishSourceRelationDetailOfRecipeWebsite,
           dishTags: [
             { content: newDishTag.content }
           ],

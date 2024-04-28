@@ -2,9 +2,11 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
 import {
+  registerQueryHandler,
   registerMutationHandler,
 } from '../../../../lib/graphql/specHelper/mockServer';
 import {
+  DishSourcesDocument,
   UpdateDishDocument,
   UpdateDishWithNewSourceDocument,
 } from '../../../../lib/graphql/generated/graphql';
@@ -12,27 +14,65 @@ import renderWithApollo from '../../../specHelper/renderWithApollo';
 import EditDish from '../EditDish';
 import {
   userChooseSelectBox,
-  userClearTextbox,
   userClick,
   userType,
   userTypeAfterClearTextBox,
 } from '../../../specHelper/userEvents';
 import { 
   registeredDish,
-  updatedDish,
   registeredDishSource,
+  registeredDishSource2,
   updatedDishSourceRelation,
-  registeredDishSourceOfRecipeBook,
-  updatedDishSourceRelationOfRecipeBook,
-  registeredDishSourceOfRestaurant,
-  updatedDishSourceRelationOfRestaurant,
   newDishSourceRelationDetailOfRecipeWebsite,
   newDishSource,
-  registerDishSourcesQuery,
+  updatedDish,
 } from './commonVariables';
+import { DISH_SOURCE_TYPE } from '../../../../features/dish/source/const';
+
+export const registeredDishSourceOfRecipeBook = {
+  id: 3,
+  name: 'はじめての中華料理',
+  type: DISH_SOURCE_TYPE.RECIPE_BOOK,
+};
+
+export const registeredDishSourceOfRestaurant = {
+  id: 4,
+  name: '蒲田',
+  type: DISH_SOURCE_TYPE.RESTAURANT,
+};
+
+export const updatedDishSourceRelationOfRecipeBook = {
+  dishId: updatedDish.id,
+  dishSourceId: registeredDishSourceOfRecipeBook.id,
+  dishSourceType: registeredDishSourceOfRecipeBook.type,
+  dishSourceRelationDetail: {
+    recipeBookPage: 50,
+  },
+};
+
+export const updatedDishSourceRelationOfRestaurant = {
+  dishId: updatedDish.id,
+  dishSourceId: registeredDishSourceOfRestaurant.id,
+  dishSourceType: registeredDishSourceOfRestaurant.type,
+  dishSourceRelationDetail: {
+    recipeSourceMemo: '改札出て10分',
+  },
+};
 
 beforeEach(() => {
-  registerDishSourcesQuery();
+  registerQueryHandler(DishSourcesDocument, {
+    dishSources: [
+      registeredDishSource,
+      registeredDishSource2,
+      registeredDishSourceOfRecipeBook,
+      registeredDishSourceOfRestaurant,
+    ].map((dishSource) => {
+      return {
+        __typename: 'DishRegisteredWithMeal',
+        ...dishSource,
+      };
+    }),
+  });
 });
 
 describe('<EditDish>', () => {
@@ -50,8 +90,6 @@ describe('<EditDish>', () => {
         />,
       );
     });
-
-    
 
     describe('about source relation', () => {
       describe('when update update with different source relation', () => {

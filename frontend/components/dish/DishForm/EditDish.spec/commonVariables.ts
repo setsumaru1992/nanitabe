@@ -51,18 +51,6 @@ export const newDishSource = {
   type: DISH_SOURCE_TYPE.WEBSITE,
 };
 
-export const registeredDishSourceOfRecipeBook = {
-  id: 3,
-  name: 'はじめての中華料理',
-  type: DISH_SOURCE_TYPE.RECIPE_BOOK,
-};
-
-export const registeredDishSourceOfRestaurant = {
-  id: 4,
-  name: '蒲田',
-  type: DISH_SOURCE_TYPE.RESTAURANT,
-};
-
 export const newDishSourceRelationDetailOfRecipeWebsite = {
   recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
 };
@@ -74,31 +62,12 @@ export const updatedDishSourceRelation = {
   dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
 };
 
-export const updatedDishSourceRelationOfRecipeBook = {
-  dishId: updatedDish.id,
-  dishSourceId: registeredDishSourceOfRecipeBook.id,
-  dishSourceType: registeredDishSourceOfRecipeBook.type,
-  dishSourceRelationDetail: {
-    recipeBookPage: 50,
-  },
-};
-
-export const updatedDishSourceRelationOfRestaurant = {
-  dishId: updatedDish.id,
-  dishSourceId: registeredDishSourceOfRestaurant.id,
-  dishSourceType: registeredDishSourceOfRestaurant.type,
-  dishSourceRelationDetail: {
-    recipeSourceMemo: '改札出て10分',
-  },
-};
 
 export const registerDishSourcesQuery = () => {
   registerQueryHandler(DishSourcesDocument, {
     dishSources: [
       registeredDishSource,
       registeredDishSource2,
-      registeredDishSourceOfRecipeBook,
-      registeredDishSourceOfRestaurant,
     ].map((dishSource) => {
       return {
         __typename: 'DishRegisteredWithMeal',
