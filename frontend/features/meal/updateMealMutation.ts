@@ -43,6 +43,7 @@ export const UPDATE_MEAL_WITH_NEW_DISH = gql`
     $dish: DishForCreate!
     $dishSource: SourceForRead!
     $dishSourceRelationDetail: DishSourceRelationDetail
+    $dishTags: [Tag!]
     $meal: MealForUpdate!
   ) {
     updateMealWithNewDish(
@@ -50,6 +51,7 @@ export const UPDATE_MEAL_WITH_NEW_DISH = gql`
         dish: $dish
         dishSource: $dishSource
         dishSourceRelationDetail: $dishSourceRelationDetail
+        dishTags: $dishTags
         meal: $meal
       }
     ) {
@@ -82,6 +84,7 @@ export const UPDATE_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
     $dish: DishForCreate!
     $dishSource: SourceForCreate!
     $dishSourceRelationDetail: DishSourceRelationDetail
+    $dishTags: [Tag!]
     $meal: MealForUpdate!
   ) {
     updateMealWithNewDishAndNewSource(
@@ -89,6 +92,7 @@ export const UPDATE_MEAL_WITH_NEW_DISH_AND_NEW_SOURCE = gql`
         dish: $dish
         dishSource: $dishSource
         dishSourceRelationDetail: $dishSourceRelationDetail
+        dishTags: $dishTags
         meal: $meal
       }
     ) {

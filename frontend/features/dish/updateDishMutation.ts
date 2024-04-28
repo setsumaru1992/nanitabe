@@ -88,12 +88,14 @@ export const UPDATE_DISH_WITH_NEW_SOURCE = gql`
     $dish: DishForUpdate!
     $dishSource: SourceForCreate!
     $dishSourceRelationDetail: DishSourceRelationDetail
+    $dishTags: [Tag!]
   ) {
     updateDishWithNewSource(
       input: {
         dish: $dish
         dishSource: $dishSource
         dishSourceRelationDetail: $dishSourceRelationDetail
+        dishTags: $dishTags
       }
     ) {
       dishId
@@ -105,6 +107,7 @@ const UpdateDishWithNewSourceSchema = z.object({
   dish: updateDishSchema,
   dishSource: newDishSourceSchema,
   dishSourceRelation: putDishRelationSchema,
+  dishTags: dishTagsSchema,
 });
 
 export type UpdateDishWithNewSource = z.infer<

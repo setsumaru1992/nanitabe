@@ -86,6 +86,10 @@ describe('<EditMeal>', () => {
     type: DISH_SOURCE_TYPE.WEBSITE,
   };
 
+  const newDishTag = {
+    content: '白ワインに合う',
+  };
+
   const newDishSourceRelationDetailOfRecipeWebsite = {
     recipeWebsiteUrl: 'https://youtube/ryuji/gyoza',
   };
@@ -229,6 +233,7 @@ describe('<EditMeal>', () => {
           dish: newDishWithRequiredParams,
           dishSource: selectedDishSource,
           dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+          dishTags: [],
           meal: buildGraphQLMeal(registeredMealWithoutDish),
         });
       });
@@ -271,6 +276,101 @@ describe('<EditMeal>', () => {
           dish: newDishWithRequiredParams,
           dishSource: newDishSource,
           dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+          dishTags: [],
+          meal: buildGraphQLMeal(registeredMealWithoutDish),
+        });
+      });
+    });
+
+    describe('when update meal with new dish having new tag with existing source', () => {
+      it('succeeds with expected required graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateMealWithNewDishDocument,
+          {
+            updateMealWithNewDish: {
+              mealId: registeredMeal.id,
+              dishId: 1,
+            },
+          },
+        );
+
+        await userClick(screen, 'optionOfRegisteringNewDish');
+        await userType(screen, 'dishname', newDishWithRequiredParams.name);
+        await userClick(
+          screen,
+          `mealPositionOption-${newDishWithRequiredParams.mealPosition}`,
+        );
+
+        await userChooseSelectBox(screen, 'existingDishSources', [
+          `existingDishSource-${selectedDishSource.id}`,
+        ]);
+
+        await userTypeAfterClearTextBox(
+          screen,
+          'dishSourceRelationDetailRecipeWebsiteUrl',
+          newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+        );
+
+        await userClick(screen, 'appendDishTag');
+        await userType(screen, 'newDishTag-0', newDishTag.content);
+
+        await clickSubmitButton();
+
+        expect(getLatestMutationVariables()).toEqual({
+          dish: newDishWithRequiredParams,
+          dishSource: selectedDishSource,
+          dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+          dishTags: [
+            { content: newDishTag.content }
+          ],
+          meal: buildGraphQLMeal(registeredMealWithoutDish),
+        });
+      });
+    });
+
+    describe('when update meal with new dish having new tag and new dish source', () => {
+      it('succeeds with expected required graphql params', async () => {
+        const { getLatestMutationVariables } = registerMutationHandler(
+          UpdateMealWithNewDishAndNewSourceDocument,
+          {
+            updateMealWithNewDishAndNewSource: {
+              mealId: registeredMeal.id,
+              dishId: 1,
+              dishSourceId: 1,
+            },
+          },
+        );
+
+        await userClick(screen, 'optionOfRegisteringNewDish');
+        await userType(screen, 'dishname', newDishWithRequiredParams.name);
+        await userClick(
+          screen,
+          `mealPositionOption-${newDishWithRequiredParams.mealPosition}`,
+        );
+
+        await userClick(screen, 'optionOfRegisteringNewDishSource');
+        await userType(screen, 'dishSourceName', newDishSource.name);
+        await userChooseSelectBox(screen, 'dishSourceTypeOption', [
+          `dishSourceTypeOption-${newDishSource.type}`,
+        ]);
+        await userTypeAfterClearTextBox(
+          screen,
+          'dishSourceRelationDetailRecipeWebsiteUrl',
+          newDishSourceRelationDetailOfRecipeWebsite.recipeWebsiteUrl,
+        );
+
+        await userClick(screen, 'appendDishTag');
+        await userType(screen, 'newDishTag-0', newDishTag.content);
+
+        await clickSubmitButton();
+
+        expect(getLatestMutationVariables()).toEqual({
+          dish: newDishWithRequiredParams,
+          dishSource: newDishSource,
+          dishSourceRelationDetail: newDishSourceRelationDetailOfRecipeWebsite,
+          dishTags: [
+            { content: newDishTag.content }
+          ],
           meal: buildGraphQLMeal(registeredMealWithoutDish),
         });
       });
