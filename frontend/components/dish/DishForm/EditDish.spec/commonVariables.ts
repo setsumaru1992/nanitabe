@@ -1,24 +1,10 @@
-import React from 'react';
 import '@testing-library/jest-dom';
-import { screen, waitFor } from '@testing-library/react';
 import {
-  registerMutationHandler,
   registerQueryHandler,
 } from '../../../../lib/graphql/specHelper/mockServer';
 import {
   DishSourcesDocument,
-  UpdateDishDocument,
-  UpdateDishWithNewSourceDocument,
 } from '../../../../lib/graphql/generated/graphql';
-import renderWithApollo from '../../../specHelper/renderWithApollo';
-import EditDish from '../EditDish';
-import {
-  userChooseSelectBox,
-  userClearTextbox,
-  userClick,
-  userType,
-  userTypeAfterClearTextBox,
-} from '../../../specHelper/userEvents';
 import { DISH_SOURCE_TYPE } from '../../../../features/dish/source/const';
 
 export const registeredDish = {
