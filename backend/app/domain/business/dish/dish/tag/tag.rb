@@ -10,5 +10,7 @@ module Business::Dish::Dish::Tag
 
     attribute :content, :string
     validates :content, presence: true
+
+    attribute :normalized_content, :string
   end
 end

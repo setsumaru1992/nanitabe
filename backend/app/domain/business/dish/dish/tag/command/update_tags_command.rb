@@ -31,7 +31,10 @@ module Business::Dish::Dish::Tag
           Tag.new(
             user_id:,
             dish_id:,
-            content: tag.content
+            content: tag.content,
+            normalized_content: Business::Dish::Word::Normalize::Command::NormalizeCommand.call(
+              string_sequence: tag.content
+            ),
           )
         end.map do |tag|
           Repository.add(tag)

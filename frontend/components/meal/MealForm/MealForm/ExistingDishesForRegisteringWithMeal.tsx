@@ -15,7 +15,7 @@ type ExistingDishesForRegisteringWithMealProps = {
   onNewDishIconForSelectClick?: any;
 };
 
-let searchTime = null;
+let searchTimer = null;
 
 export const ExistingDishesForRegisteringWithMeal = (
   props: ExistingDishesForRegisteringWithMealProps,
@@ -67,10 +67,10 @@ export const ExistingDishesForRegisteringWithMeal = (
           type="text"
           data-testid="existingDishSearchWord"
           onChange={(e) => {
-            if (searchTime !== null) clearTimeout(searchTime);
-            searchTime = setTimeout(() => {
+            if (searchTimer !== null) clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
               setSearchString(e.target.value);
-            }, 200);
+            }, 400);
           }}
         />
         <div className={style['dish-icon-container']}>
