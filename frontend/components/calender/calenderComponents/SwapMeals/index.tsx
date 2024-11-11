@@ -10,7 +10,7 @@ export default (props: Props) => {
   const { useSwapMealsModeResult } = props;
   const {
     changeCalenderModeToDisplayCalenderMode,
-    backToWeekOfBeforeMoveMeal,
+    backToWeekOfBeforeSwapMeal,
   } = useSwapMealsModeResult;
   return (
     <div>
@@ -28,7 +28,7 @@ export default (props: Props) => {
                 style['mark-to-click'],
               )}
               onClick={() => {
-                backToWeekOfBeforeMoveMeal();
+                backToWeekOfBeforeSwapMeal();
                 changeCalenderModeToDisplayCalenderMode();
               }}
             />

@@ -35,6 +35,9 @@ export default (args: {
     changeCalenderModeToMovingDishMode();
   };
 
+  const backToWeekOfBeforeSwapMeal = () =>
+      backToWeekOfModeStarted(swapTargetDate1);
+
   const onDateClickForSwappingMeals = (swapTargetDate2: Date) => {
     swapMealsBetweenDays(
       {
@@ -56,5 +59,6 @@ export default (args: {
     isSwappingMealMode,
     onDateClickForSwappingMeals,
     changeCalenderModeToDisplayCalenderMode,
+    backToWeekOfBeforeSwapMeal,
   };
 };
