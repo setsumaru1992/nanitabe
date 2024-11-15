@@ -4,7 +4,9 @@ import { usePathname } from 'next/navigation';
 import useAssignDishMode, {
   AssigningDishMode,
 } from './operationComponents/AssignDish/useAssignDishMode';
-import useMoveMealMode, { MovingMealMode } from './operationComponents/MoveMeal/useMoveMealMode';
+import useMoveMealMode, {
+  MovingMealMode,
+} from './operationComponents/MoveMeal/useMoveMealMode';
 import useSwapMealsMode, {
   SwappingMealMode,
 } from './operationComponents/SwapMeals/useSwapMealsMode';
@@ -55,6 +57,21 @@ export default ({ onDataChanged }) => {
     startMovingDishMode: useMoveMealModeResult.startMovingMealMode,
   };
 
+  const onDateClick = (date: Date) => {
+    if (useAssignDishModeResult.isAssigningSelectedDishMode) {
+      useAssignDishModeResult.onDateClickForAssigningDish(date);
+      return;
+    }
+    if (useMoveMealModeResult.isMovingMealMode) {
+      useMoveMealModeResult.onDateClickForMovingMeal(date);
+      return;
+    }
+    if (useSwapMealsModeResult.isSwappingMealMode) {
+      useSwapMealsModeResult.onDateClickForSwappingMeals(date);
+      // return;
+    }
+  };
+
   const requireDisplayingBottomBar =
     useAssignDishModeResult.inAssigningDishMode ||
     useMoveMealModeResult.isMovingMealMode ||
@@ -68,6 +85,7 @@ export default ({ onDataChanged }) => {
     useMoveMealModeResult,
     useSwapMealsModeResult,
     requireDisplayingBottomBar,
+    onDateClick,
   };
 };
 
