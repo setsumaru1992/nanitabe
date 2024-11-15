@@ -11,6 +11,10 @@ import useSwapMealsMode, {
   SwappingMealMode,
 } from './operationComponents/SwapMeals/useSwapMealsMode';
 import { weekCalenderPageUrlOf } from '../../../pages/calender/week/[date]';
+import {
+  isMonthPath,
+  monthCalenderPageUrlOf,
+} from '../../../pages/calender/month/[date]';
 
 export const DISPLAY_CALENDER_MODE = 'DISPLAY_CALENDER_MODE';
 
@@ -91,16 +95,21 @@ export default ({ onDataChanged }) => {
 
 // 以下、カレンダーモードで流用されるものを定義
 
-export const useBackToWeekOfModeStarted = () => {
+export const useBackToDateWhenModeStarted = () => {
   const router = useRouter();
   const currentPath = usePathname();
 
-  const backToWeekOfModeStarted = (dateOfStartMode: date) => {
-    const pathOfWeekOfModeStarted = weekCalenderPageUrlOf(dateOfStartMode);
-    if (pathOfWeekOfModeStarted !== currentPath) {
-      router.push(pathOfWeekOfModeStarted);
+  const backToDateWhenModeStarted = (dateWhenModeStarted: Date) => {
+    const moveTargetPath = (() => {
+      if (isMonthPath(currentPath)) {
+        return monthCalenderPageUrlOf(dateWhenModeStarted);
+      }
+      return weekCalenderPageUrlOf(dateWhenModeStarted);
+    })();
+    if (moveTargetPath !== currentPath) {
+      router.push(moveTargetPath);
     }
   };
 
-  return { backToWeekOfModeStarted };
+  return { backToDateWhenModeStarted };
 };

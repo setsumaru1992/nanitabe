@@ -2,7 +2,7 @@ import { useState } from 'react';
 import * as z from 'zod';
 import useMeal from '../../../../../features/meal/useMeal';
 import { updateMealSchema } from '../../../../../features/meal/schema';
-import { useBackToWeekOfModeStarted } from '../../useCalenderMode';
+import { useBackToDateWhenModeStarted } from '../../useCalenderMode';
 
 export const MOVING_MEAL_MODES = {
   MOVING_MEAL_MODE: 'MOVING_MEAL_MODE',
@@ -24,7 +24,7 @@ export default (args: {
   } = args;
   const { updateMeal } = useMeal();
   const [selectedMeal, setSelectedMeal] = useState(null);
-  const { backToWeekOfModeStarted } = useBackToWeekOfModeStarted();
+  const { backToDateWhenModeStarted } = useBackToDateWhenModeStarted();
 
   const isMovingMealMode = calenderMode === MOVING_MEAL_MODES.MOVING_MEAL_MODE;
   const changeCalenderModeToMovingMealMode = () => {
@@ -37,7 +37,7 @@ export default (args: {
   };
 
   const backToWeekOfBeforeMoveMeal = () =>
-    backToWeekOfModeStarted(new Date(selectedMeal.date));
+    backToDateWhenModeStarted(new Date(selectedMeal.date));
 
   const onDateClickForMovingMeal = (date: Date) => {
     const { id, mealType } = selectedMeal;

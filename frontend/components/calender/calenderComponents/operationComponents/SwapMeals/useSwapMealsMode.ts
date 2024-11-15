@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useMeal from '../../../../../features/meal/useMeal';
-import { useBackToWeekOfModeStarted } from '../../useCalenderMode';
+import { useBackToDateWhenModeStarted } from '../../useCalenderMode';
 
 export const SWAPPING_MEALS_MODES = {
   SWAPPING_MEALS_MODE: 'SWAPPING_MEALS_MODE',
@@ -22,7 +22,7 @@ export default (args: {
   } = args;
   const { swapMealsBetweenDays } = useMeal();
   const [swapTargetDate1, setSwapTargetDate1] = useState(null);
-  const { backToWeekOfModeStarted } = useBackToWeekOfModeStarted();
+  const { backToDateWhenModeStarted } = useBackToDateWhenModeStarted();
 
   const isSwappingMealMode =
     calenderMode === SWAPPING_MEALS_MODES.SWAPPING_MEALS_MODE;
@@ -36,7 +36,7 @@ export default (args: {
   };
 
   const backToWeekOfBeforeSwapMeal = () =>
-      backToWeekOfModeStarted(swapTargetDate1);
+    backToDateWhenModeStarted(swapTargetDate1);
 
   const onDateClickForSwappingMeals = (swapTargetDate2: Date) => {
     swapMealsBetweenDays(
@@ -47,7 +47,7 @@ export default (args: {
       {
         onCompleted: () => {
           if (onDataChanged) onDataChanged();
-          backToWeekOfModeStarted(swapTargetDate1);
+          backToDateWhenModeStarted(swapTargetDate1);
           changeCalenderModeToDisplayCalenderMode();
         },
       },

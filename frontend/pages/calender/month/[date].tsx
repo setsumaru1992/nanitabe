@@ -12,7 +12,11 @@ export const monthCalenderPageUrlOf = (date: Date) => {
   const dateString = formatISO(date, { representation: 'date' });
   return `${MONTH_CALENDER_PAGE_URL}/${dateString}`;
 };
-const extractDateStringFromCalenderWeekUrl = (url: string) => {
+export const isMonthPath = (url: string) => {
+  const matched = url.match(new RegExp(`${MONTH_CALENDER_PAGE_URL}/(.*)`));
+  return !!matched;
+};
+const extractDateStringFromCalenderMonthUrl = (url: string) => {
   const matched = url.match(new RegExp(`${MONTH_CALENDER_PAGE_URL}/(.*)`));
   if (!matched) return null;
   return matched[1];
@@ -24,7 +28,7 @@ export async function getServerSideProps(context) {
 
 export default (props) => {
   const { dateFormatString } = useDateFormatStringInUrl(
-    extractDateStringFromCalenderWeekUrl,
+    extractDateStringFromCalenderMonthUrl,
   );
 
   if (!isISODateFormatString(dateFormatString)) {
