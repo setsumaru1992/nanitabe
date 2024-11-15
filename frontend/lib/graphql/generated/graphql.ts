@@ -554,6 +554,7 @@ export type QueryExistingDishesForRegisteringWithMealArgs = {
 
 
 export type QueryMealsForCalenderArgs = {
+  lastDate: Scalars['ISO8601Date']['input'];
   startDate: Scalars['ISO8601Date']['input'];
 };
 
@@ -926,6 +927,7 @@ export type AddMealWithNewDishAndNewSourceMutation = { __typename?: 'Mutation', 
 
 export type MealsForCalenderQueryVariables = Exact<{
   startDate: Scalars['ISO8601Date']['input'];
+  lastDate: Scalars['ISO8601Date']['input'];
 }>;
 
 
@@ -1731,8 +1733,8 @@ export type AddMealWithNewDishAndNewSourceMutationHookResult = ReturnType<typeof
 export type AddMealWithNewDishAndNewSourceMutationResult = Apollo.MutationResult<AddMealWithNewDishAndNewSourceMutation>;
 export type AddMealWithNewDishAndNewSourceMutationOptions = Apollo.BaseMutationOptions<AddMealWithNewDishAndNewSourceMutation, AddMealWithNewDishAndNewSourceMutationVariables>;
 export const MealsForCalenderDocument = gql`
-    query mealsForCalender($startDate: ISO8601Date!) {
-  mealsForCalender(startDate: $startDate) {
+    query mealsForCalender($startDate: ISO8601Date!, $lastDate: ISO8601Date!) {
+  mealsForCalender(startDate: $startDate, lastDate: $lastDate) {
     date
     meals {
       id
@@ -1777,6 +1779,7 @@ export const MealsForCalenderDocument = gql`
  * const { data, loading, error } = useMealsForCalenderQuery({
  *   variables: {
  *      startDate: // value for 'startDate'
+ *      lastDate: // value for 'lastDate'
  *   },
  * });
  */

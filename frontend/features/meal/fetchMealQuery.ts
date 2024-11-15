@@ -19,8 +19,8 @@ import {
 
 // dish同様上記のように書きたいけどやりかたわからないからコメントアウト
 export const MEALS_FOR_CALENDER = gql`
-  query mealsForCalender($startDate: ISO8601Date!) {
-    mealsForCalender(startDate: $startDate) {
+  query mealsForCalender($startDate: ISO8601Date!, $lastDate: ISO8601Date!) {
+    mealsForCalender(startDate: $startDate, lastDate: $lastDate) {
       date
       meals {
         id
@@ -61,10 +61,15 @@ const truncateTimeFrom = (date: Date) => {
 type FetchMealsForCalenderParams = {
   requireFetchedData?: boolean;
   startDate?: Date;
+  lastDate?: Date;
 };
 
 const useFetchMealsForCalender = (params: FetchMealsForCalenderParams) => {
-  const { requireFetchedData = false, startDate = null } = params;
+  const {
+    requireFetchedData = false,
+    startDate = null,
+    lastDate = null,
+  } = params;
 
   const { data, fetchLoading, fetchError, refetch } = useCodegenQuery(
     useMealsForCalenderQuery,
@@ -73,6 +78,7 @@ const useFetchMealsForCalender = (params: FetchMealsForCalenderParams) => {
     {
       // ISO8601Dateに時間を渡すと型不正と扱われて、無限リクエストが発生するため、時間を切り捨てる
       startDate: truncateTimeFrom(startDate || new Date()),
+      lastDate: truncateTimeFrom(lastDate || new Date()),
     },
   );
   return {

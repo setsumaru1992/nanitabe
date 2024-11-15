@@ -1,16 +1,22 @@
 import React from 'react';
-import { addDays, format, isSameDay } from 'date-fns';
+import {
+  addDays,
+  format,
+  isSameDay,
+  getDay,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  subDays,
+} from 'date-fns';
+import { useRouter } from 'next/router';
 import Calender from '../calenderComponents/Calender';
 import useMeal from '../../../features/meal/useMeal';
-import {
-  START_FROM_SAT,
-  useCalenderDayOfWeek,
-  useFirstDisplayDate,
-} from './useWeekCalenderDate';
 import style from '../calenderComponents/Calender/index.module.scss';
-import CalenderMenu from './CalenderMenu';
+import CalenderMenu from '../WeekCalender/CalenderMenu';
+import { monthCalenderPageUrlOf } from '../../../pages/calender/month/[date]';
 
-export { useDateFormatStringInUrl } from './useWeekCalenderDate';
+export { useDateFormatStringInUrl } from '../WeekCalender/useWeekCalenderDate';
 
 export type Props = {
   date?: Date;
@@ -18,37 +24,45 @@ export type Props = {
 
 export default (props: Props) => {
   const { date: dateArg } = props;
-  // TODO: 自分以外も使うようになったらユーザ設定で選べるようにする
-  const { daysOfWeek, getWeekStartDateFrom } =
-    useCalenderDayOfWeek(START_FROM_SAT);
-  const {
-    firstDisplayDate,
-    updateFirstDateToPreviousWeekFirstDate,
-    updateFirstDateToNextWeekFirstDate,
-  } = useFirstDisplayDate(dateArg || new Date(), getWeekStartDateFrom);
+
+  const firstDayOfMonth = startOfMonth(dateArg);
+  const lastDayOfMonth = endOfMonth(dateArg);
 
   const { mealsForCalender, fetchMealsLoading, refetchMealsForCalender } =
     useMeal({
       fetchMealsParams: {
         fetchMealsForCalenderParams: {
           requireFetchedData: true,
-          startDate: firstDisplayDate,
-          lastDate: addDays(firstDisplayDate, 6),
+          startDate: firstDayOfMonth,
+          lastDate: lastDayOfMonth,
         },
       },
     });
+  const router = useRouter();
+  const updateToPreviousMonth = () => {
+    router.push(
+      monthCalenderPageUrlOf(startOfMonth(subDays(firstDayOfMonth, 1))),
+    );
+  };
+  const updateToNextMonth = () => {
+    router.push(monthCalenderPageUrlOf(addDays(lastDayOfMonth, 1)));
+  };
 
+  const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
   const dateMealsList: { date: Date; dayLabel: string; meals: any[] }[] =
     (() => {
-      return daysOfWeek.map((day, dayIndex) => {
-        const date = addDays(firstDisplayDate, Number(dayIndex));
+      return eachDayOfInterval({
+        start: firstDayOfMonth,
+        end: lastDayOfMonth,
+      }).map((date) => {
         const meals =
           mealsForCalender?.find((mealForCalender) => {
             return isSameDay(new Date(mealForCalender.date), date);
           })?.meals || [];
+
         return {
           date,
-          dayLabel: day.label,
+          dayLabel: weekdays[getDay(date)],
           meals,
         };
       });
@@ -59,13 +73,13 @@ export default (props: Props) => {
       dateMealsList={dateMealsList}
       fetchMealsLoading={fetchMealsLoading}
       refetchMealsForCalender={refetchMealsForCalender}
-      refreshToPrev={updateFirstDateToPreviousWeekFirstDate}
-      refreshToNext={updateFirstDateToNextWeekFirstDate}
+      refreshToPrev={updateToPreviousMonth}
+      refreshToNext={updateToNextMonth}
     >
       {({ isDisplayCalenderMode, useAssignDishModeResult }) => (
         <>
           <div className={style['calender-header-title']}>
-            {format(firstDisplayDate, 'yyyy年M月')}
+            {format(firstDayOfMonth, 'yyyy年M月')}
           </div>
           {/* &nbsp; */}
           {/* 今週(枠で括う) */}
