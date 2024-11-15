@@ -1,17 +1,9 @@
-import { addDays, format, isSameDay } from 'date-fns';
-import React from 'react';
-import {
-  START_FROM_SAT,
-  useCalenderDayOfWeek,
-  useFirstDisplayDate,
-} from '../../WeekCalender/useWeekCalenderDate';
+import React, { ReactNode } from 'react';
 import useCalenderArrowComponent from '../useCalenderArrowComponent';
-import useMeal from '../../../../features/meal/useMeal';
 import useRefreshCalenderData from '../../useRefreshCalenderData';
 import useCalenderMode from '../useCalenderMode';
 import useMeasureHeight from '../../../common/useMeasureHeight';
 import style from './index.module.scss';
-import CalenderMenu from '../../WeekCalender/CalenderMenu';
 import DateComponent from '../Date';
 import CalenderMealIcon from '../MealIcon';
 import AddMealIcon from '../MealIcon/AddMealIcon';
@@ -19,35 +11,28 @@ import AssignDish from '../operationComponents/AssignDish';
 import MoveDish from '../operationComponents/MoveMeal';
 import SwapMeals from '../operationComponents/SwapMeals';
 
-export type Props = {
-  date?: Date;
+type Props = {
+  dateMealsList: { date: Date; dayLabel: string; meals: any[] }[];
+  fetchMealsLoading: boolean;
+  refetchMealsForCalender: any;
+  refreshToPrev: any;
+  refreshToNext: any;
+  children: (props: any) => ReactNode;
 };
 export default (props: Props) => {
-  const { date: dateArg } = props;
-
-  // TODO: 自分以外も使うようになったらユーザ設定で選べるようにする
-  const { daysOfWeek, getWeekStartDateFrom } =
-    useCalenderDayOfWeek(START_FROM_SAT);
   const {
-    firstDisplayDate,
-    updateFirstDateToPreviousWeekFirstDate,
-    updateFirstDateToNextWeekFirstDate,
-  } = useFirstDisplayDate(dateArg || new Date(), getWeekStartDateFrom);
+    dateMealsList,
+    fetchMealsLoading,
+    refetchMealsForCalender,
+    refreshToPrev,
+    refreshToNext,
+    children,
+  } = props;
 
   const { PreviousWeekDisplayButton, NextWeekDisplayButton } =
     useCalenderArrowComponent({
-      updateFirstDateToPreviousWeekFirstDate,
-      updateFirstDateToNextWeekFirstDate,
-    });
-
-  const { mealsForCalender, fetchMealsLoading, refetchMealsForCalender } =
-    useMeal({
-      fetchMealsParams: {
-        fetchMealsForCalenderParams: {
-          requireFetchedData: true,
-          startDate: firstDisplayDate,
-        },
-      },
+      refreshToPrev,
+      refreshToNext,
     });
 
   const { refreshData } = useRefreshCalenderData({ refetchMealsForCalender });
@@ -71,30 +56,16 @@ export default (props: Props) => {
   );
 
   if (fetchMealsLoading) return <>Loading...</>;
+
   return (
     <div className={style['calender-container']}>
       <div className={style['calender-header']}>
-        <div className={style['calender-header-title']}>
-          {format(firstDisplayDate, 'yyyy年M月')}
-        </div>
-        {/* &nbsp; */}
-        {/* 今週(枠で括う) */}
-        <div className={style['calender-header-menu']}>
-          {isDisplayCalenderMode && (
-            <CalenderMenu useAssignDishModeResult={useAssignDishModeResult} />
-          )}
-        </div>
+        {children({ isDisplayCalenderMode, useAssignDishModeResult })}
       </div>
       <PreviousWeekDisplayButton />
       <table>
         <tbody>
-          {daysOfWeek.map((day, dayIndex) => {
-            const date = addDays(firstDisplayDate, Number(dayIndex));
-            const meals =
-              mealsForCalender?.find((mealForCalender) => {
-                return isSameDay(new Date(mealForCalender.date), date);
-              })?.meals || [];
-
+          {dateMealsList.map(({ date, dayLabel, meals }, dayIndex) => {
             return (
               <tr
                 key={`key_${dayIndex}`}
@@ -104,7 +75,7 @@ export default (props: Props) => {
                 <th>
                   <DateComponent
                     date={date}
-                    dayOfWeekLabel={day.label}
+                    dayOfWeekLabel={dayLabel}
                     canAnythingExceptDisplay={isDisplayCalenderMode}
                     startSwappingMealsMode={
                       useSwapMealsModeResult.startSwappingMealsMode

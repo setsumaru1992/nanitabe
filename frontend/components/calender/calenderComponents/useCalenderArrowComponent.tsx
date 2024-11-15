@@ -1,21 +1,15 @@
 import React from 'react';
 import style from './Calender/index.module.scss';
 
-export default (props: {
-  updateFirstDateToPreviousWeekFirstDate: any;
-  updateFirstDateToNextWeekFirstDate: any;
-}) => {
-  const {
-    updateFirstDateToPreviousWeekFirstDate,
-    updateFirstDateToNextWeekFirstDate,
-  } = props;
+export default (props: { refreshToPrev: any; refreshToNext: any }) => {
+  const { refreshToPrev, refreshToNext } = props;
 
   const PreviousWeekDisplayButton = () => {
     return (
       <div
         className={style['move-date-button']}
         onClick={() => {
-          updateFirstDateToPreviousWeekFirstDate();
+          refreshToPrev();
         }}
       >
         ▲
@@ -28,7 +22,7 @@ export default (props: {
       <div
         className={style['move-date-button']}
         onClick={() => {
-          updateFirstDateToNextWeekFirstDate();
+          refreshToNext();
         }}
       >
         ▼
