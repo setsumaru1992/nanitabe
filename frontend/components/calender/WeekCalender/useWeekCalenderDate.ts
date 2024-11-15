@@ -9,6 +9,15 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { weekCalenderPageUrlOf } from '../../../pages/calender/week/[date]';
 import { isISODateFormatString } from '../../../features/utils/dateUtils';
+import {
+  DAY_OF_FRIDAY,
+  DAY_OF_MONDAY,
+  DAY_OF_SATURDAY,
+  DAY_OF_SUNDAY,
+  DAY_OF_THURSDAY,
+  DAY_OF_TUESDAY,
+  DAY_OF_WEDNESDAY,
+} from '../calenderComponents/useCalenderDay';
 
 export const START_FROM_SAT = 'START_FROM_SAT';
 export const START_FROM_SUN = 'START_FROM_SUN';
@@ -20,31 +29,31 @@ type StartFromValue =
 
 const LIST_PER_START_DAY_OF_DAYS_OF_WEEK = {
   [START_FROM_SAT]: [
-    { label: '土' },
-    { label: '日' },
-    { label: '月' },
-    { label: '火' },
-    { label: '水' },
-    { label: '木' },
-    { label: '金' },
+    { label: DAY_OF_SATURDAY },
+    { label: DAY_OF_SUNDAY },
+    { label: DAY_OF_MONDAY },
+    { label: DAY_OF_TUESDAY },
+    { label: DAY_OF_WEDNESDAY },
+    { label: DAY_OF_THURSDAY },
+    { label: DAY_OF_FRIDAY },
   ],
   [START_FROM_SUN]: [
-    { label: '日' },
-    { label: '月' },
-    { label: '火' },
-    { label: '水' },
-    { label: '木' },
-    { label: '金' },
-    { label: '土' },
+    { label: DAY_OF_SUNDAY },
+    { label: DAY_OF_MONDAY },
+    { label: DAY_OF_TUESDAY },
+    { label: DAY_OF_WEDNESDAY },
+    { label: DAY_OF_THURSDAY },
+    { label: DAY_OF_FRIDAY },
+    { label: DAY_OF_SATURDAY },
   ],
   [START_FROM_MON]: [
-    { label: '月' },
-    { label: '火' },
-    { label: '水' },
-    { label: '木' },
-    { label: '金' },
-    { label: '土' },
-    { label: '日' },
+    { label: DAY_OF_MONDAY },
+    { label: DAY_OF_TUESDAY },
+    { label: DAY_OF_WEDNESDAY },
+    { label: DAY_OF_THURSDAY },
+    { label: DAY_OF_FRIDAY },
+    { label: DAY_OF_SATURDAY },
+    { label: DAY_OF_SUNDAY },
   ],
 };
 

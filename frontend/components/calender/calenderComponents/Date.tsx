@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { getDate } from 'date-fns';
+import { getDate, getDay } from 'date-fns';
 import style from './Calender/index.module.scss'; // TODO: 独立した形で作る
 import menuStyle from './MealIcon/Menu.module.scss'; // TODO: 独立した形で作る
 import useFloatModal from '../../common/modal/useFloatModal';
@@ -22,9 +22,16 @@ export default (props: Props) => {
   const { FloatModal, FloatModalOpener, closeModal } = useFloatModal();
 
   const dateNumber = getDate(date);
+  const dayIndex = getDay(date);
 
   const DateDisplay = () => (
-    <div className={style['date']}>
+    <div
+      className={classnames({
+        [style['date']]: true,
+        [style['date__saturday']]: dayIndex === 6,
+        [style['date__sunday']]: dayIndex === 0,
+      })}
+    >
       <span className={style['date__date-number']}>{dateNumber}</span>
       <span className={style['date__day-of-week']}>{dayOfWeekLabel}</span>
     </div>

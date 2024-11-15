@@ -15,6 +15,15 @@ import useMeal from '../../../features/meal/useMeal';
 import style from '../calenderComponents/Calender/index.module.scss';
 import CalenderMenu from '../WeekCalender/CalenderMenu';
 import { monthCalenderPageUrlOf } from '../../../pages/calender/month/[date]';
+import {
+  DAY_OF_FRIDAY,
+  DAY_OF_MONDAY,
+  DAY_OF_SATURDAY,
+  DAY_OF_SUNDAY,
+  DAY_OF_THURSDAY,
+  DAY_OF_TUESDAY,
+  DAY_OF_WEDNESDAY,
+} from '../calenderComponents/useCalenderDay';
 
 export { useDateFormatStringInUrl } from '../WeekCalender/useWeekCalenderDate';
 
@@ -48,7 +57,15 @@ export default (props: Props) => {
     router.push(monthCalenderPageUrlOf(addDays(lastDayOfMonth, 1)));
   };
 
-  const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+  const weekdays = [
+    DAY_OF_SUNDAY,
+    DAY_OF_MONDAY,
+    DAY_OF_TUESDAY,
+    DAY_OF_WEDNESDAY,
+    DAY_OF_THURSDAY,
+    DAY_OF_FRIDAY,
+    DAY_OF_SATURDAY,
+  ];
   const dateMealsList: { date: Date; dayLabel: string; meals: any[] }[] =
     (() => {
       return eachDayOfInterval({
