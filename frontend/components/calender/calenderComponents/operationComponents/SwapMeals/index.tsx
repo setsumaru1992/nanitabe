@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import style from '../MoveDish/MoveDish.module.scss'; // TODO: 独自に作るか、共通化
+import style from '../MoveMeal/MoveMeal.module.scss'; // TODO: 独自に作るか、共通化
 
 type Props = {
   useSwapMealsModeResult: any;

@@ -4,11 +4,11 @@ import useMeal from '../../../../../features/meal/useMeal';
 import { updateMealSchema } from '../../../../../features/meal/schema';
 import { useBackToWeekOfModeStarted } from '../../useCalenderMode';
 
-export const MOVING_DISH_MODES = {
-  MOVING_DISH_MODE: 'MOVING_DISH_MODE',
+export const MOVING_MEAL_MODES = {
+  MOVING_MEAL_MODE: 'MOVING_MEAL_MODE',
 };
-export type MovingDishMode =
-  (typeof MOVING_DISH_MODES)[keyof typeof MOVING_DISH_MODES];
+export type MovingMealMode =
+  (typeof MOVING_MEAL_MODES)[keyof typeof MOVING_MEAL_MODES];
 
 export default (args: {
   calenderMode: any;
@@ -26,20 +26,20 @@ export default (args: {
   const [selectedMeal, setSelectedMeal] = useState(null);
   const { backToWeekOfModeStarted } = useBackToWeekOfModeStarted();
 
-  const isMovingDishMode = calenderMode === MOVING_DISH_MODES.MOVING_DISH_MODE;
-  const changeCalenderModeToMovingDishMode = () => {
-    updateCalenderMode(MOVING_DISH_MODES.MOVING_DISH_MODE);
+  const isMovingMealMode = calenderMode === MOVING_MEAL_MODES.MOVING_MEAL_MODE;
+  const changeCalenderModeToMovingMealMode = () => {
+    updateCalenderMode(MOVING_MEAL_MODES.MOVING_MEAL_MODE);
   };
 
-  const startMovingDishMode = (meal) => {
+  const startMovingMealMode = (meal) => {
     setSelectedMeal(meal);
-    changeCalenderModeToMovingDishMode();
+    changeCalenderModeToMovingMealMode();
   };
 
   const backToWeekOfBeforeMoveMeal = () =>
     backToWeekOfModeStarted(new Date(selectedMeal.date));
 
-  const onDateClickForMovingDish = (date: Date) => {
+  const onDateClickForMovingMeal = (date: Date) => {
     const { id, mealType } = selectedMeal;
     // HACK: dishIdとかいらない情報渡しているように、オーバースペックだから、専用Mutation作る
     updateMeal(
@@ -63,9 +63,9 @@ export default (args: {
 
   return {
     selectedMeal,
-    isMovingDishMode,
-    startMovingDishMode,
-    onDateClickForMovingDish,
+    isMovingMealMode,
+    startMovingMealMode,
+    onDateClickForMovingMeal,
     changeCalenderModeToDisplayCalenderMode,
     backToWeekOfBeforeMoveMeal,
   };

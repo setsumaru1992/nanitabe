@@ -14,7 +14,7 @@ import {
   useFirstDisplayDate,
 } from './useWeekCalenderDate';
 import AssignDish from '../calenderComponents/operationComponents/AssignDish';
-import MoveDish from '../calenderComponents/operationComponents/MoveDish';
+import MoveDish from '../calenderComponents/operationComponents/MoveMeal';
 import SwapMeals from '../calenderComponents/operationComponents/SwapMeals';
 import { useApolloClient } from '../../../lib/graphql/buildApolloClient';
 import useCalenderMode from '../calenderComponents/useCalenderMode';
@@ -208,7 +208,7 @@ export default (props: Props) => {
     isDisplayCalenderMode,
     useAssignDishModeResult,
     calenderModeChangers,
-    useMoveDishModeResult,
+    useMoveMealModeResult,
     useSwapMealsModeResult,
     requireDisplayingBottomBar,
   } = useCalenderMode({
@@ -224,8 +224,8 @@ export default (props: Props) => {
       useAssignDishModeResult.onDateClickForAssigningDish(date);
       return;
     }
-    if (useMoveDishModeResult.isMovingDishMode) {
-      useMoveDishModeResult.onDateClickForMovingDish(date);
+    if (useMoveMealModeResult.isMovingMealMode) {
+      useMoveMealModeResult.onDateClickForMovingMeal(date);
       return;
     }
     if (useSwapMealsModeResult.isSwappingMealMode) {
@@ -318,8 +318,8 @@ export default (props: Props) => {
                 {useAssignDishModeResult.inAssigningDishMode && (
                     <AssignDish useAssignDishModeResult={useAssignDishModeResult}/>
                 )}
-                {useMoveDishModeResult.isMovingDishMode && (
-                    <MoveDish useMoveDishModeResult={useMoveDishModeResult}/>
+                {useMoveMealModeResult.isMovingMealMode && (
+                    <MoveDish useMoveDishModeResult={useMoveMealModeResult}/>
                 )}
                 {useSwapMealsModeResult.isSwappingMealMode && (
                     <SwapMeals useSwapMealsModeResult={useSwapMealsModeResult}/>

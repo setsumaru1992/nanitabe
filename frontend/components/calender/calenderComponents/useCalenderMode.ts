@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import useAssignDishMode, {
   AssigningDishMode,
 } from './operationComponents/AssignDish/useAssignDishMode';
-import useMoveDishMode, { MovingDishMode } from './operationComponents/MoveDish/useMoveDishMode';
+import useMoveMealMode, { MovingMealMode } from './operationComponents/MoveMeal/useMoveMealMode';
 import useSwapMealsMode, {
   SwappingMealMode,
 } from './operationComponents/SwapMeals/useSwapMealsMode';
@@ -16,7 +16,7 @@ export type CalenderMode =
   | typeof DISPLAY_CALENDER_MODE
   | AssigningDishMode
   | SwappingMealMode
-  | MovingDishMode;
+  | MovingMealMode;
 
 export default ({ onDataChanged }) => {
   const [calenderMode, setCalenderMode] = useState(DISPLAY_CALENDER_MODE);
@@ -37,7 +37,7 @@ export default ({ onDataChanged }) => {
     onDataChanged,
   });
 
-  const useMoveDishModeResult = useMoveDishMode({
+  const useMoveMealModeResult = useMoveMealMode({
     calenderMode,
     updateCalenderMode,
     changeCalenderModeToDisplayCalenderMode,
@@ -52,12 +52,12 @@ export default ({ onDataChanged }) => {
   });
 
   const calenderModeChangers = {
-    startMovingDishMode: useMoveDishModeResult.startMovingDishMode,
+    startMovingDishMode: useMoveMealModeResult.startMovingMealMode,
   };
 
   const requireDisplayingBottomBar =
     useAssignDishModeResult.inAssigningDishMode ||
-    useMoveDishModeResult.isMovingDishMode ||
+    useMoveMealModeResult.isMovingMealMode ||
     useSwapMealsModeResult.isSwappingMealMode;
 
   return {
@@ -65,7 +65,7 @@ export default ({ onDataChanged }) => {
     isNotDisplayCalenderMode,
     calenderModeChangers,
     useAssignDishModeResult,
-    useMoveDishModeResult,
+    useMoveMealModeResult,
     useSwapMealsModeResult,
     requireDisplayingBottomBar,
   };
