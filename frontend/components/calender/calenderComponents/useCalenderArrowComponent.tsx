@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../WeekCalender/index.module.scss';
+import style from './Calender/index.module.scss';
 
 export default (props: {
   updateFirstDateToPreviousWeekFirstDate: any;

@@ -10,8 +10,8 @@ import useMeal from '../../../../features/meal/useMeal';
 import useRefreshCalenderData from '../../useRefreshCalenderData';
 import useCalenderMode from '../useCalenderMode';
 import useMeasureHeight from '../../../common/useMeasureHeight';
-import style from '../../WeekCalender/index.module.scss';
-import { Index } from '../CalenderMenu';
+import style from './index.module.scss';
+import CalenderMenu from '../../WeekCalender/CalenderMenu';
 import DateComponent from '../Date';
 import CalenderMealIcon from '../MealIcon';
 import AddMealIcon from '../MealIcon/AddMealIcon';
@@ -72,16 +72,16 @@ export default (props: Props) => {
 
   if (fetchMealsLoading) return <>Loading...</>;
   return (
-    <div className={style['week-calender-container']}>
-      <div className={style['week-calender-header']}>
-        <div className={style['week-calender-header-title']}>
-          {format(firstDisplayDate, 'yyyy年M月')} ▼
+    <div className={style['calender-container']}>
+      <div className={style['calender-header']}>
+        <div className={style['calender-header-title']}>
+          {format(firstDisplayDate, 'yyyy年M月')}
         </div>
         {/* &nbsp; */}
         {/* 今週(枠で括う) */}
-        <div className={style['week-calender-header-menu']}>
+        <div className={style['calender-header-menu']}>
           {isDisplayCalenderMode && (
-            <Index useAssignDishModeResult={useAssignDishModeResult} />
+            <CalenderMenu useAssignDishModeResult={useAssignDishModeResult} />
           )}
         </div>
       </div>

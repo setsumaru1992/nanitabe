@@ -1,5 +1,4 @@
 # 本番実行時は`ENV=production docker-compose up`
-version: '3'
 services:
   frontend:
     container_name: nanitabe_front
