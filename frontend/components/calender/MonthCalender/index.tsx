@@ -8,6 +8,8 @@ import {
   endOfMonth,
   eachDayOfInterval,
   subDays,
+  formatISO,
+  addHours,
 } from 'date-fns';
 import { useRouter } from 'next/router';
 import Calender from '../calenderComponents/Calender';
@@ -78,7 +80,7 @@ export default (props: Props) => {
           })?.meals || [];
 
         return {
-          date,
+          date: addHours(date, 9), // なぜか9時間ずらさないとRailsに前日で送られるので暫定的に回避させる
           dayLabel: weekdays[getDay(date)],
           meals,
         };

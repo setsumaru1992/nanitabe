@@ -29,5 +29,5 @@ export default (props) => {
   if (!isISODateFormatString(dateFormatString)) {
     return <WeekCalender />;
   }
-  return <WeekCalender date={new Date(dateFormatString)} />;
+  return <WeekCalender date={new Date(`${dateFormatString}T09:00:00`)} />;
 };

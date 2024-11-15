@@ -34,5 +34,5 @@ export default (props) => {
   if (!isISODateFormatString(dateFormatString)) {
     return <MonthCalender />;
   }
-  return <MonthCalender date={new Date(dateFormatString)} />;
+  return <MonthCalender date={new Date(`${dateFormatString}T09:00:00`)} />;
 };

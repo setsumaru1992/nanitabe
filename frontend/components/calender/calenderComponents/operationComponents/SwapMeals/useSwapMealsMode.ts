@@ -60,5 +60,6 @@ export default (args: {
     onDateClickForSwappingMeals,
     changeCalenderModeToDisplayCalenderMode,
     backToWeekOfBeforeSwapMeal,
+    swapTargetDate1,
   };
 };
