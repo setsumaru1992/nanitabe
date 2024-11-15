@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Link from 'next/link';
 import { addDays, format, isSameDay } from 'date-fns';
 import classnames from 'classnames';
@@ -160,6 +160,20 @@ const CalenderMenu = (props: { useAssignDishModeResult: any }) => {
   );
 };
 
+const useSpecifiedElementHeight = (changeTrigger: any = null) => {
+  const [height, setHeight] = useState(0);
+  const ref = useRef<HTMLDivElement>();
+  useEffect(() => {
+    if (ref.current && ref.current.offsetHeight !== null) {
+      setHeight(ref.current.offsetHeight);
+    } else {
+      setHeight(0);
+    }
+  }, [changeTrigger]);
+
+  return [height, ref];
+};
+
 export default (props: Props) => {
   const { date: dateArg } = props;
 
@@ -202,6 +216,8 @@ export default (props: Props) => {
       refreshData();
     },
   });
+
+  const [fixedComponentHeight, fixedComponentRef] = useSpecifiedElementHeight(requireDisplayingBottomBar);
 
   const onDateClick = (date: Date) => {
     if (useAssignDishModeResult.isAssigningSelectedDishMode) {
@@ -295,20 +311,23 @@ export default (props: Props) => {
 
       {/* 食事割当以外にも下からせり出るバーを使うようになったら条件変える */}
       {requireDisplayingBottomBar && (
-        <div className={style['fixed-bar-from-bottom']}>
-          <NextWeekDisplayButton />
-          <div className={style['bottom-bar']}>
-            {useAssignDishModeResult.inAssigningDishMode && (
-              <AssignDish useAssignDishModeResult={useAssignDishModeResult} />
-            )}
-            {useMoveDishModeResult.isMovingDishMode && (
-              <MoveDish useMoveDishModeResult={useMoveDishModeResult} />
-            )}
-            {useSwapMealsModeResult.isSwappingMealMode && (
-              <SwapMeals useSwapMealsModeResult={useSwapMealsModeResult} />
-            )}
-          </div>
-        </div>
+          <>
+            <div ref={fixedComponentRef} className={style['fixed-bar-from-bottom']}>
+              <NextWeekDisplayButton/>
+              <div className={style['bottom-bar']}>
+                {useAssignDishModeResult.inAssigningDishMode && (
+                    <AssignDish useAssignDishModeResult={useAssignDishModeResult}/>
+                )}
+                {useMoveDishModeResult.isMovingDishMode && (
+                    <MoveDish useMoveDishModeResult={useMoveDishModeResult}/>
+                )}
+                {useSwapMealsModeResult.isSwappingMealMode && (
+                    <SwapMeals useSwapMealsModeResult={useSwapMealsModeResult}/>
+                )}
+              </div>
+            </div>
+            <div style={{ height: `${fixedComponentHeight}px` }} />
+          </>
       )}
     </div>
   );
