@@ -13,9 +13,9 @@ import {
   useCalenderDayOfWeek,
   useFirstDisplayDate,
 } from './useWeekCalenderDate';
-import AssignDish from '../calenderComponents/AssignDish';
-import MoveDish from '../calenderComponents/MoveDish';
-import SwapMeals from '../calenderComponents/SwapMeals';
+import AssignDish from '../calenderComponents/operationComponents/AssignDish';
+import MoveDish from '../calenderComponents/operationComponents/MoveDish';
+import SwapMeals from '../calenderComponents/operationComponents/SwapMeals';
 import { useApolloClient } from '../../../lib/graphql/buildApolloClient';
 import useCalenderMode from '../calenderComponents/useCalenderMode';
 import useFloatModal from '../../common/modal/useFloatModal';

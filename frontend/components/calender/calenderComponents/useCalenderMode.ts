@@ -3,11 +3,11 @@ import { useRouter } from 'next/router';
 import { usePathname } from 'next/navigation';
 import useAssignDishMode, {
   AssigningDishMode,
-} from './AssignDish/useAssignDishMode';
-import useMoveDishMode, { MovingDishMode } from './MoveDish/useMoveDishMode';
+} from './operationComponents/AssignDish/useAssignDishMode';
+import useMoveDishMode, { MovingDishMode } from './operationComponents/MoveDish/useMoveDishMode';
 import useSwapMealsMode, {
   SwappingMealMode,
-} from './SwapMeals/useSwapMealsMode';
+} from './operationComponents/SwapMeals/useSwapMealsMode';
 import { weekCalenderPageUrlOf } from '../../../pages/calender/week/[date]';
 
 export const DISPLAY_CALENDER_MODE = 'DISPLAY_CALENDER_MODE';
