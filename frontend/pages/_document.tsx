@@ -10,6 +10,7 @@ export default () => {
           href="https://use.fontawesome.com/releases/v6.3.0/css/all.css"
           rel="stylesheet"
         />
+        <link rel="apple-touch-icon" sizes="180x180" href="/webclip.jpeg" />
       </Head>
       <body>
         <Main />
