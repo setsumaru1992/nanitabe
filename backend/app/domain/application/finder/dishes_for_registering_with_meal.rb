@@ -84,12 +84,13 @@ module Application::Finder
       dish_relation.select("
         dishes.*
         , dish_sources.name AS dish_source_name
-        , COALESCE(dish_evaluations.score, 3.0) AS dish_evaluation
+        , dish_evaluations.score AS evaluation_score
+        , COALESCE(dish_evaluations.score, 3.0 - 0.01) AS evaluation_score_for_sort
       ")
     end
 
     def add_order_to_relation(dish_relation)
-      dish_relation.group("dishes.id").order("dish_evaluation DESC, COUNT(meals.id) DESC, MAX(dishes.created_at) DESC")
+      dish_relation.group("dishes.id").order("evaluation_score_for_sort DESC, COUNT(meals.id) DESC, MAX(dishes.created_at) DESC")
     end
   end
 end

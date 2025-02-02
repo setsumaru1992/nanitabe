@@ -11,12 +11,21 @@ type Props = {
 export default (props: Props) => {
   const { dish, onClick, selected } = props;
 
-  const shortDishSourceName = (() => {
-    if (!dish.dishSourceName) return null;
-    if (dish.dishSourceName.length <= 10) {
-      return dish.dishSourceName;
-    }
-    return `${dish.dishSourceName.slice(0, 10)}...`;
+  const caption = (() => {
+    const shortDishSourceName = (() => {
+      if (!dish.dishSourceName) return '';
+      if (dish.dishSourceName.length <= 10) {
+        return dish.dishSourceName;
+      }
+      return `${dish.dishSourceName.slice(0, 10)}...`;
+    })();
+
+    const evaluationCaption = (() => {
+      if (!dish?.evaluationScore) return '';
+      return `★${dish.evaluationScore}`;
+    })();
+
+    return `${shortDishSourceName} ${evaluationCaption}`;
   })();
 
   return (
@@ -33,10 +42,8 @@ export default (props: Props) => {
         data-testid={`existingDish-${dish.id}`}
       >
         {dish.name}
-        {shortDishSourceName && (
-          <div className={style['dish-icon__source-caption']}>
-            {shortDishSourceName}
-          </div>
+        {caption && (
+          <div className={style['dish-icon__source-caption']}>{caption}</div>
         )}
       </div>
     </div>

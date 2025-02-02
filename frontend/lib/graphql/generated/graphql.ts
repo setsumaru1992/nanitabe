@@ -814,7 +814,7 @@ export type ExistingDishesForRegisteringWithMealQueryVariables = Exact<{
 }>;
 
 
-export type ExistingDishesForRegisteringWithMealQuery = { __typename?: 'Query', existingDishesForRegisteringWithMeal: Array<{ __typename?: 'ExistingDishForRegisteringWithMeal', id: number, name: string, mealPosition: number, comment?: string | null, dishSourceName?: string | null }> };
+export type ExistingDishesForRegisteringWithMealQuery = { __typename?: 'Query', existingDishesForRegisteringWithMeal: Array<{ __typename?: 'ExistingDishForRegisteringWithMeal', id: number, name: string, mealPosition: number, comment?: string | null, dishSourceName?: string | null, evaluationScore?: number | null }> };
 
 export type DishQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -1146,6 +1146,7 @@ export const ExistingDishesForRegisteringWithMealDocument = gql`
     mealPosition
     comment
     dishSourceName
+    evaluationScore
   }
 }
     `;
@@ -1177,8 +1178,8 @@ export function useExistingDishesForRegisteringWithMealLazyQuery(baseOptions?: A
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<ExistingDishesForRegisteringWithMealQuery, ExistingDishesForRegisteringWithMealQueryVariables>(ExistingDishesForRegisteringWithMealDocument, options);
         }
-export function useExistingDishesForRegisteringWithMealSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ExistingDishesForRegisteringWithMealQuery, ExistingDishesForRegisteringWithMealQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useExistingDishesForRegisteringWithMealSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ExistingDishesForRegisteringWithMealQuery, ExistingDishesForRegisteringWithMealQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<ExistingDishesForRegisteringWithMealQuery, ExistingDishesForRegisteringWithMealQueryVariables>(ExistingDishesForRegisteringWithMealDocument, options);
         }
 export type ExistingDishesForRegisteringWithMealQueryHookResult = ReturnType<typeof useExistingDishesForRegisteringWithMealQuery>;
@@ -1230,8 +1231,8 @@ export function useDishLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DishQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<DishQuery, DishQueryVariables>(DishDocument, options);
         }
-export function useDishSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<DishQuery, DishQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useDishSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DishQuery, DishQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<DishQuery, DishQueryVariables>(DishDocument, options);
         }
 export type DishQueryHookResult = ReturnType<typeof useDishQuery>;
@@ -1285,8 +1286,8 @@ export function useDishesPerSourceLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<DishesPerSourceQuery, DishesPerSourceQueryVariables>(DishesPerSourceDocument, options);
         }
-export function useDishesPerSourceSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<DishesPerSourceQuery, DishesPerSourceQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useDishesPerSourceSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DishesPerSourceQuery, DishesPerSourceQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<DishesPerSourceQuery, DishesPerSourceQueryVariables>(DishesPerSourceDocument, options);
         }
 export type DishesPerSourceQueryHookResult = ReturnType<typeof useDishesPerSourceQuery>;
@@ -1392,8 +1393,8 @@ export function useDishSourcesLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<DishSourcesQuery, DishSourcesQueryVariables>(DishSourcesDocument, options);
         }
-export function useDishSourcesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<DishSourcesQuery, DishSourcesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useDishSourcesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DishSourcesQuery, DishSourcesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<DishSourcesQuery, DishSourcesQueryVariables>(DishSourcesDocument, options);
         }
 export type DishSourcesQueryHookResult = ReturnType<typeof useDishSourcesQuery>;
@@ -1434,8 +1435,8 @@ export function useDishSourceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<DishSourceQuery, DishSourceQueryVariables>(DishSourceDocument, options);
         }
-export function useDishSourceSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<DishSourceQuery, DishSourceQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useDishSourceSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DishSourceQuery, DishSourceQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<DishSourceQuery, DishSourceQueryVariables>(DishSourceDocument, options);
         }
 export type DishSourceQueryHookResult = ReturnType<typeof useDishSourceQuery>;
@@ -1791,8 +1792,8 @@ export function useMealsForCalenderLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<MealsForCalenderQuery, MealsForCalenderQueryVariables>(MealsForCalenderDocument, options);
         }
-export function useMealsForCalenderSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MealsForCalenderQuery, MealsForCalenderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useMealsForCalenderSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MealsForCalenderQuery, MealsForCalenderQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<MealsForCalenderQuery, MealsForCalenderQueryVariables>(MealsForCalenderDocument, options);
         }
 export type MealsForCalenderQueryHookResult = ReturnType<typeof useMealsForCalenderQuery>;
