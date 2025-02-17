@@ -6,3 +6,4 @@
 - ネイティブで実装する（そもそもやる必要があるかは検討）
   - webに無理やり間借りしているから、実装するならlibやfeaturesをwatchして共用化できるようにする
   - 将来実装を踏まえて必要ならwebとnativeと共通部分で並列化できるようディレクトリを整える
+  - 一番キレイにできたときでもweb,native,commonでそれぞれにpackage.jsonを持ち、トップレベルでそれをworkspace機能で統合するpackage.jsonを作る運用となる

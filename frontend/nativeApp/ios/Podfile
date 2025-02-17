@@ -15,8 +15,6 @@ if linkage != nil
 end
 
 target 'nativeApp' do
-  pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
-
   config = use_native_modules!
 
   use_react_native!(
