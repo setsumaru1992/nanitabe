@@ -6,6 +6,7 @@
       "size" : "20x20"
     },
     {
+      "filename" : "apple-icon-60x60.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
@@ -31,16 +32,19 @@
       "size" : "40x40"
     },
     {
+      "filename" : "apple-icon-120x120.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "apple-icon-180x180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
+      "filename" : "webclip.jpeg",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
